@@ -284,6 +284,10 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list,
         log("--rebuild given: removing the existing AVM build")
         shutil.rmtree(build, onerror=_force_remove)
     blog = logs / "build.log"
+    # build.log is appended to across runs; mark where this run starts.
+    with open(blog, "a", encoding="utf-8") as f:
+        f.write(f"\n===== Run started {time.strftime('%Y-%m-%d %H:%M:%S')} "
+                f"=====\n")
     if not src.exists():
         log("Cloning AVM")
         if ref is None:
