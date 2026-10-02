@@ -126,7 +126,7 @@ def check_tools():
 # --------------------------------------------------------------------------
 # Build
 # --------------------------------------------------------------------------
-def build_avm(work: Path, ref, jobs: int, logs: Path):
+def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
     src, build = work / "avm", work / "avm_build"
     blog = logs / "build.log"
     log(f"Building AVM (log: {blog})")
@@ -139,10 +139,21 @@ def build_avm(work: Path, ref, jobs: int, logs: Path):
     commit = run(["git", "rev-parse", "HEAD"], blog, cwd=src,
                  capture=True).strip()
 
+    # A failed earlier configure leaves a stale CMake cache (e.g. with
+    # TensorFlow Lite switched on), so start fresh unless a build succeeded.
+    exe_name = "avmenc" + (".exe" if os.name == "nt" else "")
+    built = any((d / exe_name).exists() for d in (build, build / "Release"))
+    if build.exists() and not built:
+        shutil.rmtree(build)
     build.mkdir(exist_ok=True)
     # Tests and docs are off: they'd pull in test data and doxygen.
+    # CONFIG_ML_PART_SPLIT is an encoder-only speed feature that drags in a
+    # TensorFlow Lite build via bash scripts, which breaks on Windows. It
+    # doesn't change the bitstream format, so streams remain valid AV2.
     run(["cmake", src, "-DCMAKE_BUILD_TYPE=Release",
-         "-DENABLE_TESTS=0", "-DENABLE_DOCS=0"], blog, cwd=build)
+         "-DENABLE_TESTS=0", "-DENABLE_DOCS=0",
+         "-DCONFIG_ML_PART_SPLIT=0", "-DCONFIG_TENSORFLOW_LITE=0",
+         *cmake_args], blog, cwd=build)
     # --config is needed for Visual Studio (multi-config) generators and is
     # ignored by single-config ones like Makefiles/Ninja.
     run(["cmake", "--build", ".", "--config", "Release", "-j", str(jobs)],
@@ -228,6 +239,8 @@ def main():
                     help="ivf (default) or raw Section 5 .obu as the CTC uses")
     ap.add_argument("--avm-ref", default=None,
                     help="AVM tag/commit to build (default: latest main)")
+    ap.add_argument("--cmake-args", default="",
+                    help="Extra CMake configure flags, quoted as one string")
     ap.add_argument("--build-jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--download-jobs", type=int, default=3)
     ap.add_argument("--encode-jobs", type=int, default=os.cpu_count() or 4,
@@ -250,7 +263,8 @@ def main():
          ThreadPoolExecutor(args.encode_jobs) as enc_pool:
 
         build_fut = build_pool.submit(build_avm, work, args.avm_ref,
-                                      args.build_jobs, logs)
+                                      args.build_jobs, logs,
+                                      args.cmake_args.split())
         dl_futs = {dl_pool.submit(download, c, sources): c for c in clips}
 
         try:
