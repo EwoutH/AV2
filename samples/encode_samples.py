@@ -15,12 +15,18 @@ Everything overlaps:
   * Each clip's encodes start as soon as that clip has downloaded and the
     build has finished; they don't wait for other (larger) downloads
 
+Encodes are admitted by a memory budget rather than by CPU count alone:
+each encode's memory is estimated from its resolution, and new encodes
+wait until they fit. If psutil is installed (pip install psutil), real
+peak memory is measured and the estimate adjusts itself.
+
 Requirements (per the AVM README): CMake >= 3.16, Git, Perl, yasm (preferred)
 or nasm, and a C/C++ compiler (Visual Studio 2019 16.7+ on Windows).
 
 Usage:
     python encode_samples.py                         # small + 720p + 1080p
-    python encode_samples.py --set 1080p --frames 130 --extra-args "--cpu-used=4"
+    python encode_samples.py --set 1080p --frames 130 --cpu-used 3
+    python encode_samples.py --mem-budget-gb 16      # stricter memory cap
     python encode_samples.py --avm-ref v13.0.0       # pin AVM for reproducibility
 """
 import argparse
@@ -34,8 +40,14 @@ import threading
 import time
 import urllib.error
 import urllib.request
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
+
+try:
+    import psutil  # optional: enables measured (adaptive) memory estimates
+except ImportError:
+    psutil = None
 
 AVM_REPO = "https://github.com/AOMediaCodec/avm.git"
 
@@ -100,6 +112,15 @@ _print_lock = threading.Lock()
 def log(msg: str):
     with _print_lock:
         print(f"[{time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+
+def fmt_duration(seconds: float) -> str:
+    s = int(seconds)
+    if s >= 3600:
+        return f"{s // 3600}h{s % 3600 // 60:02d}m"
+    if s >= 60:
+        return f"{s // 60}m{s % 60:02d}s"
+    return f"{s}s"
 
 
 WINDOWS_CRASH_CODES = {
@@ -320,9 +341,13 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list,
 # --------------------------------------------------------------------------
 # Download
 # --------------------------------------------------------------------------
+def y4m_tags(header: bytes) -> dict:
+    return {t[:1]: t[1:] for t in header.decode("ascii").split()[1:]}
+
+
 def y4m_frame_bytes(header: bytes) -> int:
     """Bytes of picture data per frame, from a Y4M stream header."""
-    tags = {t[:1]: t[1:] for t in header.decode("ascii").split()[1:]}
+    tags = y4m_tags(header)
     w, h = int(tags["W"]), int(tags["H"])
     cs = tags.get("C", "420jpeg")
     m = re.search(r"(?:p|mono)(\d+)$", cs)
@@ -346,6 +371,12 @@ def y4m_frame_count(path: Path) -> int:
         header = f.readline()
     fb = y4m_frame_bytes(header)
     return (path.stat().st_size - len(header)) // (len(b"FRAME\n") + fb)
+
+
+def y4m_megapixels(path: Path) -> float:
+    with open(path, "rb") as f:
+        tags = y4m_tags(f.readline())
+    return int(tags["W"]) * int(tags["H"]) / 1e6
 
 
 def _open_first(paths: list):
@@ -417,26 +448,282 @@ def download(name: str, paths: list, dest_dir: Path, frames: int) -> Path:
 
 
 # --------------------------------------------------------------------------
+# Encoder speed setting
+# --------------------------------------------------------------------------
+# avmenc --help describes --cpu-used with its range, aomenc-style, e.g.
+#   --cpu-used=<arg>  Speed setting (0..6 in good mode, ...)
+CPU_USED_RANGE_RE = re.compile(r"--cpu-used=\S*\s+[^\n]*?\((\d+)\.\.(\d+)")
+FALLBACK_CPU_USED = 4
+
+
+def pick_cpu_used(enc: Path, logs: Path):
+    """Pick a speed preset about two thirds of the way to the fastest end
+    of the encoder's good-quality range: much faster than the CTC's
+    slowest setting, while still exercising most coding tools (which is
+    what a decoder benchmark needs). Returns (value, range or None)."""
+    r = subprocess.run([str(enc), "--help"], capture_output=True,
+                       text=True, errors="replace")
+    text = r.stdout + r.stderr
+    (logs / "avmenc_help.txt").write_text(text, encoding="utf-8")
+    m = CPU_USED_RANGE_RE.search(text)
+    if not m:
+        return FALLBACK_CPU_USED, None
+    lo, hi = int(m[1]), int(m[2])
+    return round(lo + (hi - lo) * 2 / 3), (lo, hi)
+
+
+# --------------------------------------------------------------------------
+# Memory budget
+# --------------------------------------------------------------------------
+def total_ram_bytes():
+    if psutil:
+        return psutil.virtual_memory().total
+    if os.name == "nt":
+        import ctypes
+
+        class MEMORYSTATUSEX(ctypes.Structure):
+            _fields_ = [("dwLength", ctypes.c_ulong),
+                        ("dwMemoryLoad", ctypes.c_ulong),
+                        ("ullTotalPhys", ctypes.c_ulonglong),
+                        ("ullAvailPhys", ctypes.c_ulonglong),
+                        ("ullTotalPageFile", ctypes.c_ulonglong),
+                        ("ullAvailPageFile", ctypes.c_ulonglong),
+                        ("ullTotalVirtual", ctypes.c_ulonglong),
+                        ("ullAvailVirtual", ctypes.c_ulonglong),
+                        ("ullAvailExtendedVirtual", ctypes.c_ulonglong)]
+
+        s = MEMORYSTATUSEX()
+        s.dwLength = ctypes.sizeof(s)
+        if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(s)):
+            return s.ullTotalPhys
+        return None
+    try:
+        return os.sysconf("SC_PAGE_SIZE") * os.sysconf("SC_PHYS_PAGES")
+    except (ValueError, OSError, AttributeError):
+        return None
+
+
+class MemoryBudget:
+    """Starts encodes in submission order while their estimated memory fits
+    in the budget. An encode larger than the whole budget still runs, but
+    only on its own. Estimates are base + per-megapixel cost; once a 720p+
+    encode has been measured (needs psutil), the estimate is scaled to match
+    the worst measurement seen, plus a 20% margin."""
+
+    LEARN_MIN_MPIX = 0.9  # small clips are dominated by fixed overhead
+
+    def __init__(self, budget_gb, base_gb, per_mpix_gb):
+        self.budget, self.base, self.per_mpix = budget_gb, base_gb, per_mpix_gb
+        self.scale = None  # learned correction factor
+        self.used = 0.0
+        self.running = 0
+        self.queue = deque()
+        self.cond = threading.Condition()
+
+    def _estimate(self, mpix):
+        est = self.base + self.per_mpix * mpix
+        return est * self.scale if self.scale else est
+
+    def acquire(self, mpix) -> float:
+        ticket = object()
+        with self.cond:
+            self.queue.append(ticket)
+            while True:
+                need = self._estimate(mpix)
+                if self.queue[0] is ticket and (
+                        self.running == 0 or self.used + need <= self.budget):
+                    break
+                self.cond.wait()
+            self.queue.popleft()
+            self.used += need
+            self.running += 1
+            self.cond.notify_all()
+            return need
+
+    def release(self, held: float):
+        with self.cond:
+            self.used -= held
+            self.running -= 1
+            self.cond.notify_all()
+
+    def observe(self, mpix, peak_gb):
+        if mpix < self.LEARN_MIN_MPIX or peak_gb <= 0:
+            return
+        with self.cond:
+            ratio = peak_gb / (self.base + self.per_mpix * mpix) * 1.2
+            old = self.scale
+            self.scale = max(self.scale or 0, ratio) if old else ratio
+            if self.scale != old:
+                log(f"Memory estimate updated from a measured peak of "
+                    f"{peak_gb:.1f} GB: now ~{self._estimate(2.07):.1f} GB "
+                    f"per 1080p encode")
+            self.cond.notify_all()
+
+    def waiting(self) -> int:
+        with self.cond:
+            return len(self.queue)
+
+
+# --------------------------------------------------------------------------
+# Progress reporting
+# --------------------------------------------------------------------------
+class Progress:
+    """Tracks every encode and periodically prints one status line per
+    running encode: frames done, percent, speed and ETA."""
+
+    def __init__(self, budget: MemoryBudget):
+        self.lock = threading.Lock()
+        self.active = {}
+        self.total_jobs = self.finished = self.failed = 0
+        self.budget = budget
+
+    def add_job(self):
+        with self.lock:
+            self.total_jobs += 1
+
+    def start(self, name, total_frames, mem_gb):
+        with self.lock:
+            self.active[name] = {"n": 0, "total": total_frames,
+                                 "t0": time.time(), "mem": mem_gb}
+
+    def update(self, name, frames_done):
+        with self.lock:
+            if name in self.active:
+                self.active[name]["n"] = frames_done
+
+    def finish(self, name, ok=True):
+        with self.lock:
+            self.active.pop(name, None)
+            self.finished += 1
+            self.failed += not ok
+
+    def report(self):
+        with self.lock:
+            if not self.active:
+                return
+            now = time.time()
+            lines = [f"Progress: {self.finished}/{self.total_jobs} encodes done"
+                     f"{f' ({self.failed} failed)' if self.failed else ''}, "
+                     f"{len(self.active)} running, "
+                     f"{self.budget.waiting()} waiting for memory, "
+                     f"~{self.budget.used:.0f}/{self.budget.budget:.0f} GB "
+                     f"budgeted"]
+            width = max(len(n) for n in self.active)
+            for name, a in sorted(self.active.items()):
+                el = now - a["t0"]
+                n, total = a["n"], a["total"]
+                if n == 0:
+                    status = f"starting... ({fmt_duration(el)} elapsed)"
+                else:
+                    fps = n / el
+                    eta = (total - n) / fps if fps > 0 else 0
+                    status = (f"{n:>5}/{total:<5} {100 * n / total:3.0f}%  "
+                              f"{fps:6.2f} fps  elapsed {fmt_duration(el)}, "
+                              f"ETA {fmt_duration(eta)}")
+                lines.append(f"    {name:<{width}}  {status}")
+        log("\n".join(lines))
+
+
+def progress_reporter(progress: Progress, interval: float,
+                      stop: threading.Event):
+    while not stop.wait(interval):
+        progress.report()
+
+
+# --------------------------------------------------------------------------
 # Encode + verify
 # --------------------------------------------------------------------------
-def encode_job(enc, dec, src: Path, out: Path, frames: int, qp: int,
-               container: str, extra: list, logs: Path):
-    jlog = logs / f"{out.stem}.log"
+# aomenc-style status lines look like "Pass 1/1 frame   45/12  ...", where
+# the two numbers are frames read in and frames written out. The smaller
+# one is the conservative measure of real progress.
+ENC_PROGRESS_RE = re.compile(r"frame\s+(\d+)\s*/\s*(\d+)")
+
+
+def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
+    """Run the encoder while streaming its status output: progress is
+    parsed as it arrives, only the final status of each line goes to the
+    log (instead of thousands of carriage-return updates), and peak memory
+    is sampled if psutil is available. Returns peak memory in GB (0 if
+    unknown)."""
+    peak = 0
+    with open(logfile, "a", encoding="utf-8", errors="replace") as f:
+        f.write("+ " + " ".join(str(c) for c in cmd) + "\n")
+        f.flush()
+        p = subprocess.Popen([str(c) for c in cmd], stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT)
+        proc = None
+        if psutil:
+            try:
+                proc = psutil.Process(p.pid)
+            except psutil.Error:
+                pass
+        pending = ""
+        while True:
+            chunk = p.stdout.read1(65536)
+            if not chunk:
+                break
+            text = chunk.decode("utf-8", errors="replace")
+            matches = ENC_PROGRESS_RE.findall(text)
+            if matches:
+                a, b = matches[-1]
+                progress.update(name, min(int(a), int(b)))
+            pending += text
+            *lines, pending = pending.split("\n")
+            for line in lines:
+                f.write(line.rsplit("\r", 1)[-1] + "\n")
+            pending = pending.rsplit("\r", 1)[-1]
+            if proc:
+                try:
+                    mi = proc.memory_info()
+                    # peak_wset (Windows) also catches peaks between samples
+                    peak = max(peak, getattr(mi, "peak_wset", 0), mi.rss)
+                except psutil.Error:
+                    pass
+        if pending.strip():
+            f.write(pending + "\n")
+        rc = p.wait()
+    if rc != 0:
+        raise RuntimeError(f"{Path(str(cmd[0])).name} failed "
+                           f"({describe_exit(rc)}); see {logfile}")
+    return peak / 1e9
+
+
+def encode_job(ctx, src: Path, out: Path, qp: int):
+    jlog = ctx.logs / f"{out.stem}.log"
+    name = out.stem
     if out.exists():
         log(f"Skipping encode, {out.name} exists")
+        ctx.progress.finish(name)
     else:
-        log(f"Encoding {out.name}")
+        mpix = y4m_megapixels(src)
+        total = min(ctx.frames, y4m_frame_count(src))
+        held = ctx.budget.acquire(mpix)
+        ctx.progress.start(name, total, held)
+        log(f"Encoding {out.name} (est. {held:.1f} GB)")
         t0 = time.time()
-        tmp = out.with_name(out.name + ".part")
-        fmt = ["--obu"] if container == "obu" else ["--ivf"]
-        run([enc, src, "-o", tmp, *fmt, f"--limit={frames}",
-             "--end-usage=q", f"--qp={qp}", *extra], jlog)
-        os.replace(tmp, out)
-        log(f"Encoded {out.name} in {time.time() - t0:.0f}s")
+        ok = False
+        try:
+            tmp = out.with_name(out.name + ".part")
+            fmt = ["--obu"] if ctx.container == "obu" else ["--ivf"]
+            speed = [] if ctx.cpu_used is None else [f"--cpu-used={ctx.cpu_used}"]
+            peak = run_encoder(
+                [ctx.enc, src, "-o", tmp, *fmt, f"--limit={ctx.frames}",
+                 "--end-usage=q", f"--qp={qp}", *speed, *ctx.extra],
+                jlog, name, ctx.progress)
+            os.replace(tmp, out)
+            ok = True
+            el = time.time() - t0
+            mem = f", peak {peak:.1f} GB" if peak else ""
+            log(f"Encoded {out.name} in {fmt_duration(el)} "
+                f"({total / el:.2f} fps{mem})")
+            ctx.budget.observe(mpix, peak)
+        finally:
+            ctx.budget.release(held)
+            ctx.progress.finish(name, ok)
 
     # The reference decoder's --md5 hashes the decoded frames directly,
     # avoiding multi-GB raw output files. Compare dav2d against this later.
-    stdout = run([dec, out, "--md5"], jlog, capture=True)
+    stdout = run([ctx.dec, out, "--md5"], jlog, capture=True)
     m = re.search(r"\b[0-9a-f]{32}\b", stdout)
     if not m:
         raise RuntimeError(f"No MD5 in decoder output; see {jlog}")
@@ -454,10 +741,14 @@ def main():
                     help="Predefined clip set (ignored if --clips is given)")
     ap.add_argument("--clips", nargs="+", default=None,
                     help="Clip paths under aomctc/, e.g. test_set_long/a2_2k/crowd_run_1080p50")
-    ap.add_argument("--frames", type=int, default=65,
+    ap.add_argument("--frames", type=int, default=600,
                     help="Frames per encode (65 = one CTC GOP)")
     ap.add_argument("--qp", type=int, nargs="+", default=CTC_RA_QPS,
                     help="Quantizer values (default: AV2 CTC RA QPs)")
+    ap.add_argument("--cpu-used", default="auto",
+                    help="Encoder speed preset; higher is faster. 'auto' "
+                         "(default) picks one ~2/3 of the way to the fastest "
+                         "end of the encoder's good-quality range")
     ap.add_argument("--container", choices=["ivf", "obu"], default="ivf",
                     help="ivf (default) or raw Section 5 .obu as the CTC uses")
     ap.add_argument("--avm-ref", default=None,
@@ -468,8 +759,20 @@ def main():
                     help="Extra CMake configure flags, quoted as one string")
     ap.add_argument("--build-jobs", type=int, default=os.cpu_count() or 4)
     ap.add_argument("--download-jobs", type=int, default=3)
-    ap.add_argument("--encode-jobs", type=int, default=os.cpu_count() or 4,
-                    help="Concurrent encoder processes")
+    ap.add_argument("--encode-jobs", type=int,
+                    default=max(1, (os.cpu_count() or 4) // 2),
+                    help="Upper limit on concurrent encodes; the memory "
+                         "budget usually limits further (default: half the "
+                         "CPU threads)")
+    ap.add_argument("--mem-budget-gb", type=float, default=None,
+                    help="Memory the encodes may use together "
+                         "(default: 75%% of physical RAM)")
+    ap.add_argument("--mem-per-mpix-gb", type=float, default=1.5,
+                    help="Starting estimate of encoder memory per megapixel "
+                         "(plus 0.5 GB base); refined automatically if "
+                         "psutil is installed")
+    ap.add_argument("--progress-interval", type=float, default=30,
+                    help="Seconds between progress reports")
     ap.add_argument("--extra-args", default="",
                     help="Extra encoder flags, quoted as one string")
     args = ap.parse_args()
@@ -485,7 +788,25 @@ def main():
         clips = CLIP_SETS[args.set]
     extra = args.extra_args.split()
 
+    ram = total_ram_bytes()
+    if args.mem_budget_gb:
+        budget_gb = args.mem_budget_gb
+    elif ram:
+        budget_gb = ram / 1e9 * 0.75
+    else:
+        budget_gb = 16.0
+        log("Couldn't detect RAM size; using a 16 GB budget "
+            "(set --mem-budget-gb to change)")
+    budget = MemoryBudget(budget_gb, 0.5, args.mem_per_mpix_gb)
+    progress = Progress(budget)
+    log(f"Memory budget for encodes: {budget_gb:.0f} GB"
+        f"{f' of {ram / 1e9:.0f} GB' if ram else ''}; up to "
+        f"{args.encode_jobs} encodes at once"
+        + ("" if psutil else " (pip install psutil for measured, "
+                             "self-adjusting memory estimates)"))
+
     results, errors = [], []
+    stop_reporter = threading.Event()
     with ThreadPoolExecutor(1) as build_pool, \
          ThreadPoolExecutor(args.download_jobs) as dl_pool, \
          ThreadPoolExecutor(args.encode_jobs) as enc_pool:
@@ -502,6 +823,30 @@ def main():
             dl_pool.shutdown(cancel_futures=True)
             sys.exit(f"Build failed: {e}")
 
+        # Speed preset. A --cpu-used inside --extra-args takes precedence.
+        if any(a.startswith("--cpu-used") for a in extra):
+            cpu_used, speed_note = None, "set via --extra-args"
+        elif args.cpu_used == "auto":
+            cpu_used, rng = pick_cpu_used(enc, logs)
+            speed_note = (f"--cpu-used={cpu_used} (auto, from range "
+                          f"{rng[0]}..{rng[1]})" if rng else
+                          f"--cpu-used={cpu_used} (auto; couldn't read the "
+                          f"range from avmenc --help, so using a common "
+                          f"middle value)")
+        else:
+            cpu_used = int(args.cpu_used)
+            speed_note = f"--cpu-used={cpu_used}"
+        log(f"Encoder speed: {speed_note}")
+
+        ctx = argparse.Namespace(enc=enc, dec=dec, frames=args.frames,
+                                 container=args.container, extra=extra,
+                                 logs=logs, cpu_used=cpu_used, budget=budget,
+                                 progress=progress)
+        reporter = threading.Thread(target=progress_reporter, daemon=True,
+                                    args=(progress, args.progress_interval,
+                                          stop_reporter))
+        reporter.start()
+
         enc_futs = []
         for fut in as_completed(dl_futs):
             clip = dl_futs[fut]
@@ -513,9 +858,8 @@ def main():
             for qp in args.qp:
                 out = out_dir / (f"{src.stem}_qp{qp}_{args.frames}f"
                                  f".{args.container}")
-                enc_futs.append(enc_pool.submit(
-                    encode_job, enc, dec, src, out, args.frames, qp,
-                    args.container, extra, logs))
+                progress.add_job()
+                enc_futs.append(enc_pool.submit(encode_job, ctx, src, out, qp))
 
         for fut in as_completed(enc_futs):
             try:
@@ -523,6 +867,7 @@ def main():
             except Exception as e:
                 errors.append(str(e))
                 log(f"ERROR: {e}")
+        stop_reporter.set()
 
     results.sort()
     manifest = out_dir / "manifest.txt"
@@ -530,7 +875,8 @@ def main():
         # Record exactly what produced these streams.
         f.write(f"# AVM commit: {commit}\n")
         f.write(f"# CMake flags: {' '.join(cmake_flags)}\n")
-        f.write(f"# frames={args.frames} extra_args='{args.extra_args}'\n")
+        f.write(f"# frames={args.frames} speed: {speed_note} "
+                f"extra_args='{args.extra_args}'\n")
         f.write("# file\tbytes\tmd5(decoded, avmdec --md5)\n")
         for name, size, md5 in results:
             f.write(f"{name}\t{size}\t{md5}\n")
