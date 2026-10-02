@@ -5,7 +5,7 @@ End-to-end AV2 test-video generator (parallel pipeline).
 Follows the AVM README and the AV2 Common Test Conditions (CTC):
   * AVM is cloned from the official GitHub repo and built in Release mode
   * Source clips come from the official AV2 CTC test set on media.xiph.org
-  * Default QPs are the CTC Random Access QPs (110..235)
+  * Default QPs are three of the CTC Random Access QPs: 110, 160, 210
   * Each stream is verified with the reference decoder's built-in --md5
 
 Everything overlaps:
@@ -14,6 +14,9 @@ Everything overlaps:
     that are needed (the full CTC clips are up to several GB each)
   * Each clip's encodes start as soon as that clip has downloaded and the
     build has finished; they don't wait for other (larger) downloads
+
+The middle-quality encode of every clip runs first; the other qualities
+follow once no middle-quality encode is waiting.
 
 Encodes are admitted by a memory budget rather than by CPU count alone:
 each encode's memory is estimated from its resolution, and new encodes
@@ -40,7 +43,8 @@ import threading
 import time
 import urllib.error
 import urllib.request
-from collections import deque
+import heapq
+import itertools
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -103,8 +107,10 @@ CLIP_SETS = {
 CLIP_SETS["hd"] = CLIP_SETS["720p"] + CLIP_SETS["1080p"]
 CLIP_SETS["all"] = CLIP_SETS["small"] + CLIP_SETS["hd"]  # 4k is opt-in
 
-# AV2 CTC Random Access QPs (CTC v8)
+# AV2 CTC Random Access QPs (CTC v8). Three of them (high, middle and low
+# quality) are plenty for decoder testing; the middle one is encoded first.
 CTC_RA_QPS = [110, 135, 160, 185, 210, 235]
+DEFAULT_QPS = [110, 160, 210]
 
 _print_lock = threading.Lock()
 
@@ -504,37 +510,42 @@ def total_ram_bytes():
 
 
 class MemoryBudget:
-    """Starts encodes in submission order while their estimated memory fits
-    in the budget. An encode larger than the whole budget still runs, but
+    """Starts encodes in priority order (then submission order), at most
+    max_running at a time, while their estimated memory fits in the
+    budget. An encode larger than the whole budget still runs, but
     only on its own. Estimates are base + per-megapixel cost; once a 720p+
     encode has been measured (needs psutil), the estimate is scaled to match
     the worst measurement seen, plus a 20% margin."""
 
     LEARN_MIN_MPIX = 0.9  # small clips are dominated by fixed overhead
 
-    def __init__(self, budget_gb, base_gb, per_mpix_gb):
+    def __init__(self, budget_gb, base_gb, per_mpix_gb, max_running):
         self.budget, self.base, self.per_mpix = budget_gb, base_gb, per_mpix_gb
+        self.max_running = max_running
         self.scale = None  # learned correction factor
         self.used = 0.0
         self.running = 0
-        self.queue = deque()
+        self.queue = []  # heap of (priority, seq, ticket)
+        self.seq = itertools.count()
         self.cond = threading.Condition()
 
     def _estimate(self, mpix):
         est = self.base + self.per_mpix * mpix
         return est * self.scale if self.scale else est
 
-    def acquire(self, mpix) -> float:
-        ticket = object()
+    def acquire(self, mpix, priority=0) -> float:
+        """Wait for a turn. Lower priority values go first."""
+        entry = (priority, next(self.seq), object())
         with self.cond:
-            self.queue.append(ticket)
+            heapq.heappush(self.queue, entry)
             while True:
                 need = self._estimate(mpix)
-                if self.queue[0] is ticket and (
+                if self.queue[0] is entry and \
+                        self.running < self.max_running and (
                         self.running == 0 or self.used + need <= self.budget):
                     break
                 self.cond.wait()
-            self.queue.popleft()
+            heapq.heappop(self.queue)
             self.used += need
             self.running += 1
             self.cond.notify_all()
@@ -605,7 +616,7 @@ class Progress:
             lines = [f"Progress: {self.finished}/{self.total_jobs} encodes done"
                      f"{f' ({self.failed} failed)' if self.failed else ''}, "
                      f"{len(self.active)} running, "
-                     f"{self.budget.waiting()} waiting for memory, "
+                     f"{self.budget.waiting()} queued, "
                      f"~{self.budget.used:.0f}/{self.budget.budget:.0f} GB "
                      f"budgeted"]
             width = max(len(n) for n in self.active)
@@ -688,7 +699,7 @@ def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
     return peak / 1e9
 
 
-def encode_job(ctx, src: Path, out: Path, qp: int):
+def encode_job(ctx, src: Path, out: Path, qp: int, priority: int):
     jlog = ctx.logs / f"{out.stem}.log"
     name = out.stem
     if out.exists():
@@ -697,7 +708,7 @@ def encode_job(ctx, src: Path, out: Path, qp: int):
     else:
         mpix = y4m_megapixels(src)
         total = min(ctx.frames, y4m_frame_count(src))
-        held = ctx.budget.acquire(mpix)
+        held = ctx.budget.acquire(mpix, priority)
         ctx.progress.start(name, total, held)
         log(f"Encoding {out.name} (est. {held:.1f} GB)")
         t0 = time.time()
@@ -743,8 +754,10 @@ def main():
                     help="Clip paths under aomctc/, e.g. test_set_long/a2_2k/crowd_run_1080p50")
     ap.add_argument("--frames", type=int, default=600,
                     help="Frames per encode (65 = one CTC GOP)")
-    ap.add_argument("--qp", type=int, nargs="+", default=CTC_RA_QPS,
-                    help="Quantizer values (default: AV2 CTC RA QPs)")
+    ap.add_argument("--qp", type=int, nargs="+", default=DEFAULT_QPS,
+                    help="Quantizer values; the middle one is encoded first "
+                         "for every clip (default: 110 160 210, from the "
+                         "AV2 CTC RA set)")
     ap.add_argument("--cpu-used", default="auto",
                     help="Encoder speed preset; higher is faster. 'auto' "
                          "(default) picks one ~2/3 of the way to the fastest "
@@ -761,7 +774,7 @@ def main():
     ap.add_argument("--download-jobs", type=int, default=3)
     ap.add_argument("--encode-jobs", type=int,
                     default=max(1, (os.cpu_count() or 4) // 2),
-                    help="Upper limit on concurrent encodes; the memory "
+                    help="Most encodes running at once; the memory "
                          "budget usually limits further (default: half the "
                          "CPU threads)")
     ap.add_argument("--mem-budget-gb", type=float, default=None,
@@ -797,7 +810,8 @@ def main():
         budget_gb = 16.0
         log("Couldn't detect RAM size; using a 16 GB budget "
             "(set --mem-budget-gb to change)")
-    budget = MemoryBudget(budget_gb, 0.5, args.mem_per_mpix_gb)
+    budget = MemoryBudget(budget_gb, 0.5, args.mem_per_mpix_gb,
+                          args.encode_jobs)
     progress = Progress(budget)
     log(f"Memory budget for encodes: {budget_gb:.0f} GB"
         f"{f' of {ram / 1e9:.0f} GB' if ram else ''}; up to "
@@ -805,11 +819,19 @@ def main():
         + ("" if psutil else " (pip install psutil for measured, "
                              "self-adjusting memory estimates)"))
 
+    # The middle QP (median of the list) goes first for every clip; the
+    # other QPs only start when no middle-QP encode is waiting.
+    qps = sorted(dict.fromkeys(args.qp))
+    mid_qp = qps[(len(qps) - 1) // 2]
+    later = [q for q in qps if q != mid_qp]
+    log(f"QPs: {mid_qp} (middle quality) first for every clip"
+        + (f", then {', '.join(map(str, later))}" if later else ""))
+
     results, errors = [], []
     stop_reporter = threading.Event()
     with ThreadPoolExecutor(1) as build_pool, \
          ThreadPoolExecutor(args.download_jobs) as dl_pool, \
-         ThreadPoolExecutor(args.encode_jobs) as enc_pool:
+         ThreadPoolExecutor(len(clips) * len(qps)) as enc_pool:
 
         build_fut = build_pool.submit(build_avm, work, args.avm_ref,
                                       args.build_jobs, logs,
@@ -855,11 +877,16 @@ def main():
             except Exception as e:
                 errors.append(f"download {clip}: {e}")  # already logged
                 continue
-            for qp in args.qp:
+            # One thread per encode: threads just wait in the budget queue,
+            # which (not the pool) decides order and how many run, so a
+            # middle-QP encode submitted later still overtakes queued
+            # encodes at other QPs.
+            for qp in [mid_qp] + later:
                 out = out_dir / (f"{src.stem}_qp{qp}_{args.frames}f"
                                  f".{args.container}")
                 progress.add_job()
-                enc_futs.append(enc_pool.submit(encode_job, ctx, src, out, qp))
+                enc_futs.append(enc_pool.submit(
+                    encode_job, ctx, src, out, qp, 0 if qp == mid_qp else 1))
 
         for fut in as_completed(enc_futs):
             try:
