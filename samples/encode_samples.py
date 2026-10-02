@@ -243,11 +243,21 @@ def configure_avm(src: Path, build: Path, flags: list, work: Path,
                        f"{MAX_CONFIGURE_ATTEMPTS} attempts; see {clog}")
 
 
-def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
-    src, build = work / "avm", work / "avm_build"
+def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list,
+              rebuild: bool = False):
+    src = work / "avm"
+    # One build folder per OS: a Windows and a WSL run sharing this workdir
+    # would otherwise keep wiping each other's builds.
+    build = work / ("avm_build_windows" if os.name == "nt" else "avm_build_linux")
+    legacy = work / "avm_build"  # folder name used by earlier versions
+    if legacy.exists() and not build.exists():
+        legacy.rename(build)
+    if rebuild and build.exists():
+        log("--rebuild given: removing the existing AVM build")
+        shutil.rmtree(build, onerror=_force_remove)
     blog = logs / "build.log"
-    log(f"Building AVM (log: {blog})")
     if not src.exists():
+        log("Cloning AVM")
         if ref is None:
             run(["git", "clone", "--depth", "1", AVM_REPO, src], blog)
         else:
@@ -256,24 +266,47 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
     commit = run(["git", "rev-parse", "HEAD"], blog, cwd=src,
                  capture=True).strip()
 
-    # A failed earlier configure leaves a stale CMake cache (e.g. with
-    # TensorFlow Lite switched on), so start fresh unless a build succeeded.
-    exe_name = "avmenc" + (".exe" if os.name == "nt" else "")
-    built = any((d / exe_name).exists() for d in (build, build / "Release"))
-    if build.exists() and not built:
-        shutil.rmtree(build, onerror=_force_remove)
-    build.mkdir(exist_ok=True)
-
     flags = BASE_CMAKE_ARGS + learned_disables(work) + cmake_args
-    flags = configure_avm(src, build, flags, work, logs)
-    # --config is needed for Visual Studio (multi-config) generators and is
-    # ignored by single-config ones like Makefiles/Ninja.
-    run(["cmake", "--build", ".", "--config", "Release", "-j", str(jobs)],
-        blog, cwd=build)
+    exe = ".exe" if os.name == "nt" else ""
+    stamp_path = build / "build_stamp.json"
+    try:
+        stamp = json.loads(stamp_path.read_text())
+    except (OSError, ValueError):
+        stamp = None
+    built = all(any((d / (n + exe)).exists() for d in (build, build / "Release"))
+                for n in ("avmenc", "avmdec"))
+    if built and stamp is None:
+        # A finished build from a version of this script that didn't write
+        # stamps. Adopt it instead of spending minutes rebuilding; use
+        # --rebuild if it was built with different settings.
+        log("Adopting existing AVM build (use --rebuild to force a fresh one)")
+        stamp = {"commit": commit, "flags": flags}
+        stamp_path.write_text(json.dumps(stamp, indent=2))
+
+    # Re-running CMake configure regenerates AVM's config headers, which
+    # makes Visual Studio recompile everything. So skip configure and build
+    # entirely when the commit and flags match the last successful build.
+    if built and stamp and stamp.get("commit") == commit \
+            and stamp.get("flags") == flags:
+        log(f"AVM already built at commit {commit[:12]}, skipping build")
+    else:
+        # No successful build to reuse (or a failed configure left a stale
+        # cache), so start from an empty folder.
+        if build.exists() and not (built and stamp):
+            shutil.rmtree(build, onerror=_force_remove)
+        build.mkdir(exist_ok=True)
+        stamp_path.unlink(missing_ok=True)
+        log(f"Building AVM at commit {commit[:12]} (log: {blog})")
+        flags = configure_avm(src, build, flags, work, logs)
+        # --config is needed for Visual Studio (multi-config) generators and
+        # is ignored by single-config ones like Makefiles/Ninja.
+        run(["cmake", "--build", ".", "--config", "Release", "-j", str(jobs)],
+            blog, cwd=build)
+        stamp_path.write_text(json.dumps({"commit": commit, "flags": flags},
+                                         indent=2))
+        log(f"Build finished at commit {commit[:12]}")
 
     # Visual Studio puts binaries in a Release\ subfolder with .exe.
-    exe = ".exe" if os.name == "nt" else ""
-
     def find(name):
         for d in (build, build / "Release"):
             if (d / (name + exe)).exists():
@@ -281,7 +314,6 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
         raise RuntimeError(f"{name}{exe} not found in {build}")
 
     enc, dec = find("avmenc"), find("avmdec")
-    log(f"Build finished at commit {commit[:12]}")
     return enc, dec, commit, flags
 
 
@@ -430,6 +462,8 @@ def main():
                     help="ivf (default) or raw Section 5 .obu as the CTC uses")
     ap.add_argument("--avm-ref", default=None,
                     help="AVM tag/commit to build (default: latest main)")
+    ap.add_argument("--rebuild", action="store_true",
+                    help="Delete the AVM build and build it from scratch")
     ap.add_argument("--cmake-args", default="",
                     help="Extra CMake configure flags, quoted as one string")
     ap.add_argument("--build-jobs", type=int, default=os.cpu_count() or 4)
@@ -458,7 +492,7 @@ def main():
 
         build_fut = build_pool.submit(build_avm, work, args.avm_ref,
                                       args.build_jobs, logs,
-                                      args.cmake_args.split())
+                                      args.cmake_args.split(), args.rebuild)
         dl_futs = {dl_pool.submit(download, name, paths, sources, args.frames): name
                    for name, paths in clips}
 
