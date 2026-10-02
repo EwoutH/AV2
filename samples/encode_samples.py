@@ -23,6 +23,7 @@ Usage:
     python av2_encode.py --avm-ref v13.0.0       # pin AVM for reproducibility
 """
 import argparse
+import json
 import os
 import re
 import shutil
@@ -75,13 +76,15 @@ def log(msg: str):
 def run(cmd, logfile: Path, cwd=None, capture=False):
     """Run a command, appending its output to a log file so parallel jobs
     don't interleave on the console. Returns stdout if capture=True."""
-    with open(logfile, "a") as f:
+    with open(logfile, "a", encoding="utf-8", errors="replace") as f:
         f.write("+ " + " ".join(str(c) for c in cmd) + "\n")
         f.flush()
+        # errors="replace": tool output on Windows isn't always valid in the
+        # console code page, and a decode error shouldn't fail the job.
         r = subprocess.run([str(c) for c in cmd], cwd=cwd,
                            stdout=subprocess.PIPE if capture else f,
                            stderr=f if capture else subprocess.STDOUT,
-                           text=True)
+                           text=True, errors="replace")
         if capture:
             f.write(r.stdout)
     if r.returncode != 0:
@@ -126,6 +129,74 @@ def check_tools():
 # --------------------------------------------------------------------------
 # Build
 # --------------------------------------------------------------------------
+# Tests and docs are off: they'd pull in test data and doxygen.
+# TensorFlow Lite is off because its build runs bash scripts that break on
+# Windows. Experiments that require it are found and disabled automatically
+# (see configure_avm).
+BASE_CMAKE_ARGS = ["-DCMAKE_BUILD_TYPE=Release", "-DENABLE_TESTS=0",
+                   "-DENABLE_DOCS=0", "-DCONFIG_TENSORFLOW_LITE=0",
+                   "-DCONFIG_ML_PART_SPLIT=0"]
+
+# When an enabled experiment needs TFLite, AVM silently turns TFLite back on
+# and names only one such experiment per configure run, e.g.:
+#   --- Enabled CONFIG_TENSORFLOW_LITE, required for CONFIG_DIP_EXT_PRUNING.
+TFLITE_DEP_RE = re.compile(
+    r"Enabled CONFIG_TENSORFLOW_LITE, required for (CONFIG_\w+)")
+MAX_CONFIGURE_ATTEMPTS = 10
+
+
+def _force_remove(func, path, _exc):
+    # Read-only files block rmtree on Windows.
+    os.chmod(path, 0o700)
+    func(path)
+
+
+def tflite_disables_path(work: Path) -> Path:
+    return work / "avm_tflite_disabled.json"
+
+
+def learned_disables(work: Path) -> list:
+    """Experiments found to need TFLite on earlier runs, so later runs
+    configure correctly the first time."""
+    try:
+        names = json.loads(tflite_disables_path(work).read_text())
+    except (OSError, ValueError):
+        names = []
+    return [f"-D{n}=0" for n in names]
+
+
+def configure_avm(src: Path, build: Path, flags: list, work: Path,
+                  logs: Path) -> list:
+    """Run CMake configure. If it fails because an experiment switched
+    TFLite back on, disable that experiment and retry from a clean build
+    folder. Returns the flags that worked."""
+    clog = logs / "configure.log"
+    for attempt in range(1, MAX_CONFIGURE_ATTEMPTS + 1):
+        clog.unlink(missing_ok=True)
+        try:
+            run(["cmake", src, *flags], clog, cwd=build)
+            return flags
+        except RuntimeError:
+            text = clog.read_text(encoding="utf-8", errors="replace")
+            new = [d for d in dict.fromkeys(TFLITE_DEP_RE.findall(text))
+                   if f"-D{d}=0" not in flags]
+            if not new:
+                raise  # a different configure error; see configure.log
+            learned = [f[2:-2] for f in learned_disables(work)]
+            for d in new:
+                log(f"{d} requires TensorFlow Lite; disabling it and "
+                    f"retrying configure (attempt {attempt + 1})")
+                flags = flags + [f"-D{d}=0"]
+                if d not in learned:
+                    learned.append(d)
+            tflite_disables_path(work).write_text(json.dumps(learned, indent=2))
+            # Start clean so the failed attempt's cache can't interfere.
+            shutil.rmtree(build, onerror=_force_remove)
+            build.mkdir()
+    raise RuntimeError(f"configure still failing after "
+                       f"{MAX_CONFIGURE_ATTEMPTS} attempts; see {clog}")
+
+
 def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
     src, build = work / "avm", work / "avm_build"
     blog = logs / "build.log"
@@ -144,16 +215,11 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
     exe_name = "avmenc" + (".exe" if os.name == "nt" else "")
     built = any((d / exe_name).exists() for d in (build, build / "Release"))
     if build.exists() and not built:
-        shutil.rmtree(build)
+        shutil.rmtree(build, onerror=_force_remove)
     build.mkdir(exist_ok=True)
-    # Tests and docs are off: they'd pull in test data and doxygen.
-    # CONFIG_ML_PART_SPLIT is an encoder-only speed feature that drags in a
-    # TensorFlow Lite build via bash scripts, which breaks on Windows. It
-    # doesn't change the bitstream format, so streams remain valid AV2.
-    run(["cmake", src, "-DCMAKE_BUILD_TYPE=Release",
-         "-DENABLE_TESTS=0", "-DENABLE_DOCS=0",
-         "-DCONFIG_ML_PART_SPLIT=0", "-DCONFIG_TENSORFLOW_LITE=0",
-         *cmake_args], blog, cwd=build)
+
+    flags = BASE_CMAKE_ARGS + learned_disables(work) + cmake_args
+    flags = configure_avm(src, build, flags, work, logs)
     # --config is needed for Visual Studio (multi-config) generators and is
     # ignored by single-config ones like Makefiles/Ninja.
     run(["cmake", "--build", ".", "--config", "Release", "-j", str(jobs)],
@@ -170,7 +236,7 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list):
 
     enc, dec = find("avmenc"), find("avmdec")
     log(f"Build finished at commit {commit[:12]}")
-    return enc, dec, commit
+    return enc, dec, commit, flags
 
 
 # --------------------------------------------------------------------------
@@ -187,7 +253,7 @@ def download(clip: str, dest_dir: Path) -> Path:
     t0 = time.time()
     with urllib.request.urlopen(url) as r, open(tmp, "wb") as f:
         shutil.copyfileobj(r, f, length=1 << 20)
-    tmp.rename(out)
+    os.replace(tmp, out)
     mb = out.stat().st_size / 1e6
     log(f"Downloaded {out.name} ({mb:.0f} MB in {time.time() - t0:.0f}s)")
     return out
@@ -208,7 +274,7 @@ def encode_job(enc, dec, src: Path, out: Path, frames: int, qp: int,
         fmt = ["--obu"] if container == "obu" else ["--ivf"]
         run([enc, src, "-o", tmp, *fmt, f"--limit={frames}",
              "--end-usage=q", f"--qp={qp}", *extra], jlog)
-        tmp.rename(out)
+        os.replace(tmp, out)
         log(f"Encoded {out.name} in {time.time() - t0:.0f}s")
 
     # The reference decoder's --md5 hashes the decoded frames directly,
@@ -268,7 +334,7 @@ def main():
         dl_futs = {dl_pool.submit(download, c, sources): c for c in clips}
 
         try:
-            enc, dec, commit = build_fut.result()
+            enc, dec, commit, cmake_flags = build_fut.result()
         except Exception as e:
             dl_pool.shutdown(cancel_futures=True)
             sys.exit(f"Build failed: {e}")
@@ -301,6 +367,7 @@ def main():
     with open(manifest, "w") as f:
         # Record exactly what produced these streams.
         f.write(f"# AVM commit: {commit}\n")
+        f.write(f"# CMake flags: {' '.join(cmake_flags)}\n")
         f.write(f"# frames={args.frames} extra_args='{args.extra_args}'\n")
         f.write("# file\tbytes\tmd5(decoded, avmdec --md5)\n")
         for name, size, md5 in results:
