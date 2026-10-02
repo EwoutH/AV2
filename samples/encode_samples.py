@@ -160,6 +160,7 @@ def run(cmd, logfile: Path, cwd=None, capture=False):
                            text=True, errors="replace")
         if capture:
             f.write(r.stdout)
+        f.write(f"= {describe_exit(r.returncode)}\n")
     if r.returncode != 0:
         raise RuntimeError(f"{Path(str(cmd[0])).name} failed "
                            f"({describe_exit(r.returncode)}); see {logfile}")
@@ -693,6 +694,8 @@ def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
         if pending.strip():
             f.write(pending + "\n")
         rc = p.wait()
+        # Record how the process ended in the log, not only on the console.
+        f.write(f"= {describe_exit(rc)}\n")
     if rc != 0:
         raise RuntimeError(f"{Path(str(cmd[0])).name} failed "
                            f"({describe_exit(rc)}); see {logfile}")
