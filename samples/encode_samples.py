@@ -416,8 +416,11 @@ def download(name: str, paths: list, dest_dir: Path, frames: int) -> Path:
     followed by frames, so the download simply stops once it has enough,
     instead of fetching multi-GB files in full."""
     out = dest_dir / f"{name}.y4m"
+    # Marks a file holding the whole clip, for clips shorter than --frames;
+    # without it those would look incomplete and be re-downloaded every run.
+    whole = out.with_name(out.name + ".whole")
     try:
-        if out.exists() and y4m_frame_count(out) >= frames:
+        if out.exists() and (whole.exists() or y4m_frame_count(out) >= frames):
             log(f"Already have {out.name}")
             return out
         r, url = _open_first(paths)
@@ -443,6 +446,8 @@ def download(name: str, paths: list, dest_dir: Path, frames: int) -> Path:
         if got == 0:
             raise RuntimeError(f"no frames read from {url}")
         os.replace(tmp, out)
+        if got < frames:
+            whole.touch()
         note = "" if got == frames else f" (clip only has {got})"
         log(f"Downloaded {name}: {got} frames, "
             f"{out.stat().st_size / 1e6:.0f} MB in {time.time() - t0:.0f}s"
