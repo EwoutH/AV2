@@ -7,8 +7,8 @@ Usage: python smoke_test.py <avmenc> <avmdec> [workdir]
 
 The clip is generated here (a moving gradient), so the test needs no
 downloads and gives every platform the same input. The stream size and
-MD5 on the last lines end up in the build info, which makes differences
-between platforms visible.
+MD5 on the last lines end up in the build info; the nightly workflow
+compares them across platforms.
 """
 import re
 import subprocess

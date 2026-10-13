@@ -171,8 +171,7 @@ jobs:
           {
             echo "Unofficial nightly build of AVM, the AV2 reference software"
             echo "Built by:    $GITHUB_SERVER_URL/$GITHUB_REPOSITORY (run $GITHUB_RUN_ID)"
-            echo "AVM source:  https://github.com/AOMediaCodec/avm/commit/$AVM_SHA"
-            echo "AVM commit:  $AVM_SHA ($(git -C avm log -1 --format=%cd --date=short))"
+            echo "AVM commit:  https://github.com/AOMediaCodec/avm/commit/$AVM_SHA ($(git -C avm log -1 --format=%cd --date=short))"
             echo "Platform:    $PLATFORM"
             echo "Compiler:    $(grep -m 1 'C compiler identification' configure.log | sed 's/.*is //')"
             echo "CMake flags: $AVM_CMAKE_FLAGS"
@@ -217,6 +216,15 @@ jobs:
         with:
           path: dist
           merge-multiple: true
+
+      - name: Compare smoke tests
+        run: |
+          # Every platform encodes the same clip; so far they have all
+          # produced the same stream. Flag it when that stops being true.
+          grep -h '^Smoke test:' dist/BUILD_INFO-*.txt | sort | uniq -c
+          if [[ $(grep -h '^Smoke test:' dist/BUILD_INFO-*.txt | sort -u | wc -l) -ne 1 ]]; then
+            echo "::warning::Platforms produced different smoke test streams"
+          fi
 
       - name: Write release notes
         run: |
