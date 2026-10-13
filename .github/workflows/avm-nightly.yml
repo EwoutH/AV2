@@ -100,6 +100,7 @@ jobs:
           - { platform: macos-arm64,   runner: macos-26 }
           - { platform: macos-x64,     runner: macos-26-intel }
           - { platform: windows-x64,   runner: windows-2025 }
+          - { platform: windows-arm64, runner: windows-11-vs2026-arm }
     env:
       PLATFORM: ${{ matrix.platform }}
       AVM_SHA: ${{ needs.check.outputs.sha }}
@@ -125,7 +126,7 @@ jobs:
         if: runner.os == 'macOS' && runner.arch == 'X64'
         run: brew install yasm
       - name: Install assembler (Windows)
-        if: runner.os == 'Windows'
+        if: runner.os == 'Windows' && runner.arch == 'X64'
         run: |
           choco install nasm -y --no-progress
           echo 'C:\Program Files\NASM' >> "$GITHUB_PATH"
@@ -141,7 +142,8 @@ jobs:
               extra+=("-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0") ;;
             Windows)
               # Static C runtime: no Visual C++ redistributable needed.
-              extra+=("-A" "x64" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+              arch=x64; if [[ "$RUNNER_ARCH" == ARM64 ]]; then arch=ARM64; fi
+              extra+=("-A" "$arch" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
                       "-DCMAKE_PROJECT_INCLUDE=$(cygpath -m "$GITHUB_WORKSPACE/ci/avm_msvc_workarounds.cmake")") ;;
           esac
           cmake -S avm -B build $AVM_CMAKE_FLAGS "${extra[@]}" 2>&1 | tee configure.log
