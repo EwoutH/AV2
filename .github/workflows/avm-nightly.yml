@@ -235,12 +235,14 @@ jobs:
             echo
             echo "AV2 streams made with one AVM version may not decode with another."
             echo
-            echo "<details><summary>Build details</summary>"
-            echo
+            echo "| Platform | Compiler | Smoke test |"
+            echo "|---|---|---|"
             for f in dist/BUILD_INFO-*.txt; do
-              echo '```'; cat "$f"; echo '```'
+              field() { grep "^$1:" "$f" | sed "s/^$1: *//"; }
+              echo "| $(field Platform) | $(field Compiler) | $(field 'Smoke test') |"
             done
-            echo "</details>"
+            echo
+            echo "CMake flags: \`$AVM_CMAKE_FLAGS\`"
           } > notes.md
           cat notes.md
 
