@@ -143,9 +143,13 @@ jobs:
             Windows)
               # Static C runtime: no Visual C++ redistributable needed.
               # AVM's NEON code uses GCC-style vector types that MSVC rejects,
-              # so the Arm build uses Visual Studio's bundled clang-cl.
+              # so the Arm build uses Visual Studio's bundled clang-cl. AVM's
+              # runtime NEON detection for Windows only compiles with MSVC;
+              # it isn't needed, as every 64-bit Arm CPU has NEON.
               arch=(-A x64)
-              if [[ "$RUNNER_ARCH" == ARM64 ]]; then arch=(-A ARM64 -T ClangCL); fi
+              if [[ "$RUNNER_ARCH" == ARM64 ]]; then
+                arch=(-A ARM64 -T ClangCL -DCONFIG_RUNTIME_CPU_DETECT=0)
+              fi
               extra+=("${arch[@]}" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
                       "-DCMAKE_PROJECT_INCLUDE=$(cygpath -m "$GITHUB_WORKSPACE/ci/avm_msvc_workarounds.cmake")") ;;
           esac
