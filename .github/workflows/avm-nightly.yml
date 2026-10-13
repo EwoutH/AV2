@@ -69,15 +69,15 @@ jobs:
           fi
           [[ -n "$sha" ]] || { echo "::error::Can't resolve AVM ref '$AVM_REF'"; exit 1; }
           short=${sha:0:10}
-          tag="avm-nightly-$(date -u +%Y%m%d)-$short"
-          existing=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 200 \
-                       --json tagName --jq '.[].tagName' | grep -- "-$short\$" || true)
-          if [[ -n "$existing" && "$FORCE" != "true" ]]; then
-            echo "AVM $short was already published as $existing; nothing to do."
+          # One release per AVM commit: a forced rebuild reuses its tag.
+          tag=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 200 \
+                  --json tagName --jq '.[].tagName' | grep -m 1 -- "-$short\$" || true)
+          build=true
+          if [[ -n "$tag" && "$FORCE" != "true" ]]; then
+            echo "AVM $short was already published as $tag; nothing to do."
             build=false
-          else
-            build=true
           fi
+          tag=${tag:-avm-nightly-$(date -u +%Y%m%d)-$short}
           {
             echo "sha=$sha"
             echo "tag=$tag"
@@ -100,7 +100,6 @@ jobs:
           - { platform: macos-arm64,   runner: macos-26 }
           - { platform: macos-x64,     runner: macos-26-intel }
           - { platform: windows-x64,   runner: windows-2025 }
-          - { platform: windows-arm64, runner: windows-11-vs2026-arm }
     env:
       PLATFORM: ${{ matrix.platform }}
       AVM_SHA: ${{ needs.check.outputs.sha }}
@@ -126,7 +125,7 @@ jobs:
         if: runner.os == 'macOS' && runner.arch == 'X64'
         run: brew install yasm
       - name: Install assembler (Windows)
-        if: runner.os == 'Windows' && runner.arch == 'X64'
+        if: runner.os == 'Windows'
         run: |
           choco install nasm -y --no-progress
           echo 'C:\Program Files\NASM' >> "$GITHUB_PATH"
@@ -142,15 +141,7 @@ jobs:
               extra+=("-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0") ;;
             Windows)
               # Static C runtime: no Visual C++ redistributable needed.
-              # AVM's NEON code uses GCC-style vector types that MSVC rejects,
-              # so the Arm build uses Visual Studio's bundled clang-cl. AVM's
-              # runtime NEON detection for Windows only compiles with MSVC;
-              # it isn't needed, as every 64-bit Arm CPU has NEON.
-              arch=(-A x64)
-              if [[ "$RUNNER_ARCH" == ARM64 ]]; then
-                arch=(-A ARM64 -T ClangCL -DCONFIG_RUNTIME_CPU_DETECT=0)
-              fi
-              extra+=("${arch[@]}" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+              extra+=("-A" "x64" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
                       "-DCMAKE_PROJECT_INCLUDE=$(cygpath -m "$GITHUB_WORKSPACE/ci/avm_msvc_workarounds.cmake")") ;;
           esac
           cmake -S avm -B build $AVM_CMAKE_FLAGS "${extra[@]}" 2>&1 | tee configure.log
@@ -219,6 +210,8 @@ jobs:
       GH_REPO: ${{ github.repository }}
       AVM_SHA: ${{ needs.check.outputs.sha }}
       TAG: ${{ needs.check.outputs.tag }}
+      # A manual build of an older AVM version shouldn't become "latest".
+      LATEST: ${{ (inputs.avm_ref || 'main') == 'main' }}
       KEEP_RELEASES: 30
     steps:
       - uses: actions/download-artifact@v8
@@ -257,13 +250,15 @@ jobs:
 
       - name: Create release
         run: |
-          # A forced rebuild of an AVM commit on the same day updates the
-          # existing release in place, so its downloads never disappear.
+          # A forced rebuild updates the existing release in place, so its
+          # downloads never disappear.
           if gh release view "$TAG" > /dev/null 2>&1; then
             gh release upload "$TAG" dist/avm-*.zip dist/avm-*.tar.gz --clobber
-            gh release edit "$TAG" --notes-file notes.md --latest
+            gh release edit "$TAG" --notes-file notes.md --latest="$LATEST"
           else
-            gh release create "$TAG" dist/avm-*.zip dist/avm-*.tar.gz --latest               --title "AVM nightly ${TAG#avm-nightly-}" --notes-file notes.md
+            gh release create "$TAG" dist/avm-*.zip dist/avm-*.tar.gz \
+              --title "AVM nightly ${TAG#avm-nightly-}" \
+              --notes-file notes.md --latest="$LATEST"
           fi
 
       - name: Remove old nightlies
