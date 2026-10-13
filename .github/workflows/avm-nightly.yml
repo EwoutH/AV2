@@ -1,0 +1,256 @@
+name: AVM nightly builds
+
+# Builds avmenc and avmdec from the latest AVM (AV2 reference software)
+# for the major desktop platforms and publishes them as a GitHub release.
+# Nothing is built or published on nights without new AVM commits.
+
+on:
+  schedule:
+    - cron: "30 5 * * *"  # 05:30 UTC
+  workflow_dispatch:
+    inputs:
+      avm_ref:
+        description: AVM branch, tag or full commit SHA to build
+        default: main
+      force:
+        description: Build even if a release for this AVM commit exists
+        type: boolean
+        default: false
+      publish:
+        description: Publish a release (untick for a build-only test run)
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: avm-nightly
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  AVM_REPO: https://github.com/AOMediaCodec/avm.git
+  # TensorFlow Lite doesn't build on Windows, so it and the two encoder
+  # experiments that need it are off everywhere; that keeps the encoder
+  # configuration the same on all platforms. AVM's own CI uses the same
+  # flags for its arm64 builds.
+  AVM_CMAKE_FLAGS: >-
+    -DCMAKE_BUILD_TYPE=Release
+    -DENABLE_TESTS=0
+    -DENABLE_DOCS=0
+    -DCONFIG_TENSORFLOW_LITE=0
+    -DCONFIG_ML_PART_SPLIT=0
+    -DCONFIG_DIP_EXT_PRUNING=0
+
+jobs:
+  check:
+    name: Check for new AVM commits
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.avm.outputs.sha }}
+      tag: ${{ steps.avm.outputs.tag }}
+      build: ${{ steps.avm.outputs.build }}
+    steps:
+      - name: Resolve AVM commit
+        id: avm
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AVM_REF: ${{ inputs.avm_ref || 'main' }}
+          FORCE: ${{ inputs.force || false }}
+        run: |
+          if [[ "$AVM_REF" =~ ^[0-9a-f]{40}$ ]]; then
+            sha=$AVM_REF
+          else
+            sha=$(git ls-remote "$AVM_REPO" "$AVM_REF" | head -n 1 | cut -f 1)
+          fi
+          [[ -n "$sha" ]] || { echo "::error::Can't resolve AVM ref '$AVM_REF'"; exit 1; }
+          short=${sha:0:10}
+          tag="avm-nightly-$(date -u +%Y%m%d)-$short"
+          existing=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 200 \
+                       --json tagName --jq '.[].tagName' | grep -- "-$short\$" || true)
+          if [[ -n "$existing" && "$FORCE" != "true" ]]; then
+            echo "AVM $short was already published as $existing; nothing to do."
+            build=false
+          else
+            build=true
+          fi
+          {
+            echo "sha=$sha"
+            echo "tag=$tag"
+            echo "build=$build"
+          } >> "$GITHUB_OUTPUT"
+          echo "AVM commit \`$sha\`, build: $build" >> "$GITHUB_STEP_SUMMARY"
+
+  build:
+    name: Build (${{ matrix.platform }})
+    needs: check
+    if: needs.check.outputs.build == 'true'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: linux-x64,     runner: ubuntu-26.04 }
+          - { platform: linux-arm64,   runner: ubuntu-26.04-arm }
+          - { platform: macos-arm64,   runner: macos-26 }
+          - { platform: macos-x64,     runner: macos-26-intel }
+          - { platform: windows-x64,   runner: windows-2025 }
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      AVM_SHA: ${{ needs.check.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Fetch AVM
+        run: |
+          git init -q avm
+          git -C avm fetch -q --depth 1 "$AVM_REPO" "$AVM_SHA"
+          git -C avm checkout -q FETCH_HEAD
+          git -C avm log -1 --format='%H%n%cd' --date=iso-strict
+
+      # x86 builds need an assembler: yasm, or nasm as AVM's second choice.
+      - name: Install assembler (Linux)
+        if: runner.os == 'Linux' && runner.arch == 'X64'
+        run: sudo apt-get update -q && sudo apt-get install -y -q yasm
+      - name: Install assembler (macOS)
+        if: runner.os == 'macOS' && runner.arch == 'X64'
+        run: brew install yasm
+      - name: Install assembler (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          choco install nasm -y --no-progress
+          echo 'C:\Program Files\NASM' >> "$GITHUB_PATH"
+
+      - name: Configure
+        run: |
+          extra=()
+          case "$RUNNER_OS" in
+            Linux)
+              # No dependency on the build machine's libstdc++ version.
+              extra+=("-DCMAKE_EXE_LINKER_FLAGS=-static-libgcc -static-libstdc++") ;;
+            macOS)
+              extra+=("-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0") ;;
+            Windows)
+              # Static C runtime: no Visual C++ redistributable needed.
+              extra+=("-A" "x64" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+                      "-DCMAKE_PROJECT_INCLUDE=$(cygpath -m "$GITHUB_WORKSPACE/ci/avm_msvc_workarounds.cmake")") ;;
+          esac
+          cmake -S avm -B build $AVM_CMAKE_FLAGS "${extra[@]}" 2>&1 | tee configure.log
+
+      - name: Build
+        run: cmake --build build --config Release --parallel --target avmenc avmdec
+
+      - name: Locate binaries
+        run: |
+          bin=build; exe=
+          if [[ "$RUNNER_OS" == Windows ]]; then bin=build/Release; exe=.exe; fi
+          ls -l "$bin/avmenc$exe" "$bin/avmdec$exe"
+          echo "BIN=$bin" >> "$GITHUB_ENV"
+          echo "EXE=$exe" >> "$GITHUB_ENV"
+
+      - name: Smoke test (encode and decode a tiny clip)
+        run: python ci/smoke_test.py "$BIN/avmenc$EXE" "$BIN/avmdec$EXE" smoke | tee smoke.log
+
+      - name: Package
+        run: |
+          pkg="avm-$PLATFORM"
+          mkdir "$pkg"
+          cp "$BIN/avmenc$EXE" "$BIN/avmdec$EXE" avm/LICENSE avm/PATENTS "$pkg/"
+          if [[ "$RUNNER_OS" != Windows ]]; then strip "$pkg/avmenc" "$pkg/avmdec"; fi
+          # Stripping breaks the ad-hoc signature that Apple Silicon requires.
+          if [[ "$RUNNER_OS" == macOS ]]; then codesign --force -s - "$pkg/avmenc" "$pkg/avmdec"; fi
+          {
+            echo "Unofficial nightly build of AVM, the AV2 reference software"
+            echo "Built by:    $GITHUB_SERVER_URL/$GITHUB_REPOSITORY (run $GITHUB_RUN_ID)"
+            echo "AVM source:  https://github.com/AOMediaCodec/avm/commit/$AVM_SHA"
+            echo "AVM commit:  $AVM_SHA ($(git -C avm log -1 --format=%cd --date=short))"
+            echo "Platform:    $PLATFORM"
+            echo "Compiler:    $(grep -m 1 'C compiler identification' configure.log | sed 's/.*is //')"
+            echo "CMake flags: $AVM_CMAKE_FLAGS"
+            echo "Smoke test:  $(grep -E '^(stream bytes|decoded md5)' smoke.log | paste -sd ',' - | sed 's/,/, /')"
+          } > "$pkg/BUILD_INFO.txt"
+          cat "$pkg/BUILD_INFO.txt"
+          if [[ "$RUNNER_OS" == Windows ]]; then
+            7z a -bso0 "$pkg.zip" "$pkg"
+          else
+            tar -czf "$pkg.tar.gz" "$pkg"
+          fi
+          cp "$pkg/BUILD_INFO.txt" "BUILD_INFO-$PLATFORM.txt"
+          ls -l "$pkg".*
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: avm-${{ matrix.platform }}
+          path: |
+            avm-${{ matrix.platform }}.zip
+            avm-${{ matrix.platform }}.tar.gz
+            BUILD_INFO-${{ matrix.platform }}.txt
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish release
+    needs: [check, build]
+    # Only publish complete sets, so the per-platform download links on the
+    # latest release never go missing.
+    if: github.event_name == 'schedule' || inputs.publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      AVM_SHA: ${{ needs.check.outputs.sha }}
+      TAG: ${{ needs.check.outputs.tag }}
+      KEEP_RELEASES: 30
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Write release notes
+        run: |
+          {
+            echo "Unofficial build of [AVM](https://github.com/AOMediaCodec/avm), the AV2 reference"
+            echo "encoder (\`avmenc\`) and decoder (\`avmdec\`), at commit"
+            echo "[\`${AVM_SHA:0:10}\`](https://github.com/AOMediaCodec/avm/commit/$AVM_SHA)."
+            echo
+            echo "AV2 streams made with one AVM version may not decode with another."
+            echo
+            echo "<details><summary>Build details</summary>"
+            echo
+            for f in dist/BUILD_INFO-*.txt; do
+              echo '```'; cat "$f"; echo '```'
+            done
+            echo "</details>"
+          } > notes.md
+          cat notes.md
+
+      - name: Create release
+        run: |
+          # A forced rebuild of the same AVM commit on the same day replaces
+          # the earlier release.
+          gh release delete "$TAG" --cleanup-tag --yes 2>/dev/null || true
+          gh release create "$TAG" dist/avm-*.zip dist/avm-*.tar.gz \
+            --target "$GITHUB_SHA" --latest \
+            --title "AVM nightly ${TAG#avm-nightly-}" --notes-file notes.md
+
+      - name: Remove old nightlies
+        run: |
+          gh release list --limit 300 --json tagName,createdAt \
+            --jq "[.[] | select(.tagName | startswith(\"avm-nightly-\"))]
+                  | sort_by(.createdAt) | reverse | .[$KEEP_RELEASES:] | .[].tagName" |
+          while read -r old; do
+            echo "Deleting $old"
+            gh release delete "$old" --cleanup-tag --yes
+          done

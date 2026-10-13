@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AV2 nightly builds</title>
+<meta name="description" content="Unofficial nightly builds of AVM, the AV2 reference encoder and decoder, for Windows, macOS and Linux.">
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1d1f23; --muted: #5d636e; --line: #dedbd3;
+    --card: #ffffff; --accent: #0b6e63; --accent-fg: #ffffff; --code: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a; --fg: #e8e6e1; --muted: #a1a7b1; --line: #2e3238;
+      --card: #1c1f23; --accent: #4fc3b3; --accent-fg: #0d1513; --code: #22262b;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 1.2rem; margin: 40px 0 12px; }
+  p { margin: 0 0 12px; }
+  .lead { color: var(--muted); font-size: 1.05rem; }
+  a { color: var(--accent); }
+  .status {
+    margin: 24px 0 12px; padding: 12px 16px; border: 1px solid var(--line);
+    border-radius: 8px; background: var(--card); font-size: 0.95rem;
+  }
+  .downloads { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .dl {
+    display: block; padding: 14px 16px; border-radius: 8px; text-decoration: none;
+    background: var(--card); border: 1px solid var(--line); color: var(--fg);
+  }
+  .dl:hover, .dl:focus-visible { border-color: var(--accent); }
+  .dl.mine { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  .dl strong { display: block; }
+  .dl span { font-size: 0.85rem; opacity: 0.8; }
+  pre {
+    background: var(--code); border-radius: 8px; padding: 12px 16px;
+    overflow-x: auto; font: 0.9rem/1.5 ui-monospace, Consolas, Menlo, monospace;
+  }
+  code { font-family: ui-monospace, Consolas, Menlo, monospace; font-size: 0.92em; }
+  li { margin-bottom: 6px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>AV2 nightly builds</h1>
+  <p class="lead">Ready-to-run builds of AVM, the AV2 reference encoder
+  (<code>avmenc</code>) and decoder (<code>avmdec</code>), rebuilt whenever
+  AVM changes. No compiler needed.</p>
+
+  <div class="status" id="status">
+    Latest build: see the
+    <a href="https://github.com/EwoutH/AV2/releases/latest">latest release</a>.
+  </div>
+
+  <div class="downloads">
+    <a class="dl" data-os="windows-x64" href="https://github.com/EwoutH/AV2/releases/latest/download/avm-windows-x64.zip">
+      <strong>Windows</strong><span>x64 · .zip</span></a>
+    <a class="dl" data-os="macos-arm64" href="https://github.com/EwoutH/AV2/releases/latest/download/avm-macos-arm64.tar.gz">
+      <strong>macOS, Apple Silicon</strong><span>arm64 · .tar.gz</span></a>
+    <a class="dl" data-os="macos-x64" href="https://github.com/EwoutH/AV2/releases/latest/download/avm-macos-x64.tar.gz">
+      <strong>macOS, Intel</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-x64" href="https://github.com/EwoutH/AV2/releases/latest/download/avm-linux-x64.tar.gz">
+      <strong>Linux</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-arm64" href="https://github.com/EwoutH/AV2/releases/latest/download/avm-linux-arm64.tar.gz">
+      <strong>Linux, ARM</strong><span>arm64 · .tar.gz</span></a>
+  </div>
+  <p style="margin-top:12px"><a href="https://github.com/EwoutH/AV2/releases">Older builds</a></p>
+
+  <h2>Quick start</h2>
+  <p>Unpack the archive and run the tools from a terminal. The encoder reads
+  <code>.y4m</code> video; <a href="https://ffmpeg.org/">FFmpeg</a> can make
+  one from almost any file.</p>
+<pre>ffmpeg -i input.mp4 -pix_fmt yuv420p -frames:v 30 input.y4m
+avmenc input.y4m -o output.ivf --ivf --end-usage=q --qp=160 --cpu-used=6
+avmdec output.ivf -o decoded.y4m</pre>
+  <ul>
+    <li><code>--qp</code> sets quality: lower is better and larger. The AV2
+    test conditions use 110 to 235.</li>
+    <li><code>--cpu-used</code> sets speed, 0 (slowest) to 9. AVM is research
+    software and slow at any setting: expect seconds per frame, or minutes
+    for HD.</li>
+    <li>On macOS, downloaded tools are blocked at first. Allow them with
+    <code>xattr -d com.apple.quarantine avmenc avmdec</code>.</li>
+  </ul>
+
+  <h2>Good to know</h2>
+  <ul>
+    <li>These builds are unofficial and not from the Alliance for Open
+    Media.</li>
+    <li>AV2 is still changing. A stream made with one build may not decode
+    with another, so note the AVM commit in <code>BUILD_INFO.txt</code>.</li>
+    <li>TensorFlow Lite and the two encoder experiments that need it are
+    turned off, so all platforms use the same encoder configuration.</li>
+    <li>AVM is licensed under the BSD 3-Clause Clear License and the AOM
+    Patent License; both are included in each download.</li>
+  </ul>
+
+  <footer>
+    Built by a nightly GitHub Actions job in
+    <a href="https://github.com/EwoutH/AV2">EwoutH/AV2</a> from
+    <a href="https://github.com/AOMediaCodec/avm">AOMediaCodec/avm</a>.
+  </footer>
+</main>
+<script>
+  // Highlight the download that matches this computer.
+  (function () {
+    var ua = navigator.userAgent, os = null;
+    if (/Windows/.test(ua)) os = "windows-x64";
+    else if (/Mac OS X/.test(ua)) os = "macos-arm64";
+    else if (/Linux/.test(ua) && !/Android/.test(ua))
+      os = /aarch64|arm64/.test(ua) ? "linux-arm64" : "linux-x64";
+    var el = os && document.querySelector('[data-os="' + os + '"]');
+    if (el) el.classList.add("mine");
+  })();
+
+  // Show which AVM commit the latest build is from.
+  fetch("https://api.github.com/repos/EwoutH/AV2/releases/latest")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (rel) {
+      var m = /^avm-nightly-(\d{4})(\d{2})(\d{2})-([0-9a-f]+)$/.exec(rel.tag_name);
+      if (!m) return;
+      var status = document.getElementById("status");
+      status.textContent = "Latest build: " + m[1] + "-" + m[2] + "-" + m[3] + ", AVM commit ";
+      var a = document.createElement("a");
+      a.href = "https://github.com/AOMediaCodec/avm/commits/" + m[4];
+      a.textContent = m[4];
+      status.appendChild(a);
+    })
+    .catch(function () {});
+</script>
+</body>
+</html>
