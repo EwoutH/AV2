@@ -724,6 +724,7 @@ def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
                 # carriage-return update" of every line would be empty.
                 f.write(line.rstrip("\r").rsplit("\r", 1)[-1] + "\n")
             pending = pending.rsplit("\r", 1)[-1]
+            f.flush()  # keep the log readable while the encode runs
             if proc:
                 try:
                     mi = proc.memory_info()
