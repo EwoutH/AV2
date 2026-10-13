@@ -218,6 +218,34 @@ TFLITE_DEP_RE = re.compile(
     r"Enabled CONFIG_TENSORFLOW_LITE, required for (CONFIG_\w+)")
 MAX_CONFIGURE_ATTEMPTS = 10
 
+# MSVC 19.51 (Visual Studio 2026 18.10) never finishes compiling
+# highbd_variance_avx2.c at /O2: its SSA optimizer loops forever, so the
+# whole build hangs. Turning that one optimizer pass off for that one file
+# works around it. CMake runs this file right after AVM's project() call
+# (CMAKE_PROJECT_INCLUDE), so the AVM checkout itself stays unmodified.
+#
+# /MAP makes the linker write avmenc.map next to avmenc.exe. It doesn't
+# change the code, and lets a crash be traced to a function: Windows logs
+# the fault offset (Event Viewer > Application > "Application Error").
+MSVC_WORKAROUNDS_CMAKE = """\
+if(MSVC AND MSVC_VERSION GREATER_EQUAL 1950)
+  set_source_files_properties(
+    "${CMAKE_SOURCE_DIR}/avm_dsp/x86/highbd_variance_avx2.c"
+    PROPERTIES COMPILE_OPTIONS "/d2SSAOptimizer-")
+endif()
+if(MSVC)
+  string(APPEND CMAKE_EXE_LINKER_FLAGS " /MAP")
+endif()
+"""
+
+
+def msvc_workaround_flags(work: Path) -> list:
+    if os.name != "nt":
+        return []
+    path = work / "avm_msvc_workarounds.cmake"
+    path.write_text(MSVC_WORKAROUNDS_CMAKE)
+    return [f"-DCMAKE_PROJECT_INCLUDE={path.as_posix()}"]
+
 
 def _force_remove(func, path, _exc):
     # Read-only files block rmtree on Windows.
@@ -298,7 +326,8 @@ def build_avm(work: Path, ref, jobs: int, logs: Path, cmake_args: list,
     commit = run(["git", "rev-parse", "HEAD"], blog, cwd=src,
                  capture=True).strip()
 
-    flags = BASE_CMAKE_ARGS + learned_disables(work) + cmake_args
+    flags = (BASE_CMAKE_ARGS + msvc_workaround_flags(work)
+             + learned_disables(work) + cmake_args)
     exe = ".exe" if os.name == "nt" else ""
     stamp_path = build / "build_stamp.json"
     try:
@@ -654,10 +683,11 @@ def progress_reporter(progress: Progress, interval: float,
 # --------------------------------------------------------------------------
 # Encode + verify
 # --------------------------------------------------------------------------
-# aomenc-style status lines look like "Pass 1/1 frame   45/12  ...", where
-# the two numbers are frames read in and frames written out. The smaller
-# one is the conservative measure of real progress.
-ENC_PROGRESS_RE = re.compile(r"frame\s+(\d+)\s*/\s*(\d+)")
+# avmenc prints one line per coded frame, in coding order, e.g.
+#   POC:     4 [INTER][Level:2][Q:160]:   164 Bytes, 10280.7ms  [...] 1280x720
+# so progress is the number of such lines seen. (When its output is a pipe
+# they arrive in bursts of a few frames, as the C runtime buffers stdout.)
+ENC_PROGRESS_RE = re.compile(r"POC:\s+\d+ ")
 
 
 def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
@@ -679,19 +709,20 @@ def run_encoder(cmd, logfile: Path, name: str, progress: Progress) -> float:
             except psutil.Error:
                 pass
         pending = ""
+        frames_done = 0
         while True:
             chunk = p.stdout.read1(65536)
             if not chunk:
                 break
-            text = chunk.decode("utf-8", errors="replace")
-            matches = ENC_PROGRESS_RE.findall(text)
-            if matches:
-                a, b = matches[-1]
-                progress.update(name, min(int(a), int(b)))
-            pending += text
+            pending += chunk.decode("utf-8", errors="replace")
             *lines, pending = pending.split("\n")
             for line in lines:
-                f.write(line.rsplit("\r", 1)[-1] + "\n")
+                if ENC_PROGRESS_RE.match(line):
+                    frames_done += 1
+                    progress.update(name, frames_done)
+                # Strip the CR of a Windows CRLF first; otherwise the "last
+                # carriage-return update" of every line would be empty.
+                f.write(line.rstrip("\r").rsplit("\r", 1)[-1] + "\n")
             pending = pending.rsplit("\r", 1)[-1]
             if proc:
                 try:
@@ -725,9 +756,9 @@ def encode_job(ctx, src: Path, out: Path, qp: int, priority: int):
         log(f"Encoding {out.name} (est. {held:.1f} GB)")
         t0 = time.time()
         ok = False
+        tmp = out.with_name(out.name + ".part")
         try:
-            tmp = out.with_name(out.name + ".part")
-            fmt = ["--obu"] if ctx.container == "obu" else ["--ivf"]
+            fmt =["--obu"] if ctx.container == "obu" else ["--ivf"]
             speed = [] if ctx.cpu_used is None else [f"--cpu-used={ctx.cpu_used}"]
             peak = run_encoder(
                 [ctx.enc, src, "-o", tmp, *fmt, f"--limit={ctx.frames}",
@@ -741,6 +772,8 @@ def encode_job(ctx, src: Path, out: Path, qp: int, priority: int):
                 f"({total / el:.2f} fps{mem})")
             ctx.budget.observe(mpix, peak)
         finally:
+            if not ok:
+                tmp.unlink(missing_ok=True)  # don't leave partial streams
             ctx.budget.release(held)
             ctx.progress.finish(name, ok)
 
