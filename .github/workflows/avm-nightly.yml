@@ -142,8 +142,11 @@ jobs:
               extra+=("-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0") ;;
             Windows)
               # Static C runtime: no Visual C++ redistributable needed.
-              arch=x64; if [[ "$RUNNER_ARCH" == ARM64 ]]; then arch=ARM64; fi
-              extra+=("-A" "$arch" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
+              # AVM's NEON code uses GCC-style vector types that MSVC rejects,
+              # so the Arm build uses Visual Studio's bundled clang-cl.
+              arch=(-A x64)
+              if [[ "$RUNNER_ARCH" == ARM64 ]]; then arch=(-A ARM64 -T ClangCL); fi
+              extra+=("${arch[@]}" "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded"
                       "-DCMAKE_PROJECT_INCLUDE=$(cygpath -m "$GITHUB_WORKSPACE/ci/avm_msvc_workarounds.cmake")") ;;
           esac
           cmake -S avm -B build $AVM_CMAKE_FLAGS "${extra[@]}" 2>&1 | tee configure.log
@@ -250,12 +253,14 @@ jobs:
 
       - name: Create release
         run: |
-          # A forced rebuild of the same AVM commit on the same day replaces
-          # the earlier release.
-          gh release delete "$TAG" --cleanup-tag --yes 2>/dev/null || true
-          gh release create "$TAG" dist/avm-*.zip dist/avm-*.tar.gz \
-            --target "$GITHUB_SHA" --latest \
-            --title "AVM nightly ${TAG#avm-nightly-}" --notes-file notes.md
+          # A forced rebuild of an AVM commit on the same day updates the
+          # existing release in place, so its downloads never disappear.
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" dist/avm-*.zip dist/avm-*.tar.gz --clobber
+            gh release edit "$TAG" --notes-file notes.md --latest
+          else
+            gh release create "$TAG" dist/avm-*.zip dist/avm-*.tar.gz --latest               --title "AVM nightly ${TAG#avm-nightly-}" --notes-file notes.md
+          fi
 
       - name: Remove old nightlies
         run: |
