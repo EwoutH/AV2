@@ -1,0 +1,298 @@
+name: AV2 decoder nightly builds
+
+# Builds the dav2d (C) and rav2d (Rust) AV2 decoders from their latest
+# commits and publishes each as its own GitHub release. A decoder is only
+# rebuilt on nights it has new commits. These releases never become the
+# repository's "latest" release; that stays the AVM build.
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # 06:00 UTC, after the AVM build
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Build even if a release for the current commits exists
+        type: boolean
+        default: false
+      publish:
+        description: Publish releases (untick for a build-only test run)
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: decoders-nightly
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  DAV2D_REPO: https://code.videolan.org/videolan/dav2d.git
+  RAV2D_REPO: https://github.com/stukenov/rav2d.git
+  # Small 8-bit sample decoded by every build; its avmdec MD5 is in the manifest.
+  TEST_STREAM: samples/FourPeople_480x270_60_qp210_130f.ivf
+
+jobs:
+  check:
+    name: Check for new decoder commits
+    runs-on: ubuntu-latest
+    outputs:
+      dav2d_sha: ${{ steps.resolve.outputs.dav2d_sha }}
+      dav2d_tag: ${{ steps.resolve.outputs.dav2d_tag }}
+      dav2d_build: ${{ steps.resolve.outputs.dav2d_build }}
+      rav2d_sha: ${{ steps.resolve.outputs.rav2d_sha }}
+      rav2d_tag: ${{ steps.resolve.outputs.rav2d_tag }}
+      rav2d_build: ${{ steps.resolve.outputs.rav2d_build }}
+    steps:
+      - name: Resolve decoder commits
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force || false }}
+        run: |
+          tags=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 300 \
+                   --json tagName --jq '.[].tagName')
+          for name in dav2d rav2d; do
+            repo_var=${name^^}_REPO
+            sha=$(git ls-remote "${!repo_var}" HEAD | cut -f 1)
+            [[ -n "$sha" ]] || { echo "::error::Can't resolve $name HEAD"; exit 1; }
+            short=${sha:0:10}
+            # One release per commit: a forced rebuild reuses its tag.
+            tag=$(grep -m 1 -- "^$name-nightly-.*-$short\$" <<< "$tags" || true)
+            build=true
+            if [[ -n "$tag" && "$FORCE" != "true" ]]; then
+              echo "$name $short was already published as $tag; nothing to do."
+              build=false
+            fi
+            tag=${tag:-$name-nightly-$(date -u +%Y%m%d)-$short}
+            {
+              echo "${name}_sha=$sha"
+              echo "${name}_tag=$tag"
+              echo "${name}_build=$build"
+            } >> "$GITHUB_OUTPUT"
+            echo "$name commit \`$sha\`, build: $build" >> "$GITHUB_STEP_SUMMARY"
+          done
+
+  dav2d:
+    name: dav2d (${{ matrix.platform }})
+    needs: check
+    if: needs.check.outputs.dav2d_build == 'true'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: linux-x64,     runner: ubuntu-26.04 }
+          - { platform: linux-arm64,   runner: ubuntu-26.04-arm }
+          - { platform: macos-arm64,   runner: macos-26 }
+          - { platform: macos-x64,     runner: macos-26-intel }
+          - { platform: windows-x64,   runner: windows-2025 }
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      SHA: ${{ needs.check.outputs.dav2d_sha }}
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Fetch dav2d
+        run: |
+          git init -q src
+          git -C src fetch -q --depth 1 "$DAV2D_REPO" "$SHA"
+          git -C src checkout -q FETCH_HEAD
+
+      # meson and ninja from PyPI are current on every runner; nasm is
+      # needed for the x86 assembly.
+      - name: Install build tools
+        run: |
+          pip install -q meson ninja
+          case "$RUNNER_OS-$RUNNER_ARCH" in
+            Linux-X64) sudo apt-get update -q && sudo apt-get install -y -q nasm ;;
+            macOS-X64) brew install nasm ;;
+            Windows-*)
+              choco install nasm -y --no-progress
+              echo 'C:\Program Files\NASM' >> "$GITHUB_PATH" ;;
+          esac
+
+      - name: Configure
+        run: |
+          extra=()
+          case "$RUNNER_OS" in
+            Linux) extra+=("-Dc_link_args=-static-libgcc") ;;
+            # MSVC with a static C runtime: no redistributable needed.
+            Windows) extra+=("--vsenv" "-Db_vscrt=mt") ;;
+          esac
+          meson setup build src --buildtype release -Ddefault_library=static \
+            -Denable_tests=false -Denable_docs=false "${extra[@]}" | tee configure.log
+
+      - name: Build
+        run: meson compile -C build
+
+      - name: Decode test
+        run: |
+          exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
+          echo "BIN=build/tools/dav2d$exe" >> "$GITHUB_ENV"
+          python ci/decode_test.py dav2d "build/tools/dav2d$exe" "$TEST_STREAM" samples/manifest.txt | tee test.log
+
+      - name: Package
+        run: |
+          compiler=$(grep -m 1 '^C compiler for the host machine' configure.log | sed 's/^[^:]*: *//')
+          bash ci/package_decoder.sh dav2d "$BIN" "$compiler" src/COPYING src/doc/PATENTS
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dav2d-${{ matrix.platform }}
+          path: |
+            dav2d-${{ matrix.platform }}.zip
+            dav2d-${{ matrix.platform }}.tar.gz
+            BUILD_INFO-dav2d-${{ matrix.platform }}.txt
+          if-no-files-found: error
+          retention-days: 7
+
+  rav2d:
+    name: rav2d (${{ matrix.platform }})
+    needs: check
+    if: needs.check.outputs.rav2d_build == 'true'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: linux-x64,     runner: ubuntu-26.04 }
+          - { platform: linux-arm64,   runner: ubuntu-26.04-arm }
+          - { platform: macos-arm64,   runner: macos-26 }
+          - { platform: macos-x64,     runner: macos-26-intel }
+          - { platform: windows-x64,   runner: windows-2025 }
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      SHA: ${{ needs.check.outputs.rav2d_sha }}
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      # The CLI uses the pure-Rust decoder only, so the dav2d submodule
+      # (a test oracle) isn't needed.
+      - name: Fetch rav2d
+        run: |
+          git init -q src
+          git -C src fetch -q --depth 1 "$RAV2D_REPO" "$SHA"
+          git -C src checkout -q FETCH_HEAD
+
+      - name: Build
+        run: |
+          rustup update stable --no-self-update
+          rustup default stable
+          # Static C runtime on Windows: no redistributable needed.
+          [[ "$RUNNER_OS" == Windows ]] && export RUSTFLAGS="-C target-feature=+crt-static"
+          cargo build --manifest-path src/Cargo.toml --release --locked -p rav2d-cli --bin rav2d
+          exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
+          echo "BIN=src/target/release/rav2d$exe" >> "$GITHUB_ENV"
+
+      - name: Decode test
+        run: python ci/decode_test.py rav2d "$BIN" "$TEST_STREAM" samples/manifest.txt | tee test.log
+
+      - name: Package
+        run: bash ci/package_decoder.sh rav2d "$BIN" "$(rustc --version)" src/LICENSE
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: rav2d-${{ matrix.platform }}
+          path: |
+            rav2d-${{ matrix.platform }}.zip
+            rav2d-${{ matrix.platform }}.tar.gz
+            BUILD_INFO-rav2d-${{ matrix.platform }}.txt
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish ${{ matrix.name }}
+    needs: [check, dav2d, rav2d]
+    # Each decoder is published on its own, and only as a complete set of
+    # platforms, so a failure of one doesn't hold back the other.
+    if: always() && (github.event_name == 'schedule' || inputs.publish)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        name: [dav2d, rav2d]
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      NAME: ${{ matrix.name }}
+      SHA: ${{ needs.check.outputs[format('{0}_sha', matrix.name)] }}
+      TAG: ${{ needs.check.outputs[format('{0}_tag', matrix.name)] }}
+      KEEP_RELEASES: 30
+      RESULT: ${{ needs[matrix.name].result }}
+    steps:
+      - name: Check build result
+        run: echo "$NAME builds: $RESULT"
+
+      - uses: actions/download-artifact@v8
+        if: env.RESULT == 'success'
+        with:
+          path: dist
+          pattern: ${{ matrix.name }}-*
+          merge-multiple: true
+
+      - name: Write release notes
+        if: env.RESULT == 'success'
+        run: |
+          case "$NAME" in
+            dav2d) url=https://code.videolan.org/videolan/dav2d; commit=$url/-/commit/$SHA
+                   about="the VideoLAN AV2 decoder (C)" ;;
+            rav2d) url=https://github.com/stukenov/rav2d; commit=$url/commit/$SHA
+                   about="an AV2 decoder in Rust" ;;
+          esac
+          {
+            echo "Unofficial build of [$NAME]($url), $about, at commit"
+            echo "[\`${SHA:0:10}\`]($commit)."
+            echo
+            echo "Each build decodes \`$(basename "$TEST_STREAM")\` from this repository"
+            echo "(made with AVM) and compares the output with avmdec's MD5."
+            echo
+            echo "| Platform | Compiler | Decode test |"
+            echo "|---|---|---|"
+            for f in dist/BUILD_INFO-*.txt; do
+              field() { grep "^$1:" "$f" | sed "s/^$1: *//"; }
+              echo "| $(field Platform) | $(field Compiler) | $(field 'Decode test') |"
+            done
+          } > notes.md
+          cat notes.md
+
+      - name: Create release
+        if: env.RESULT == 'success'
+        run: |
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            gh release upload "$TAG" dist/$NAME-*.zip dist/$NAME-*.tar.gz --clobber
+            gh release edit "$TAG" --notes-file notes.md --latest=false
+          else
+            gh release create "$TAG" dist/$NAME-*.zip dist/$NAME-*.tar.gz \
+              --title "$NAME nightly ${TAG#$NAME-nightly-}" \
+              --notes-file notes.md --latest=false
+          fi
+
+      - name: Remove old nightlies
+        if: env.RESULT == 'success'
+        run: |
+          gh release list --limit 300 --json tagName,createdAt \
+            --jq "[.[] | select(.tagName | startswith(\"$NAME-nightly-\"))]
+                  | sort_by(.createdAt) | reverse | .[$KEEP_RELEASES:] | .[].tagName" |
+          while read -r old; do
+            echo "Deleting $old"
+            gh release delete "$old" --cleanup-tag --yes
+          done
