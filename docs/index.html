@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AV2 nightly builds</title>
-<meta name="description" content="Unofficial nightly builds of AVM, the AV2 reference encoder and decoder, for Windows, macOS and Linux.">
+<meta name="description" content="Unofficial nightly builds of AVM, the AV2 reference encoder and decoder, and the dav2d and rav2d decoders, for Windows, macOS and Linux.">
 <style>
   :root {
     --bg: #fbfaf7; --fg: #1d1f23; --muted: #5d636e; --line: #dedbd3;
@@ -24,6 +24,7 @@
   main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
   h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
   h2 { font-size: 1.2rem; margin: 40px 0 12px; }
+  h3 { font-size: 1rem; margin: 24px 0 8px; }
   p { margin: 0 0 12px; }
   .lead { color: var(--muted); font-size: 1.05rem; }
   a { color: var(--accent); }
@@ -92,6 +93,47 @@ avmdec output.ivf -o decoded.y4m</pre>
     <code>xattr -d com.apple.quarantine avmenc avmdec</code>.</li>
   </ul>
 
+  <h2>Other AV2 decoders</h2>
+  <p>Nightly builds of two independent AV2 decoders, rebuilt whenever they
+  change: <a href="https://code.videolan.org/videolan/dav2d">dav2d</a> from
+  VideoLAN (C, a sibling of dav1d) and
+  <a href="https://github.com/stukenov/rav2d">rav2d</a> (Rust). Both only
+  decode; use AVM to make streams.</p>
+  <h3>dav2d</h3>
+  <p class="status" id="status-dav2d">Latest build: see the <a href="https://github.com/EwoutH/AV2/releases">releases</a>.</p>
+  <div class="downloads" data-decoder="dav2d">
+    <a class="dl" data-os="windows-x64" data-file="dav2d-windows-x64.zip" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Windows</strong><span>x64 · .zip</span></a>
+    <a class="dl" data-os="macos-arm64" data-file="dav2d-macos-arm64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>macOS, Apple Silicon</strong><span>arm64 · .tar.gz</span></a>
+    <a class="dl" data-os="macos-x64" data-file="dav2d-macos-x64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>macOS, Intel</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-x64" data-file="dav2d-linux-x64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Linux</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-arm64" data-file="dav2d-linux-arm64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Linux, ARM</strong><span>arm64 · .tar.gz</span></a>
+  </div>
+<pre>dav2d -i input.ivf -o decoded.y4m</pre>
+  <h3>rav2d</h3>
+  <p class="status" id="status-rav2d">Latest build: see the <a href="https://github.com/EwoutH/AV2/releases">releases</a>.</p>
+  <div class="downloads" data-decoder="rav2d">
+    <a class="dl" data-os="windows-x64" data-file="rav2d-windows-x64.zip" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Windows</strong><span>x64 · .zip</span></a>
+    <a class="dl" data-os="macos-arm64" data-file="rav2d-macos-arm64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>macOS, Apple Silicon</strong><span>arm64 · .tar.gz</span></a>
+    <a class="dl" data-os="macos-x64" data-file="rav2d-macos-x64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>macOS, Intel</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-x64" data-file="rav2d-linux-x64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Linux</strong><span>x64 · .tar.gz</span></a>
+    <a class="dl" data-os="linux-arm64" data-file="rav2d-linux-arm64.tar.gz" href="https://github.com/EwoutH/AV2/releases">
+      <strong>Linux, ARM</strong><span>arm64 · .tar.gz</span></a>
+  </div>
+<pre>rav2d input.ivf -o decoded.y4m</pre>
+  <p>Each build decodes one of this repository's sample streams and compares
+  the result with avmdec; the result is in <code>BUILD_INFO.txt</code> and the
+  release notes. Both are BSD 2-Clause licensed; the licence files are
+  included in each download.</p>
+
   <h2>Good to know</h2>
   <ul>
     <li>These builds are unofficial and not from the Alliance for Open
@@ -118,8 +160,9 @@ avmdec output.ivf -o decoded.y4m</pre>
     else if (/Mac OS X/.test(ua)) os = "macos-arm64";
     else if (/Linux/.test(ua) && !/Android/.test(ua))
       os = /aarch64|arm64/.test(ua) ? "linux-arm64" : "linux-x64";
-    var el = os && document.querySelector('[data-os="' + os + '"]');
-    if (el) el.classList.add("mine");
+    if (os) document.querySelectorAll('[data-os="' + os + '"]').forEach(function (el) {
+      el.classList.add("mine");
+    });
   })();
 
   // Show which AVM commit the latest build is from.
@@ -134,6 +177,28 @@ avmdec output.ivf -o decoded.y4m</pre>
       a.href = "https://github.com/AOMediaCodec/avm/commits/" + m[4];
       a.textContent = m[4];
       status.appendChild(a);
+    })
+    .catch(function () {});
+
+  // Point the decoder downloads at the newest dav2d and rav2d releases.
+  fetch("https://api.github.com/repos/EwoutH/AV2/releases?per_page=100")
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (rels) {
+      ["dav2d", "rav2d"].forEach(function (name) {
+        var re = new RegExp("^" + name + "-nightly-(\\d{4})(\\d{2})(\\d{2})-([0-9a-f]+)$");
+        var rel = rels.filter(function (r) { return re.test(r.tag_name); })[0];
+        if (!rel) return;
+        var m = re.exec(rel.tag_name);
+        document.querySelectorAll('[data-decoder="' + name + '"] a').forEach(function (a) {
+          a.href = "https://github.com/EwoutH/AV2/releases/download/" + rel.tag_name + "/" + a.dataset.file;
+        });
+        var status = document.getElementById("status-" + name);
+        status.textContent = "Latest build: " + m[1] + "-" + m[2] + "-" + m[3] + ", commit ";
+        var a = document.createElement("a");
+        a.href = rel.html_url;
+        a.textContent = m[4];
+        status.appendChild(a);
+      });
     })
     .catch(function () {});
 </script>
