@@ -759,7 +759,7 @@ def encode_job(ctx, src: Path, out: Path, qp: int, priority: int):
         ok = False
         tmp = out.with_name(out.name + ".part")
         try:
-            fmt =["--obu"] if ctx.container == "obu" else ["--ivf"]
+            fmt = ["--obu"] if ctx.container == "obu" else ["--ivf"]
             speed = [] if ctx.cpu_used is None else [f"--cpu-used={ctx.cpu_used}"]
             peak = run_encoder(
                 [ctx.enc, src, "-o", tmp, *fmt, f"--limit={ctx.frames}",
@@ -773,8 +773,9 @@ def encode_job(ctx, src: Path, out: Path, qp: int, priority: int):
                 f"({total / el:.2f} fps{mem})")
             ctx.budget.observe(mpix, peak)
         finally:
-            if not ok:
-                tmp.unlink(missing_ok=True)  # don't leave partial streams
+            if not ok and tmp.exists():
+                # Kept on purpose: the frames written so far decode fine.
+                log(f"Kept partial output {tmp.name} (not a finished stream)")
             ctx.budget.release(held)
             ctx.progress.finish(name, ok)
 
@@ -927,8 +928,11 @@ def main():
             # which (not the pool) decides order and how many run, so a
             # middle-QP encode submitted later still overtakes queued
             # encodes at other QPs.
+            # Name the file by the frames it will contain, which is less than
+            # --frames when the source clip is shorter.
+            frames = min(args.frames, y4m_frame_count(src))
             for qp in [mid_qp] + later:
-                out = out_dir / (f"{src.stem}_qp{qp}_{args.frames}f"
+                out = out_dir / (f"{src.stem}_qp{qp}_{frames}f"
                                  f".{args.container}")
                 progress.add_job()
                 enc_futs.append(enc_pool.submit(
@@ -948,7 +952,8 @@ def main():
         # Record exactly what produced these streams.
         f.write(f"# AVM commit: {commit}\n")
         f.write(f"# CMake flags: {' '.join(cmake_flags)}\n")
-        f.write(f"# frames={args.frames} speed: {speed_note} "
+        f.write(f"# --frames limit={args.frames} (file names give the frames "
+                f"each stream holds) speed: {speed_note} "
                 f"extra_args='{args.extra_args}'\n")
         f.write("# file\tbytes\tmd5(decoded, avmdec --md5)\n")
         for name, size, md5 in results:
