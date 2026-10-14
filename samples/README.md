@@ -9,17 +9,29 @@ decode with other versions.
 
 ## Streams
 
-| Source clip | Resolution | QPs |
-|---|---|---|
-| FourPeople_480x270_60 | 480x270 | 110, 160, 210 |
-| Vertical_Bayshore_270x480_2997 | 270x480 (vertical) | 110, 160, 210 |
-| BlueSky_360p25_v2 | 360p | 110, 160, 210 |
+| Source clip | Resolution | QP | Frames |
+|---|---|---|---|
+| FourPeople_480x270_60 | 480x270 | 110, 160, 210 | 130 |
+| Vertical_Bayshore_270x480_2997 | 270x480 (vertical) | 110, 160, 210 | 130 |
+| BlueSky_360p25_v2 | 360p | 110, 160, 210 | 130 |
+| KristenAndSara_1280x720_60 | 1280x720 | 160 | 240 |
+| vidyo4_720p_60fps | 1280x720 | 160 | 240 |
+| Netflix_DrivingPOV_720p_60fps_10bit_420 | 1280x720, 10-bit | 160 | 209 |
+| Vertical_bees_2997_1080x1920 | 1080x1920 (vertical) | 160 | 150 |
+| old_town_cross_1080p50 | 1920x1080 | 160 | 188 |
+| RitualDance_1920x1080_60fps_10bit_420 | 1920x1080, 10-bit | 160 | 120 |
+| TunnelFlag_1920x1080_60fps_10bit_420 | 1920x1080, 10-bit | 160 | 73 |
 
-Each clip is encoded at three quality levels: QP 110 (high), 160
-(medium) and 210 (low), from the AV2 Common Test Conditions (CTC) QP
-range. Files are named `<clip>_qp<QP>_<frames>f.ivf`; the frame count in
-the name is the requested maximum, so shorter source clips contain fewer
-frames. 720p and 1080p streams will follow.
+The QPs are from the AV2 Common Test Conditions (CTC) Random Access range
+(110 high quality to 210 low quality). The 480x270, 270x480 and 360p
+clips were encoded at all three QPs; the 720p and 1080p streams are at
+QP 160 only.
+
+Files are named `<clip>_qp<QP>_<frames>f.ivf`, where `<frames>` is the
+number of frames the stream decodes to. The 720p and 1080p streams stop
+early: their encodes were interrupted, and the streams are the frames
+written before that, which decode without errors. The rest of each clip
+is not included.
 
 `manifest.txt` lists the MD5 of each stream's decoded output, as
 reported by the reference decoder (`avmdec --md5`). Use these to check
@@ -36,6 +48,11 @@ another decoder's output.
   -DCONFIG_DIP_EXT_PRUNING=0`. TensorFlow Lite doesn't build on
   Windows, so it and the two experiments that need it were turned off.
   This differs from AVM's default configuration.
+- **Compiler:** the 480x270, 270x480 and 360p streams were built with
+  Visual Studio 2022 (MSVC 19.34). The 720p and 1080p streams were built
+  with Visual Studio 2026 (MSVC 19.51), which needs one extra flag,
+  `/d2SSAOptimizer-` for `avm_dsp/x86/highbd_variance_avx2.c`, to
+  compile (https://github.com/AOMediaCodec/avm/issues/5532).
 - **Encoder settings:** `--end-usage=q --qp=<QP> --cpu-used=6`, IVF
   container
 - **Script:** `encode_samples.py` does everything: builds AVM, downloads
