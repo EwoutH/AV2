@@ -1,6 +1,7 @@
 # AVM commit: 01803db6afa5a0616702a3814fc5934ab9e99adf
 # CMake flags: -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=0 -DENABLE_DOCS=0 -DCONFIG_TENSORFLOW_LITE=0 -DCONFIG_ML_PART_SPLIT=0 -DCONFIG_DIP_EXT_PRUNING=0
 # Encoder settings: --end-usage=q --qp=<QP> --cpu-used=6
+# Streams from the 720p/1080p run also needed /d2SSAOptimizer- for avm_dsp/x86/highbd_variance_avx2.c (MSVC 19.51 workaround; https://github.com/AOMediaCodec/avm/issues/5532)
 # file	bytes	md5(decoded, avmdec --md5)
 BlueSky_360p25_v2_qp110_600f.ivf	487979	25655247475bb74a7cf21258aabb0806
 BlueSky_360p25_v2_qp160_600f.ivf	114797	c77bff30ccab0cdc9d5fa2173ec69f4a
@@ -11,3 +12,10 @@ FourPeople_480x270_60_qp210_600f.ivf	35244	f4c6de762e3ff80f09cf0524601f3e66
 Vertical_Bayshore_270x480_2997_qp110_600f.ivf	312827	ca655c3526a2fca23072c698faccddf7
 Vertical_Bayshore_270x480_2997_qp160_600f.ivf	61460	2449806c63dc0b91404c6f83b4bfb55c
 Vertical_Bayshore_270x480_2997_qp210_600f.ivf	19564	873cc940330c8a470934ad2ca6507a9f
+Netflix_DrivingPOV_720p_60fps_10bit_420_qp160_209f.ivf	694427	a5490f001ed6bf1cd9c9ba03a15f8549
+KristenAndSara_1280x720_60_qp160_240f.ivf	181753	5eab9e323d110301f237b7d4034234e2
+old_town_cross_1080p50_qp160_188f.ivf	396199	5c003b25668a30d57799ccb67e6087a8
+RitualDance_1920x1080_60fps_10bit_420_qp160_120f.ivf	522112	1e367c9d016191489ddc957ae5a6fd99
+TunnelFlag_1920x1080_60fps_10bit_420_qp160_73f.ivf	617742	2e976db23ec713990f6fde04b39d62d5
+vidyo4_720p_60fps_qp160_240f.ivf	194846	0cad68bf105775cf0eb59a75c2a3a17f
+Vertical_bees_2997_1080x1920_qp160_150f.ivf	355252	f248de65039e2a2b8bed033cab817c03
