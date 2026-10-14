@@ -56,6 +56,11 @@
   <p class="lead">Ready-to-run builds of AVM, the AV2 reference encoder
   (<code>avmenc</code>) and decoder (<code>avmdec</code>), rebuilt whenever
   AVM changes. No compiler needed.</p>
+  <p>Since 14 October 2026 the builds come from AVM's
+  <a href="https://github.com/AOMediaCodec/avm/tree/av2-enc"><code>av2-enc</code></a>
+  branch instead of <code>main</code>. Its encoder is about 4 to 5 times
+  faster at the same <code>--cpu-used</code>, with about the same quality,
+  and its streams decode with <code>main</code>'s avmdec.</p>
 
   <div class="status" id="status">
     Latest build: see the

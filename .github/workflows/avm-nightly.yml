@@ -2,6 +2,8 @@ name: AVM nightly builds
 
 # Builds avmenc and avmdec from the latest AVM (AV2 reference software)
 # for the major desktop platforms and publishes them as a GitHub release.
+# Builds track AVM's av2-enc branch: its encoder is several times faster
+# than main's, at about the same quality, and makes streams main decodes.
 # Nothing is built or published on nights without new AVM commits.
 
 on:
@@ -11,7 +13,7 @@ on:
     inputs:
       avm_ref:
         description: AVM branch, tag or full commit SHA to build
-        default: main
+        default: av2-enc
       force:
         description: Build even if a release for this AVM commit exists
         type: boolean
@@ -53,13 +55,14 @@ jobs:
     outputs:
       sha: ${{ steps.avm.outputs.sha }}
       tag: ${{ steps.avm.outputs.tag }}
+      ref: ${{ steps.avm.outputs.ref }}
       build: ${{ steps.avm.outputs.build }}
     steps:
       - name: Resolve AVM commit
         id: avm
         env:
           GH_TOKEN: ${{ github.token }}
-          AVM_REF: ${{ inputs.avm_ref || 'main' }}
+          AVM_REF: ${{ inputs.avm_ref || 'av2-enc' }}
           FORCE: ${{ inputs.force || false }}
         run: |
           if [[ "$AVM_REF" =~ ^[0-9a-f]{40}$ ]]; then
@@ -80,6 +83,7 @@ jobs:
           tag=${tag:-avm-nightly-$(date -u +%Y%m%d)-$short}
           {
             echo "sha=$sha"
+            echo "ref=$AVM_REF"
             echo "tag=$tag"
             echo "build=$build"
           } >> "$GITHUB_OUTPUT"
@@ -103,6 +107,7 @@ jobs:
     env:
       PLATFORM: ${{ matrix.platform }}
       AVM_SHA: ${{ needs.check.outputs.sha }}
+      AVM_REF: ${{ needs.check.outputs.ref }}
     steps:
       - uses: actions/checkout@v7
 
@@ -172,6 +177,7 @@ jobs:
             echo "Unofficial nightly build of AVM, the AV2 reference software"
             echo "Built by:    $GITHUB_SERVER_URL/$GITHUB_REPOSITORY (run $GITHUB_RUN_ID)"
             echo "AVM commit:  https://github.com/AOMediaCodec/avm/commit/$AVM_SHA ($(git -C avm log -1 --format=%cd --date=short))"
+            echo "AVM ref:     $AVM_REF"
             echo "Platform:    $PLATFORM"
             echo "Compiler:    $(grep -m 1 'C compiler identification' configure.log | sed 's/.*is //')"
             echo "CMake flags: $AVM_CMAKE_FLAGS"
@@ -209,9 +215,10 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
       AVM_SHA: ${{ needs.check.outputs.sha }}
+      AVM_REF: ${{ needs.check.outputs.ref }}
       TAG: ${{ needs.check.outputs.tag }}
-      # A manual build of an older AVM version shouldn't become "latest".
-      LATEST: ${{ (inputs.avm_ref || 'main') == 'main' }}
+      # A manual build of another AVM version shouldn't become "latest".
+      LATEST: ${{ (inputs.avm_ref || 'av2-enc') == 'av2-enc' }}
       KEEP_RELEASES: 30
     steps:
       - uses: actions/download-artifact@v8
@@ -233,7 +240,8 @@ jobs:
           {
             echo "Unofficial build of [AVM](https://github.com/AOMediaCodec/avm), the AV2 reference"
             echo "encoder (\`avmenc\`) and decoder (\`avmdec\`), at commit"
-            echo "[\`${AVM_SHA:0:10}\`](https://github.com/AOMediaCodec/avm/commit/$AVM_SHA)."
+            echo "[\`${AVM_SHA:0:10}\`](https://github.com/AOMediaCodec/avm/commit/$AVM_SHA)"
+            echo "(\`$AVM_REF\`)."
             echo
             echo "AV2 streams made with one AVM version may not decode with another."
             echo
