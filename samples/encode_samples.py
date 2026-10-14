@@ -97,6 +97,26 @@ CLIP_SETS = {
             "TunnelFlag_1920x1080_60fps_10bit_420",
             "Vertical_bees_2997_1080x1920")
     ],
+    # Additional content diversity, all <= 1080p
+    "diverse": [
+        # B2: screen content, text, sharp edges, flat colors
+        ("Debugging_1920x1080_30fps_8bit_420",
+         _paths("b2_scc", "Debugging_1920x1080_30fps_8bit_420",
+                ("test_set",))),
+        ("Slides1_1920x1080_30fps_8bit_420",
+         _paths("b2_scc", "Slides1_1920x1080_30fps_8bit_420",
+                ("test_set",))),
+        # B1: gaming and 10-bit animation
+        ("MINECRAFT_1080p_60_8bit",
+         _paths("b1_syn", "MINECRAFT_1080p_60_8bit", ("test_set",))),
+        ("SolLevanteDragons_sdr_1920x1080_24_10bit",
+         _paths("b1_syn", "SolLevanteDragons_sdr_1920x1080_24_10bit",
+                ("test_set",))),
+        # E: noisy, non-pristine content
+        ("Noise_Ocean_1920x1080_60fps",
+         _paths("e_nonpristine", "Noise_Ocean_1920x1080_60fps",
+                ("test_set",))),
+    ],
     # Class A1 (4K, 10-bit): very slow to encode
     "4k": [
         (n, _paths("a1_4k", n)) for n in (
@@ -104,8 +124,8 @@ CLIP_SETS = {
             "FoodMarket2_3840x2160_5994fps_10bit_420")
     ],
 }
-CLIP_SETS["hd"] = CLIP_SETS["720p"] + CLIP_SETS["1080p"]
-CLIP_SETS["all"] = CLIP_SETS["small"] + CLIP_SETS["hd"]  # 4k is opt-in
+CLIP_SETS["hd"] = CLIP_SETS["720p"] + CLIP_SETS["1080p"] + CLIP_SETS["diverse"]
+CLIP_SETS["all"] = CLIP_SETS["small"] + CLIP_SETS["hd"]  # 16 clips; 4k is opt-in
 
 # AV2 CTC Random Access QPs (CTC v8). Three of them (high, middle and low
 # quality) are plenty for decoder testing; the middle one is encoded first.
