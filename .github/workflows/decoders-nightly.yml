@@ -240,7 +240,7 @@ jobs:
       RESULT: ${{ needs[matrix.name].result }}
     steps:
       - name: Check build result
-        run: echo "$NAME builds: $RESULT"
+        run: echo "$NAME build result is $RESULT"
 
       - uses: actions/download-artifact@v8
         if: env.RESULT == 'success'
