@@ -13,7 +13,7 @@ scored with PSNR, SSIM and VMAF.
 
 ## Findings
 
-![Encode time vs BD-rate per preset](figures/speed_vs_bdrate.png)
+![Encode time vs BD-rate per preset](figures/speed_vs_bdrate.svg)
 
 1. **s6 is the fastest preset.** s7, s8 and s9 are 8-25% *slower* than s6, and
    save at most 2.6% bits. The `--cpu-used` number stops tracking speed after
@@ -132,7 +132,7 @@ than the fastest preset?
 
 ### Encode time and memory
 
-![Seconds per frame per preset](figures/seconds_per_frame.png)
+![Seconds per frame per preset](figures/seconds_per_frame.svg)
 
 Seconds per frame (total time over the 4 QPs / total frames) and peak memory,
 one thread:
@@ -159,7 +159,7 @@ over all complete clip/preset series): QP 110 1.63x, QP 180 0.67x, QP 210
 
 ### Keyframes vs inter frames
 
-![Keyframe vs inter-frame time per preset](figures/key_vs_inter_time.png)
+![Keyframe vs inter-frame time per preset](figures/key_vs_inter_time.svg)
 
 In these short encodes the single keyframe takes on average 23-33% of the
 encode time at s1-s9 (14-53% per clip) and 30-63% of the bits. s0 spends most of its
@@ -214,10 +214,10 @@ encodes were repeated as a timing check.
 The curves of the presets lie close together; the BD-rate tables above give
 the differences.
 
-- [FourPeople 270p](figures/rd_FourPeople_480x270_60.png)
-- [BlueSky 360p](figures/rd_BlueSky_360p25_v2.png)
-- [Vertical_Bayshore 270x480](figures/rd_Vertical_Bayshore_270x480_2997.png)
-- [KristenAndSara 720p](figures/rd_KristenAndSara_1280x720_60.png)
+- [FourPeople 270p](figures/rd_FourPeople_480x270_60.svg)
+- [BlueSky 360p](figures/rd_BlueSky_360p25_v2.svg)
+- [Vertical_Bayshore 270x480](figures/rd_Vertical_Bayshore_270x480_2997.svg)
+- [KristenAndSara 720p](figures/rd_KristenAndSara_1280x720_60.svg)
 
 ## Limits of this test
 

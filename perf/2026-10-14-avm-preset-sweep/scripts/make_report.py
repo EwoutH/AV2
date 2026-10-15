@@ -40,12 +40,15 @@ RAMP = ["#0d366b", "#104281", "#184f95", "#1c5cab", "#256abf", "#2a78d6",
         "#3987e5", "#5598e7", "#6da7ec", "#86b6ef"]  # s0 .. s9
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e4e3df"
 
+# SVG: keep text as text; no timestamp, so reruns give identical files.
+SVG_META = {"Date": None}
 plt.rcParams.update({
     "figure.facecolor": "white", "axes.facecolor": "white",
     "axes.edgecolor": INK2, "axes.labelcolor": INK, "text.color": INK,
     "xtick.color": INK2, "ytick.color": INK2, "axes.grid": True,
     "grid.color": GRID, "grid.linewidth": 0.8, "axes.spines.top": False,
     "axes.spines.right": False, "font.size": 10, "axes.titlesize": 11,
+    "svg.fonttype": "none", "svg.hashsalt": "avm-perf",
     "legend.frameon": False, "lines.linewidth": 2, "lines.markersize": 6})
 
 
@@ -246,7 +249,7 @@ fig.suptitle("AVM av2-enc: encode time vs bitrate cost of each --cpu-used "
              "preset (lower left is better)", x=0.01, ha="left",
              fontsize=12)
 fig.tight_layout()
-fig.savefig(FIG / "speed_vs_bdrate.png", dpi=120)
+fig.savefig(FIG / "speed_vs_bdrate.svg", metadata=SVG_META)
 plt.close(fig)
 
 # ---- figure 2: seconds per frame per preset ---------------------------------
@@ -270,7 +273,7 @@ ax.set_title("Encode time per frame, 1 thread, mean over QP 110-210",
              loc="left")
 ax.legend(loc="upper right")
 fig.tight_layout()
-fig.savefig(FIG / "seconds_per_frame.png", dpi=120)
+fig.savefig(FIG / "seconds_per_frame.svg", metadata=SVG_META)
 plt.close(fig)
 
 # ---- figure 3: key vs inter frame speedup -----------------------------------
@@ -295,7 +298,7 @@ ax.set_title("Keyframe vs inter-frame encode time (geomean over 4 clips)",
              loc="left")
 ax.legend(loc="upper right")
 fig.tight_layout()
-fig.savefig(FIG / "key_vs_inter_time.png", dpi=120)
+fig.savefig(FIG / "key_vs_inter_time.svg", metadata=SVG_META)
 plt.close(fig)
 
 # ---- figure 4: RD curves per clip -------------------------------------------
@@ -319,6 +322,6 @@ for c in clips4:
                  f"frames, QP 110/145/180/210)", x=0.01, ha="left",
                  fontsize=12)
     fig.tight_layout()
-    fig.savefig(FIG / f"rd_{c}.png", dpi=110)
+    fig.savefig(FIG / f"rd_{c}.svg", metadata=SVG_META)
     plt.close(fig)
 print(f"\nwrote {FIG} and {HERE / 'results.csv'}")
