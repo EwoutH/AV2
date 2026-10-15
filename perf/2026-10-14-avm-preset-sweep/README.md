@@ -33,9 +33,9 @@ scored with PSNR, SSIM and VMAF.
    of their s1 time, keyframes 13%. From s2 to s3, keyframes get only 10%
    faster but inter frames 2.4x faster.
 6. **It is slow.** At s6 and one thread, an encode takes 1.4-3 s per frame at
-   270p/360p, 5 s per frame at 720p and ~15 s per frame at 1080p (crowd_run,
-   QP 210). At s1 it is 14-32 s per frame at low res and 51 s per frame at
-   720p.
+   270p/360p and 5 s per frame at 720p (mean over the 4 QPs). At 1080p it
+   is 15 s per frame at QP 210, the cheapest QP (crowd_run). At s1 it is
+   14-32 s per frame at low res and 51 s per frame at 720p.
 
 ## Setup
 
@@ -184,9 +184,30 @@ directly:
 | 210 | s5 | 812 | 108 | 24.93 | 38.34 |
 | 210 | s6 | 503 | 107 | 24.78 | 36.81 |
 
-At QP 210, s6 is 14x faster than s1 at the same size, for 0.4 dB PSNR-Y and
-3.8 VMAF points less. At QP 110, s5 is 4.3x faster than s2 for 3.3% more
-bits.
+What these encodes show:
+
+- **The speed steps between presets match 720p.** At the same QP, the time
+  ratios between presets on crowd_run are close to those on KristenAndSara:
+
+  | QP 110 | crowd_run 1080p | KristenAndSara 720p |
+  |---|--:|--:|
+  | s3 vs s2 | 0.43x | 0.42x |
+  | s4 vs s2 | 0.26x | 0.27x |
+  | s5 vs s2 | 0.23x | 0.22x |
+  | s4 vs s3 | 0.61x | 0.63x |
+
+  At QP 210 the fast presets gain more: s6 is 14x faster than s1 (about 8x on
+  KristenAndSara at that QP), at the same size, for 0.4 dB PSNR-Y less.
+- **Memory:** 1.2 GB at s3 and up, 1.3 GB at s1 and s2.
+
+What they don't show: how much compression each preset costs at 1080p. No
+preset has enough QPs for a BD-rate, and converting a single-QP difference
+into bits at equal PSNR was unreliable when tested on KristenAndSara (+3% for
+s6 vs s1, where the BD-rate is +10%). The losses look roughly in the same
+range as the other clips, but that is all. crowd_run is also an extreme
+clip: at QP 210 it gets 25 dB PSNR-Y and VMAF ~40, and at QP 110 VMAF is
+~99.8 for every preset, so VMAF says little at either end. None of the 1080p
+encodes were repeated as a timing check.
 
 ### RD curves
 
