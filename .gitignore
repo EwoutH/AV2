@@ -5,6 +5,10 @@
 *.y4m
 *.part
 
+# Benchmark results keep their figures and logs
+!perf/**/*.png
+!perf/**/*.log
+
 # Work folder of samples/encode_samples.py: AVM checkout and build,
 # downloaded sources, logs and freshly encoded streams
 samples/av2_work/

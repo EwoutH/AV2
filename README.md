@@ -9,3 +9,6 @@ Some personal experiments with AV2.
   workflow.
 - **Sample streams:** AV2 sample videos can be found in the
   [samples](samples) directory.
+- **Performance:** encoder speed and compression measurements are in
+  [perf](perf), starting with a
+  [sweep of the AVM encoder presets](perf/2026-10-14-avm-preset-sweep/).
