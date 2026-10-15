@@ -1,0 +1,13 @@
+iso P         270p8   slots= 1 total   42.9 f/min | P:   46.1s/job ( 42.9 f/min) | P~2590MHz HT~641MHz E~1711MHz
+iso E         270p8   slots= 1 total   21.7 f/min | E:   91.5s/job ( 21.7 f/min) | P~1416MHz HT~1103MHz E~2712MHz
+iso P         270p10  slots= 1 total   25.0 f/min | P:   79.3s/job ( 25.0 f/min) | P~2591MHz HT~839MHz E~1605MHz
+iso E         270p10  slots= 1 total   13.0 f/min | E:  152.7s/job ( 13.0 f/min) | P~1413MHz HT~918MHz E~2878MHz
+iso P         720p8   slots= 1 total    6.0 f/min | P:   90.4s/job (  6.0 f/min) | P~2590MHz HT~1863MHz E~1153MHz
+iso E         720p8   slots= 1 total    2.8 f/min | E:  193.4s/job (  2.8 f/min) | P~1487MHz HT~1100MHz E~2486MHz
+6 P           270p8   slots= 6 total  267.9 f/min | P:   44.3s/job ( 44.7 f/min) | P~2730MHz HT~1821MHz E~1622MHz
+8 E           270p8   slots= 8 total  141.0 f/min | E:  112.4s/job ( 17.6 f/min) | P~1028MHz HT~946MHz E~2291MHz
+6 P + 8 E     270p8   slots=14 total  400.0 f/min | P:   46.2s/job ( 42.9 f/min), E:  111.0s/job ( 17.8 f/min) | P~2587MHz HT~2500MHz E~2298MHz
+12 P+HT       270p8   slots=12 total  309.2 f/min | P:   77.0s/job ( 25.7 f/min), HT:   76.8s/job ( 25.8 f/min) | P~2590MHz HT~2590MHz E~1448MHz
+20 all        270p8   slots=20 total  407.5 f/min | P:   84.0s/job ( 23.6 f/min), HT:   82.9s/job ( 23.9 f/min), E:  129.2s/job ( 15.3 f/min) | P~2354MHz HT~2362MHz E~2025MHz
+14 unpinned   270p8   slots=14 total  385.3 f/min | ?:   72.0s/job ( 27.5 f/min) | P~2585MHz HT~2541MHz E~2259MHz
+20 unpinned   270p8   slots=20 total  423.0 f/min | ?:   95.5s/job ( 20.7 f/min) | P~2398MHz HT~2398MHz E~2057MHz
