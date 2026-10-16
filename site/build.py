@@ -90,7 +90,7 @@ def fmt_fps(fps):
 
 def first_paragraph(markdown):
     """The first paragraph of a release body, as plain-ish HTML."""
-    para = markdown.strip().split("\n\n")[0].replace("\n", " ")
+    para = re.split(r"\n\s*\n", markdown.replace("\r\n", "\n").strip())[0].replace("\n", " ")
     para = esc(para)
     para = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", para)
     para = re.sub(r"`(.+?)`", r"<code>\1</code>", para)
@@ -313,6 +313,9 @@ TAGS = [
 ]
 TAG_LABEL = dict(TAGS)
 
+# Resolution classes by the short side of the picture: (up to, label).
+RES_CLASSES = [(288, "270p"), (400, "360p"), (760, "720p"), (1 << 16, "1080p")]
+
 
 def parse_manifest(text):
     """Header comments as {key: value}, and rows as dicts keyed by column."""
@@ -463,19 +466,66 @@ class Samples:
         res = f'{s["w"]}&times;{s["h"]}' if s["w"] else "?"
         fps = f'{fmt_fps(s["fps"])}' if s["fps"] else "?"
         tags = "".join(f'<span class="tag">{esc(TAG_LABEL[t])}</span>' for t in s["tags"])
-        extra = re.sub(r"--end-usage=q --qp=\d+ --cpu-used=\d+( --threads=1)?", "", s["settings"]).strip()
+        extra = re.sub(r"--end-usage=q --qp=\S+ --cpu-used=\d+( --threads=1)?", "", s["settings"]).strip()
         source = f'<a href="{s["source"]}">.y4m</a>' if s["source"] else ""
         search = " ".join([s["file"], res.replace("&times;", "x"), " ".join(TAG_LABEL[t] for t in s["tags"])])
-        return f"""<tr data-tags="{' '.join(s['tags'])}" data-search="{esc(search.lower())}">
+        values = "".join(f' data-{k}="{v}"' for k, v in self._values(s).items() if v is not None)
+        return f"""<tr data-tags="{' '.join(s['tags'])}" data-search="{esc(search.lower())}"{values}>
   <td class="name"><a href="{s['url']}" download>{esc(self._clip(s))}</a>{f'<small>{esc(extra)}</small>' if extra else ''}</td>
   <td class="num">{res}</td><td class="num">{fps}</td><td class="num">{s['frames'] or '?'}</td>
   <td class="num">{s['qp'] or '?'}</td><td>{tags}</td><td class="num">{fmt_size(s['bytes'])}</td>
   <td>{source}</td><td><code class="md5">{s['md5']}</code></td>
 </tr>"""
 
-    def page(self):
+    # Range filters on the samples page: (data key, label, unit).
+    RANGES = [("fps", "fps", "fps"), ("qp", "QP", ""),
+              ("frames", "Frames", ""), ("bytes", "File size", "bytes")]
+
+    @staticmethod
+    def _res_class(s):
+        """Resolution class by the short side: 270p, 360p, 720p or 1080p."""
+        if not s["w"]:
+            return None
+        short = min(s["w"], s["h"])
+        return next((label for limit, label in RES_CLASSES if short <= limit), RES_CLASSES[-1][1])
+
+    def _values(self, s):
+        return {"res": self._res_class(s), "fps": round(s["fps"], 2) if s["fps"] else None,
+                "qp": s["qp"], "frames": s["frames"], "bytes": s["bytes"]}
+
+    def _filters(self):
+        streams = self._all()
         chips = "".join(f'<button class="chip" data-filter="{t}" aria-pressed="false">{esc(label)} <span>{n}</span></button>'
                         for t, label, n in self._tag_counts())
+        res = [self._res_class(s) for s in streams]
+        boxes = "".join(f'<label class="check"><input type="checkbox" data-res="{label}" checked> {label} '
+                        f'<span>{res.count(label)}</span></label>'
+                        for _, label in RES_CLASSES if label in res)
+        ranges = []
+        for key, label, unit in self.RANGES:
+            vals = sorted({v for s in streams if (v := self._values(s)[key]) is not None})
+            if len(vals) < 2:
+                continue
+            ranges.append(f"""<div class="range" data-key="{key}" data-unit="{unit}" data-values="{json.dumps(vals)}">
+      <div class="range-head"><span>{label}</span><output></output></div>
+      <div class="range-inputs"><div class="range-fill"></div>
+        <input type="range" min="0" max="{len(vals) - 1}" value="0" aria-label="{label}, minimum">
+        <input type="range" min="0" max="{len(vals) - 1}" value="{len(vals) - 1}" aria-label="{label}, maximum"></div>
+    </div>""")
+        return f"""<div class="filter">
+  <div class="filter-top">
+    <input type="search" id="q" placeholder="Filter by name, e.g. Netflix" aria-label="Filter streams">
+    <span class="count" id="count" aria-live="polite"></span>
+    <button type="button" class="reset" id="reset">Reset</button>
+  </div>
+  <div class="chips">{chips}</div>
+  <div class="filter-grid">
+    <div class="res"><span>Resolution</span><div>{boxes}</div></div>
+    {"".join(ranges)}
+  </div>
+</div>"""
+
+    def page(self):
         parts = [f"""<h1>{self.title}</h1>
 <p class="lead">{self.blurb}</p>
 <p>These are not official conformance streams. AV2 is still changing, so each set
@@ -484,10 +534,7 @@ stream was decoded with <code>avmdec --md5</code> after encoding; the MD5 below
 is of the decoded output, so a decoder that writes the same MD5 decodes the
 stream exactly. Click a stream name to download it.</p>
 <pre>avmdec --md5 stream.ivf</pre>
-<div class="filter">
-  <input type="search" id="q" placeholder="Filter by name, e.g. 1080 or Netflix" aria-label="Filter streams">
-  <div class="chips">{chips}</div>
-</div>"""]
+{self._filters()}"""]
         for st in reversed(self.sets):
             rows = "".join(self._row(s) for s in sorted(st["streams"], key=lambda s: s["file"].lower()))
             avm = (f'<a href="https://github.com/AOMediaCodec/avm/commit/{st["avm"]}"><code>{st["avm"][:10]}</code></a>'

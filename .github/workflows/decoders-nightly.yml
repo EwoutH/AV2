@@ -33,8 +33,10 @@ defaults:
 env:
   DAV2D_REPO: https://code.videolan.org/videolan/dav2d.git
   RAV2D_REPO: https://github.com/stukenov/rav2d.git
-  # Small 8-bit sample decoded by every build; its avmdec MD5 is in the manifest.
-  TEST_STREAM: samples/FourPeople_480x270_60_qp210_130f.ivf
+  # Small 8-bit sample from the samples-v1 release, decoded by every build;
+  # its avmdec MD5 is in the release's manifest.
+  SAMPLES_URL: https://github.com/EwoutH/AV2/releases/download/samples-v1
+  TEST_STREAM: FourPeople_480x270_60_qp210_130f.ivf
 
 jobs:
   check:
@@ -136,11 +138,16 @@ jobs:
       - name: Build
         run: meson compile -C build
 
+      - name: Fetch test stream
+        run: |
+          curl -fsSLO --retry 3 "$SAMPLES_URL/$TEST_STREAM"
+          curl -fsSLO --retry 3 "$SAMPLES_URL/samples-manifest.txt"
+
       - name: Decode test
         run: |
           exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
           echo "BIN=build/tools/dav2d$exe" >> "$GITHUB_ENV"
-          python ci/decode_test.py dav2d "build/tools/dav2d$exe" "$TEST_STREAM" samples/manifest.txt | tee test.log
+          python ci/decode_test.py dav2d "build/tools/dav2d$exe" "$TEST_STREAM" samples-manifest.txt | tee test.log
 
       - name: Package
         run: |
@@ -202,8 +209,13 @@ jobs:
           exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
           echo "BIN=src/target/release/rav2d$exe" >> "$GITHUB_ENV"
 
+      - name: Fetch test stream
+        run: |
+          curl -fsSLO --retry 3 "$SAMPLES_URL/$TEST_STREAM"
+          curl -fsSLO --retry 3 "$SAMPLES_URL/samples-manifest.txt"
+
       - name: Decode test
-        run: python ci/decode_test.py rav2d "$BIN" "$TEST_STREAM" samples/manifest.txt | tee test.log
+        run: python ci/decode_test.py rav2d "$BIN" "$TEST_STREAM" samples-manifest.txt | tee test.log
 
       - name: Package
         run: bash ci/package_decoder.sh rav2d "$BIN" "$(rustc --version)" src/LICENSE
@@ -263,7 +275,8 @@ jobs:
             echo "Unofficial build of [$NAME]($url), $about, at commit"
             echo "[\`${SHA:0:10}\`]($commit)."
             echo
-            echo "Each build decodes \`$(basename "$TEST_STREAM")\` from this repository"
+            echo "Each build decodes \`$TEST_STREAM\` from the"
+            echo "[samples-v1](https://github.com/EwoutH/AV2/releases/tag/samples-v1) release"
             echo "(made with AVM) and compares the output with avmdec's MD5."
             echo
             echo "| Platform | Compiler | Decode test |"
