@@ -1,0 +1,53 @@
+name: Pages site
+
+# Builds https://ewouth.github.io/AV2/ with site/build.py from this
+# repository's releases and perf/, and deploys it. Runs after each nightly
+# build, daily (to pick up streams added to a sample release), and when the
+# site or a write-up changes.
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", "perf/**", ".github/workflows/pages.yml"]
+  workflow_run:
+    workflows: ["AVM nightly builds", "AV2 decoder nightly builds"]
+    types: [completed]
+  schedule:
+    - cron: "0 9 * * *"  # 09:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Build site
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python site/build.py --out _site
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-26.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v5

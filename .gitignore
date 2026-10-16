@@ -12,3 +12,6 @@
 # Work folder of samples/encode_samples.py: AVM checkout and build,
 # downloaded sources, logs and freshly encoded streams
 samples/av2_work/
+
+# Built Pages site (site/build.py)
+_site/

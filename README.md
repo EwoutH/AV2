@@ -1,5 +1,6 @@
 # AV2 experiments
-Some personal experiments with AV2.
+Some personal experiments with AV2. Everything below is also on
+https://ewouth.github.io/AV2/ (built from [site](site)).
 
 - **Nightly builds:** ready-to-run builds of AVM, the AV2 reference encoder
   and decoder, for Windows, macOS and Linux. Download them from
