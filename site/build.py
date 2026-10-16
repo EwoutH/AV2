@@ -27,7 +27,6 @@ from pathlib import Path
 
 REPO = "EwoutH/AV2"
 REPO_URL = f"https://github.com/{REPO}"
-SITE_URL = "https://ewouth.github.io/AV2/"
 ROOT = Path(__file__).resolve().parent.parent
 STATIC = Path(__file__).resolve().parent / "static"
 

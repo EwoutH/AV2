@@ -7,7 +7,7 @@ scored with PSNR, SSIM and VMAF.
 - **Encoder:** AVM `av2-enc` branch, commit
   [`89eae123d`](https://github.com/AOMediaCodec/avm/commit/89eae123dc671af8eba5df14781287108375ecd8)
   (`1.0.0-434-g89eae123d`), the same branch as the
-  [nightly builds](https://ewouth.github.io/AV2/).
+  [nightly builds](https://ewouth.github.io/AV2/builds/).
 - **Machine:** Intel Core i7-12700H laptop, 32 GB, Windows 11. MSVC 19.51
   Release build.
 

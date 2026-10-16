@@ -4,11 +4,12 @@ https://ewouth.github.io/AV2/ (built from [site](site)).
 
 - **Nightly builds:** ready-to-run builds of AVM, the AV2 reference encoder
   and decoder, for Windows, macOS and Linux. Download them from
-  https://ewouth.github.io/AV2/ or the
+  https://ewouth.github.io/AV2/builds/ or the
   [releases](https://github.com/EwoutH/AV2/releases). They are unofficial and
   built by the [AVM nightly builds](.github/workflows/avm-nightly.yml)
   workflow.
-- **Sample streams:** AV2 sample videos can be found in the
+- **Sample streams:** AV2 sample videos are listed on
+  https://ewouth.github.io/AV2/samples/ and can be found in the
   [samples](samples) directory and on the
   [releases](https://github.com/EwoutH/AV2/releases) page
   ([samples-v1](https://github.com/EwoutH/AV2/releases/tag/samples-v1),
