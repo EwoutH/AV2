@@ -6,6 +6,7 @@ Speed and compression measurements of AV2 encoders and decoders.
 |---|---|---|---|
 | 2026-10-14 | [AVM encoder presets: speed vs compression](2026-10-14-avm-preset-sweep/) | AVM `av2-enc` 89eae123d | `--cpu-used` 0-9 on 4 clips. s6 is the fastest preset; s1 to s6 is ~10x faster for 10-14% more bits; the default s0 is 6-11x slower than s1 for ~2% fewer bits. |
 | 2026-10-15 | [AVM on P-cores vs E-cores: parallel encoding](2026-10-15-avm-p-vs-e-cores/) | AVM `av2-enc` 89eae123d | i7-12700H: an E-core encodes at about half the speed of a P-core, but the 8 E-cores still add ~50% throughput. Run 14-20 single-thread encodes; hyperthreading adds little once the E-cores are busy. |
+| 2026-10-19 | [AV2 vs AV1, VVC, HEVC and AVC encoders](2026-10-19-av2-vs-av1-vvc-hevc/) | AVM `av2-enc` 89eae123d; libaom, SVT-AV1, VVenC, x265, x264 | On small and 720p clips AVM s1 needs 15-26% fewer bits than libaom cpu-used 1 at 20-30x the time; VVenC slower gets close (-20%) at a fifth of AVM's time. At 1080p over 33 frames, AVM's large keyframe boost dominates. |
 
 ## Layout
 

@@ -1,0 +1,197 @@
+group,clip,codec,preset,config,points,bd_psnr,bd_ssim,bd_vmaf,time_vs_anchor,sec_per_frame
+lowres,FourPeople_480x270_60,avm,0,AVM s0,4,-15.69,-11.63,-12.6,298.914,86.28
+lowres,FourPeople_480x270_60,avm,1,AVM s1,4,-14.9,-10.77,-12.89,48.583,13.505
+lowres,FourPeople_480x270_60,avm,2,AVM s2,4,-12.33,-10.11,-11.88,18.636,5.069
+lowres,FourPeople_480x270_60,avm,3,AVM s3,4,-11.84,-7.75,-8.02,11.566,3.115
+lowres,FourPeople_480x270_60,avm,4,AVM s4,4,-10.78,-6.26,-7.22,9.436,2.536
+lowres,FourPeople_480x270_60,avm,5,AVM s5,4,-10.26,-5.27,-6.18,7.857,2.079
+lowres,FourPeople_480x270_60,avm,6,AVM s6,4,-10.19,-7.11,-4.53,5.385,1.397
+lowres,FourPeople_480x270_60,avm,7,AVM s7,4,-10.27,-7.17,-6.17,5.571,1.456
+lowres,FourPeople_480x270_60,avm,8,AVM s8,4,-10.47,-7.13,-6.44,5.633,1.482
+lowres,FourPeople_480x270_60,avm,9,AVM s9,4,-10.41,-7.22,-6.65,5.877,1.544
+lowres,FourPeople_480x270_60,aom,0,libaom cpu0,7,-1.3,-0.48,-0.46,2.765,1.003
+lowres,FourPeople_480x270_60,aom,1,libaom cpu1,7,0.0,0.0,0.0,1.0,0.334
+lowres,FourPeople_480x270_60,aom,3,libaom cpu3,7,3.19,2.68,0.13,0.316,0.096
+lowres,FourPeople_480x270_60,aom,6,libaom cpu6,7,13.23,13.42,11.62,0.105,0.029
+lowres,FourPeople_480x270_60,svt,0,SVT-AV1 p0,7,-2.54,-1.11,-3.71,1.532,0.392
+lowres,FourPeople_480x270_60,svt,2,SVT-AV1 p2,7,2.55,4.19,0.45,0.278,0.077
+lowres,FourPeople_480x270_60,svt,5,SVT-AV1 p5,7,11.84,12.88,3.43,0.07,0.019
+lowres,FourPeople_480x270_60,svt,8,SVT-AV1 p8,7,29.08,28.71,22.56,0.035,0.009
+lowres,FourPeople_480x270_60,vvenc,4,VVenC slower,7,-11.13,-11.74,-9.7,7.742,1.95
+lowres,FourPeople_480x270_60,vvenc,2,VVenC medium,7,-5.62,-6.46,-4.46,0.667,0.171
+lowres,FourPeople_480x270_60,vvenc,0,VVenC faster,7,13.75,15.59,15.87,0.106,0.027
+lowres,FourPeople_480x270_60,x265,placebo,x265 placebo,7,24.38,37.37,25.8,1.578,0.428
+lowres,FourPeople_480x270_60,x265,veryslow,x265 veryslow,7,24.37,36.2,26.88,0.495,0.134
+lowres,FourPeople_480x270_60,x265,medium,x265 medium,7,37.26,45.65,43.82,0.046,0.012
+lowres,FourPeople_480x270_60,x264,veryslow,x264 veryslow,7,37.48,51.39,35.59,0.064,0.016
+lowres,FourPeople_480x270_60,x264,medium,x264 medium,7,46.57,60.56,43.65,0.023,0.006
+lowres,BlueSky_360p25_v2,avm,0,AVM s0,4,-30.01,-22.14,-8.78,184.429,214.987
+lowres,BlueSky_360p25_v2,avm,1,AVM s1,4,-29.1,-21.07,-7.54,25.686,28.358
+lowres,BlueSky_360p25_v2,avm,2,AVM s2,4,-24.98,-18.81,-4.54,11.718,13.019
+lowres,BlueSky_360p25_v2,avm,3,AVM s3,4,-24.65,-15.5,-1.02,6.3,6.852
+lowres,BlueSky_360p25_v2,avm,4,AVM s4,4,-24.12,-13.84,-0.45,4.768,5.109
+lowres,BlueSky_360p25_v2,avm,5,AVM s5,4,-22.52,-11.57,1.53,3.856,4.131
+lowres,BlueSky_360p25_v2,avm,6,AVM s6,4,-22.46,-11.11,1.57,2.668,2.788
+lowres,BlueSky_360p25_v2,avm,7,AVM s7,4,-21.43,-10.5,3.93,2.839,2.976
+lowres,BlueSky_360p25_v2,avm,8,AVM s8,4,-21.52,-10.18,4.69,3.004,3.157
+lowres,BlueSky_360p25_v2,avm,9,AVM s9,4,-22.05,-11.17,2.98,3.032,3.212
+lowres,BlueSky_360p25_v2,aom,0,libaom cpu0,7,-1.57,-1.8,-3.01,3.457,4.353
+lowres,BlueSky_360p25_v2,aom,1,libaom cpu1,7,0.0,0.0,0.0,1.0,1.259
+lowres,BlueSky_360p25_v2,aom,3,libaom cpu3,7,8.07,8.74,9.13,0.314,0.349
+lowres,BlueSky_360p25_v2,aom,6,libaom cpu6,7,23.25,25.61,24.07,0.079,0.077
+lowres,BlueSky_360p25_v2,svt,0,SVT-AV1 p0,7,-7.02,-8.59,-5.31,0.852,0.949
+lowres,BlueSky_360p25_v2,svt,2,SVT-AV1 p2,7,0.97,0.52,1.69,0.151,0.171
+lowres,BlueSky_360p25_v2,svt,5,SVT-AV1 p5,7,19.08,21.1,18.22,0.034,0.037
+lowres,BlueSky_360p25_v2,svt,8,SVT-AV1 p8,7,37.37,42.15,31.84,0.016,0.018
+lowres,BlueSky_360p25_v2,vvenc,4,VVenC slower,7,-22.64,-15.16,-11.51,4.413,4.298
+lowres,BlueSky_360p25_v2,vvenc,2,VVenC medium,7,-15.8,-8.41,-4.1,0.337,0.358
+lowres,BlueSky_360p25_v2,vvenc,0,VVenC faster,7,25.5,35.06,47.79,0.055,0.055
+lowres,BlueSky_360p25_v2,x265,placebo,x265 placebo,7,32.59,46.68,47.37,0.797,1.128
+lowres,BlueSky_360p25_v2,x265,veryslow,x265 veryslow,7,34.25,48.92,47.14,0.357,0.507
+lowres,BlueSky_360p25_v2,x265,medium,x265 medium,7,70.15,97.25,103.81,0.022,0.029
+lowres,BlueSky_360p25_v2,x264,veryslow,x264 veryslow,7,96.38,104.37,100.1,0.037,0.046
+lowres,BlueSky_360p25_v2,x264,medium,x264 medium,7,107.86,118.39,105.42,0.01,0.012
+lowres,Vertical_Bayshore_270x480_2997,avm,0,AVM s0,4,-38.79,-36.92,-28.39,199.766,188.546
+lowres,Vertical_Bayshore_270x480_2997,avm,1,AVM s1,4,-34.96,-32.79,-22.8,21.219,20.478
+lowres,Vertical_Bayshore_270x480_2997,avm,2,AVM s2,4,-30.11,-30.2,-18.38,10.473,9.686
+lowres,Vertical_Bayshore_270x480_2997,avm,3,AVM s3,4,-29.01,-26.35,-14.45,4.621,4.509
+lowres,Vertical_Bayshore_270x480_2997,avm,4,AVM s4,4,-29.94,-26.54,-12.47,3.495,3.543
+lowres,Vertical_Bayshore_270x480_2997,avm,5,AVM s5,4,-26.51,-22.59,-5.38,2.752,2.807
+lowres,Vertical_Bayshore_270x480_2997,avm,6,AVM s6,4,-18.9,-17.19,9.45,1.907,1.938
+lowres,Vertical_Bayshore_270x480_2997,avm,7,AVM s7,4,-20.41,-18.12,5.65,2.112,2.161
+lowres,Vertical_Bayshore_270x480_2997,avm,8,AVM s8,4,-21.93,-19.82,6.94,2.236,2.274
+lowres,Vertical_Bayshore_270x480_2997,avm,9,AVM s9,4,-21.19,-19.97,8.83,2.28,2.333
+lowres,Vertical_Bayshore_270x480_2997,aom,0,libaom cpu0,7,-5.23,-2.95,-5.23,2.995,3.181
+lowres,Vertical_Bayshore_270x480_2997,aom,1,libaom cpu1,7,0.0,0.0,0.0,1.0,1.011
+lowres,Vertical_Bayshore_270x480_2997,aom,3,libaom cpu3,7,11.48,11.21,11.55,0.259,0.22
+lowres,Vertical_Bayshore_270x480_2997,aom,6,libaom cpu6,7,31.95,31.59,26.04,0.038,0.038
+lowres,Vertical_Bayshore_270x480_2997,svt,0,SVT-AV1 p0,7,-5.84,-0.47,0.08,0.432,0.525
+lowres,Vertical_Bayshore_270x480_2997,svt,2,SVT-AV1 p2,7,6.92,11.55,13.82,0.071,0.088
+lowres,Vertical_Bayshore_270x480_2997,svt,5,SVT-AV1 p5,7,26.89,36.58,30.49,0.018,0.021
+lowres,Vertical_Bayshore_270x480_2997,svt,8,SVT-AV1 p8,7,48.32,59.47,62.58,0.009,0.011
+lowres,Vertical_Bayshore_270x480_2997,vvenc,4,VVenC slower,7,-28.03,-30.44,-18.25,3.42,3.181
+lowres,Vertical_Bayshore_270x480_2997,vvenc,2,VVenC medium,7,-9.45,-11.24,-1.9,0.222,0.218
+lowres,Vertical_Bayshore_270x480_2997,vvenc,0,VVenC faster,7,38.18,37.39,52.32,0.035,0.035
+lowres,Vertical_Bayshore_270x480_2997,x265,placebo,x265 placebo,7,38.07,30.46,62.28,0.379,0.516
+lowres,Vertical_Bayshore_270x480_2997,x265,veryslow,x265 veryslow,7,38.91,30.3,57.79,0.176,0.221
+lowres,Vertical_Bayshore_270x480_2997,x265,medium,x265 medium,7,78.0,71.45,152.04,0.013,0.016
+lowres,Vertical_Bayshore_270x480_2997,x264,veryslow,x264 veryslow,7,84.62,65.07,146.7,0.021,0.024
+lowres,Vertical_Bayshore_270x480_2997,x264,medium,x264 medium,7,101.85,75.71,157.53,0.006,0.007
+720p,KristenAndSara_1280x720_60,avm,1,AVM s1,4,-14.75,-14.2,-2.27,21.884,43.739
+720p,KristenAndSara_1280x720_60,avm,2,AVM s2,4,-12.84,-10.79,0.29,11.467,22.566
+720p,KristenAndSara_1280x720_60,avm,3,AVM s3,4,-10.97,-8.72,1.32,5.896,10.851
+720p,KristenAndSara_1280x720_60,avm,4,AVM s4,4,-8.81,-6.01,5.48,4.464,7.885
+720p,KristenAndSara_1280x720_60,avm,5,AVM s5,4,-8.09,-5.09,3.66,3.518,6.338
+720p,KristenAndSara_1280x720_60,avm,6,AVM s6,4,-5.62,-7.38,5.43,2.765,4.797
+720p,KristenAndSara_1280x720_60,avm,7,AVM s7,4,-7.2,-9.83,3.04,3.009,5.377
+720p,KristenAndSara_1280x720_60,avm,8,AVM s8,4,-7.06,-9.23,4.37,3.116,5.601
+720p,KristenAndSara_1280x720_60,avm,9,AVM s9,4,-7.12,-9.44,3.48,3.218,5.816
+720p,KristenAndSara_1280x720_60,aom,0,libaom cpu0,7,-2.05,-2.26,-1.15,3.527,8.268
+720p,KristenAndSara_1280x720_60,aom,1,libaom cpu1,7,0.0,0.0,0.0,1.0,2.032
+720p,KristenAndSara_1280x720_60,aom,3,libaom cpu3,7,4.1,5.14,5.54,0.379,0.635
+720p,KristenAndSara_1280x720_60,aom,6,libaom cpu6,7,18.49,19.58,21.55,0.103,0.154
+720p,KristenAndSara_1280x720_60,svt,0,SVT-AV1 p0,7,-4.87,0.47,1.03,1.033,1.642
+720p,KristenAndSara_1280x720_60,svt,2,SVT-AV1 p2,7,1.5,6.47,7.13,0.201,0.33
+720p,KristenAndSara_1280x720_60,svt,5,SVT-AV1 p5,7,12.0,14.81,12.8,0.06,0.08
+720p,KristenAndSara_1280x720_60,svt,8,SVT-AV1 p8,7,52.09,48.07,44.35,0.019,0.028
+720p,KristenAndSara_1280x720_60,vvenc,4,VVenC slower,7,-19.7,-27.94,-15.02,3.941,6.82
+720p,KristenAndSara_1280x720_60,vvenc,2,VVenC medium,7,-12.79,-22.29,-8.96,0.375,0.622
+720p,KristenAndSara_1280x720_60,vvenc,0,VVenC faster,7,10.46,0.3,17.04,0.074,0.117
+720p,KristenAndSara_1280x720_60,x265,placebo,x265 placebo,7,61.97,57.26,62.97,2.037,3.07
+720p,KristenAndSara_1280x720_60,x265,veryslow,x265 veryslow,7,62.39,54.31,62.94,0.46,0.718
+720p,KristenAndSara_1280x720_60,x265,medium,x265 medium,7,86.56,73.14,96.56,0.032,0.047
+720p,KristenAndSara_1280x720_60,x264,veryslow,x264 veryslow,7,134.71,127.52,124.69,0.067,0.091
+720p,KristenAndSara_1280x720_60,x264,medium,x264 medium,7,163.34,152.54,139.42,0.017,0.023
+1080p,crowd_run_1080p50,avm,3,AVM s3,4,-9.07,-6.89,7.57,3.555,99.05
+1080p,crowd_run_1080p50,avm,6,AVM s6,4,-1.41,6.17,15.12,1.708,41.706
+1080p,crowd_run_1080p50,aom,0,libaom cpu0,6,-1.44,-1.88,-0.6,3.072,90.9
+1080p,crowd_run_1080p50,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,28.543
+1080p,crowd_run_1080p50,aom,3,libaom cpu3,6,5.97,4.69,6.27,0.198,5.29
+1080p,crowd_run_1080p50,aom,6,libaom cpu6,6,26.12,22.11,21.89,0.033,0.807
+1080p,crowd_run_1080p50,svt,0,SVT-AV1 p0,6,3.78,-0.73,8.4,0.44,12.133
+1080p,crowd_run_1080p50,svt,2,SVT-AV1 p2,6,14.76,8.37,16.37,0.064,1.726
+1080p,crowd_run_1080p50,svt,5,SVT-AV1 p5,6,36.54,26.72,28.49,0.012,0.327
+1080p,crowd_run_1080p50,svt,8,SVT-AV1 p8,6,58.48,49.06,56.96,0.004,0.108
+1080p,crowd_run_1080p50,vvenc,4,VVenC slower,6,-14.96,-7.36,-2.25,3.303,76.012
+1080p,crowd_run_1080p50,vvenc,2,VVenC medium,6,-5.8,-0.47,7.0,0.207,4.719
+1080p,crowd_run_1080p50,vvenc,0,VVenC faster,6,15.08,20.77,28.91,0.027,0.614
+1080p,crowd_run_1080p50,x265,placebo,x265 placebo,6,21.5,49.83,41.85,0.313,10.12
+1080p,crowd_run_1080p50,x265,veryslow,x265 veryslow,6,21.86,49.42,41.87,0.158,5.068
+1080p,crowd_run_1080p50,x265,medium,x265 medium,6,52.43,75.1,90.13,0.009,0.261
+1080p,crowd_run_1080p50,x264,veryslow,x264 veryslow,6,47.52,76.01,69.32,0.018,0.508
+1080p,crowd_run_1080p50,x264,medium,x264 medium,6,57.99,86.69,78.96,0.004,0.12
+1080p,Motorcycle_1920x1080_30fps_8bit,avm,3,AVM s3,4,-11.37,-3.94,-3.85,4.117,112.343
+1080p,Motorcycle_1920x1080_30fps_8bit,avm,6,AVM s6,4,-5.15,3.9,2.17,1.783,45.893
+1080p,Motorcycle_1920x1080_30fps_8bit,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,24.666
+1080p,Motorcycle_1920x1080_30fps_8bit,aom,3,libaom cpu3,6,5.34,5.98,5.48,0.236,5.776
+1080p,Motorcycle_1920x1080_30fps_8bit,aom,6,libaom cpu6,6,19.1,24.11,23.59,0.048,1.14
+1080p,Motorcycle_1920x1080_30fps_8bit,svt,0,SVT-AV1 p0,6,-0.38,2.4,4.64,0.56,14.275
+1080p,Motorcycle_1920x1080_30fps_8bit,svt,2,SVT-AV1 p2,6,9.9,12.69,11.43,0.068,1.798
+1080p,Motorcycle_1920x1080_30fps_8bit,svt,5,SVT-AV1 p5,6,23.75,31.93,20.95,0.013,0.344
+1080p,Motorcycle_1920x1080_30fps_8bit,svt,8,SVT-AV1 p8,6,39.5,55.73,41.48,0.005,0.121
+1080p,Motorcycle_1920x1080_30fps_8bit,vvenc,2,VVenC medium,6,-4.1,6.01,11.97,0.317,7.409
+1080p,Motorcycle_1920x1080_30fps_8bit,vvenc,0,VVenC faster,6,14.96,30.05,33.1,0.043,0.976
+1080p,Motorcycle_1920x1080_30fps_8bit,x265,veryslow,x265 veryslow,6,11.71,25.74,34.08,0.235,7.775
+1080p,Motorcycle_1920x1080_30fps_8bit,x265,medium,x265 medium,6,35.42,57.25,75.16,0.015,0.452
+1080p,Motorcycle_1920x1080_30fps_8bit,x264,veryslow,x264 veryslow,6,33.84,53.69,70.78,0.028,0.868
+1080p,Motorcycle_1920x1080_30fps_8bit,x264,medium,x264 medium,6,41.22,61.78,80.47,0.006,0.176
+1080p,GlassHalf_1920x1080p_24p_8bit_420,avm,6,AVM s6,4,45.87,31.53,85.03,2.509,14.133
+1080p,GlassHalf_1920x1080p_24p_8bit_420,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,5.605
+1080p,GlassHalf_1920x1080p_24p_8bit_420,aom,3,libaom cpu3,6,11.42,11.3,13.81,0.25,1.354
+1080p,GlassHalf_1920x1080p_24p_8bit_420,aom,6,libaom cpu6,6,27.48,21.6,30.83,0.095,0.504
+1080p,GlassHalf_1920x1080p_24p_8bit_420,svt,0,SVT-AV1 p0,6,6.08,0.13,10.34,1.467,7.173
+1080p,GlassHalf_1920x1080p_24p_8bit_420,svt,2,SVT-AV1 p2,6,19.64,12.87,22.55,0.232,1.192
+1080p,GlassHalf_1920x1080p_24p_8bit_420,svt,5,SVT-AV1 p5,6,56.43,49.07,53.86,0.052,0.266
+1080p,GlassHalf_1920x1080p_24p_8bit_420,svt,8,SVT-AV1 p8,6,112.14,107.83,105.61,0.019,0.092
+1080p,GlassHalf_1920x1080p_24p_8bit_420,vvenc,2,VVenC medium,6,1.76,14.55,13.14,0.321,1.598
+1080p,GlassHalf_1920x1080p_24p_8bit_420,vvenc,0,VVenC faster,6,47.86,76.1,61.62,0.061,0.285
+1080p,GlassHalf_1920x1080p_24p_8bit_420,x265,veryslow,x265 veryslow,6,48.88,72.21,48.93,0.31,1.843
+1080p,GlassHalf_1920x1080p_24p_8bit_420,x265,medium,x265 medium,6,103.77,136.71,121.13,0.025,0.13
+1080p,GlassHalf_1920x1080p_24p_8bit_420,x264,veryslow,x264 veryslow,6,120.68,141.07,110.75,0.033,0.174
+1080p,GlassHalf_1920x1080p_24p_8bit_420,x264,medium,x264 medium,6,147.17,174.7,136.86,0.009,0.047
+1080p,EuroTruckSimulator2_1920x1080p60,avm,6,AVM s6,4,-14.86,-3.92,8.02,0.885,23.035
+1080p,EuroTruckSimulator2_1920x1080p60,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,24.419
+1080p,EuroTruckSimulator2_1920x1080p60,aom,3,libaom cpu3,6,7.66,11.04,10.92,0.164,3.924
+1080p,EuroTruckSimulator2_1920x1080p60,aom,6,libaom cpu6,6,35.0,42.25,33.21,0.03,0.653
+1080p,EuroTruckSimulator2_1920x1080p60,svt,0,SVT-AV1 p0,6,2.42,6.57,10.51,0.457,12.353
+1080p,EuroTruckSimulator2_1920x1080p60,svt,2,SVT-AV1 p2,6,14.23,18.87,23.17,0.056,1.543
+1080p,EuroTruckSimulator2_1920x1080p60,svt,5,SVT-AV1 p5,6,44.37,55.35,45.78,0.011,0.293
+1080p,EuroTruckSimulator2_1920x1080p60,svt,8,SVT-AV1 p8,6,70.06,88.14,87.65,0.004,0.093
+1080p,EuroTruckSimulator2_1920x1080p60,vvenc,2,VVenC medium,6,-15.92,-13.28,-1.94,0.165,3.647
+1080p,EuroTruckSimulator2_1920x1080p60,vvenc,0,VVenC faster,6,26.03,32.0,50.52,0.023,0.469
+1080p,EuroTruckSimulator2_1920x1080p60,x265,veryslow,x265 veryslow,6,47.67,68.02,64.13,0.146,3.598
+1080p,EuroTruckSimulator2_1920x1080p60,x265,medium,x265 medium,6,83.68,106.41,132.64,0.009,0.211
+1080p,EuroTruckSimulator2_1920x1080p60,x264,veryslow,x264 veryslow,6,98.84,129.91,114.75,0.019,0.453
+1080p,EuroTruckSimulator2_1920x1080p60,x264,medium,x264 medium,6,114.46,144.38,131.64,0.005,0.108
+1080p,Debugging_1920x1080_30fps_8bit_420,avm,6,AVM s6,4,26.29,40.07,35.33,1.969,8.279
+1080p,Debugging_1920x1080_30fps_8bit_420,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,4.128
+1080p,Debugging_1920x1080_30fps_8bit_420,aom,3,libaom cpu3,6,64.32,64.18,55.64,0.195,0.815
+1080p,Debugging_1920x1080_30fps_8bit_420,aom,6,libaom cpu6,6,79.32,79.43,73.59,0.08,0.33
+1080p,Debugging_1920x1080_30fps_8bit_420,svt,0,SVT-AV1 p0,6,-4.6,-6.67,nan,1.106,4.078
+1080p,Debugging_1920x1080_30fps_8bit_420,svt,2,SVT-AV1 p2,6,13.38,10.77,nan,0.199,0.796
+1080p,Debugging_1920x1080_30fps_8bit_420,svt,5,SVT-AV1 p5,6,60.06,65.09,37.59,0.043,0.175
+1080p,Debugging_1920x1080_30fps_8bit_420,svt,8,SVT-AV1 p8,6,86.14,100.93,61.28,0.016,0.068
+1080p,Debugging_1920x1080_30fps_8bit_420,vvenc,2,VVenC medium,6,18.29,30.3,17.45,0.363,1.431
+1080p,Debugging_1920x1080_30fps_8bit_420,vvenc,0,VVenC faster,6,57.06,81.94,54.29,0.068,0.272
+1080p,Debugging_1920x1080_30fps_8bit_420,x265,veryslow,x265 veryslow,6,227.51,288.63,208.04,0.246,1.025
+1080p,Debugging_1920x1080_30fps_8bit_420,x265,medium,x265 medium,6,337.67,444.98,356.69,0.022,0.09
+1080p,Debugging_1920x1080_30fps_8bit_420,x264,veryslow,x264 veryslow,6,203.9,257.69,173.09,0.021,0.086
+1080p,Debugging_1920x1080_30fps_8bit_420,x264,medium,x264 medium,6,282.1,365.09,237.77,0.007,0.029
+1080p crowd_run,crowd_run_1080p50,avm,3,AVM s3,4,-9.07,-6.89,7.57,3.555,99.05
+1080p crowd_run,crowd_run_1080p50,avm,6,AVM s6,4,-1.41,6.17,15.12,1.708,41.706
+1080p crowd_run,crowd_run_1080p50,aom,0,libaom cpu0,6,-1.44,-1.88,-0.6,3.072,90.9
+1080p crowd_run,crowd_run_1080p50,aom,1,libaom cpu1,6,0.0,0.0,0.0,1.0,28.543
+1080p crowd_run,crowd_run_1080p50,aom,3,libaom cpu3,6,5.97,4.69,6.27,0.198,5.29
+1080p crowd_run,crowd_run_1080p50,aom,6,libaom cpu6,6,26.12,22.11,21.89,0.033,0.807
+1080p crowd_run,crowd_run_1080p50,svt,0,SVT-AV1 p0,6,3.78,-0.73,8.4,0.44,12.133
+1080p crowd_run,crowd_run_1080p50,svt,2,SVT-AV1 p2,6,14.76,8.37,16.37,0.064,1.726
+1080p crowd_run,crowd_run_1080p50,svt,5,SVT-AV1 p5,6,36.54,26.72,28.49,0.012,0.327
+1080p crowd_run,crowd_run_1080p50,svt,8,SVT-AV1 p8,6,58.48,49.06,56.96,0.004,0.108
+1080p crowd_run,crowd_run_1080p50,vvenc,4,VVenC slower,6,-14.96,-7.36,-2.25,3.303,76.012
+1080p crowd_run,crowd_run_1080p50,vvenc,2,VVenC medium,6,-5.8,-0.47,7.0,0.207,4.719
+1080p crowd_run,crowd_run_1080p50,vvenc,0,VVenC faster,6,15.08,20.77,28.91,0.027,0.614
+1080p crowd_run,crowd_run_1080p50,x265,placebo,x265 placebo,6,21.5,49.83,41.85,0.313,10.12
+1080p crowd_run,crowd_run_1080p50,x265,veryslow,x265 veryslow,6,21.86,49.42,41.87,0.158,5.068
+1080p crowd_run,crowd_run_1080p50,x265,medium,x265 medium,6,52.43,75.1,90.13,0.009,0.261
+1080p crowd_run,crowd_run_1080p50,x264,veryslow,x264 veryslow,6,47.52,76.01,69.32,0.018,0.508
+1080p crowd_run,crowd_run_1080p50,x264,medium,x264 medium,6,57.99,86.69,78.96,0.004,0.12
