@@ -1,0 +1,41 @@
+From 948b2832345a6a23d79e55e09ca198a9d759fffd Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <ewoutterhoeven@live.nl>
+Date: Mon, 19 Oct 2026 23:56:49 +0200
+Subject: [PATCH 2/5] Fix frame-level max DRL bits parsing
+
+The frame header codes max_drl_bits (and max_bvp_drl_bits) as a
+reference-uniform value over [MIN, MAX] relative to the sequence
+default, both offset by MIN (1), as AVM's read_frame_max_drl_bits() and
+read_frame_max_bvp_drl_bits() do. dav2d used an alphabet of 3 instead
+of 5 for the MV DRL bits and did not subtract MIN from the reference,
+so a frame that keeps the default got default + 1. AVM enables
+allow_frame_max_drl_bits at --cpu-used 2 and up.
+---
+ src/obu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/obu.c b/src/obu.c
+index 86be50a1..2d9308ad 100644
+--- a/src/obu.c
++++ b/src/obu.c
+@@ -1412,7 +1412,7 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+     }
+     if (hdr->allow_intrabc) {
+         hdr->max_bvp_drl_bits = seqhdr->allow_max_bvp_drl_bits ?
+-            dav2d_get_ref_uniform(gb, 3, seqhdr->def_max_bvp_drl_bits) + 1 :
++            dav2d_get_ref_uniform(gb, 3, seqhdr->def_max_bvp_drl_bits - 1) + 1 :
+             seqhdr->def_max_bvp_drl_bits;
+     }
+ #if DEBUG_FRAME_HDR
+@@ -1426,7 +1426,7 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+ 
+     if (IS_INTER_OR_SWITCH(hdr)) {
+         hdr->max_drl_bits = seqhdr->allow_frame_max_drl_bits ?
+-            dav2d_get_ref_uniform(gb, 3, seqhdr->def_max_drl_bits) + 1 :
++            dav2d_get_ref_uniform(gb, 5, seqhdr->def_max_drl_bits - 1) + 1 :
+             seqhdr->def_max_drl_bits;
+         if (!hdr->force_integer_mv)
+             hdr->mv_precision = dav2d_get_bit(gb) ? 2 : 1 + 2 * dav2d_get_bit(gb);
+-- 
+2.55.0.windows.5
+

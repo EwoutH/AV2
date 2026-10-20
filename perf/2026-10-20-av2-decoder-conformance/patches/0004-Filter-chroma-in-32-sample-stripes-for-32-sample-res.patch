@@ -1,0 +1,82 @@
+From 8b6151498c17c352c5e7b58a1692acea81368287 Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <ewoutterhoeven@live.nl>
+Date: Tue, 20 Oct 2026 00:26:55 +0200
+Subject: [PATCH 4/5] Filter chroma in 32-sample stripes for 32-sample
+ restoration units
+
+With 4:2:0, chroma restoration units can be 32 samples wide
+(unit_size[1] >= 6 - ss_ver), but lr_sbrow() filtered chroma in
+64-sample stripes, every other 64-pixel luma column, with one unit per
+stripe: the right half of each stripe used the left unit's filter. Filter
+chroma every iteration, 32 samples at a time, in that case. AVM picks
+these units at --cpu-used 2 on small frames.
+---
+ src/lr_apply_tmpl.c | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
+
+diff --git a/src/lr_apply_tmpl.c b/src/lr_apply_tmpl.c
+index 88d89d1b..52cedeb3 100644
+--- a/src/lr_apply_tmpl.c
++++ b/src/lr_apply_tmpl.c
+@@ -333,18 +333,23 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+     lr_uv[0][0] = &lr_mask_uv->lr[1][unit_idx[1]];
+     lr_uv[0][1] = &lr_mask_uv->lr[2][unit_idx[1]];
+     int restore = 1; // TODO: restore logic for disabling backups
++    // Chroma is filtered in stripes of 64 samples (every other iteration
++    // with horizontal subsampling), or of 32 samples (every iteration) when
++    // the chroma restoration units are 32 samples wide, so that each stripe
++    // lies within one unit.
++    const int uv_step = ss_hor && unit_size[1] < 64 ? 32 : 64;
++    const int uv_every_iter = !ss_hor || uv_step == 32;
+     int x = 0, bit = 0, bit_uv = 0;
+     for (; x < w; edges |= LR_HAVE_LEFT) {
+-        // Only run chroma filters every 64 chroma samples
+         const int iter_planes = restore_planes &
+-                                (!ss_hor || !(x & 64) ? ~0 : ~(LR_RESTORE_U | LR_RESTORE_V));
++                                (uv_every_iter || !(x & 64) ? ~0 : ~(LR_RESTORE_U | LR_RESTORE_V));
+         // Since chroma filters covers a larger area than luma, it can hit the
+         // right edge before the luma filter. This is a mask for the right edge flag
+         unsigned right_edge_uv = ~0;
+ 
+         const int next_x = x + 64;
+         int stripe_w = 64;
+-        int stripe_w_uv = 64;
++        int stripe_w_uv = uv_step;
+         int restore_next = 1;
+         if (next_x >= w) {
+             restore_next = 0;
+@@ -359,7 +364,7 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+ 
+         if (iter_planes & (LR_RESTORE_U | LR_RESTORE_V)) {
+             const int x_uv = x >> ss_hor;
+-            const int next_x_uv = x_uv + 64;
++            const int next_x_uv = x_uv + uv_step;
+             if (next_x_uv >= w >> ss_hor) {
+                 right_edge_uv = ~LR_HAVE_RIGHT;
+                 stripe_w_uv = (w >> ss_hor) - x_uv;
+@@ -379,9 +384,9 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+             backupNxU(pre_lr_border_y[bit], ptrs[0] + 64, strides[0], rem_h, 8);
+             if (right_edge_uv & LR_HAVE_RIGHT) {
+                 if (iter_planes & LR_RESTORE_U)
+-                    backup_left_uv(pre_lr_border_uv[bit_uv][0], ptrs[1] + 64, strides[1], rem_h >> ss_ver);
++                    backup_left_uv(pre_lr_border_uv[bit_uv][0], ptrs[1] + uv_step, strides[1], rem_h >> ss_ver);
+                 if (iter_planes & LR_RESTORE_V)
+-                    backup_left_uv(pre_lr_border_uv[bit_uv][1], ptrs[2] + 64, strides[1], rem_h >> ss_ver);
++                    backup_left_uv(pre_lr_border_uv[bit_uv][1], ptrs[2] + uv_step, strides[1], rem_h >> ss_ver);
+             }
+         }
+         if (restore) {
+@@ -396,8 +401,8 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+         bit ^= 1;
+         if (iter_planes & (LR_RESTORE_U | LR_RESTORE_V)) {
+             bit_uv ^= 1;
+-            ptrs[1] += 64;
+-            ptrs[2] += 64;
++            ptrs[1] += uv_step;
++            ptrs[2] += uv_step;
+         }
+     }
+ }
+-- 
+2.55.0.windows.5
+

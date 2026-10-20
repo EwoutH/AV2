@@ -1,0 +1,33 @@
+From 43fe58504e93d2d5600ac80e7fa32c1101b48229 Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <ewoutterhoeven@live.nl>
+Date: Mon, 19 Oct 2026 23:25:50 +0200
+Subject: [PATCH 1/5] Work around MSVC dropping a designated initializer in
+ splat_intraref
+
+MSVC (19.51, all optimization levels) loses the .mv[0].n designator when
+.mv[1].n follows it, so intra blocks were stored with mv[0] = 0 instead
+of INVALID_MV and showed up as (0,0) IntraBC candidates. Initialize the
+array as a whole instead.
+---
+ src/decode.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/src/decode.c b/src/decode.c
+index 497583ab..6d136c48 100644
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -721,8 +721,9 @@ static inline void splat_intraref(const Dav2dContext *const c,
+     refmvs_block *const s_dst = &t->rt.r[by4 * 128 + (t->bx & 127)];
+     refmvs_block s_src = (refmvs_block) {
+         .ref.pair = -1,
+-        .mv[0].n = INVALID_MV,
+-        .mv[1].n = INVALID_MV,
++        // not .mv[0].n = ..., .mv[1].n = ...: MSVC (19.51) drops the first
++        // of those two designators and leaves mv[0] zero
++        .mv = { [0].n = INVALID_MV, [1].n = INVALID_MV },
+         .bs = bs,
+         .by4 = t->by,
+         .bx4 = t->bx,
+-- 
+2.55.0.windows.5
+

@@ -33,9 +33,10 @@ defaults:
 env:
   DAV2D_REPO: https://code.videolan.org/videolan/dav2d.git
   RAV2D_REPO: https://github.com/stukenov/rav2d.git
-  # Small 8-bit sample from the samples-v1 release, decoded by every build;
-  # its avmdec MD5 is in the release's manifest.
+  # Small 8-bit sample from the samples-v1 release, decoded by every build and
+  # compared with avmdec from the latest AVM nightly (same platform).
   SAMPLES_URL: https://github.com/EwoutH/AV2/releases/download/samples-v1
+  AVM_URL: https://github.com/EwoutH/AV2/releases/latest/download
   TEST_STREAM: FourPeople_480x270_60_qp210_130f.ivf
 
 jobs:
@@ -138,16 +139,23 @@ jobs:
       - name: Build
         run: meson compile -C build
 
-      - name: Fetch test stream
+      - name: Fetch test stream and avmdec
         run: |
           curl -fsSLO --retry 3 "$SAMPLES_URL/$TEST_STREAM"
-          curl -fsSLO --retry 3 "$SAMPLES_URL/samples-manifest.txt"
+          if [[ "$RUNNER_OS" == Windows ]]; then
+            curl -fsSLO --retry 3 "$AVM_URL/avm-$PLATFORM.zip"
+            7z x -bso0 "avm-$PLATFORM.zip"
+            echo "AVMDEC=avm-$PLATFORM/avmdec.exe" >> "$GITHUB_ENV"
+          else
+            curl -fsSL --retry 3 "$AVM_URL/avm-$PLATFORM.tar.gz" | tar -xz
+            echo "AVMDEC=avm-$PLATFORM/avmdec" >> "$GITHUB_ENV"
+          fi
 
       - name: Decode test
         run: |
           exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
           echo "BIN=build/tools/dav2d$exe" >> "$GITHUB_ENV"
-          python ci/decode_test.py dav2d "build/tools/dav2d$exe" "$TEST_STREAM" samples-manifest.txt | tee test.log
+          python ci/decode_test.py dav2d "build/tools/dav2d$exe" "$TEST_STREAM" "$AVMDEC" | tee test.log
 
       - name: Package
         run: |
@@ -209,13 +217,20 @@ jobs:
           exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
           echo "BIN=src/target/release/rav2d$exe" >> "$GITHUB_ENV"
 
-      - name: Fetch test stream
+      - name: Fetch test stream and avmdec
         run: |
           curl -fsSLO --retry 3 "$SAMPLES_URL/$TEST_STREAM"
-          curl -fsSLO --retry 3 "$SAMPLES_URL/samples-manifest.txt"
+          if [[ "$RUNNER_OS" == Windows ]]; then
+            curl -fsSLO --retry 3 "$AVM_URL/avm-$PLATFORM.zip"
+            7z x -bso0 "avm-$PLATFORM.zip"
+            echo "AVMDEC=avm-$PLATFORM/avmdec.exe" >> "$GITHUB_ENV"
+          else
+            curl -fsSL --retry 3 "$AVM_URL/avm-$PLATFORM.tar.gz" | tar -xz
+            echo "AVMDEC=avm-$PLATFORM/avmdec" >> "$GITHUB_ENV"
+          fi
 
       - name: Decode test
-        run: python ci/decode_test.py rav2d "$BIN" "$TEST_STREAM" samples-manifest.txt | tee test.log
+        run: python ci/decode_test.py rav2d "$BIN" "$TEST_STREAM" "$AVMDEC" | tee test.log
 
       - name: Package
         run: bash ci/package_decoder.sh rav2d "$BIN" "$(rustc --version)" src/LICENSE

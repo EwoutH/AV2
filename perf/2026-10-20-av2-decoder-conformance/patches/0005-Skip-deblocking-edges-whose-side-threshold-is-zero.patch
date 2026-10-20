@@ -1,0 +1,76 @@
+From 65422b699f189f343d46b30a8e372feaa0f11f9a Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <ewoutterhoeven@live.nl>
+Date: Tue, 20 Oct 2026 00:41:09 +0200
+Subject: [PATCH 5/5] Skip deblocking edges whose side threshold is zero
+
+AVM's filt_choice_highbd() returns 0 (no filtering) when either the q or
+the side threshold of an edge is zero, after the thresholds of the two
+blocks have been averaged. dav2d had no such check. At high bit depth
+with low q (e.g. a negative deblocking delta), the side threshold can be
+zero while the q threshold is not, and dav2d then still filtered flat
+areas, off by 1 from AVM on a few pixels. Clear the q threshold wherever
+the side threshold is zero once the thresholds are set up; a zero q
+threshold clamps every correction to zero in the C and asm filters.
+---
+ src/db_apply_tmpl.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/src/db_apply_tmpl.c b/src/db_apply_tmpl.c
+index 5000decc..669d9fc4 100644
+--- a/src/db_apply_tmpl.c
++++ b/src/db_apply_tmpl.c
+@@ -49,6 +49,17 @@ static unsigned deblock_side_thr(const int hbd, const int qidx) {
+     return imax(side_thr + (1 << 4 >> bitdepth_min_8), 0) >> (5 - bitdepth_min_8);
+ }
+ 
++// AVM skips an edge (filt_choice_highbd() returns 0) when either of its
++// thresholds, after averaging across block boundaries, is zero. The side
++// threshold can be zero while the q threshold is not (low q at high bit
++// depth); clearing the q threshold there clamps every correction to zero,
++// in every filter implementation.
++static void clear_q_thr_without_side(pixel thr[2][16 * 16])
++{
++    for (int i = 0; i < 16 * 16; i++)
++        if (!thr[1][i]) thr[0][i] = 0;
++}
++
+ static void init_deblock_thr_lut_y(const Dav2dFrameHeader *const frame_hdr,
+                                    const int hbd, const int n_seg,
+                                    const int dir, const int qidx,
+@@ -458,6 +469,7 @@ void bytefn(dav2d_deblock_slice_cols)(const Dav2dFrameContext *const f,
+                 transpose_lossless_mask(ll_mask_mem,
+                                         &col_lflvl->lossless_mask_y[starty4],
+                                         bx64, 0, 0);
++            clear_q_thr_without_side(edge_thr);
+             filter_plane_cols_y(f, have_left, masks,
+                                 ll_mask, edge_thr, ptr, f->cur.p.stride[0],
+                                 w4, h4, tile_end == x64 * 16);
+@@ -520,6 +532,8 @@ void bytefn(dav2d_deblock_slice_cols)(const Dav2dFrameContext *const f,
+             transpose_lossless_mask(ll_mask_mem,
+                                     &col_lflvl->lossless_mask_uv[starty4 >> ss_ver],
+                                     bx64, ss_hor, ss_ver);
++        clear_q_thr_without_side(edge_thr[0]);
++        clear_q_thr_without_side(edge_thr[1]);
+         filter_plane_cols_uv(f, have_left, masks, ll_mask, edge_thr,
+                              &p[1][uv_off], &p[2][uv_off], f->cur.p.stride[1],
+                              uv_w4, uv_h4, tile_end == x64 * 16, ss_ver);
+@@ -602,6 +616,7 @@ void bytefn(dav2d_deblock_slice_rows)(const Dav2dFrameContext *const f,
+             } else {
+                 dsp->lf.setup_thr_sb_simple(edge_thr, masks, lut, h4, w4);
+             }
++            clear_q_thr_without_side(edge_thr);
+             filter_plane_rows_y(f, have_top, masks, ll_mask, edge_thr,
+                                 ptr, f->cur.p.stride[0], w4, h4);
+         }
+@@ -667,6 +682,8 @@ void bytefn(dav2d_deblock_slice_rows)(const Dav2dFrameContext *const f,
+                 dsp->lf.setup_thr_sb_simple(edge_thr[pl], masks,
+                                             lut[pl], uv_h4, uv_w4);
+         }
++        clear_q_thr_without_side(edge_thr[0]);
++        clear_q_thr_without_side(edge_thr[1]);
+         filter_plane_rows_uv(f, have_top, masks, ll_mask, edge_thr,
+                              &p[1][uv_off], &p[2][uv_off], f->cur.p.stride[1],
+                              uv_w4, uv_h4, ss_hor);
+-- 
+2.55.0.windows.5
+

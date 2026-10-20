@@ -1,0 +1,175 @@
+From d8ca7e360422bcb52e6767576acab837b13317af Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <ewoutterhoeven@live.nl>
+Date: Tue, 20 Oct 2026 00:06:41 +0200
+Subject: [PATCH 3/5] Read chroma loop restoration coefficients between SDP
+ trees
+
+With 64x64 superblocks, intra frames with SDP split the luma and chroma
+partition trees at the superblock root. AVM reads the loop restoration
+coefficients at the root of each tree for the planes that tree covers
+(av2/decoder/decodeframe.c, plane_start/plane_end), so the chroma ones
+come after the whole luma tree. dav2d read all three planes before the
+luma tree and lost sync. Move the read into a helper and read the chroma
+planes in decode_sb() in that case.
+
+64px restoration units also gave negative shifts (the FIXME assert); with
+one unit per superblock a shift of 0 is equivalent.
+
+AVM uses 64x64 superblocks below 4K from --cpu-used 2 up.
+---
+ src/decode.c | 125 +++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 77 insertions(+), 48 deletions(-)
+
+diff --git a/src/decode.c b/src/decode.c
+index 6d136c48..f850d3b7 100644
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -3516,6 +3516,75 @@ static int checked_decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+ // For chroma, these choices can then be used to infer the partition/direction.
+ // sdp/cfl delay restrictions can also be calculated using these values.
+ 
++static inline int sdp_root_split(const Dav2dFrameContext *const f,
++                                 const enum BlockSize root_bs)
++{
++    return root_bs == BS_64x64 && f->seq_hdr->sdp &&
++           !(f->frame_hdr->frame_type & 1);
++}
++
++static void read_restoration_info(Dav2dTaskContext *const t,
++                                  Av2RestorationUnit *const lr, const int p,
++                                  const enum Dav2dRestorationType frame_type);
++
++// Read the loop restoration coefficients of planes [p_start, p_end) for
++// the superblock at t->by/t->bx.
++static void read_sb_restoration(Dav2dTaskContext *const t,
++                                const int p_start, const int p_end)
++{
++    const Dav2dFrameContext *const f = t->f;
++    Dav2dTileState *const ts = t->ts;
++    const int sbsz = f->sb_step * 4;
++    for (int p = p_start; p < p_end; p++) {
++        const int ss_ver = p && f->ss_ver, ss_hor = p && f->ss_hor;
++        if (f->frame_hdr->restoration.p[p].type == DAV2D_RESTORATION_NONE)
++            continue;
++
++        const int tx = 4 * (t->bx - ts->tiling.col_start) >> ss_hor;
++        const int ty = 4 * (t->by - ts->tiling.row_start) >> ss_ver;
++        const int unit_sz_log2 = f->frame_hdr->restoration.unit_size[!!p];
++        const int unit_sz = 1 << unit_sz_log2;
++        const unsigned mask = unit_sz - 1;
++        if ((tx | ty) & mask) continue;
++        const int tw = ts->tiling.col_end * 4 >> ss_hor;
++        const int th = ts->tiling.row_end * 4 >> ss_ver;
++        const int half_unit = unit_sz >> 1;
++        // Round half up at frame boundaries, if there's more than one
++        // restoration unit
++        const int fx = 4 * t->bx >> ss_hor, fy = t->by * 4 >> ss_ver;
++        if ((ty && fy + half_unit > th) || (tx && fx + half_unit > tw))
++            continue;
++
++        const enum Dav2dRestorationType frame_type = f->frame_hdr->restoration.p[p].type;
++
++        // FIXME many of these values can be pre-calculated at frame-level
++        const int sbw = sbsz >> ss_hor, sbh = sbsz >> ss_ver;
++        const int lruw = imax(1, imin(tw - fx + half_unit, sbw) >> unit_sz_log2);
++        const int lruh = imax(1, imin(th - fy + half_unit, sbh) >> unit_sz_log2);
++        // 64px units (64x64 superblocks) give a shift of -1; there is then
++        // one unit per superblock (lruw == lruh == 1), so 0 is equivalent
++        const int vsh = imax(0, unit_sz_log2 - 7 + ss_ver);
++        const int hsh = imax(0, unit_sz_log2 - 7 + ss_hor);
++        assert(unit_sz_log2 - 7 + imin(ss_ver, ss_hor) >= 0 ||
++               (lruw == 1 && lruh == 1));
++        int sb_idx = (t->by >> 6) * f->sb256w + (t->bx >> 6);
++        // TODO: store restoration data sequentially instead
++        int start_unit_idx = ((t->by & 0x30) >> 2) + ((t->bx & 0x30) >> 4);
++
++        // FIXME I think lruh is always 1, so this loop may be eliminated
++        for (int y = 0; y < lruh; y++, sb_idx += f->sb256w << vsh) {
++            for (int x = 0; x < lruw; x++) {
++                int unit_idx = start_unit_idx; // TODO: + x * ... + y * ...;
++                Av2RestorationUnit *const lr =
++                    &f->lf.lr_mask[sb_idx + (x << hsh)].lr[p][unit_idx];
++                read_restoration_info(t, lr, p, frame_type);
++                DEBUG_BLOCK_printf("Post-restoration[p=%d,type=%d]: r=%d\n",
++                                   p, lr->type, ts->msac.rng);
++            }
++        }
++    }
++}
++
+ static int decode_sb(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                      const enum BlockSize lbs, enum BlockSize cbs,
+                      int *const dir_ptr)
+@@ -3538,6 +3607,9 @@ static int decode_sb(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     {
+         int dir = 0;
+         if (decode_sb(t, DB_ONLY(depth) lbs, BS_INVALID, &dir)) return -1;
++        if (sdp_root_split(f, f->root_bs) &&
++            (t->task_thread.pass & PASS_ENTROPY))
++            read_sb_restoration(t, 1, 3);
+         return decode_sb(t, DB_ONLY(depth) BS_INVALID, cbs, &dir);
+     }
+ 
+@@ -4614,54 +4686,11 @@ int dav2d_decode_tile_sbrow(Dav2dTaskContext *const t) {
+         {
+             dav2d_refmvs_reset_sb(&t->rt, t->by, t->bx);
+         }
+-        // Restoration filter
+-        const int sbsz = f->sb_step * 4;
+-        for (int p = 0, ss_ver = 0, ss_hor = 0; p < 3;
+-             p++, ss_ver = f->ss_ver, ss_hor = f->ss_hor)
+-        {
+-            if (f->frame_hdr->restoration.p[p].type == DAV2D_RESTORATION_NONE)
+-                continue;
+-
+-            const int tx = 4 * (t->bx - ts->tiling.col_start) >> ss_hor;
+-            const int ty = 4 * (t->by - ts->tiling.row_start) >> ss_ver;
+-            const int unit_sz_log2 = f->frame_hdr->restoration.unit_size[!!p];
+-            const int unit_sz = 1 << unit_sz_log2;
+-            const unsigned mask = unit_sz - 1;
+-            if ((tx | ty) & mask) continue;
+-            const int tw = ts->tiling.col_end * 4 >> ss_hor;
+-            const int th = ts->tiling.row_end * 4 >> ss_ver;
+-            const int half_unit = unit_sz >> 1;
+-            // Round half up at frame boundaries, if there's more than one
+-            // restoration unit
+-            const int fx = 4 * t->bx >> ss_hor, fy = t->by * 4 >> ss_ver;
+-            if ((ty && fy + half_unit > th) || (tx && fx + half_unit > tw))
+-                continue;
+-
+-            const enum Dav2dRestorationType frame_type = f->frame_hdr->restoration.p[p].type;
+-
+-            // FIXME many of these values can be pre-calculated at frame-level
+-            const int sbw = sbsz >> ss_hor, sbh = sbsz >> ss_ver;
+-            const int lruw = imax(1, imin(tw - fx + half_unit, sbw) >> unit_sz_log2);
+-            const int lruh = imax(1, imin(th - fy + half_unit, sbh) >> unit_sz_log2);
+-            const int vsh = unit_sz_log2 - 7 + ss_ver;
+-            const int hsh = unit_sz_log2 - 7 + ss_hor;
+-            assert(vsh >= 0 && hsh >= 0); // FIXME: unit_sz_log2 can be 6
+-            int sb_idx = (t->by >> 6) * f->sb256w + (t->bx >> 6);
+-            // TODO: store restoration data sequentially instead
+-            int start_unit_idx = ((t->by & 0x30) >> 2) + ((t->bx & 0x30) >> 4);
+-
+-            // FIXME I think lruh is always 1, so this loop may be eliminated
+-            for (int y = 0; y < lruh; y++, sb_idx += f->sb256w << vsh) {
+-                for (int x = 0; x < lruw; x++) {
+-                    int unit_idx = start_unit_idx; // TODO: + x * ... + y * ...;
+-                    Av2RestorationUnit *const lr =
+-                        &f->lf.lr_mask[sb_idx + (x << hsh)].lr[p][unit_idx];
+-                    read_restoration_info(t, lr, p, frame_type);
+-                    DEBUG_BLOCK_printf("Post-restoration[p=%d,type=%d]: r=%d\n",
+-                                       p, lr->type, ts->msac.rng);
+-                }
+-            }
+-        }
++        // Restoration filter. In intra frames with SDP and 64x64
++        // superblocks, the luma and chroma trees split at the superblock
++        // root; the chroma coefficients are then read in decode_sb(),
++        // between the two trees (as AVM does).
++        read_sb_restoration(t, 0, sdp_root_split(f, root_bs) ? 1 : 3);
+         int dir = 0;
+         t->sdp_cfl_disallowed = 0;
+         if (IS_INTER_OR_SWITCH(f->frame_hdr)) {
+-- 
+2.55.0.windows.5
+

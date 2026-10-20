@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Decode a sample stream with dav2d or rav2d and compare against the manifest.
+"""Decode a sample stream with dav2d or rav2d and compare against avmdec.
 
-Usage: decode_test.py <dav2d|rav2d> <decoder binary> <stream.ivf> <manifest.txt>
+Usage: decode_test.py <dav2d|rav2d> <decoder binary> <stream.ivf> <avmdec>
 
-The manifest MD5 is avmdec's hash of the decoded planes. A mismatch or a
-failed decode is reported, not fatal: the decoders may target a different
-AV2 version than the AVM commit that made the samples.
+Both sides are MD5s of the decoded planes only: `avmdec --rawvideo --md5`
+for the reference, dav2d's md5 muxer, and the frame data of rav2d's Y4M
+output. (The sample manifests hold `avmdec --md5` without --rawvideo, which
+hashes avmdec's Y4M output *including* its headers, so it never matches
+another decoder.) A mismatch or a failed decode is reported, not fatal.
 """
 import hashlib
 import os
@@ -37,10 +39,12 @@ def y4m_payload_md5(path):
 
 
 def main():
-    decoder, binary, stream, manifest = sys.argv[1:5]
+    decoder, binary, stream, avmdec = sys.argv[1:5]
     name = os.path.basename(stream)
-    expected = next((line.split("\t")[2].strip() for line in open(manifest)
-                     if line.startswith(name + "\t")), None)
+    ref = subprocess.run([avmdec, stream, "--rawvideo", "--md5"],
+                         capture_output=True, text=True)
+    expected = ref.stdout.split()[0] if ref.returncode == 0 and ref.stdout.strip() else None
+    print(f"reference: avmdec --rawvideo --md5: {expected} (exit {ref.returncode})")
     if decoder == "dav2d":
         cmd = [binary, "-i", stream, "--muxer", "md5", "-o", "decoded.md5"]
     else:
@@ -55,7 +59,10 @@ def main():
         got = open("decoded.md5").read().split()[0]
     else:
         got = y4m_payload_md5("decoded.y4m")
-    verdict = "matches avmdec" if got == expected else f"differs from avmdec {expected}"
+    if expected is None:
+        verdict = "no avmdec reference"
+    else:
+        verdict = "matches avmdec" if got == expected else f"differs from avmdec {expected}"
     print(f"decode test: {name} md5 {got} ({verdict})")
 
 
