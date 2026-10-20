@@ -10,6 +10,8 @@ of the same commit matched 34 (13%). Five fixes, all in [patches](patches/),
 bring dav2d to 258 of 260, with no crashes. The two left are a missing
 feature and one open bug, both described below. rav2d rejects most streams.
 
+![Decoded output per decoder: match, mismatch, error or crash, out of 260 streams](figures/conformance.svg)
+
 | Decoder | Match | Mismatch | Error | Crash |
 |---|---:|---:|---:|---:|
 | `avmdec` nightly (AVM f1328e2ad1) | 260 | 0 | 0 | 0 |
@@ -112,6 +114,8 @@ on the otherwise idle i7-12700H. Median of 2 runs; every run's MD5 matched
 `avmdec`. [`bench_decode.py`](scripts/bench_decode.py),
 [`bench_decode.jsonl`](bench_decode.jsonl).
 
+![Decode speed per stream: avmdec vs dav2d with and without asm, 1 and 20 threads](figures/decode_speed.svg)
+
 | Stream | Frames | avmdec, 1 thread | dav2d, 1 thread | dav2d, 20 threads | dav2d C only, 1 thread |
 |---|---:|---:|---:|---:|---:|
 | KristenAndSara 720p | 600 | 51 fps | 124 fps | 297 fps | 32 fps |
@@ -139,6 +143,8 @@ header (`F1:60`).
 The scripts expect the local work folder layout (`samples/av2_work/`):
 `conform.py` decodes every stream with every decoder (resumable, E-cores,
 below-normal priority) into `conform.jsonl`; `summarize.py` prints the table.
+`scripts/make_figures.py` redraws both figures from the two `.jsonl` files
+in this folder.
 `conform.jsonl` here has one row per (stream, decoder): exit code, MD5, wall
 time. The truncated `crowd_run_1080p50_qp110_s4_33f.ivf` (18 of 33 frames,
 left from an interrupted sweep) is excluded. The unpatched dav2d rows were
