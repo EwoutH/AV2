@@ -86,11 +86,11 @@ between dav2d and AVM.
 4. **32-sample chroma restoration units** ([0004](patches/0004-Filter-chroma-in-32-sample-stripes-for-32-sample-res.patch)).
    Chroma was filtered in 64-sample stripes with one unit per stripe, so the
    right half of each stripe used the wrong unit. Small chroma errors on small
-   frames at `--cpu-used 2`.
+   frames from `--cpu-used 2` up (11 streams, 270p-360p).
 5. **Deblocking with a zero side threshold** ([0005](patches/0005-Skip-deblocking-edges-whose-side-threshold-is-zero.patch)).
    AVM skips an edge when either (averaged) threshold is zero. dav2d didn't,
    which left a few pixels off by 1 on 10-bit content with a negative
-   deblocking delta (4 HD streams: HDR10 and screen content).
+   deblocking delta (9 of the 10-bit HD streams).
 
 dav2d's own test vectors still pass with all five (C and asm, single- and
 multi-threaded). The patches apply to dav2d `main` (8266278); none of them
