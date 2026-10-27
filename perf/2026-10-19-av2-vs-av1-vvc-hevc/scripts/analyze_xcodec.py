@@ -13,6 +13,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 import numpy as np
 from scipy.interpolate import PchipInterpolator
 
@@ -273,38 +274,63 @@ def style():
         "lines.linewidth": 2})
 
 
+def speed_panel(ax, summary, configs, g, m):
+    """Encode time vs BD-rate for one clip group and metric."""
+    for codec, (name, col, mk) in CODEC.items():
+        cs = [c for c in configs if c[0] == codec and (g, c) in summary]
+        if not cs:
+            continue
+        xs = [summary[(g, c)]["time"] for c in cs]
+        ys = [summary[(g, c)][m] for c in cs]
+        ax.plot(xs, ys, color=col, marker=mk, markersize=7,
+                markeredgecolor="white", markeredgewidth=1.2,
+                label=name, zorder=3)
+        # label the slowest and fastest config of each codec
+        for c, x, y in ((cs[0], xs[0], ys[0]), (cs[-1], xs[-1], ys[-1])):
+            ax.annotate(label(*c).split(" ", 1)[1], (x, y),
+                        textcoords="offset points", xytext=(5, 4),
+                        fontsize=7.5, color=INK2)
+    ax.set_xscale("log")
+    ax.axhline(0, color=INK2, linewidth=0.8, zorder=1)
+
+
+def group_title(summary, anc, g):
+    n = summary[(g, anc)]["n"]
+    return f"{g} ({n} clip{'s' if n > 1 else ''})"
+
+
 def figures(pts, summary, configs, anc):
     style()
     groups = [g for g in GROUPS if any((g, c) in summary for c in configs)]
+    xlabel = f"encode time relative to {label(*anc)} (log)"
     for m in ("psnr", "vmaf"):
         fig, axes = plt.subplots(1, len(groups), figsize=(4.6 * len(groups), 4.4),
                                  squeeze=False)
         for ax, g in zip(axes[0], groups):
-            for codec, (name, col, mk) in CODEC.items():
-                cs = [c for c in configs if c[0] == codec and (g, c) in summary]
-                if not cs:
-                    continue
-                xs = [summary[(g, c)]["time"] for c in cs]
-                ys = [summary[(g, c)][m] for c in cs]
-                ax.plot(xs, ys, color=col, marker=mk, markersize=7,
-                        markeredgecolor="white", markeredgewidth=1.2,
-                        label=name, zorder=3)
-                # label the slowest and fastest config of each codec
-                for c, x, y in ((cs[0], xs[0], ys[0]), (cs[-1], xs[-1], ys[-1])):
-                    ax.annotate(label(*c).split(" ", 1)[1], (x, y),
-                                textcoords="offset points", xytext=(5, 4),
-                                fontsize=7.5, color=INK2)
-            ax.set_xscale("log")
-            ax.axhline(0, color=INK2, linewidth=0.8, zorder=1)
-            ax.set_title(f"{g} ({summary[(g, anc)]['n']} clip"
-                         f"{'s' if summary[(g, anc)]['n'] > 1 else ''})",
-                         fontsize=10.5)
-            ax.set_xlabel(f"encode time relative to {label(*anc)} (log)")
+            speed_panel(ax, summary, configs, g, m)
+            ax.set_title(group_title(summary, anc, g), fontsize=10.5)
+            ax.set_xlabel(xlabel)
         axes[0][0].set_ylabel(f"BD-rate vs {label(*anc)}, {MNAME[m]} (%)")
         axes[0][-1].legend(fontsize=8, frameon=False, loc="best")
         fig.tight_layout()
         fig.savefig(OUT / "figures" / f"speed_vs_bdrate_{m}.svg")
         plt.close(fig)
+    # PSNR and VMAF stacked, one column per clip group
+    fig, axes = plt.subplots(2, len(groups), figsize=(4.6 * len(groups), 8.2),
+                             squeeze=False, sharex="col")
+    for row, m in enumerate(("psnr", "vmaf")):
+        for ax, g in zip(axes[row], groups):
+            speed_panel(ax, summary, configs, g, m)
+            if row == 0:
+                ax.set_title(group_title(summary, anc, g), fontsize=10.5)
+            else:
+                ax.set_xlabel(xlabel)
+        axes[row][0].set_ylabel(f"BD-rate vs {label(*anc)}, {MNAME[m]} (%)")
+    axes[0][-1].legend(fontsize=8, frameon=False, loc="best")
+    fig.tight_layout()
+    fig.savefig(OUT / "figures" / "speed_vs_bdrate.svg")
+    fig.savefig(OUT / "figures" / "speed_vs_bdrate.png", dpi=300)
+    plt.close(fig)
     # RD curves: slowest preset of each codec, one panel per clip
     clips = list(dict.fromkeys(c for g in GROUPS.values() for c in g
                                if any((c, *cf) in pts for cf in configs)))
@@ -325,6 +351,9 @@ def figures(pts, summary, configs, anc):
                     markersize=5, markeredgecolor="white", markeredgewidth=0.8,
                     label=label(*c))
         ax.set_xscale("log")
+        # matplotlib labels minor ticks when a log axis spans under a decade;
+        # those labels overlap
+        ax.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
         ax.set_title(SHORT[clip], fontsize=10)
         ax.set_xlabel(f"kbit per {FRAMES[clip]} frames (log)")
         ax.set_ylabel("PSNR-YUV (dB)")
@@ -333,6 +362,7 @@ def figures(pts, summary, configs, anc):
         ax.axis("off")
     fig.tight_layout()
     fig.savefig(OUT / "figures" / "rd_curves.svg")
+    fig.savefig(OUT / "figures" / "rd_curves.png", dpi=300)
     plt.close(fig)
 
 
