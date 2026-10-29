@@ -10,6 +10,10 @@ of the same commit matched 34 (13%). Five fixes, all in [patches](patches/),
 bring dav2d to 258 of 260, with no crashes. The two left are a missing
 feature and one open bug, both described below. rav2d rejects most streams.
 
+> **Update, 29 Oct:** upstream dav2d now fixes every dav2d problem in this
+> report, and matches `avmdec` on all 284 streams without patches. See the
+> [29 Oct update](../2026-10-29-dav2d-conformance-update/).
+
 ![Decoded output per decoder: match, mismatch, error or crash, out of 260 streams](figures/conformance.svg)
 
 | Decoder | Match | Mismatch | Error | Crash |
