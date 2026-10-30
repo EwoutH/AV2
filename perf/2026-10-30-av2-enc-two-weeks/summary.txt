@@ -1,0 +1,72 @@
+288 complete encodes (89eae123d vs 97e8004e4)
+
+## FourPeople 270p
+preset | time new/old | BD PSNR | BD SSIM | BD VMAF | old vs old-s1: time, BD PSNR | new vs old-s1: time, BD PSNR
+s1 | 0.77x | +0.2% | -0.1% | -0.1% | 1.00x, +0.0% | 0.77x, +0.2%
+s2 | 0.77x | +1.0% | +1.8% | +1.9% | 0.39x, +2.2% | 0.30x, +3.2%
+s3 | 0.82x | -0.2% | -0.2% | -2.1% | 0.24x, +4.1% | 0.19x, +3.9%
+s4 | 0.55x | +0.5% | +0.4% | -2.7% | 0.21x, +5.5% | 0.11x, +6.1%
+s5 | 0.57x | +2.1% | +1.7% | -2.2% | 0.16x, +5.9% | 0.09x, +8.2%
+s6 | 0.60x | +2.7% | +2.2% | +0.7% | 0.11x, +5.5% | 0.06x, +8.3%
+s7 | 0.51x | +2.7% | +2.2% | +1.5% | 0.12x, +5.5% | 0.06x, +8.3%
+s8 | 0.59x | +2.8% | +2.1% | +1.6% | 0.12x, +5.4% | 0.07x, +8.3%
+s9 | 0.53x | +2.7% | +2.2% | +1.7% | 0.12x, +5.5% | 0.06x, +8.3%
+
+## BlueSky 360p
+preset | time new/old | BD PSNR | BD SSIM | BD VMAF | old vs old-s1: time, BD PSNR | new vs old-s1: time, BD PSNR
+s1 | 0.78x | +2.0% | +2.8% | +1.5% | 1.00x, +0.0% | 0.78x, +2.0%
+s2 | 0.78x | +1.5% | +1.8% | +0.6% | 0.48x, +5.9% | 0.38x, +7.4%
+s3 | 0.81x | -0.6% | +0.1% | -1.9% | 0.23x, +6.6% | 0.19x, +6.1%
+s4 | 0.64x | +1.8% | +1.5% | +1.3% | 0.18x, +7.5% | 0.12x, +9.4%
+s5 | 0.61x | +1.5% | +0.5% | +1.2% | 0.15x, +9.9% | 0.09x, +11.4%
+s6 | 0.58x | +4.3% | +3.2% | +6.3% | 0.10x, +10.2% | 0.06x, +14.8%
+s7 | 0.52x | +2.9% | +2.3% | +3.8% | 0.11x, +11.6% | 0.06x, +14.8%
+s8 | 0.53x | +3.1% | +1.9% | +3.4% | 0.11x, +11.3% | 0.06x, +14.8%
+s9 | 0.55x | +3.9% | +3.3% | +4.9% | 0.12x, +10.5% | 0.07x, +14.8%
+
+## Vertical_Bayshore 270x480
+preset | time new/old | BD PSNR | BD SSIM | BD VMAF | old vs old-s1: time, BD PSNR | new vs old-s1: time, BD PSNR
+s1 | 0.77x | +0.1% | -0.4% | -2.6% | 1.00x, +0.0% | 0.77x, +0.1%
+s2 | 0.70x | -0.1% | +0.3% | -1.0% | 0.49x, +7.6% | 0.34x, +7.3%
+s3 | 0.82x | +0.6% | +0.6% | -0.5% | 0.21x, +9.0% | 0.17x, +9.6%
+s4 | 0.66x | +7.3% | +7.5% | +5.2% | 0.17x, +7.7% | 0.11x, +15.7%
+s5 | 0.60x | +3.9% | +4.3% | +1.5% | 0.13x, +12.9% | 0.08x, +17.1%
+s6 | 0.70x | +1.8% | +3.3% | +2.1% | 0.09x, +24.7% | 0.06x, +27.3%
+s7 | 0.60x | +3.7% | +4.5% | +5.0% | 0.10x, +22.3% | 0.06x, +27.3%
+s8 | 0.55x | +5.7% | +6.8% | +3.7% | 0.11x, +19.9% | 0.06x, +27.3%
+s9 | 0.58x | +4.7% | +7.0% | +2.0% | 0.11x, +21.1% | 0.06x, +27.3%
+
+## KristenAndSara 720p
+preset | time new/old | BD PSNR | BD SSIM | BD VMAF | old vs old-s1: time, BD PSNR | new vs old-s1: time, BD PSNR
+s1 | 0.70x | +0.7% | +0.6% | +0.1% | 1.00x, +0.0% | 0.70x, +0.7%
+s2 | 0.78x | -0.4% | -1.0% | -0.8% | 0.49x, +2.3% | 0.38x, +1.9%
+s3 | 0.72x | +0.3% | +0.4% | -0.7% | 0.22x, +3.7% | 0.16x, +4.1%
+s4 | 0.60x | +0.0% | -0.2% | -2.0% | 0.16x, +6.1% | 0.10x, +6.2%
+s5 | 0.55x | +0.8% | -0.1% | +0.6% | 0.12x, +6.9% | 0.07x, +7.9%
+s6 | 0.54x | +2.9% | +1.3% | +1.9% | 0.09x, +10.3% | 0.05x, +13.4%
+s7 | 0.48x | +4.8% | +4.0% | +4.3% | 0.11x, +8.4% | 0.05x, +13.4%
+s8 | 0.44x | +4.4% | +3.1% | +2.9% | 0.12x, +8.7% | 0.05x, +13.4%
+s9 | 0.45x | +4.6% | +3.4% | +3.6% | 0.12x, +8.5% | 0.05x, +13.4%
+
+## Group means (time: geometric mean of ratios)
+low-res (3 clips) s1: new is 1.29x as fast, BD PSNR +0.8% SSIM +0.8% VMAF -0.4%
+low-res (3 clips) s2: new is 1.34x as fast, BD PSNR +0.8% SSIM +1.3% VMAF +0.5%
+low-res (3 clips) s3: new is 1.22x as fast, BD PSNR -0.1% SSIM +0.1% VMAF -1.5%
+low-res (3 clips) s4: new is 1.62x as fast, BD PSNR +3.2% SSIM +3.1% VMAF +1.2%
+low-res (3 clips) s5: new is 1.68x as fast, BD PSNR +2.5% SSIM +2.2% VMAF +0.1%
+low-res (3 clips) s6: new is 1.60x as fast, BD PSNR +2.9% SSIM +2.9% VMAF +3.0%
+low-res (3 clips) s7: new is 1.85x as fast, BD PSNR +3.1% SSIM +3.0% VMAF +3.4%
+low-res (3 clips) s8: new is 1.80x as fast, BD PSNR +3.9% SSIM +3.6% VMAF +2.9%
+low-res (3 clips) s9: new is 1.82x as fast, BD PSNR +3.8% SSIM +4.1% VMAF +2.9%
+720p (KristenAndSara) s1: new is 1.42x as fast, BD PSNR +0.7% SSIM +0.6% VMAF +0.1%
+720p (KristenAndSara) s2: new is 1.28x as fast, BD PSNR -0.4% SSIM -1.0% VMAF -0.8%
+720p (KristenAndSara) s3: new is 1.38x as fast, BD PSNR +0.3% SSIM +0.4% VMAF -0.7%
+720p (KristenAndSara) s4: new is 1.66x as fast, BD PSNR +0.0% SSIM -0.2% VMAF -2.0%
+720p (KristenAndSara) s5: new is 1.80x as fast, BD PSNR +0.8% SSIM -0.1% VMAF +0.6%
+720p (KristenAndSara) s6: new is 1.85x as fast, BD PSNR +2.9% SSIM +1.3% VMAF +1.9%
+720p (KristenAndSara) s7: new is 2.07x as fast, BD PSNR +4.8% SSIM +4.0% VMAF +4.3%
+720p (KristenAndSara) s8: new is 2.26x as fast, BD PSNR +4.4% SSIM +3.1% VMAF +2.9%
+720p (KristenAndSara) s9: new is 2.22x as fast, BD PSNR +4.6% SSIM +3.4% VMAF +3.6%
+
+## Old build vs 14 Oct sweep
+144 encodes with identical payload size, 0 different; wall time now/then: geometric mean 1.008, range 0.88-1.29
