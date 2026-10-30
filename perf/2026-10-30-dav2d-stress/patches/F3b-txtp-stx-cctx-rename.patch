@@ -1,0 +1,292 @@
+From 99b2f9948780b8b63064f6e570b91da16a56f74b Mon Sep 17 00:00:00 2001
+From: Ewout ter Hoeven <15776622+EwoutH@users.noreply.github.com>
+Date: Fri, 30 Oct 2026 14:28:03 +0100
+Subject: [PATCH] recon: keep stx/cctx out of txtp in decode_coefs()
+
+decode_coefs() OR-ed the stx and cctx bits into *txtp as soon as they
+were decoded, so later checks on *txtp compared the packed value. For
+chroma IDTX blocks with CCTX, the IDTX check failed and the quantizer
+matrix was applied.
+
+Rename the output to *txtp_stx_cctx and decode into a local txtp that
+holds only the transform type. stx and cctx are kept in their own
+variable and packed into the output once, at the end.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ src/recon_tmpl.c | 99 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 52 insertions(+), 47 deletions(-)
+
+diff --git a/src/recon_tmpl.c b/src/recon_tmpl.c
+index 239e309c..fd382ced 100644
+--- a/src/recon_tmpl.c
++++ b/src/recon_tmpl.c
+@@ -358,10 +358,11 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                         const enum RectTxfmSize tx, const enum BlockSize bs,
+                         const int sdp_active,
+                         const Av2Block *const b, const int plane, coef *cf,
+-                        enum TxfmType *const txtp, uint8_t *res_ctx)
++                        enum TxfmType *const txtp_stx_cctx, uint8_t *res_ctx)
+ {
+     Dav2dTileState *const ts = t->ts;
+     const int chroma = !!plane; // FIXME perhaps make this an inlined function arg?
++    enum TxfmType txtp; // just the txtp, without stx/cctx
+     const int intra = b->intra && (sdp_active || !b->intrabc);
+     const Dav2dFrameContext *const f = t->f;
+     const int lossless = f->frame_hdr->segmentation.lossless[b->seg_id];
+@@ -390,8 +391,8 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                     t_dim->ctx, sctx, all_skip, ts->msac.rng);
+     if (all_skip) {
+         *res_ctx = 0x40;
+-        *txtp = (!chroma && b->fsc) ? IDTX :
+-                lossless ? tx == (int) TX_4X4 ? WHT_WHT : IDTX : DCT_DCT;
++        *txtp_stx_cctx = (!chroma && b->fsc) ? IDTX :
++                         lossless ? tx == (int) TX_4X4 ? WHT_WHT : IDTX : DCT_DCT;
+         return -1;
+     }
+ 
+@@ -450,43 +451,44 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+             if (intra) {
+                 const int y_fsc = !sdp_active ? b->fsc :
+                     t->luma_fsc_map[(t->cby & 15) * 16 + (t->cbx & 15)];
+-                *txtp = y_fsc ? IDTX : WHT_WHT;
++                txtp = y_fsc ? IDTX : WHT_WHT;
+             } else {
+-                assert(*txtp == WHT_WHT || *txtp == IDTX || *txtp == IDTX_INV);
+-                *txtp &= 0xe7; // IDTX_INV -> IDTX
++                assert(*txtp_stx_cctx == WHT_WHT || *txtp_stx_cctx == IDTX ||
++                       *txtp_stx_cctx == IDTX_INV);
++                txtp = *txtp_stx_cctx & 0xe7; // IDTX_INV -> IDTX
+             }
+         } else if (intra) {
+-            *txtp = b->fsc ? IDTX : WHT_WHT;
++            txtp = b->fsc ? IDTX : WHT_WHT;
+         } else if (t_dim->max == TX_4X4) {
+-            *txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
++            txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
+                         ts->cdf.m.txtp_lossless) ? IDTX : WHT_WHT;
+         } else {
+-            *txtp = IDTX;
++            txtp = IDTX;
+         }
+     } else if (chroma) {
+         if (f->seq_hdr->chroma_dctonly) {
+-            *txtp = DCT_DCT;
++            txtp = DCT_DCT;
+         } else {
+             // inferred from either the luma txtp (inter) or a LUT (intra)
+-            if (intra) *txtp = dav2d_txtp_from_uvmode[b->uv_mode];
+-            if ((t_dim->w >= 8 && *txtp & 0x02 /* horizontal is (flip)adst */) ||
+-                (t_dim->h >= 8 && *txtp & 0x40 /* vertical is (flip)adst */) ||
++            txtp = intra ? dav2d_txtp_from_uvmode[b->uv_mode] : *txtp_stx_cctx;
++            if ((t_dim->w >= 8 && txtp & 0x02 /* horizontal is (flip)adst */) ||
++                (t_dim->h >= 8 && txtp & 0x40 /* vertical is (flip)adst */) ||
+                 (tx == (int) TX_16X16 &&
+-                 ((*txtp & 0x47) == 0x41 /* (flip)adst ver, identity hor */ ||
+-                  (*txtp & 0xe2) == 0x22 /* identity ver, (flip)adst hor */)))
++                 ((txtp & 0x47) == 0x41 /* (flip)adst ver, identity hor */ ||
++                  (txtp & 0xe2) == 0x22 /* identity ver, (flip)adst hor */)))
+             {
+-                *txtp = DCT_DCT;
+-            } else if (*txtp == IDTX_INV) *txtp = IDTX;
++                txtp = DCT_DCT;
++            } else if (txtp == IDTX_INV) txtp = IDTX;
+         }
+     } else if (intra) {
+         if (t_dim->sub == TX_32X32 /* 64x64, 64x32 or 32x64 */) {
+-            *txtp = DCT_DCT;
++            txtp = DCT_DCT;
+         } else if (b->fsc) {
+-            *txtp = IDTX;
++            txtp = IDTX;
+         } else if (!eob /* dc-only */ || tx == (enum RectTxfmSize)TX_32X32 ||
+                    f->frame_hdr->reduced_txtp_set == 2 /* ext_tx_set_dct_idtx */)
+         {
+-            *txtp = DCT_DCT;
++            txtp = DCT_DCT;
+         } else if (t_dim->max >= TX_32X32 /* {64,32}x{16,8,4} */) {
+             // long64/32
+             const int long_dct = t_dim->max == TX_64X64 ||
+@@ -494,7 +496,7 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                                      ts->cdf.m.txtp_long32_dct[0]);
+             const int short_idx = dav2d_msac_decode_symbol_adapt4(&ts->msac,
+                                       ts->cdf.m.txtp_intra_short_1d[t_dim->min], 3);
+-            *txtp = txtp_long_tbl[long_dct][t_dim->w < t_dim->h][short_idx];
++            txtp = txtp_long_tbl[long_dct][t_dim->w < t_dim->h][short_idx];
+         } else {
+             // ext_new_tx_set
+             const int sz_ctx = (t_dim->lw + t_dim->lh) >> 1;
+@@ -588,18 +590,18 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                       V_DCT, H_DCT, V_ADST },
+                 },
+             };
+-            *txtp = md_idx2type[sz_ctx][b->y_mode][tx_idx];
++            txtp = md_idx2type[sz_ctx][b->y_mode][tx_idx];
+         }
+     } else {
+         if (t_dim->sub == TX_32X32 /* 64x64, 64x32 or 32x64 */) {
+-            *txtp = DCT_DCT;
++            txtp = DCT_DCT;
+         } else {
+             const int y = eob >> (2 + slw), x = eob & ((4 << slw) - 1);
+             const int xy = x + y;
+             const int ctx = xy < 2 ? 1 : xy > 4 * (imin(8, t_dim->w) +
+                                                    imin(8, t_dim->h)) - 4 ? 2 : 0;
+             if (tx == (enum RectTxfmSize)TX_32X32) {
+-                *txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
++                txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
+                             ts->cdf.m.txtp_inter_dct_idtx[ctx][TX_32X32]) ?
+                         DCT_DCT : IDTX;
+             } else if (t_dim->max >= TX_32X32 /* {64,32}x{16,8,4} */) {
+@@ -610,11 +612,11 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 const int short_idx = dav2d_msac_decode_symbol_adapt4(&ts->msac,
+                                           ts->cdf.m.txtp_inter_short_1d[ctx]
+                                                                 [t_dim->min], 3);
+-                *txtp = txtp_long_tbl[long_dct][t_dim->w < t_dim->h][short_idx];
++                txtp = txtp_long_tbl[long_dct][t_dim->w < t_dim->h][short_idx];
+             } else if (f->frame_hdr->reduced_txtp_set == 1 ||
+                        f->frame_hdr->reduced_txtp_set == 2)
+             {
+-                *txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
++                txtp = dav2d_msac_decode_bool_adapt(&ts->msac,
+                             ts->cdf.m.txtp_inter_dct_idtx[ctx][t_dim->min]) ?
+                         DCT_DCT : IDTX;
+             } else if (f->frame_hdr->reduced_txtp_set == 3) {
+@@ -624,20 +626,20 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+ 
+                 static const uint8_t txtp_dct_idtx_iddct_tbl[4] =
+                     { DCT_DCT, V_DCT, H_DCT, IDTX };
+-                *txtp = txtp_dct_idtx_iddct_tbl[tx_idx];
++                txtp = txtp_dct_idtx_iddct_tbl[tx_idx];
+             } else {
+                 const int setidx = tx == (enum RectTxfmSize)TX_16X16;
+                 const int set = dav2d_msac_decode_bool_adapt(&ts->msac,
+                                     ts->cdf.m.txtp_inter_tx_set[setidx][ctx]
+                                                                [t_dim->min]);
+                 if (!set) {
+-                    *txtp = dav2d_msac_decode_symbol_adapt8(&ts->msac,
++                    txtp = dav2d_msac_decode_symbol_adapt8(&ts->msac,
+                                 ts->cdf.m.txtp_inter_set0[setidx][ctx], 7);
+                 } else if (setidx) {
+-                    *txtp = dav2d_msac_decode_symbol_adapt4(&ts->msac,
++                    txtp = dav2d_msac_decode_symbol_adapt4(&ts->msac,
+                                 ts->cdf.m.txtp_inter_set2[ctx], 3) + 8;
+                 } else {
+-                    *txtp = dav2d_msac_decode_symbol_adapt8(&ts->msac,
++                    txtp = dav2d_msac_decode_symbol_adapt8(&ts->msac,
+                                 ts->cdf.m.txtp_inter_set1[ctx], 7) + 8;
+                 }
+                 static const uint8_t txtp_inv_tbl[][16] = {
+@@ -649,34 +651,36 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                       DCT_DCT, ADST_DCT, DCT_ADST, FLIPADST_DCT, DCT_FLIPADST,
+                       ADST_ADST, FLIPADST_FLIPADST, ADST_FLIPADST, FLIPADST_ADST },
+                 };
+-                *txtp = txtp_inv_tbl[setidx][*txtp];
++                txtp = txtp_inv_tbl[setidx][txtp];
+             }
+         }
+     }
+     DEBUG_CF_printf("%*sPost-txtp[%s/%s]: r=%d\n",
+-                    depth, "", dav2d_tx1d_names[*txtp & 7],
+-                    dav2d_tx1d_names[*txtp >> 5], ts->msac.rng);
++                    depth, "", dav2d_tx1d_names[txtp & 7],
++                    dav2d_tx1d_names[txtp >> 5], ts->msac.rng);
+ 
+-    const enum TxClass tx_class = (*txtp >> 3) & 0x3;
++    const enum TxClass tx_class = (txtp >> 3) & 0x3;
+ 
+     // secondary transform
+     int stx_type = 0;
++    // stx (type | set << 2) or cctx, stored above the txtp in the output
++    unsigned stx_cctx = 0;
+     if (f->seq_hdr->ist[!intra] && !chroma) {
+         if (intra) {
+             if (eob >= 1 && b->y_mode != PAETH_PRED &&
+-                (*txtp == DCT_DCT || *txtp == ADST_ADST))
++                (txtp == DCT_DCT || txtp == ADST_ADST))
+             {
+                 int lim;
+-                if (tx == (enum RectTxfmSize)TX_8X8 && *txtp == DCT_DCT)
++                if (tx == (enum RectTxfmSize)TX_8X8 && txtp == DCT_DCT)
+                     lim = 20;
+                 else if (t_dim->min >= TX_8X8)
+-                    lim = *txtp == DCT_DCT ? 32 : 20;
++                    lim = txtp == DCT_DCT ? 32 : 20;
+                 else
+                     lim = 8;
+                 stx_type = eob < lim;
+             }
+         } else {
+-            stx_type = t_dim->min >= TX_16X16 && *txtp == DCT_DCT &&
++            stx_type = t_dim->min >= TX_16X16 && txtp == DCT_DCT &&
+                        eob >= 3 && eob < 32;
+         }
+         if (stx_type) {
+@@ -684,7 +688,7 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 ts->cdf.m.stx[!intra][t_dim->min], 3);
+             int stx_set = 0;
+             if (stx_type && intra) {
+-                if (t_dim->min >= TX_8X8 && *txtp == ADST_ADST) {
++                if (t_dim->min >= TX_8X8 && txtp == ADST_ADST) {
+                     static const uint8_t inv_most_probable_stx_mapping_adst[][7] = {
+                         { 3, 1, 0, 2 },  // DC_PRED
+                         { 1, 3, 0, 2 },  // V_PRED
+@@ -721,10 +725,10 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                                   ts->cdf.m.stx_set, 6);
+                     stx_set = inv_most_probable_stx_mapping[b->y_mode][stx_set];
+                 }
+-                stx_set += 7 * (*txtp == ADST_ADST);
+-                *txtp |= stx_set << 10;
++                stx_set += 7 * (txtp == ADST_ADST);
++                stx_cctx = stx_set << 2;
+             }
+-            *txtp |= stx_type << 8;
++            stx_cctx |= stx_type;
+             DEBUG_CF_printf("%*sPost-stx[type=%d,set=%d]: r=%d\n",
+                             depth, "", stx_type, stx_set, ts->msac.rng);
+         }
+@@ -735,7 +739,7 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                                                          ts->cdf.m.cctx, 6);
+         DEBUG_CF_printf("%*sPost-cctx[%d]: r=%d\n",
+                         depth, "", cctx, ts->msac.rng);
+-        *txtp |= cctx << 8;
++        stx_cctx = cctx;
+     }
+ 
+     // base tokens
+@@ -744,9 +748,9 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     const int tcq_enabled = !chroma && f->frame_hdr->tcq &&
+                             tx_class == TX_CLASS_2D && !lossless;
+     const int ph_enabled = !chroma && f->frame_hdr->parity_hiding &&
+-                           *txtp != IDTX && !lossless && eob > 3;
++                           txtp != IDTX && !lossless && eob > 3;
+     int hr_avg = 0, tcq_state = tcq_enabled * INT32_MIN;
+-    const uint8_t *const qm_tbl = (*txtp == IDTX || *txtp == WHT_WHT || tx_class == TX_CLASS_H ||
++    const uint8_t *const qm_tbl = (txtp == IDTX || txtp == WHT_WHT || tx_class == TX_CLASS_H ||
+                                   tx_class == TX_CLASS_V) ? NULL : f->qm[tx][plane];
+     int dq_shift = tcq_enabled + 3 + imax(0, t_dim->ctx - 2);
+     const uint32_t *const dq_tbl = ts->dq[b->seg_id][plane];
+@@ -759,10 +763,10 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     unsigned ph_state = ph_enabled ? 2 : 0;
+ 
+     if (f->seq_hdr->fsc && (!intra || b->fsc) &&
+-        *txtp == IDTX && !chroma)
++        txtp == IDTX && !chroma)
+     {
+         assert(!stx_type);
+-        *txtp = IDTX_INV;
++        txtp = IDTX_INV;
+         int8_t *const levels = t->scratch.levels;
+         const ptrdiff_t stride = 1 + (4 << slh);
+         memset(levels, 0, stride * ((4 << slw) + 1));
+@@ -1132,6 +1136,7 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     cf[0] = dc_sign ? -dc_val : dc_val;
+ 
+ end:
++    *txtp_stx_cctx = txtp | (stx_cctx << 8);
+     // context
+     *res_ctx = umin(cul_level, 63) | dc_sign_level;
+ 
+-- 
+2.56.0.windows.2
+

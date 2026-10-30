@@ -246,6 +246,16 @@ against !950 before reporting.
   stream (C and asm). Repro `repro/F3_qm_cctx_parkjoy.ivf`. Needs a
   regression run on the sample corpus before sending.
   c000067 (`--tile-columns 1 --enable-qm 1`) still fails with the fix: F2.
+  Sent as !952. After review (rbultje, IRC), reworked: the output is renamed
+  to `*txtp_stx_cctx`, `decode_coefs()` uses a local `txtp` with only the
+  transform type, and stx/cctx are packed into the output once at the end
+  (`patches/F3b-txtp-stx-cctx-rename.patch`, on `main` 864281f0). Compared
+  with the mask version on 362 of 937 streams before the session ended
+  (C, asm, 4 frame threads): identical on all 10 AVM vectors and the first
+  85 corpus streams (the smaller ones) in every mode, and at 1 thread on 249
+  of 257 stress streams. The other 8, and all the frame-thread differences,
+  are on streams already broken on `main` whose output changes from run to
+  run with either version. F3 repro matches avmdec in all modes.
 - `--enable-overlay 1` alone: ocean 256x144, frame 5 (c000032, c000118).
 - `--enable-rect-partitions 0` alone: wikipedia 640x360, frame 2 (c000041).
 - `--reduced-tx-part-set 1` alone: drivingpov10, s3, frame 0 (c000015).
@@ -295,3 +305,52 @@ against !950 before reporting.
   rejects when the DPB is smaller than the default 8.
 - **A2** avmenc `--enable-overlay=1` on a 16x16 clip: "The same superblock
   is recoded twice. Infinite loop detected?" (encoder error exit).
+
+## Follow-up 30 Oct: the threads-only failures (all on plain `main` too)
+
+All 21 fail with tile threads alone (`--threads 4 --framedelay 1`) and all
+use 2+ tile columns or rows. Unpatched `main` (+ !947) fails the same way.
+Three causes:
+
+- **F13 (fix ready), crash:** default settings + `--tile-columns=2`:
+  `repro/F13_tile_threads_4cols_fourpeople.ivf` (fourpeople 480x270, 2
+  frames, `--qp=110 --cpu-used=9 --tile-columns=2`; avmdec MD5
+  `046ac01dff6a4be57db84d5313a9538e`). Segfaults with 2-8 tile threads,
+  every run; 1 thread and frame threading are fine. In
+  `dav2d_refmvs_load_tmvs()` (tile-threading path, `!have_frame_threading`)
+  the copy of the previous SB row's last two rows is split into head /
+  32-aligned middle / tail. For a tile that starts and ends inside one
+  32-wide group (last tile: 8x8 columns 48-60), the head covers it all and
+  the middle width is 32 - 60 = -28: `if (w)` passes and memcpy gets a huge
+  size. Fix: `if (w > 0)` (`patches/F13-tmv-row-copy-narrow-tile.patch`).
+  Never happens at 1080p with 4 tile columns (tiles start at multiples of
+  256 px), so the corpus didn't hit it. With F13, the F13 repro and the
+  other small repros match in all thread modes on plain `main`.
+- **Tile-thread CDF averaging (fixed by !948):** the tile-thread path in
+  thread_task.c still averages over `1 << (log2_cols + log2_rows)` tiles;
+  a6d97bd6 fixed only the single-thread path (real tile count, shift capped
+  at 3). With fewer tiles than that power of two (narrow frames), it reads
+  tile CDFs that don't exist: msac asserts `count <= 32` / `u <= s->rng`
+  (c000366, c000766, p000256). !948 replaces both with
+  `dav2d_decode_frame_update_cdf()`, which fixes it. Tested locally by
+  porting the a6d97bd6 logic to thread_task.c: with that + F13 + the 11
+  patches, 19 of the 21 match in every thread mode.
+- **Open, reported as dav2d #82: tile-thread race with 2 tile columns +
+  TIP:** `repro/C_tile_threads_2cols_tip_fourpeople.ivf` (avmdec MD5
+  `e86051bbee686d3518a842cbd1feac59`). Encoded with `avmenc
+  FourPeople_480x270_60.y4m --ivf --limit=3 --end-usage=q --qp=110
+  --cpu-used=9 --tile-columns=1` (av2-enc 97e8004e4; re-encoding gives a
+  byte-identical file). A race, not a fixed mismatch: on plain `main`
+  864281f0, 20 runs each, 1 thread 20/20 correct, frame threads
+  (framedelay 2 or 4) 20/20, tile threads (framedelay 1) 2t 1/20, 4t 0/20,
+  8t 5/20, 4t C-only 9/20, with several different MD5s. Only frame 2 is
+  wrong, luma only, x 64-96, y 127-136 (|diff| <= 16): the SB row edge at
+  y=128 in the left tile, not the tile column edge at x=256, so the earlier
+  guess (TIP hole filling / smoothing reading across the tile column edge)
+  looks wrong. Correct with tile threads when encoded with
+  `--enable-tip=0`, `--enable-ref-frame-mvs=0`, 1 tile column,
+  `--tile-rows=1` instead of columns, 2 frames or 5 frames. (`--sb-size=64`
+  is not a workaround: that stream is already wrong at 1 thread on plain
+  `main`, from an unmerged bug.)
+- Still open: c001493, p001355 (both `--disable-kf`,
+  `--enable-ref-frame-mvs=0`; mismatch, no crash).

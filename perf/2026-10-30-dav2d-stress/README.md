@@ -52,7 +52,7 @@ fails), decoded with all 11 fixes:
 | F1 | Lossless frames with 128x128 superblocks wrong with threads | `--lossless=1`, or low QP | [patch](patches/F1-lossless-chroma-split-in-parse-pass.patch) |
 | F2a | CCSO/GDF unit size with 2+ tiles | `--tile-columns` | [patch](patches/F2a-ccso-gdf-unit-size-tile-boundaries.patch) |
 | F2b | Loop-restoration unit rows with tile rows | `--tile-rows` | [patch](patches/F2b-lr-units-per-tile-row.patch) |
-| F3 | Quantiser matrix applied to CCTX chroma IDTX blocks | `--enable-qm=1` | [patch](patches/F3-qm-ignore-cctx-bits.patch) |
+| F3 | Quantiser matrix applied to CCTX chroma IDTX blocks | `--enable-qm=1` | [patch](patches/F3-qm-ignore-cctx-bits.patch); reworked version as in !952: [F3b](patches/F3b-txtp-stx-cctx-rename.patch) |
 | F4 | Deblocking at the cropped right edge (dav2d #78) | width not a multiple of 8 | [patch](patches/F4-deblock-crop-right-edge.patch) |
 | F5 | Film grain in the last column of odd widths | `--film-grain-test`, width 97 | none (cause unknown) |
 | F6 | GDF on small frames | `--gdf-unit-matches-sb=1` | fixed by F12 |
@@ -62,12 +62,23 @@ fails), decoded with all 11 fixes:
 | F10 | 10-bit qindex above 255 wraps to lossless | **default settings**, 10-bit, high QP | [patch](patches/F10-hbd-segment-qidx-overflow.patch) |
 | F11 | `cdef_idx` context for units with only skipped blocks | `--enable-cdef-on-skip-txfm=0` | [patch](patches/F11-cdef-ctx-skipped-units.patch) |
 | F12 | GDF block-flag bit counted per tile | small frames with tiles | [patch](patches/F12-gdf-flag-bit-units-per-tile.patch) (after F2a) |
+| F13 | Tile-thread crash in the `load_tmvs` row copy (found 30 Oct, after the run) | `--tile-columns=2`, tile threads | [patch](patches/F13-tmv-row-copy-narrow-tile.patch) |
 
 The patches are against dav2d `main` 45609d91 + !947. Each applies on its
-own, except F12, which goes after F2a.
+own, except F12, which goes after F2a. F3b is against `main` 864281f0.
 [`night1030-all.patch`](patches/night1030-all.patch) has all 11. Causes,
 open cases and the exact `avmenc` commands are in [FINDINGS.md](FINDINGS.md).
 Repro streams for each bug and for the open cases are in [repro/](repro/).
+
+## Upstream status (30 Oct, evening)
+
+- Merged: F9 (!953), F10 (!955, issue #81), F13 (!954).
+- Open MRs: F8 (!951), F3 (!952, reworked after review into a
+  `txtp_stx_cctx` rename). F7 and the tile-thread CDF averaging are covered
+  by rbultje's !948. F4 is dav2d #78 (Kyle).
+- Reported as an issue: the tile-thread race with 2 tile columns + TIP
+  (dav2d #82, open).
+- Not sent yet: F1, F2a, F2b, F11, F12, F5 (cause unknown).
 
 ## Files
 
