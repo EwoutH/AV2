@@ -1,0 +1,15 @@
+diff --git a/src/recon_tmpl.c b/src/recon_tmpl.c
+index 239e309c..59f49742 100644
+--- a/src/recon_tmpl.c
++++ b/src/recon_tmpl.c
+@@ -746,7 +746,9 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     const int ph_enabled = !chroma && f->frame_hdr->parity_hiding &&
+                            *txtp != IDTX && !lossless && eob > 3;
+     int hr_avg = 0, tcq_state = tcq_enabled * INT32_MIN;
+-    const uint8_t *const qm_tbl = (*txtp == IDTX || *txtp == WHT_WHT || tx_class == TX_CLASS_H ||
++    // *txtp may carry stx/cctx bits above bit 7 at this point
++    const enum TxfmType base_txtp = *txtp & 0xff;
++    const uint8_t *const qm_tbl = (base_txtp == IDTX || base_txtp == WHT_WHT || tx_class == TX_CLASS_H ||
+                                   tx_class == TX_CLASS_V) ? NULL : f->qm[tx][plane];
+     int dq_shift = tcq_enabled + 3 + imax(0, t_dim->ctx - 2);
+     const uint32_t *const dq_tbl = ts->dq[b->seg_id][plane];

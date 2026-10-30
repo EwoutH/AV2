@@ -1,0 +1,30 @@
+diff --git a/src/lr_apply_tmpl.c b/src/lr_apply_tmpl.c
+index bfc27507..1163a2b2 100644
+--- a/src/lr_apply_tmpl.c
++++ b/src/lr_apply_tmpl.c
+@@ -312,11 +312,21 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+     if (first_sby_in_tile_row == FIRST_SB_TOP) edges |= LR_HAVE_BOTTOM_INTEGRATED;
+     if (first_sby_in_tile_row == FIRST_SB_BOTTOM && y > 0) edges |= LR_HAVE_TOP_INTEGRATED;
+ 
+-    int aligned_unit_pos_y = row_y & ~(unit_size[0] - 1);
+-    if (aligned_unit_pos_y && aligned_unit_pos_y + (unit_size[0] >> 1) > h)
++    // Restoration units are laid out per tile: aligned to the top of the
++    // tile row, and a short last unit is merged into the one above only
++    // inside the tile (see read_sb_restoration()).
++    const int sbsz_y = 4 * f->sb_step;
++    const uint16_t *row_start_sb = f->frame_hdr->tiling.t.row_start_sb;
++    while (row_start_sb[1] * sbsz_y <= row_y) row_start_sb++;
++    const int tile_y0 = row_start_sb[0] * sbsz_y;
++    const int tile_y1 = imin(row_start_sb[1] * sbsz_y, h);
++    int aligned_unit_pos_y = tile_y0 + ((row_y - tile_y0) & ~(unit_size[0] - 1));
++    if (aligned_unit_pos_y > tile_y0 && aligned_unit_pos_y + (unit_size[0] >> 1) > tile_y1)
+         aligned_unit_pos_y -= unit_size[0];
+-    int aligned_unit_pos_uv = (row_y >> ss_ver) & ~(unit_size[1] - 1);
+-    if (aligned_unit_pos_uv && aligned_unit_pos_uv + (unit_size[1] >> 1) > (h >> ss_ver))
++    const int tile_y0_uv = tile_y0 >> ss_ver, tile_y1_uv = tile_y1 >> ss_ver;
++    int aligned_unit_pos_uv = tile_y0_uv +
++        (((row_y >> ss_ver) - tile_y0_uv) & ~(unit_size[1] - 1));
++    if (aligned_unit_pos_uv > tile_y0_uv && aligned_unit_pos_uv + (unit_size[1] >> 1) > tile_y1_uv)
+         aligned_unit_pos_uv -= unit_size[1];
+     aligned_unit_pos_uv <<= ss_ver;
+     const int unit_idx[2] = {

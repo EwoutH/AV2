@@ -1,0 +1,326 @@
+diff --git a/include/dav2d/headers.h b/include/dav2d/headers.h
+index 6f0a33f8..3edab544 100644
+--- a/include/dav2d/headers.h
++++ b/include/dav2d/headers.h
+@@ -520,7 +520,8 @@ typedef struct Dav2dFrameHeader {
+         Dav2dSegmentationDataSet d;
+         uint8_t preskip;
+         int8_t last_active_segid;
+-        uint8_t lossless[DAV2D_MAX_SEGMENTS], qidx[DAV2D_MAX_SEGMENTS];
++        uint8_t lossless[DAV2D_MAX_SEGMENTS];
++        uint16_t qidx[DAV2D_MAX_SEGMENTS]; // > 255 for high bit depth
+     } segmentation;
+     struct {
+         struct {
+diff --git a/src/cdef_apply_tmpl.c b/src/cdef_apply_tmpl.c
+index 95c3694d..401832d9 100644
+--- a/src/cdef_apply_tmpl.c
++++ b/src/cdef_apply_tmpl.c
+@@ -221,7 +221,7 @@ void bytefn(dav2d_cdef_slice)(Dav2dTaskContext *const tc,
+                 y_ll_mask = uv_ll_mask = zero_ll_mask;
+             }
+ 
+-            if (cdef_idx == -1 ||
++            if (cdef_idx < 0 ||
+                 (!f->frame_hdr->cdef.y_strength[cdef_idx] &&
+                  !f->frame_hdr->cdef.uv_strength[cdef_idx]) ||
+                  !(f->c->inloop_filters & DAV2D_INLOOPFILTER_CDEF))
+diff --git a/src/db_apply_tmpl.c b/src/db_apply_tmpl.c
+index 5000decc..cd698713 100644
+--- a/src/db_apply_tmpl.c
++++ b/src/db_apply_tmpl.c
+@@ -408,6 +408,20 @@ void bytefn(dav2d_deblock_slice_cols)(const Dav2dFrameContext *const f,
+         }
+     }
+ 
++    // Crop deblock size on the right of the frame, like the bottom above:
++    // 32 long tx edges in the last luma 4px column but one would overhang.
++    {
++        const int luma_crop_x4 = f->bw - 2;
++        if (luma_crop_x4 >= 0) {
++            uint16_t (*const y_hmask)[4] =
++                lflvl[luma_crop_x4 >> 6].filter_y[0][luma_crop_x4 & 63];
++            const int sidx = y64 & 3;
++            const unsigned mask = y_hmask[3][sidx];
++            y_hmask[3][sidx] = 0;
++            y_hmask[2][sidx] |= mask;
++        }
++    }
++
+     const int any_ll = f->frame_hdr->any_lossless;
+     const int seg = f->frame_hdr->segmentation.enabled;
+     const int by64 = y64 & 3;
+diff --git a/src/decode.c b/src/decode.c
+index 017f885a..c83a94b6 100644
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -1849,7 +1849,7 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     {
+         const int idx = ((t->bx & 0x30) >> 4) + ((t->by & 0x30) >> 2);
+         int8_t *const cdef_ptr = &t->lf_mask->cdef_idx[idx];
+-        if (*cdef_ptr == -1) {
++        if (*cdef_ptr < 0) {
+             int v;
+             if (f->frame_hdr->cdef.n_strengths == 1) {
+                 v = 0;
+@@ -1867,15 +1867,19 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 // ctx=1: false/true, true/false
+                 // ctx=2: true/--, --/true, true/true [same coded block]
+                 // ctx=3: true/true [different coded block]
++                // -2 (unit seen, only skipped blocks with cdef_on_skiptx=0,
++                // no strength coded) is an available edge that isn't index 0
++                const int l_idx = left_cdef_idx == -2 ? 1 : left_cdef_idx;
++                const int t_idx = top_cdef_idx == -2 ? 1 : top_cdef_idx;
+                 int ctx;
+-                if ((left_cdef_idx | top_cdef_idx) != -1) {
++                if ((l_idx | t_idx) != -1) {
+                     // both edges are available
+-                    ctx = !left_cdef_idx + !top_cdef_idx;
++                    ctx = !l_idx + !t_idx;
+                     // FIXME this should only be done when both edges are *not*
+                     // from the same coded block
+                     ctx += ctx == 2;
+                 } else {
+-                    ctx = !(left_cdef_idx & top_cdef_idx) * 2;
++                    ctx = !(l_idx & t_idx) * 2;
+                 }
+                 if (dav2d_msac_decode_bool_adapt(&ts->msac,
+                                                  ts->cdf.m.cdef_idx0[ctx]))
+@@ -1901,6 +1905,23 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 }
+             }
+         }
++    } else if (f->frame_hdr->cdef.enabled && skip_txfm && has_luma) {
++        // AVM marks the CDEF unit as seen (cdef_strength -1) when a skipped
++        // block comes first and cdef_on_skiptx is off; that still counts as
++        // an available, non-zero neighbour for the cdef_idx context
++        const int idx = ((t->bx & 0x30) >> 4) + ((t->by & 0x30) >> 2);
++        int8_t *const cdef_ptr = &t->lf_mask->cdef_idx[idx];
++        if (*cdef_ptr == -1) {
++            const int splat_idx = imax(0, b_dim[2] - 4);
++            dav2d_memset_pow2[splat_idx](cdef_ptr, -2);
++            if (bh4 >= 32) {
++                dav2d_memset_pow2[splat_idx](&cdef_ptr[4], -2);
++                if (bh4 == 64) {
++                    dav2d_memset_pow2[splat_idx](&cdef_ptr[8], -2);
++                    dav2d_memset_pow2[splat_idx](&cdef_ptr[12], -2);
++                }
++            }
++        }
+     }
+ 
+     // ccso
+@@ -2845,7 +2866,10 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+ 
+             if (f->seq_hdr->refine_mv && imin(bw4, bh4) >= 2 && bw4 * bh4 > 4 &&
+                 b->inter_mode != GLOBALMV_GLOBALMV &&
++                // references on opposite sides at the same distance (AVM
++                // is_refinemv_allowed_reference(): a distance of 0 is not)
+                 f->refdist[b->ref.ref[0]] == -f->refdist[b->ref.ref[1]] &&
++                f->refdist[b->ref.ref[0]] &&
+                 !f->svc[b->ref.ref[0]][0].scale && !f->svc[b->ref.ref[1]][0].scale &&
+                 (f->frame_hdr->opfl_refine_type != 1 /* switchable */ ||
+                  !((1 << b->inter_mode) & ((1 << NEARMV_NEWMV) |
+@@ -2908,6 +2932,12 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                                        b->wedge_sign : -1, ts->msac.rng);
+             }
+ 
++            // optical flow only applies to COMPOUND_AVERAGE (AVM
++            // opfl_allowed_cur_pred_mode()): a masked compound block keeps its
++            // coded mode (and reads a subpel filter)
++            if (b->comp_type != COMP_INTER_AVG && b->inter_mode != coded_mode) {
++                b->inter_mode = coded_mode;
++            }
+             b->cwp_idx = 8;
+             if (!b->refine_mv && !jmvd_scale_mode &&
+                 f->seq_hdr->cwp && b->comp_type == COMP_INTER_AVG &&
+diff --git a/src/lf_mask.h b/src/lf_mask.h
+index 0b86ca67..78c0eb7d 100644
+--- a/src/lf_mask.h
++++ b/src/lf_mask.h
+@@ -45,7 +45,7 @@ typedef struct Av2Filter {
+     uint16_t filter_uv[2 /* 0=col, 1=row */][64][5][4];
+     uint16_t qidx[16];
+     uint8_t gdf[16];
+-    int8_t cdef_idx[16]; // -1 means "unset"
++    int8_t cdef_idx[16]; // -1: unset, -2: seen, not coded (skip blocks only)
+     uint8_t ccso[3 /* plane */][16];
+     uint16_t noskip_mask[32][4]; // for 8x8 blocks, but stored on a 4x8 basis
+     uint16_t lr_noskip_mask[64][4]; // for 4x4 blocks
+diff --git a/src/lr_apply_tmpl.c b/src/lr_apply_tmpl.c
+index bfc27507..1163a2b2 100644
+--- a/src/lr_apply_tmpl.c
++++ b/src/lr_apply_tmpl.c
+@@ -312,11 +312,21 @@ static void lr_sbrow(const Dav2dFrameContext *const f, pixel *const p[3],
+     if (first_sby_in_tile_row == FIRST_SB_TOP) edges |= LR_HAVE_BOTTOM_INTEGRATED;
+     if (first_sby_in_tile_row == FIRST_SB_BOTTOM && y > 0) edges |= LR_HAVE_TOP_INTEGRATED;
+ 
+-    int aligned_unit_pos_y = row_y & ~(unit_size[0] - 1);
+-    if (aligned_unit_pos_y && aligned_unit_pos_y + (unit_size[0] >> 1) > h)
++    // Restoration units are laid out per tile: aligned to the top of the
++    // tile row, and a short last unit is merged into the one above only
++    // inside the tile (see read_sb_restoration()).
++    const int sbsz_y = 4 * f->sb_step;
++    const uint16_t *row_start_sb = f->frame_hdr->tiling.t.row_start_sb;
++    while (row_start_sb[1] * sbsz_y <= row_y) row_start_sb++;
++    const int tile_y0 = row_start_sb[0] * sbsz_y;
++    const int tile_y1 = imin(row_start_sb[1] * sbsz_y, h);
++    int aligned_unit_pos_y = tile_y0 + ((row_y - tile_y0) & ~(unit_size[0] - 1));
++    if (aligned_unit_pos_y > tile_y0 && aligned_unit_pos_y + (unit_size[0] >> 1) > tile_y1)
+         aligned_unit_pos_y -= unit_size[0];
+-    int aligned_unit_pos_uv = (row_y >> ss_ver) & ~(unit_size[1] - 1);
+-    if (aligned_unit_pos_uv && aligned_unit_pos_uv + (unit_size[1] >> 1) > (h >> ss_ver))
++    const int tile_y0_uv = tile_y0 >> ss_ver, tile_y1_uv = tile_y1 >> ss_ver;
++    int aligned_unit_pos_uv = tile_y0_uv +
++        (((row_y >> ss_ver) - tile_y0_uv) & ~(unit_size[1] - 1));
++    if (aligned_unit_pos_uv > tile_y0_uv && aligned_unit_pos_uv + (unit_size[1] >> 1) > tile_y1_uv)
+         aligned_unit_pos_uv -= unit_size[1];
+     aligned_unit_pos_uv <<= ss_ver;
+     const int unit_idx[2] = {
+diff --git a/src/obu.c b/src/obu.c
+index 7458f91c..9150cb24 100644
+--- a/src/obu.c
++++ b/src/obu.c
+@@ -1601,7 +1601,8 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+     hdr->any_lossless = 0;
+     for (int i = 0; i < DAV2D_MAX_SEGMENTS; i++) {
+         hdr->segmentation.qidx[i] = hdr->segmentation.enabled ?
+-            iclip_u8(hdr->quant.yac + hdr->segmentation.d.delta_q[i]) :
++            iclip(hdr->quant.yac + hdr->segmentation.d.delta_q[i], 0,
++                  255 + 48 * seqhdr->hbd) :
+             hdr->quant.yac;
+         hdr->segmentation.lossless[i] =
+             !hdr->segmentation.qidx[i] && delta_lossless;
+@@ -1657,12 +1658,36 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+            (gb->ptr - init_ptr) * 8 - gb->bits_left);
+ #endif
+ 
++    hdr->gdf.b64size = 1 << imax(!seqhdr->gdf_unit_matches_sbsz, hdr->sb128);
++    if (!seqhdr->gdf_unit_matches_sbsz && !hdr->sb128) {
++        int mask = 0;
++        for (int t = 1; t < hdr->tiling.t.cols; t++)
++            mask |= hdr->tiling.t.col_start_sb[t];
++        for (int t = 1; t < hdr->tiling.t.rows; t++)
++            mask |= hdr->tiling.t.row_start_sb[t];
++        if (mask & 1) hdr->gdf.b64size = 1;
++    }
+     if (!hdr->all_lossless && seqhdr->gdf /* && not large-scale tiles */) {
+-        const int gdf_bs = 128 << (hdr->sb128 == 2);
+         hdr->gdf.enabled = seqhdr->reduced_still_picture_header ||
+                            dav2d_get_bit(gb);
+         if (hdr->gdf.enabled) {
+-            if (imax(hdr->width, hdr->height) > gdf_bs)
++            // AVM reads the per-block flag bit when there is more than one
++            // GDF unit, counting units per tile (gdf.c init_gdf())
++            const int gdf_bs = 64 * hdr->gdf.b64size;
++            const int sbsz = 64 << hdr->sb128;
++            const int fw = (hdr->width + 7) & ~7, fh = (hdr->height + 7) & ~7;
++            int n_w = 0, n_h = 0;
++            for (int t = 0; t < hdr->tiling.t.cols; t++) {
++                const int x0 = hdr->tiling.t.col_start_sb[t] * sbsz;
++                const int x1 = imin(hdr->tiling.t.col_start_sb[t + 1] * sbsz, fw);
++                n_w += 1 + (x1 - x0 - 1) / gdf_bs;
++            }
++            for (int t = 0; t < hdr->tiling.t.rows; t++) {
++                const int y0 = hdr->tiling.t.row_start_sb[t] * sbsz;
++                const int y1 = imin(hdr->tiling.t.row_start_sb[t + 1] * sbsz, fh);
++                n_h += 1 + (y1 - y0 - 1) / gdf_bs;
++            }
++            if (n_w * n_h > 1)
+                 hdr->gdf.enabled += dav2d_get_bit(gb);
+             const int qp_base = IS_KEY_OR_INTRA(hdr) ? 85 : 110;
+             const int qp_diff = hdr->quant.yac - qp_base - 48 * seqhdr->hbd;
+@@ -1676,15 +1701,6 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+                (gb->ptr - init_ptr) * 8 - gb->bits_left);
+ #endif
+     }
+-    hdr->gdf.b64size = 1 << imax(!seqhdr->gdf_unit_matches_sbsz, hdr->sb128);
+-    if (!seqhdr->gdf_unit_matches_sbsz && !hdr->sb128) {
+-        int mask = 0;
+-        for (int t = 0; t < hdr->tiling.t.cols - 1; t++)
+-            mask |= hdr->tiling.t.col_start_sb[t];
+-        for (int t = 0; t < hdr->tiling.t.rows - 1; t++)
+-            mask |= hdr->tiling.t.row_start_sb[t];
+-        if (mask & 1) hdr->gdf.b64size = 1;
+-    }
+ 
+     // cdef
+     if (!hdr->all_lossless && seqhdr->cdef) {
+@@ -1990,9 +2006,9 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+     hdr->ccso.b64size = 1 << (seqhdr->ccso_unit_matches_sbsz ? hdr->sb128 : 2);
+     if (!seqhdr->ccso_unit_matches_sbsz && hdr->sb128 < 2) {
+         int mask = 0;
+-        for (int t = 0; t < hdr->tiling.t.cols - 1; t++)
++        for (int t = 1; t < hdr->tiling.t.cols; t++)
+             mask |= hdr->tiling.t.col_start_sb[t];
+-        for (int t = 0; t < hdr->tiling.t.rows - 1; t++)
++        for (int t = 1; t < hdr->tiling.t.rows; t++)
+             mask |= hdr->tiling.t.row_start_sb[t];
+         if (mask & 3 && !hdr->sb128) hdr->ccso.b64size = 2 - (mask & 1);
+         else if (mask & 1) hdr->ccso.b64size = 2;
+diff --git a/src/recon_tmpl.c b/src/recon_tmpl.c
+index 239e309c..bd8473a2 100644
+--- a/src/recon_tmpl.c
++++ b/src/recon_tmpl.c
+@@ -746,7 +746,9 @@ static int decode_coefs(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     const int ph_enabled = !chroma && f->frame_hdr->parity_hiding &&
+                            *txtp != IDTX && !lossless && eob > 3;
+     int hr_avg = 0, tcq_state = tcq_enabled * INT32_MIN;
+-    const uint8_t *const qm_tbl = (*txtp == IDTX || *txtp == WHT_WHT || tx_class == TX_CLASS_H ||
++    // *txtp may carry stx/cctx bits above bit 7 at this point
++    const enum TxfmType base_txtp = *txtp & 0xff;
++    const uint8_t *const qm_tbl = (base_txtp == IDTX || base_txtp == WHT_WHT || tx_class == TX_CLASS_H ||
+                                   tx_class == TX_CLASS_V) ? NULL : f->qm[tx][plane];
+     int dq_shift = tcq_enabled + 3 + imax(0, t_dim->ctx - 2);
+     const uint32_t *const dq_tbl = ts->dq[b->seg_id][plane];
+@@ -1288,20 +1290,24 @@ int bytefn(dav2d_read_coef_blocks)(Dav2dTaskContext *const t,
+         } else {
+             step = 16;
+             lbs2 = lbs == BS_INVALID ? BS_INVALID : BS_64x64;
++            // lossless: chroma is coded with every luma 64x64, as in recon_b
+             cbs2i = cbs == BS_INVALID ? BS_INVALID :
++                    f->frame_hdr->segmentation.lossless[b->seg_id] ?
++                    csplit[cbs - BS_128x128][0] :
+                     csplit[cbs - BS_128x128][ss_hor + ss_ver];
+         }
++        const int il = step == 32 || f->frame_hdr->segmentation.lossless[b->seg_id];
+         for (int y = 0; t->by < y_end; t->by += step, y++) {
+             for (int x = 0; t->bx < x_end; t->bx += step, x++) {
+                 enum BlockSize cbs2;
+-                if (step == 32) {
++                if (il) {
+                     cbs2 = cbs2i;
+                 } else {
+                     // coef reading is done with the first luma 64x64
+                     cbs2 = !((x & ss_hor) | (y & ss_ver)) ? cbs2i : BS_INVALID;
+                 }
+                 const int res = bytefn(dav2d_read_coef_blocks)(t, DB_ONLY(depth) lbs2, cbs2, b);
+-                if (step == 32) {
++                if (il) {
+                     t->cbx += step;
+                 } else if ((x & ss_hor) == ss_hor) {
+                     t->cbx += step << ss_hor;
+@@ -1313,7 +1319,7 @@ int bytefn(dav2d_read_coef_blocks)(Dav2dTaskContext *const t,
+                 }
+             }
+             t->cbx = t->bx = x_start;
+-            if (step == 32) {
++            if (il) {
+                 t->cby += step;
+             } else if ((y & ss_ver) == ss_ver) {
+                 t->cby += step << ss_ver;
+diff --git a/src/thread_task.c b/src/thread_task.c
+index e2edb452..a9f35dc1 100644
+--- a/src/thread_task.c
++++ b/src/thread_task.c
+@@ -772,6 +772,10 @@ void *dav2d_worker_task(void *data) {
+                     res = 0;
+                 }
+             }
++            // an averaged in_cdf is a new buffer that later frames reference
++            // (as c->cdf[] when disable_cdf_update is set): mark it ready
++            if (f->use_pri_sec_cdf && f->in_cdf.progress)
++                atomic_store(f->in_cdf.progress, res < 0 ? TILE_ERROR : 1);
+             if (!f->frame_hdr->disable_cdf_update && !f->task_thread.update_set &&
+                 !f->seq_hdr->avg_cdf_type)
+             {

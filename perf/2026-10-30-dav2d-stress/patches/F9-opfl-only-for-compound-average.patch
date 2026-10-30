@@ -1,0 +1,17 @@
+diff --git a/src/decode.c b/src/decode.c
+index ae726c1d..66197d63 100644
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -2911,6 +2911,12 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                                        b->wedge_sign : -1, ts->msac.rng);
+             }
+ 
++            // optical flow only applies to COMPOUND_AVERAGE (AVM
++            // opfl_allowed_cur_pred_mode()): a masked compound block keeps its
++            // coded mode (and reads a subpel filter)
++            if (b->comp_type != COMP_INTER_AVG && b->inter_mode != coded_mode) {
++                b->inter_mode = coded_mode;
++            }
+             b->cwp_idx = 8;
+             if (!b->refine_mv && !jmvd_scale_mode &&
+                 f->seq_hdr->cwp && b->comp_type == COMP_INTER_AVG &&

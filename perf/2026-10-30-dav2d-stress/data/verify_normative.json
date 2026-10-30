@@ -1,0 +1,302 @@
+{
+ "c000000/min.ivf": {
+  "enc": "57d750f3",
+  "nor": "57d750f3",
+  "dav": "a5ab0059",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000000/stream.ivf": {
+  "enc": "57d750f3",
+  "nor": "57d750f3",
+  "dav": "a5ab0059",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000015/min.ivf": {
+  "enc": "0a5bd810",
+  "nor": "0a5bd810",
+  "dav": "fb06903b",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000015/stream.ivf": {
+  "enc": "b3376251",
+  "nor": "b3376251",
+  "dav": "9faf7d82",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000016/min.ivf": {
+  "enc": "39fd45f4",
+  "nor": "39fd45f4",
+  "dav": "39fd45f4",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000016/stream.ivf": {
+  "enc": "f629f36c",
+  "nor": "f629f36c",
+  "dav": "f629f36c",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000017/min.ivf": {
+  "enc": "67d59f6c",
+  "nor": "67d59f6c",
+  "dav": "67d59f6c",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000017/stream.ivf": {
+  "enc": "34c880e4",
+  "nor": "34c880e4",
+  "dav": "34c880e4",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000031/min.ivf": {
+  "enc": "2d091111",
+  "nor": "2d091111",
+  "dav": "2d091111",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000031/stream.ivf": {
+  "enc": "4b6d896f",
+  "nor": "4b6d896f",
+  "dav": "4b6d896f",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000032/min.ivf": {
+  "enc": "159f8e69",
+  "nor": "159f8e69",
+  "dav": "736ed019",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000032/stream.ivf": {
+  "enc": "70f67c34",
+  "nor": "70f67c34",
+  "dav": "bcf1ba9b",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000036/min.ivf": {
+  "enc": "85647928",
+  "nor": "85647928",
+  "dav": "53f15187",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000036/stream.ivf": {
+  "enc": "24bb4f56",
+  "nor": "24bb4f56",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000041/min.ivf": {
+  "enc": "f7b024df",
+  "nor": "f7b024df",
+  "dav": "5c6a9541",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000041/stream.ivf": {
+  "enc": "b91983ec",
+  "nor": "b91983ec",
+  "dav": "bcc75431",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000042/stream.ivf": {
+  "enc": "c3c8b750",
+  "nor": "c3c8b750",
+  "dav": "c3c8b750",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000047/min.ivf": {
+  "enc": "9ae58272",
+  "nor": "9ae58272",
+  "dav": "9ae58272",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000047/stream.ivf": {
+  "enc": "d035691c",
+  "nor": "d035691c",
+  "dav": "b800c3a6",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000048/stream.ivf": {
+  "enc": "184079f1",
+  "nor": "184079f1",
+  "dav": "184079f1",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000050/min.ivf": {
+  "enc": "9a8c5323",
+  "nor": "9a8c5323",
+  "dav": "9c7704ff",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000050/stream.ivf": {
+  "enc": "72d2c460",
+  "nor": "72d2c460",
+  "dav": "7662f326",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000054/stream.ivf": {
+  "enc": "92bdfa11",
+  "nor": "92bdfa11",
+  "dav": "4510023f",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000059/min.ivf": {
+  "enc": "b7d4087e",
+  "nor": "b7d4087e",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000059/stream.ivf": {
+  "enc": "748b1f2c",
+  "nor": "748b1f2c",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000060/min.ivf": {
+  "enc": "02201c9b",
+  "nor": "02201c9b",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000060/stream.ivf": {
+  "enc": "18dbdcdd",
+  "nor": "18dbdcdd",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000062/stream.ivf": {
+  "enc": "5410bd72",
+  "nor": "5410bd72",
+  "dav": "5410bd72",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000067/min.ivf": {
+  "enc": "29ba2a6b",
+  "nor": "29ba2a6b",
+  "dav": "7de97d55",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000067/stream.ivf": {
+  "enc": "03199305",
+  "nor": "03199305",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000083/stream.ivf": {
+  "enc": "69c17950",
+  "nor": "69c17950",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000106/min.ivf": {
+  "enc": "4d6adb8b",
+  "nor": "4d6adb8b",
+  "dav": "dad8e0cd",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000106/stream.ivf": {
+  "enc": "347ca0dc",
+  "nor": "347ca0dc",
+  "dav": "1ef5da12",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000110/min.ivf": {
+  "enc": "623c56d2",
+  "nor": "623c56d2",
+  "dav": "df22ca49",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000110/stream.ivf": {
+  "enc": "6f4df26b",
+  "nor": "6f4df26b",
+  "dav": "7904cebf",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000115/stream.ivf": {
+  "enc": "7d7fdb93",
+  "nor": "7d7fdb93",
+  "dav": "7d7fdb93",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000117/stream.ivf": {
+  "enc": "a9b9a48e",
+  "nor": "a9b9a48e",
+  "dav": "a9b9a48e",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000118/min.ivf": {
+  "enc": "80943932",
+  "nor": "80943932",
+  "dav": "4a922b01",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000118/stream.ivf": {
+  "enc": "b56937df",
+  "nor": "b56937df",
+  "dav": "541e7d46",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000122/min.ivf": {
+  "enc": "7a6089f7",
+  "nor": "7a6089f7",
+  "dav": "a03ab507",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000122/stream.ivf": {
+  "enc": "e3620b52",
+  "nor": "e3620b52",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000129/stream.ivf": {
+  "enc": "1a7436f7",
+  "nor": "1a7436f7",
+  "dav": "1a7436f7",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000136/stream.ivf": {
+  "enc": "49c734b3",
+  "nor": "49c734b3",
+  "dav": "45e80826",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000141/stream.ivf": {
+  "enc": "ab6dd929",
+  "nor": "ab6dd929",
+  "dav": "ab6dd929",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000142/stream.ivf": {
+  "enc": "03d0d532",
+  "nor": "03d0d532",
+  "dav": "03d0d532",
+  "cls": "enc==nor dav==nor"
+ },
+ "c000143/stream.ivf": {
+  "enc": "47835967",
+  "nor": "47835967",
+  "dav": "7060bff3",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000166/stream.ivf": {
+  "enc": "eee3d103",
+  "nor": "eee3d103",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000174/min.ivf": {
+  "enc": "49160bc6",
+  "nor": "49160bc6",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000174/stream.ivf": {
+  "enc": "2cd25f5a",
+  "nor": "2cd25f5a",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ },
+ "c000185/stream.ivf": {
+  "enc": "8f4432cd",
+  "nor": "8f4432cd",
+  "dav": "rc3221225477",
+  "cls": "enc==nor dav!=nor"
+ }
+}

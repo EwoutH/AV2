@@ -1,0 +1,59 @@
+diff --git a/src/obu.c b/src/obu.c
+index 1420890..9150cb2 100644
+--- a/src/obu.c
++++ b/src/obu.c
+@@ -1658,12 +1658,36 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+            (gb->ptr - init_ptr) * 8 - gb->bits_left);
+ #endif
+ 
++    hdr->gdf.b64size = 1 << imax(!seqhdr->gdf_unit_matches_sbsz, hdr->sb128);
++    if (!seqhdr->gdf_unit_matches_sbsz && !hdr->sb128) {
++        int mask = 0;
++        for (int t = 1; t < hdr->tiling.t.cols; t++)
++            mask |= hdr->tiling.t.col_start_sb[t];
++        for (int t = 1; t < hdr->tiling.t.rows; t++)
++            mask |= hdr->tiling.t.row_start_sb[t];
++        if (mask & 1) hdr->gdf.b64size = 1;
++    }
+     if (!hdr->all_lossless && seqhdr->gdf /* && not large-scale tiles */) {
+-        const int gdf_bs = 128 << (hdr->sb128 == 2);
+         hdr->gdf.enabled = seqhdr->reduced_still_picture_header ||
+                            dav2d_get_bit(gb);
+         if (hdr->gdf.enabled) {
+-            if (imax(hdr->width, hdr->height) > gdf_bs)
++            // AVM reads the per-block flag bit when there is more than one
++            // GDF unit, counting units per tile (gdf.c init_gdf())
++            const int gdf_bs = 64 * hdr->gdf.b64size;
++            const int sbsz = 64 << hdr->sb128;
++            const int fw = (hdr->width + 7) & ~7, fh = (hdr->height + 7) & ~7;
++            int n_w = 0, n_h = 0;
++            for (int t = 0; t < hdr->tiling.t.cols; t++) {
++                const int x0 = hdr->tiling.t.col_start_sb[t] * sbsz;
++                const int x1 = imin(hdr->tiling.t.col_start_sb[t + 1] * sbsz, fw);
++                n_w += 1 + (x1 - x0 - 1) / gdf_bs;
++            }
++            for (int t = 0; t < hdr->tiling.t.rows; t++) {
++                const int y0 = hdr->tiling.t.row_start_sb[t] * sbsz;
++                const int y1 = imin(hdr->tiling.t.row_start_sb[t + 1] * sbsz, fh);
++                n_h += 1 + (y1 - y0 - 1) / gdf_bs;
++            }
++            if (n_w * n_h > 1)
+                 hdr->gdf.enabled += dav2d_get_bit(gb);
+             const int qp_base = IS_KEY_OR_INTRA(hdr) ? 85 : 110;
+             const int qp_diff = hdr->quant.yac - qp_base - 48 * seqhdr->hbd;
+@@ -1677,15 +1701,6 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+                (gb->ptr - init_ptr) * 8 - gb->bits_left);
+ #endif
+     }
+-    hdr->gdf.b64size = 1 << imax(!seqhdr->gdf_unit_matches_sbsz, hdr->sb128);
+-    if (!seqhdr->gdf_unit_matches_sbsz && !hdr->sb128) {
+-        int mask = 0;
+-        for (int t = 1; t < hdr->tiling.t.cols; t++)
+-            mask |= hdr->tiling.t.col_start_sb[t];
+-        for (int t = 1; t < hdr->tiling.t.rows; t++)
+-            mask |= hdr->tiling.t.row_start_sb[t];
+-        if (mask & 1) hdr->gdf.b64size = 1;
+-    }
+ 
+     // cdef
+     if (!hdr->all_lossless && seqhdr->cdef) {

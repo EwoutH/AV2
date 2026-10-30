@@ -1,0 +1,25 @@
+diff --git a/src/db_apply_tmpl.c b/src/db_apply_tmpl.c
+index 5000decc..cd698713 100644
+--- a/src/db_apply_tmpl.c
++++ b/src/db_apply_tmpl.c
+@@ -408,6 +408,20 @@ void bytefn(dav2d_deblock_slice_cols)(const Dav2dFrameContext *const f,
+         }
+     }
+ 
++    // Crop deblock size on the right of the frame, like the bottom above:
++    // 32 long tx edges in the last luma 4px column but one would overhang.
++    {
++        const int luma_crop_x4 = f->bw - 2;
++        if (luma_crop_x4 >= 0) {
++            uint16_t (*const y_hmask)[4] =
++                lflvl[luma_crop_x4 >> 6].filter_y[0][luma_crop_x4 & 63];
++            const int sidx = y64 & 3;
++            const unsigned mask = y_hmask[3][sidx];
++            y_hmask[3][sidx] = 0;
++            y_hmask[2][sidx] |= mask;
++        }
++    }
++
+     const int any_ll = f->frame_hdr->any_lossless;
+     const int seg = f->frame_hdr->segmentation.enabled;
+     const int by64 = y64 & 3;

@@ -1,0 +1,30 @@
+530 kept failures
+   282  fixed by night patches
+   124  known upstream (#67: sframe/error-resilient/resize/lcr/ops/timing)
+    52  AVM: avmdec fails on avmenc output
+    26  not a bug: crop window not applied by dav2d CLI
+    25  open: C path
+    17  threads only (other)
+     4  threads only (F1 lossless)
+
+  4x ['--enable-overlay']  e.g. c000032 ocean_256x144 qp106 s9 6f  C=mismatch asm=mismatch mt=mismatch
+  2x ['--enable-bru', '--lag-in-frames']  e.g. c000396 redkayak_640x360 qp180 s9 2f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-rect-partitions']  e.g. c000041 wikipedia_640x360 qp106 s9 8f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--film-grain-test']  e.g. c000303 fourpeople_97x65 qp10 s9 3f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--aq-mode', '--enable-cctx', '--enable-flip-idtx', '--enable-fsc', '--enable-intra-edge-filter', '--enable-ist', '--enable-masked-comp', '--enable-overlay', '--enable-restoration', '--max-drl-refmvs']  e.g. c000630 drivingpov10_322x182 qp-16 s6 6f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--auto-alt-ref', '--deltaq-mode', '--enable-ist', '--enable-mrls', '--enable-paeth-intra', '--enable-sdp', '--enable-smooth-interintra', '--enable-warp-delta', '--explicit-ref-frame-map', '--lossless', '--max-gf-interval', '--sb-size']  e.g. c000723 minecraft_320x180 qp66 s6 10f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-global-motion', '--enable-sdp']  e.g. c000854 slides_480x270 qp19 s6 2f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-flex-mvres', '--enable-intra-dip', '--enable-joint-mvd', '--enable-mrls', '--enable-opfl-refine', '--enable-sdp', '--enable-smooth-intra', '--enable-trellis-quant', '--film-grain-test', '--qm-min', '--reduced-reference-set', '--scan-type-info', '--tune-content']  e.g. c001148 fourpeople_97x65 qp24 s9 16f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--cdf-update-mode', '--enable-bru', '--enable-ext-seg', '--enable-flip-idtx', '--enable-keyframe-filtering', '--enable-mv-traj', '--enable-overlay', '--enable-uneven-4way-partitions', '--gf-max-pyr-height', '--lag-in-frames', '--tile-rows']  e.g. c001151 shakyquad10_160x90 qp231 s6 12f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-onesided-comp', '--lossless']  e.g. c001305 fourpeople_480x270 qp193 s6 4f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-cwp', '--enable-rect-partitions']  e.g. c001384 wikipedia_640x360 qp119 s6 6f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--dpb-size', '--enable-ccso', '--enable-idtx-intra', '--enable-inter-ddt', '--enable-onesided-comp', '--enable-qm', '--enable-ref-frame-mvs', '--enable-sdp', '--enable-smooth-intra', '--enable-tip-refinemv', '--enable-trellis-quant', '--lag-in-frames', '--reduced-ref-frame-mvs-mode', '--use-intra-dct-only']  e.g. c001444 shakyquad10_160x90 qp142 s9 16f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-intrabc', '--film-grain-test', '--tile-columns']  e.g. c001620 minecraft_320x180 qp131 s9 6f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-fwd-kf', '--kf-max-dist']  e.g. p000105 parkjoy_208x120 qp26 s9 8f  C=crash asm=crash mt=crash
+  1x ['--enable-bawp', '--enable-cfl-intra', '--enable-chroma-deltaq', '--enable-mhccp', '--enable-mrls', '--enable-overlay', '--enable-six-param-warp-delta', '--reduced-ref-frame-mvs-mode', '--tile-rows', '--use-intra-default-tx-only']  e.g. p000123 snowmountain_202x360 qp37 s6 16f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-gdf', '--enable-opfl-refine']  e.g. p000175 slides_480x270 qp48 s9 8f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--ccso-unit-matches-sb', '--enable-chroma-deltaq', '--enable-global-motion', '--enable-idtx-intra', '--enable-overlay', '--gdf-unit-matches-sb']  e.g. p000475 drivingpov10_322x182 qp68 s6 16f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--film-grain-test', '--lag-in-frames']  e.g. p000541 fourpeople_97x65 qp62 s9 2f  C=mismatch asm=mismatch mt=ok
+  1x ['--enable-angle-delta', '--enable-bru', '--enable-ccso', '--enable-cdef', '--enable-interinter-wedge', '--enable-intra-dip', '--enable-ist', '--enable-overlay', '--enable-refinemv', '--enable-tx-partition', '--kf-max-dist', '--qm-min', '--select-adaptive-ds', '--tile-rows']  e.g. p000756 minecraft_320x180 qp102 s6 8f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--enable-inter-ddt', '--enable-sdp', '--gdf-unit-matches-sb']  e.g. p001068 slides_480x270 qp25 s9 3f  C=mismatch asm=mismatch mt=mismatch
+  1x ['--cdf-update-mode', '--enable-bru', '--enable-paeth-intra']  e.g. p001350 redkayak_640x360 qp96 s4 8f  C=mismatch asm=mismatch mt=mismatch

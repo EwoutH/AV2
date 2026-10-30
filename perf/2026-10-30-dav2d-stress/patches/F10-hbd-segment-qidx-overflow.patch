@@ -1,0 +1,28 @@
+diff --git a/include/dav2d/headers.h b/include/dav2d/headers.h
+index 6f0a33f..3edab54 100644
+--- a/include/dav2d/headers.h
++++ b/include/dav2d/headers.h
+@@ -520,7 +520,8 @@ typedef struct Dav2dFrameHeader {
+         Dav2dSegmentationDataSet d;
+         uint8_t preskip;
+         int8_t last_active_segid;
+-        uint8_t lossless[DAV2D_MAX_SEGMENTS], qidx[DAV2D_MAX_SEGMENTS];
++        uint8_t lossless[DAV2D_MAX_SEGMENTS];
++        uint16_t qidx[DAV2D_MAX_SEGMENTS]; // > 255 for high bit depth
+     } segmentation;
+     struct {
+         struct {
+diff --git a/src/obu.c b/src/obu.c
+index 7458f91..8678fec 100644
+--- a/src/obu.c
++++ b/src/obu.c
+@@ -1601,7 +1601,8 @@ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+     hdr->any_lossless = 0;
+     for (int i = 0; i < DAV2D_MAX_SEGMENTS; i++) {
+         hdr->segmentation.qidx[i] = hdr->segmentation.enabled ?
+-            iclip_u8(hdr->quant.yac + hdr->segmentation.d.delta_q[i]) :
++            iclip(hdr->quant.yac + hdr->segmentation.d.delta_q[i], 0,
++                  255 + 48 * seqhdr->hbd) :
+             hdr->quant.yac;
+         hdr->segmentation.lossless[i] =
+             !hdr->segmentation.qidx[i] && delta_lossless;

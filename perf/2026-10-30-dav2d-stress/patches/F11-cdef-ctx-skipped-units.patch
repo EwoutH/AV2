@@ -1,0 +1,86 @@
+diff --git a/src/cdef_apply_tmpl.c b/src/cdef_apply_tmpl.c
+index 95c3694..401832d 100644
+--- a/src/cdef_apply_tmpl.c
++++ b/src/cdef_apply_tmpl.c
+@@ -221,7 +221,7 @@ void bytefn(dav2d_cdef_slice)(Dav2dTaskContext *const tc,
+                 y_ll_mask = uv_ll_mask = zero_ll_mask;
+             }
+ 
+-            if (cdef_idx == -1 ||
++            if (cdef_idx < 0 ||
+                 (!f->frame_hdr->cdef.y_strength[cdef_idx] &&
+                  !f->frame_hdr->cdef.uv_strength[cdef_idx]) ||
+                  !(f->c->inloop_filters & DAV2D_INLOOPFILTER_CDEF))
+diff --git a/src/decode.c b/src/decode.c
+index 66197d6..c83a94b 100644
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -1849,7 +1849,7 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+     {
+         const int idx = ((t->bx & 0x30) >> 4) + ((t->by & 0x30) >> 2);
+         int8_t *const cdef_ptr = &t->lf_mask->cdef_idx[idx];
+-        if (*cdef_ptr == -1) {
++        if (*cdef_ptr < 0) {
+             int v;
+             if (f->frame_hdr->cdef.n_strengths == 1) {
+                 v = 0;
+@@ -1867,15 +1867,19 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 // ctx=1: false/true, true/false
+                 // ctx=2: true/--, --/true, true/true [same coded block]
+                 // ctx=3: true/true [different coded block]
++                // -2 (unit seen, only skipped blocks with cdef_on_skiptx=0,
++                // no strength coded) is an available edge that isn't index 0
++                const int l_idx = left_cdef_idx == -2 ? 1 : left_cdef_idx;
++                const int t_idx = top_cdef_idx == -2 ? 1 : top_cdef_idx;
+                 int ctx;
+-                if ((left_cdef_idx | top_cdef_idx) != -1) {
++                if ((l_idx | t_idx) != -1) {
+                     // both edges are available
+-                    ctx = !left_cdef_idx + !top_cdef_idx;
++                    ctx = !l_idx + !t_idx;
+                     // FIXME this should only be done when both edges are *not*
+                     // from the same coded block
+                     ctx += ctx == 2;
+                 } else {
+-                    ctx = !(left_cdef_idx & top_cdef_idx) * 2;
++                    ctx = !(l_idx & t_idx) * 2;
+                 }
+                 if (dav2d_msac_decode_bool_adapt(&ts->msac,
+                                                  ts->cdf.m.cdef_idx0[ctx]))
+@@ -1901,6 +1905,23 @@ static int decode_b(Dav2dTaskContext *const t, DB_ONLY(const int depth)
+                 }
+             }
+         }
++    } else if (f->frame_hdr->cdef.enabled && skip_txfm && has_luma) {
++        // AVM marks the CDEF unit as seen (cdef_strength -1) when a skipped
++        // block comes first and cdef_on_skiptx is off; that still counts as
++        // an available, non-zero neighbour for the cdef_idx context
++        const int idx = ((t->bx & 0x30) >> 4) + ((t->by & 0x30) >> 2);
++        int8_t *const cdef_ptr = &t->lf_mask->cdef_idx[idx];
++        if (*cdef_ptr == -1) {
++            const int splat_idx = imax(0, b_dim[2] - 4);
++            dav2d_memset_pow2[splat_idx](cdef_ptr, -2);
++            if (bh4 >= 32) {
++                dav2d_memset_pow2[splat_idx](&cdef_ptr[4], -2);
++                if (bh4 == 64) {
++                    dav2d_memset_pow2[splat_idx](&cdef_ptr[8], -2);
++                    dav2d_memset_pow2[splat_idx](&cdef_ptr[12], -2);
++                }
++            }
++        }
+     }
+ 
+     // ccso
+diff --git a/src/lf_mask.h b/src/lf_mask.h
+index 0b86ca6..78c0eb7 100644
+--- a/src/lf_mask.h
++++ b/src/lf_mask.h
+@@ -45,7 +45,7 @@ typedef struct Av2Filter {
+     uint16_t filter_uv[2 /* 0=col, 1=row */][64][5][4];
+     uint16_t qidx[16];
+     uint8_t gdf[16];
+-    int8_t cdef_idx[16]; // -1 means "unset"
++    int8_t cdef_idx[16]; // -1: unset, -2: seen, not coded (skip blocks only)
+     uint8_t ccso[3 /* plane */][16];
+     uint16_t noskip_mask[32][4]; // for 8x8 blocks, but stored on a 4x8 basis
+     uint16_t lr_noskip_mask[64][4]; // for 4x4 blocks

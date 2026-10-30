@@ -1,0 +1,15 @@
+diff --git a/src/thread_task.c b/src/thread_task.c
+index e2edb452..a9f35dc1 100644
+--- a/src/thread_task.c
++++ b/src/thread_task.c
+@@ -772,6 +772,10 @@ void *dav2d_worker_task(void *data) {
+                     res = 0;
+                 }
+             }
++            // an averaged in_cdf is a new buffer that later frames reference
++            // (as c->cdf[] when disable_cdf_update is set): mark it ready
++            if (f->use_pri_sec_cdf && f->in_cdf.progress)
++                atomic_store(f->in_cdf.progress, res < 0 ? TILE_ERROR : 1);
+             if (!f->frame_hdr->disable_cdf_update && !f->task_thread.update_set &&
+                 !f->seq_hdr->avg_cdf_type)
+             {
