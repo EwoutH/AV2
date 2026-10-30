@@ -11,8 +11,8 @@ bring dav2d to 258 of 260, with no crashes. The two left are a missing
 feature and one open bug, both described below. rav2d rejects most streams.
 
 > **Update, 29 Oct:** upstream dav2d now fixes every dav2d problem in this
-> report, and matches `avmdec` on all 284 streams without patches. See the
-> [29 Oct update](../2026-10-29-dav2d-conformance-update/).
+> report, and matches `avmdec` on 284 of 285 streams without patches. See the
+> [29 Oct update](../2026-10-29-dav2d-conformance-update/) and its correction.
 
 ![Decoded output per decoder: match, mismatch, error or crash, out of 260 streams](figures/conformance.svg)
 
@@ -150,7 +150,10 @@ below-normal priority) into `conform.jsonl`; `summarize.py` prints the table.
 `scripts/make_figures.py` redraws both figures from the two `.jsonl` files
 in this folder.
 `conform.jsonl` here has one row per (stream, decoder): exit code, MD5, wall
-time. The truncated `crowd_run_1080p50_qp110_s4_33f.ivf` (18 of 33 frames,
-left from an interrupted sweep) is excluded. The unpatched dav2d rows were
+time. `crowd_run_1080p50_qp110_s4_33f.ivf` is excluded: we took it for a file
+truncated by an interrupted sweep. Correction, 30 Oct: it is complete (18
+IVF packets, 33 frames, since hidden frames share packets); dav2d fails on it
+because of a separate bug (see the
+[29 Oct update](../2026-10-29-dav2d-conformance-update/)). The unpatched dav2d rows were
 decoded without `--filmgrain 1`, which only matters for the one film grain
 stream.

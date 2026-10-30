@@ -10,6 +10,15 @@ unpatched upstream dav2d now decode AVM streams correctly?
 last fix, matches `avmdec` on all 284 AVM streams, with no errors or
 crashes. dav2d no longer needs any of our patches.
 
+> **Correction, 30 Oct:** these counts leave out
+> `crowd_run_1080p50_qp110_s4_33f.ivf`, which we took for a truncated file.
+> It is complete: its 18 IVF packets hold all 33 frames, because hidden
+> frames share a packet with the next shown frame. dav2d decodes it wrong
+> because of a separate bug, found on 30 Oct (implicit MV refinement for a
+> compound block that uses the same reference twice; F8 in the
+> [stress test](../2026-10-30-dav2d-stress/)). So `main` + !947 matches 284
+> of 285 streams, and 285 of 285 with that fix.
+
 | Decoder | Match | Mismatch | Error | Crash |
 |---|---:|---:|---:|---:|
 | dav2d nightly 20 Oct (dfbd7ac799, MSVC) | 0 of 260 | 165 | 33 | 62 |
@@ -73,8 +82,9 @@ still match.
 Both have one row per (stream, decoder), including the `avmdec` reference
 rows, in the same format as the first report.
 [`scripts/run_conform.py`](scripts/run_conform.py) runs that report's
-`conform.py` with a single decoder, reusing its reference MD5s. The
-truncated `crowd_run_1080p50_qp110_s4_33f.ivf` is again excluded. The
+`conform.py` with a single decoder, reusing its reference MD5s. 
+`crowd_run_1080p50_qp110_s4_33f.ivf` is again excluded, as truncated; it
+isn't (see the correction above). The
 `main` + !947 build is a shared-library build, so `dav2d.dll` has to sit
 next to `dav2d.exe`.
 `scripts/make_figures.py` redraws both figures from the two `.jsonl` files
