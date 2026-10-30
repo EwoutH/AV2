@@ -40,7 +40,7 @@ fails), decoded with all 11 fixes:
 |---|---:|
 | Fixed by the patches here | 282 |
 | Features already tracked in dav2d #67 (S-frames, resize, LCR, ...) | 124 |
-| AVM bug: `--dpb-size` below 8 makes streams `avmdec` rejects | 52 |
+| AVM: `avmdec` rejects the encoder's own stream (32 of them with `--dpb-size` 2 or 4) | 52 |
 | Not a bug: dav2d's CLI doesn't apply the crop window | 26 |
 | Open, all builds (overlay, BRU, `rect-partitions=0`, lossless IntraBC chroma, ...) | 25 |
 | Open, only with threads (mostly with tiles; 7 crash) | 21 |

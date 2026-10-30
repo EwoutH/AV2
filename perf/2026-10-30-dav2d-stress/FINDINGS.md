@@ -4,7 +4,7 @@
 
 - 3184 random avmenc configs (2 runs, 00:49-07:21): 2378 all decoders
   match, 276 configs avmenc rejected, 52 where avmdec itself fails
-  (AVM `--dpb-size` issue), 478 where unpatched dav2d failed.
+  (32 of them with AVM `--dpb-size` 2 or 4), 478 where unpatched dav2d failed.
 - Final classification of the 530 kept failures with dav2d main + !947 +
   the 11 patches here (MSVC build, `classify_final.txt`): 282 fixed, 124
   known upstream (#67 features), 52 AVM, 26 crop window (not a bug), 25
