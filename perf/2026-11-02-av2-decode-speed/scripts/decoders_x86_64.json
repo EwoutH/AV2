@@ -1,0 +1,6 @@
+{
+  "avmdec":  ["/srv/compression/cache/av2bench/build/x86_64/avm/avmdec", "{ivf}", "--rawvideo", "--md5", "--threads={threads}"],
+  "dav2d":   ["/srv/compression/cache/av2bench/build/x86_64/dav2d/tools/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}"],
+  "dav2d_c": ["/srv/compression/cache/av2bench/build/x86_64/dav2d/tools/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--cpumask", "0"],
+  "rav2d":   ["/srv/compression/cache/av2bench/build/x86_64/rav2d/release/rav2d", "{ivf}", "--md5", "-t", "{threads}"]
+}

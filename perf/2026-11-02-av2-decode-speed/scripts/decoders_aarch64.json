@@ -1,0 +1,7 @@
+{
+  "avmdec":      ["./bin/avmdec", "{ivf}", "--rawvideo", "--md5", "--threads={threads}"],
+  "dav2d":       ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}"],
+  "dav2d_c":     ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--cpumask", "0"],
+  "rav2d":       ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}"],
+  "rav2d_noasm": ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}", "--no-asm"]
+}
