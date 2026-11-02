@@ -13,6 +13,6 @@ B="$PY scripts/bench.py --host pi --decoders scripts/decoders_aarch64.json --str
 OUT=data/pi.jsonl
 
 $B --streams data/streams_core.tsv --only avmdec,dav2d,dav2d_c --threads 1,2,4 --reps 3 --out $OUT
-$B --streams data/streams_core.tsv --only rav2d,rav2d_noasm --threads 1 --reps 2 --out $OUT
+$B --streams data/streams_core.tsv --only rav2d --threads 1 --reps 2 --out $OUT
 $B --streams data/streams_core.tsv --only dav2d --threads 3 --reps 3 --out $OUT
 echo "pi run finished $(date -Is)"

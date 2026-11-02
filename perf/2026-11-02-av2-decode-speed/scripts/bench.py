@@ -15,7 +15,7 @@ streams.tsv:   file<TAB>frames<TAB>width<TAB>height<TAB>md5   (relative to --str
 The run is resumable: rows already in --out (same host/decoder/stream/threads/rep)
 are skipped.
 """
-import argparse, glob, json, os, random, re, resource, subprocess, sys, threading, time
+import argparse, glob, json, os, random, re, subprocess, sys, tempfile, threading, time
 from pathlib import Path
 
 MD5_RE = re.compile(r"\b[0-9a-f]{32}\b")
@@ -65,22 +65,29 @@ class FreqSampler(threading.Thread):
 
 
 def run_once(argv, timeout):
+    """Run one decode; returns rc, timed_out, wall, stdout, stderr, busy CPU s
+    of the whole machine, temps, freq samples and the child's own rusage."""
     hz = os.sysconf("SC_CLK_TCK")
     fs = FreqSampler(); fs.start()
     t_before, b0 = temp_c(), cpu_busy_jiffies()
-    t0 = time.perf_counter()
-    p = subprocess.Popen(argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    try:
-        out, err = p.communicate(timeout=timeout)
-        timed_out = False
-    except subprocess.TimeoutExpired:
-        p.kill(); out, err = p.communicate(); timed_out = True
-    wall = time.perf_counter() - t0
-    # communicate() already reaped the child; take its rusage from RUSAGE_CHILDREN deltas
-    b1 = cpu_busy_jiffies()
+    with tempfile.TemporaryFile() as fo, tempfile.TemporaryFile() as fe:
+        t0 = time.perf_counter()
+        p = subprocess.Popen(argv, stdout=fo, stderr=fe)
+        deadline, timed_out = t0 + timeout, False
+        while True:
+            pid, status, ru = os.wait4(p.pid, os.WNOHANG)
+            if pid:
+                break
+            if time.perf_counter() > deadline:
+                p.kill(); timed_out = True
+            time.sleep(0.002)
+        wall = time.perf_counter() - t0
+        b1 = cpu_busy_jiffies()
+        fo.seek(0); fe.seek(0)
+        out, err = fo.read().decode(errors="replace"), fe.read().decode(errors="replace")
     fs.stop.set(); fs.join()
-    return p.returncode, timed_out, wall, out.decode(errors="replace"), \
-        err.decode(errors="replace"), (b1 - b0) / hz, t_before, temp_c(), fs.samples
+    rc = os.waitstatus_to_exitcode(status)
+    return rc, timed_out, wall, out, err, (b1 - b0) / hz, t_before, temp_c(), fs.samples, ru
 
 
 def main():
@@ -134,19 +141,16 @@ def main():
                 while (bu := busy_units()):
                     print(f"  waiting for {bu}", file=sys.stderr, flush=True)
                     time.sleep(20)
-                ru0 = resource.getrusage(resource.RUSAGE_CHILDREN)
-                rc, to, wall, out, err, busy, tb, ta, freqs = run_once(argv, a.timeout)
-                ru1 = resource.getrusage(resource.RUSAGE_CHILDREN)
-                user = ru1.ru_utime - ru0.ru_utime
-                sys_ = ru1.ru_stime - ru0.ru_stime
+                rc, to, wall, out, err, busy, tb, ta, freqs, ru = run_once(argv, a.timeout)
+                user, sys_ = ru.ru_utime, ru.ru_stime
                 foreign = max(0.0, busy - user - sys_)
                 disturbed = foreign / wall > a.max_foreign
-                m = MD5_RE.findall(out + "\n" + err)
-                md5 = m[-1] if m else None
+                m = MD5_RE.findall(out) or MD5_RE.findall(err)
+                md5 = m[-1] if m and rc == 0 else None
                 row = dict(host=a.host, decoder=dec, stream=s["stream"], frames=s["frames"],
                            width=s["width"], height=s["height"], threads=th, rep=rep,
                            attempt=attempt, wall_s=round(wall, 4), user_s=round(user, 3),
-                           sys_s=round(sys_, 3), maxrss_mb=round(ru1.ru_maxrss / 1024, 1),
+                           sys_s=round(sys_, 3), maxrss_mb=round(ru.ru_maxrss / 1024, 1),
                            foreign_cores=round(foreign / wall, 3), disturbed=disturbed,
                            rc=rc, timeout=to, md5=md5, md5_ok=md5 == s["md5"],
                            temp_before=tb, temp_after=ta,

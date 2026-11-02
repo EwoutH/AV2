@@ -1,7 +1,8 @@
 {
-  "avmdec":      ["./bin/avmdec", "{ivf}", "--rawvideo", "--md5", "--threads={threads}"],
-  "dav2d":       ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}"],
-  "dav2d_c":     ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--cpumask", "0"],
-  "rav2d":       ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}"],
-  "rav2d_noasm": ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}", "--no-asm"]
+  "avmdec": ["./bin/avmdec", "{ivf}", "--rawvideo", "--md5", "--threads={threads}"],
+  "dav2d": ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1"],
+  "dav2d_c": ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1", "--cpumask", "0"],
+  "rav2d": ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}"],
+  "rusty_av2d": ["./bin/rusty_av2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1"],
+  "splot": ["./bin/splot", "decode", "{ivf}", "--output-format", "null", "--threads", "{threads}"]
 }
