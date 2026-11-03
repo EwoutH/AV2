@@ -57,4 +57,4 @@ perf report --no-children --sort sym
 #   3.7%  compute_gradient_row
 ```
 
-Streams: [hd-streams-2026-10](https://github.com/EwoutH/AV2/releases/tag/hd-streams-2026-10). Every stream decodes to the `avmdec` pixel MD5. GCC 15.3. Per-symbol sample counts for all 41 profiles (32 x86, asm and no-asm builds; 9 pi), plus the scripts that group them: [perf/2026-11-03-dav2d-profile](https://github.com/EwoutH/AV2/tree/main/perf/2026-11-03-dav2d-profile). The full speed benchmark (88 streams, `avmdec`/dav2d/splot): [perf/2026-11-02-av2-decode-speed](https://github.com/EwoutH/AV2/tree/main/perf/2026-11-02-av2-decode-speed).
+Streams: [hd-streams-2026-10](https://github.com/EwoutH/AV2/releases/tag/hd-streams-2026-10). Every stream decodes to the `avmdec` pixel MD5. GCC 15.3. Per-symbol sample counts for all 41 profiles (32 x86, asm and no-asm builds; 9 pi), plus the scripts that group them: [perf/2026-11-03-dav2d-profile](https://github.com/EwoutH/AV2/tree/9ec61d8/perf/2026-11-03-dav2d-profile). The full speed benchmark (88 streams, `avmdec`/dav2d/splot): [perf/2026-11-02-av2-decode-speed](https://github.com/EwoutH/AV2/tree/main/perf/2026-11-02-av2-decode-speed).
