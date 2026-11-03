@@ -31,9 +31,11 @@ reference decoder, `avmdec`.
      `avmdec`, against 2.0x and 1.7x for dav2d.
    - dav2d's NEON code makes it only 1.33x (8-bit) and 1.23x (10-bit) faster
      than its C build. On x86, asm makes it 4.5x faster.
-   - The aarch64 port has 20 asm files against 41 for x86. Entropy decoding,
-     deblocking, CCSO, the secondary transform, palette and `refmvs` have x86 asm
-     but no aarch64 asm. That is the likely reason (not profiled).
+   - The aarch64 port has 20 asm files against 41 for x86. Deblocking, CCSO,
+     the secondary transform, palette and `refmvs` have x86 asm but no aarch64
+     asm. Entropy decoding has aarch64 asm for bools only; multi-symbol
+     decoding (`symbol_adapt4`/`adapt8`) is asm on x86 only. That is the
+     likely reason (not profiled).
 3. **dav2d and splot use extra threads; `avmdec` doesn't.**
    - **dav2d on 4 threads:** 2.7x its 1-thread speed on the pc and 3.4x on the
      pi.
