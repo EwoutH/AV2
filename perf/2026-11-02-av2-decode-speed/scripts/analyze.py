@@ -129,6 +129,9 @@ def main():
                              sharey=True, squeeze=False)
     ds = [d for d in DEC if any((d, b) in rel[h] for h in hosts for b in (8, 10))]
     ys = list(range(len(ds)))[::-1]
+    allv = [v for h in hosts for v, _ in rel[h].values()]
+    # Small margin on the left; on the right, room for the "3.00x 10-bit" labels.
+    xlo, xhi = min(allv) / 1.2, max(allv) * 2.0
     for ax, h in zip(axes[0], hosts):
         for y, d in zip(ys, ds):
             vals = [rel[h][(d, b)][0] for b in (8, 10) if (d, b) in rel[h]]
@@ -144,8 +147,9 @@ def main():
                             va="center", color=INK, fontsize=8)
         ax.set_yticks(ys, [DEC[d][0] for d in ds])
         ax.set_xscale("log"); ax.axvline(1, color=INK2, lw=1, ls=":")
-        ax.set_xlim(0.15, 8)
-        ax.xaxis.set_major_locator(matplotlib.ticker.FixedLocator([0.25, 0.5, 1, 2, 4]))
+        ax.set_xlim(xlo, xhi)
+        ax.xaxis.set_major_locator(matplotlib.ticker.FixedLocator(
+            [t for t in (0.25, 0.5, 1, 2, 4, 8) if xlo <= t <= xhi]))
         ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, _: f"{v:g}x"))
         ax.xaxis.set_minor_locator(matplotlib.ticker.NullLocator())
         ax.set_title(HOST[h], fontsize=10, loc="left")
