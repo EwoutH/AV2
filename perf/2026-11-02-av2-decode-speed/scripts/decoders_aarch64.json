@@ -4,5 +4,6 @@
   "dav2d_c": ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1", "--cpumask", "0"],
   "rav2d": ["./bin/rav2d", "{ivf}", "--md5", "-t", "{threads}"],
   "rusty_av2d": ["./bin/rusty_av2d", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1"],
-  "splot": ["./bin/splot", "decode", "{ivf}", "--output-format", "null", "--threads", "{threads}"]
+  "splot": ["./bin/splot", "decode", "{ivf}", "--output-format", "null", "--threads", "{threads}"],
+  "dav2d_noasm": ["./bin/dav2d_noasm", "-q", "-i", "{ivf}", "--muxer", "md5", "-o", "-", "--threads", "{threads}", "--filmgrain", "1"]
 }
