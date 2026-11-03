@@ -1,0 +1,751 @@
+{
+ "Artistic_Intro_1920x1080_2997fps_qp135_130f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 1550,
+   "g": {
+    "Other|asm": 32,
+    "Other|C": 96,
+    "Other refmvs (spatial MV)|C": 90,
+    "Inter pred (MC/warp/opfl/TIP)|C": 116,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 315,
+    "CCSO|asm": 7,
+    "CDEF|asm": 65,
+    "CDEF|C": 31,
+    "Intra pred|asm": 3,
+    "Deblock|C": 20,
+    "Deblock|asm": 35,
+    "Entropy decode + parse|C": 122,
+    "GDF|asm": 195,
+    "Inverse transform (itx/stx/cctx)|asm": 17,
+    "Entropy decode + parse|asm": 34,
+    "Other refmvs (spatial MV)|asm": 23,
+    "Intra pred|C": 9,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Wiener (LR)|asm": 67,
+    "TMV projection (load_tmvs)|C": 252,
+    "Wiener (LR)|C": 2,
+    "Kernel|k": 18
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 8515,
+   "g": {
+    "Other|C": 289,
+    "Wiener (LR)|C": 996,
+    "Other refmvs (spatial MV)|C": 372,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2025,
+    "Deblock|C": 158,
+    "CCSO|C": 108,
+    "Inverse transform (itx/stx/cctx)|C": 192,
+    "CDEF|C": 1039,
+    "Intra pred|C": 21,
+    "GDF|C": 2807,
+    "Entropy decode + parse|C": 229,
+    "TMV projection (load_tmvs)|C": 247,
+    "Kernel|k": 32
+   }
+  }
+ },
+ "CosmosTreeTrunk_2048x858p24_hdr10_hdr10_qp135_130f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 6829,
+   "g": {
+    "Other|asm": 35,
+    "Other|C": 127,
+    "Wiener (LR)|C": 1068,
+    "Other refmvs (spatial MV)|C": 82,
+    "Deblock|C": 177,
+    "Inter pred (MC/warp/opfl/TIP)|C": 100,
+    "CCSO|C": 199,
+    "Intra pred|C": 33,
+    "GDF|C": 4012,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 334,
+    "CDEF|asm": 47,
+    "CDEF|C": 23,
+    "Intra pred|asm": 8,
+    "Entropy decode + parse|asm": 45,
+    "Other refmvs (spatial MV)|asm": 21,
+    "Entropy decode + parse|C": 141,
+    "Inverse transform (itx/stx/cctx)|asm": 2,
+    "TMV projection (load_tmvs)|asm": 1,
+    "TMV projection (load_tmvs)|C": 171,
+    "Inverse transform (itx/stx/cctx)|C": 167,
+    "Kernel|k": 36
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 9530,
+   "g": {
+    "Other|C": 182,
+    "Wiener (LR)|C": 1141,
+    "Other refmvs (spatial MV)|C": 410,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2047,
+    "Deblock|C": 147,
+    "CCSO|C": 202,
+    "CDEF|C": 808,
+    "Intra pred|C": 63,
+    "GDF|C": 3859,
+    "Entropy decode + parse|C": 272,
+    "TMV projection (load_tmvs)|C": 176,
+    "Inverse transform (itx/stx/cctx)|C": 196,
+    "Kernel|k": 27
+   }
+  }
+ },
+ "crowd_run_1080p50_qp135_500f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 2351,
+   "g": {
+    "Other|asm": 62,
+    "Other|C": 182,
+    "Other refmvs (spatial MV)|C": 200,
+    "Inter pred (MC/warp/opfl/TIP)|C": 155,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 388,
+    "CCSO|asm": 26,
+    "CDEF|asm": 64,
+    "CDEF|C": 26,
+    "Intra pred|asm": 13,
+    "Deblock|C": 50,
+    "Deblock|asm": 44,
+    "GDF|asm": 246,
+    "Entropy decode + parse|C": 318,
+    "Inverse transform (itx/stx/cctx)|asm": 26,
+    "Wiener (LR)|C": 12,
+    "Entropy decode + parse|asm": 93,
+    "Other refmvs (spatial MV)|asm": 37,
+    "Intra pred|C": 38,
+    "TMV projection (load_tmvs)|asm": 2,
+    "Wiener (LR)|asm": 74,
+    "TMV projection (load_tmvs)|C": 270,
+    "Kernel|k": 25
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 12191,
+   "g": {
+    "Other|C": 392,
+    "Wiener (LR)|C": 1030,
+    "Other refmvs (spatial MV)|C": 631,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2709,
+    "Deblock|C": 245,
+    "CCSO|C": 490,
+    "Inverse transform (itx/stx/cctx)|C": 274,
+    "CDEF|C": 1086,
+    "Intra pred|C": 62,
+    "GDF|C": 4357,
+    "Entropy decode + parse|C": 627,
+    "TMV projection (load_tmvs)|C": 257,
+    "Kernel|k": 31
+   }
+  }
+ },
+ "DinnerSceneCropped_1920x1080_2997fps_10bit_420_qp135_130f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 5603,
+   "g": {
+    "Other|asm": 12,
+    "Other|C": 47,
+    "Wiener (LR)|C": 751,
+    "Other refmvs (spatial MV)|C": 40,
+    "Deblock|C": 113,
+    "Inter pred (MC/warp/opfl/TIP)|C": 101,
+    "CCSO|C": 53,
+    "Intra pred|C": 9,
+    "GDF|C": 3681,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 406,
+    "CDEF|asm": 32,
+    "CDEF|C": 12,
+    "Entropy decode + parse|asm": 3,
+    "Other refmvs (spatial MV)|asm": 12,
+    "Entropy decode + parse|C": 10,
+    "Inverse transform (itx/stx/cctx)|asm": 1,
+    "TMV projection (load_tmvs)|asm": 4,
+    "TMV projection (load_tmvs)|C": 249,
+    "Inverse transform (itx/stx/cctx)|C": 44,
+    "Kernel|k": 23
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 8254,
+   "g": {
+    "Other|C": 197,
+    "Wiener (LR)|C": 741,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2513,
+    "CCSO|C": 37,
+    "Inverse transform (itx/stx/cctx)|C": 40,
+    "CDEF|C": 367,
+    "Intra pred|C": 13,
+    "GDF|C": 3685,
+    "Deblock|C": 127,
+    "Entropy decode + parse|C": 20,
+    "Other refmvs (spatial MV)|C": 220,
+    "TMV projection (load_tmvs)|C": 257,
+    "Kernel|k": 37
+   }
+  }
+ },
+ "KristenAndSara_1280x720_60_qp135_600f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 486,
+   "g": {
+    "Other|asm": 8,
+    "Other|C": 22,
+    "Other refmvs (spatial MV)|C": 26,
+    "Inter pred (MC/warp/opfl/TIP)|C": 66,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 124,
+    "CDEF|asm": 8,
+    "CDEF|C": 4,
+    "Deblock|C": 1,
+    "Deblock|asm": 4,
+    "GDF|asm": 24,
+    "Wiener (LR)|C": 2,
+    "Inverse transform (itx/stx/cctx)|asm": 5,
+    "Entropy decode + parse|asm": 6,
+    "Other refmvs (spatial MV)|asm": 3,
+    "Intra pred|C": 4,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Wiener (LR)|asm": 17,
+    "Entropy decode + parse|C": 22,
+    "TMV projection (load_tmvs)|C": 125,
+    "Kernel|k": 14
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 2049,
+   "g": {
+    "Other|C": 129,
+    "Wiener (LR)|C": 243,
+    "Other refmvs (spatial MV)|C": 120,
+    "Inter pred (MC/warp/opfl/TIP)|C": 938,
+    "CDEF|C": 104,
+    "Intra pred|C": 5,
+    "GDF|C": 293,
+    "Deblock|C": 38,
+    "Entropy decode + parse|C": 36,
+    "Inverse transform (itx/stx/cctx)|C": 18,
+    "TMV projection (load_tmvs)|C": 114,
+    "Kernel|k": 11
+   }
+  }
+ },
+ "Life_1080p30_qp135_130f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 1686,
+   "g": {
+    "Other|asm": 35,
+    "Wiener (LR)|asm": 25,
+    "Other|C": 91,
+    "Other refmvs (spatial MV)|C": 90,
+    "Inter pred (MC/warp/opfl/TIP)|C": 218,
+    "Intra pred|C": 11,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 293,
+    "CDEF|asm": 72,
+    "CDEF|C": 27,
+    "Intra pred|asm": 3,
+    "Deblock|C": 31,
+    "Deblock|asm": 35,
+    "GDF|asm": 305,
+    "Inverse transform (itx/stx/cctx)|asm": 11,
+    "Wiener (LR)|C": 4,
+    "Entropy decode + parse|asm": 25,
+    "Other refmvs (spatial MV)|asm": 23,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Entropy decode + parse|C": 97,
+    "TMV projection (load_tmvs)|C": 273,
+    "Kernel|k": 16
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 10152,
+   "g": {
+    "Other|C": 352,
+    "Wiener (LR)|C": 409,
+    "Other refmvs (spatial MV)|C": 468,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2207,
+    "CCSO|C": 3,
+    "CDEF|C": 1307,
+    "Intra pred|C": 35,
+    "GDF|C": 4621,
+    "Deblock|C": 176,
+    "Entropy decode + parse|C": 187,
+    "Inverse transform (itx/stx/cctx)|C": 89,
+    "TMV projection (load_tmvs)|C": 272,
+    "Kernel|k": 26
+   }
+  }
+ },
+ "MissionControlClip1_1920x1080_60fps_10bit_420_0450_0579_screen_qp135_130f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 2804,
+   "g": {
+    "Other|asm": 26,
+    "Other|C": 60,
+    "Wiener (LR)|C": 312,
+    "Other refmvs (spatial MV)|C": 46,
+    "Deblock|C": 93,
+    "Inter pred (MC/warp/opfl/TIP)|C": 60,
+    "CCSO|C": 104,
+    "Intra pred|C": 12,
+    "GDF|C": 1398,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 174,
+    "CDEF|asm": 28,
+    "CDEF|C": 10,
+    "Entropy decode + parse|C": 89,
+    "Intra pred|asm": 1,
+    "Entropy decode + parse|asm": 38,
+    "Other refmvs (spatial MV)|asm": 12,
+    "TMV projection (load_tmvs)|asm": 3,
+    "TMV projection (load_tmvs)|C": 228,
+    "Inverse transform (itx/stx/cctx)|C": 81,
+    "Kernel|k": 29
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 3972,
+   "g": {
+    "Other|C": 125,
+    "Wiener (LR)|C": 298,
+    "Other refmvs (spatial MV)|C": 107,
+    "Inter pred (MC/warp/opfl/TIP)|C": 613,
+    "CCSO|C": 113,
+    "CDEF|C": 673,
+    "Intra pred|C": 17,
+    "GDF|C": 1379,
+    "Deblock|C": 89,
+    "Entropy decode + parse|C": 226,
+    "Inverse transform (itx/stx/cctx)|C": 69,
+    "TMV projection (load_tmvs)|C": 235,
+    "Kernel|k": 28
+   }
+  }
+ },
+ "Netflix_DrivingPOV_720p_60fps_10bit_420_qp135_600f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 3660,
+   "g": {
+    "Other|asm": 21,
+    "Other|C": 45,
+    "Wiener (LR)|C": 473,
+    "Other refmvs (spatial MV)|C": 52,
+    "Deblock|C": 41,
+    "Inter pred (MC/warp/opfl/TIP)|C": 78,
+    "CCSO|C": 283,
+    "Intra pred|C": 3,
+    "GDF|C": 2193,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 211,
+    "CDEF|asm": 9,
+    "CDEF|C": 5,
+    "Entropy decode + parse|C": 48,
+    "Entropy decode + parse|asm": 13,
+    "Other refmvs (spatial MV)|asm": 9,
+    "Inverse transform (itx/stx/cctx)|asm": 1,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Inverse transform (itx/stx/cctx)|C": 38,
+    "TMV projection (load_tmvs)|C": 117,
+    "Kernel|k": 19
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 5257,
+   "g": {
+    "Other|C": 141,
+    "Wiener (LR)|C": 483,
+    "Other refmvs (spatial MV)|C": 279,
+    "Inter pred (MC/warp/opfl/TIP)|C": 1458,
+    "Deblock|C": 34,
+    "CCSO|C": 267,
+    "Inverse transform (itx/stx/cctx)|C": 33,
+    "CDEF|C": 117,
+    "Intra pred|C": 5,
+    "GDF|C": 2217,
+    "Entropy decode + parse|C": 85,
+    "TMV projection (load_tmvs)|C": 116,
+    "Kernel|k": 22
+   }
+  }
+ },
+ "Noise_Ocean_1920x1080_60fps_filmgrain_qp135_130f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 1260,
+   "g": {
+    "Other|asm": 2,
+    "Other|C": 34,
+    "Other refmvs (spatial MV)|C": 23,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 64,
+    "Inverse transform (itx/stx/cctx)|asm": 2,
+    "CDEF|asm": 111,
+    "CDEF|C": 42,
+    "Deblock|C": 3,
+    "Deblock|asm": 10,
+    "Entropy decode + parse|C": 25,
+    "GDF|asm": 51,
+    "Film grain|asm": 3,
+    "Intra pred|asm": 2,
+    "Entropy decode + parse|asm": 2,
+    "Intra pred|C": 9,
+    "Other refmvs (spatial MV)|asm": 5,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Wiener (LR)|asm": 39,
+    "Film grain|C": 566,
+    "TMV projection (load_tmvs)|C": 227,
+    "Wiener (LR)|C": 4,
+    "Inter pred (MC/warp/opfl/TIP)|C": 14,
+    "Kernel|k": 21
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 4012,
+   "g": {
+    "Other|C": 52,
+    "Wiener (LR)|C": 478,
+    "Other refmvs (spatial MV)|C": 32,
+    "Inter pred (MC/warp/opfl/TIP)|C": 324,
+    "Deblock|C": 45,
+    "CDEF|C": 1562,
+    "Intra pred|C": 15,
+    "GDF|C": 673,
+    "Entropy decode + parse|C": 20,
+    "Film grain|C": 529,
+    "Inverse transform (itx/stx/cctx)|C": 60,
+    "TMV projection (load_tmvs)|C": 209,
+    "Kernel|k": 13
+   }
+  }
+ },
+ "old_town_cross_1080p50_qp135_500f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 1253,
+   "g": {
+    "Other|asm": 14,
+    "Wiener (LR)|asm": 70,
+    "Other|C": 44,
+    "Other refmvs (spatial MV)|C": 57,
+    "Inter pred (MC/warp/opfl/TIP)|C": 114,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 299,
+    "CCSO|asm": 5,
+    "CDEF|asm": 11,
+    "CDEF|C": 5,
+    "Intra pred|asm": 4,
+    "Deblock|C": 7,
+    "Deblock|asm": 9,
+    "Entropy decode + parse|C": 44,
+    "GDF|asm": 215,
+    "Inverse transform (itx/stx/cctx)|asm": 3,
+    "Entropy decode + parse|asm": 6,
+    "Other refmvs (spatial MV)|asm": 15,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Intra pred|C": 1,
+    "TMV projection (load_tmvs)|C": 297,
+    "Wiener (LR)|C": 1,
+    "Kernel|k": 31
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 7105,
+   "g": {
+    "Other|C": 205,
+    "Wiener (LR)|C": 801,
+    "Other refmvs (spatial MV)|C": 247,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2125,
+    "Deblock|C": 47,
+    "CCSO|C": 65,
+    "CDEF|C": 186,
+    "Intra pred|C": 18,
+    "GDF|C": 3007,
+    "Entropy decode + parse|C": 66,
+    "Inverse transform (itx/stx/cctx)|C": 35,
+    "TMV projection (load_tmvs)|C": 284,
+    "Kernel|k": 19
+   }
+  }
+ },
+ "RitualDance_1920x1080_60fps_10bit_420_qp135_600f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 6675,
+   "g": {
+    "Other|asm": 21,
+    "Other|C": 105,
+    "Wiener (LR)|C": 1063,
+    "Other refmvs (spatial MV)|C": 72,
+    "Deblock|C": 322,
+    "Inter pred (MC/warp/opfl/TIP)|C": 93,
+    "CCSO|C": 301,
+    "Intra pred|C": 54,
+    "GDF|C": 3600,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 362,
+    "Inverse transform (itx/stx/cctx)|asm": 6,
+    "CDEF|asm": 86,
+    "CDEF|C": 34,
+    "Intra pred|asm": 5,
+    "Entropy decode + parse|asm": 26,
+    "Other refmvs (spatial MV)|asm": 15,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Entropy decode + parse|C": 76,
+    "Inverse transform (itx/stx/cctx)|C": 189,
+    "TMV projection (load_tmvs)|C": 195,
+    "Kernel|k": 49
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 9392,
+   "g": {
+    "Other|C": 187,
+    "Wiener (LR)|C": 1084,
+    "Other refmvs (spatial MV)|C": 241,
+    "Inter pred (MC/warp/opfl/TIP)|C": 1842,
+    "Deblock|C": 314,
+    "CCSO|C": 306,
+    "Inverse transform (itx/stx/cctx)|C": 197,
+    "CDEF|C": 1391,
+    "Intra pred|C": 93,
+    "GDF|C": 3362,
+    "Entropy decode + parse|C": 141,
+    "TMV projection (load_tmvs)|C": 210,
+    "Kernel|k": 24
+   }
+  }
+ },
+ "Skater227_1920x1080_30fps_qp135_300f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 5128,
+   "g": {
+    "Other|asm": 5,
+    "Other|C": 43,
+    "Wiener (LR)|C": 1061,
+    "Other refmvs (spatial MV)|C": 34,
+    "Deblock|C": 205,
+    "Inter pred (MC/warp/opfl/TIP)|C": 39,
+    "CCSO|C": 60,
+    "Intra pred|C": 41,
+    "GDF|C": 2958,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 196,
+    "Inverse transform (itx/stx/cctx)|asm": 2,
+    "CDEF|asm": 157,
+    "CDEF|C": 53,
+    "Intra pred|asm": 2,
+    "Entropy decode + parse|asm": 7,
+    "Other refmvs (spatial MV)|asm": 4,
+    "Entropy decode + parse|C": 28,
+    "TMV projection (load_tmvs)|C": 58,
+    "Inverse transform (itx/stx/cctx)|C": 135,
+    "Kernel|k": 40
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 8452,
+   "g": {
+    "Other|C": 110,
+    "Wiener (LR)|C": 1011,
+    "Other refmvs (spatial MV)|C": 107,
+    "Inter pred (MC/warp/opfl/TIP)|C": 907,
+    "CCSO|C": 67,
+    "Inverse transform (itx/stx/cctx)|C": 158,
+    "CDEF|C": 2621,
+    "Intra pred|C": 53,
+    "GDF|C": 3003,
+    "Deblock|C": 267,
+    "Entropy decode + parse|C": 56,
+    "TMV projection (load_tmvs)|C": 62,
+    "Kernel|k": 30
+   }
+  }
+ },
+ "Slides1_1920x1080_30fps_8bit_420_screen_qp135_130f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 621,
+   "g": {
+    "Other|asm": 9,
+    "Other|C": 51,
+    "Other refmvs (spatial MV)|C": 42,
+    "Inter pred (MC/warp/opfl/TIP)|C": 9,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 52,
+    "CCSO|asm": 7,
+    "CDEF|asm": 62,
+    "CDEF|C": 23,
+    "Intra pred|asm": 2,
+    "Deblock|C": 7,
+    "Deblock|asm": 14,
+    "GDF|asm": 24,
+    "Inverse transform (itx/stx/cctx)|asm": 6,
+    "Entropy decode + parse|asm": 12,
+    "Intra pred|C": 2,
+    "Other refmvs (spatial MV)|asm": 4,
+    "Wiener (LR)|asm": 16,
+    "Entropy decode + parse|C": 36,
+    "TMV projection (load_tmvs)|C": 221,
+    "Wiener (LR)|C": 2,
+    "Kernel|k": 20
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 2495,
+   "g": {
+    "Other|C": 67,
+    "Wiener (LR)|C": 127,
+    "Other refmvs (spatial MV)|C": 38,
+    "Inter pred (MC/warp/opfl/TIP)|C": 174,
+    "CCSO|C": 120,
+    "Inverse transform (itx/stx/cctx)|C": 29,
+    "CDEF|C": 1077,
+    "Intra pred|C": 20,
+    "GDF|C": 447,
+    "Deblock|C": 84,
+    "Entropy decode + parse|C": 72,
+    "TMV projection (load_tmvs)|C": 213,
+    "Kernel|k": 27
+   }
+  }
+ },
+ "SparksTruck_2048x1080_5994_hdr10_hdr10_qp135_130f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 4140,
+   "g": {
+    "Other|asm": 26,
+    "Other|C": 98,
+    "Wiener (LR)|C": 990,
+    "Other refmvs (spatial MV)|C": 71,
+    "Deblock|C": 99,
+    "Inter pred (MC/warp/opfl/TIP)|C": 159,
+    "Intra pred|C": 14,
+    "GDF|C": 1525,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 610,
+    "Inverse transform (itx/stx/cctx)|asm": 2,
+    "CDEF|asm": 15,
+    "CDEF|C": 6,
+    "Intra pred|asm": 1,
+    "Entropy decode + parse|C": 63,
+    "Entropy decode + parse|asm": 18,
+    "Other refmvs (spatial MV)|asm": 17,
+    "TMV projection (load_tmvs)|asm": 1,
+    "Inverse transform (itx/stx/cctx)|C": 66,
+    "TMV projection (load_tmvs)|C": 310,
+    "Kernel|k": 49
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 7139,
+   "g": {
+    "Other|C": 249,
+    "Wiener (LR)|C": 981,
+    "Other refmvs (spatial MV)|C": 372,
+    "Inter pred (MC/warp/opfl/TIP)|C": 3429,
+    "Deblock|C": 96,
+    "Inverse transform (itx/stx/cctx)|C": 58,
+    "CDEF|C": 99,
+    "Intra pred|C": 14,
+    "GDF|C": 1383,
+    "Entropy decode + parse|C": 132,
+    "TMV projection (load_tmvs)|C": 295,
+    "Kernel|k": 31
+   }
+  }
+ },
+ "TunnelFlag_1920x1080_60fps_10bit_420_qp135_600f": {
+  "ten": true,
+  "dav2d": {
+   "tot": 8084,
+   "g": {
+    "Other|asm": 27,
+    "Other|C": 120,
+    "Wiener (LR)|C": 972,
+    "Other refmvs (spatial MV)|C": 77,
+    "Deblock|C": 277,
+    "CCSO|C": 379,
+    "Intra pred|C": 35,
+    "GDF|C": 5064,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 415,
+    "CDEF|asm": 45,
+    "CDEF|C": 21,
+    "Intra pred|asm": 6,
+    "Entropy decode + parse|C": 99,
+    "Entropy decode + parse|asm": 45,
+    "Other refmvs (spatial MV)|asm": 36,
+    "Inverse transform (itx/stx/cctx)|asm": 1,
+    "Inter pred (MC/warp/opfl/TIP)|C": 118,
+    "TMV projection (load_tmvs)|C": 162,
+    "Inverse transform (itx/stx/cctx)|C": 164,
+    "Kernel|k": 21
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 11012,
+   "g": {
+    "Other|C": 224,
+    "Wiener (LR)|C": 895,
+    "Other refmvs (spatial MV)|C": 503,
+    "Inter pred (MC/warp/opfl/TIP)|C": 2365,
+    "Deblock|C": 258,
+    "CCSO|C": 405,
+    "Inverse transform (itx/stx/cctx)|C": 167,
+    "CDEF|C": 565,
+    "Intra pred|C": 65,
+    "GDF|C": 5145,
+    "Entropy decode + parse|C": 224,
+    "TMV projection (load_tmvs)|C": 149,
+    "Kernel|k": 47
+   }
+  }
+ },
+ "WITCHER3_1920x1080_60_8bit_420_qp135_130f": {
+  "ten": false,
+  "dav2d": {
+   "tot": 1213,
+   "g": {
+    "Other|asm": 32,
+    "Other|C": 72,
+    "Other refmvs (spatial MV)|C": 64,
+    "Inter pred (MC/warp/opfl/TIP)|C": 63,
+    "Inter pred (MC/warp/opfl/TIP)|asm": 227,
+    "CCSO|asm": 12,
+    "CDEF|asm": 36,
+    "CDEF|C": 21,
+    "Intra pred|asm": 8,
+    "Deblock|C": 19,
+    "Deblock|asm": 40,
+    "Entropy decode + parse|C": 128,
+    "GDF|asm": 174,
+    "Inverse transform (itx/stx/cctx)|asm": 11,
+    "Entropy decode + parse|asm": 35,
+    "Other refmvs (spatial MV)|asm": 12,
+    "Intra pred|C": 18,
+    "TMV projection (load_tmvs)|asm": 2,
+    "Wiener (LR)|asm": 42,
+    "TMV projection (load_tmvs)|C": 178,
+    "Wiener (LR)|C": 5,
+    "Kernel|k": 14
+   }
+  },
+  "dav2d_noasm": {
+   "tot": 6811,
+   "g": {
+    "Other|C": 196,
+    "Wiener (LR)|C": 449,
+    "Other refmvs (spatial MV)|C": 194,
+    "Inter pred (MC/warp/opfl/TIP)|C": 1432,
+    "CCSO|C": 314,
+    "CDEF|C": 849,
+    "Intra pred|C": 87,
+    "GDF|C": 2513,
+    "Deblock|C": 166,
+    "Entropy decode + parse|C": 226,
+    "TMV projection (load_tmvs)|C": 155,
+    "Inverse transform (itx/stx/cctx)|C": 211,
+    "Kernel|k": 19
+   }
+  }
+ }
+}

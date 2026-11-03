@@ -12,6 +12,7 @@ Speed and compression measurements of AV2 encoders and decoders.
 | 2026-10-30 | [AVM encoder: two weeks of av2-enc](2026-10-30-av2-enc-two-weeks/) | AVM `av2-enc` 89eae123d vs 97e8004e4 | 77 commits made every preset faster: 0.70-0.82x the time at s1-s3, 0.44-0.63x at s4-s9, for 0-5% more bits at the same preset. s4-s6 got a better speed/bits trade-off; s6-s9 now give identical streams. |
 | 2026-10-30 | [dav2d stress test](2026-10-30-dav2d-stress/) | dav2d `main` vs `avmdec`, random `avmenc` configs | 3,184 random encoder configs found 13 dav2d bugs, two with default settings. With 11 fixes, dav2d matches all 285 corpus streams, with 1 and 4 frame threads. |
 | 2026-11-02 | [AV2 decode speed on x86 and a Raspberry Pi](2026-11-02-av2-decode-speed/) | `avmdec`, dav2d, splot, rav2d, rusty_av2d | 88 streams on an i5-4590 and a Pi 4B. On x86, dav2d is 2.4x `avmdec` on 8-bit but 0.6x on 10-bit (its x86 asm speeds up 8-bit 4.5x, 10-bit 1.5x). On the pi, splot is fastest on one thread (2.8x) and NEON gives dav2d only 1.3x. Only dav2d and splot match `avmdec`. |
+| 2026-11-03 | [Where dav2d spends its time](2026-11-03-dav2d-profile/) | dav2d `9b5d2f6e` | perf on x86 and a Pi 4B. The C GDF filter (`gdf_prep`, 8-bit AVX2 only, no NEON) takes 56% of 10-bit x86 time and 39% on the pi; porting it should give about 2.1x on 10-bit x86. On 8-bit, the C `load_tmvs` is the top item (20%). |
 
 ## Layout
 
