@@ -23,6 +23,33 @@ profile shows why. The upstream issue draft is [`issue-draft.md`](issue-draft.md
    a93c8bf5. That is 45% of the time on the film-grain stream on x86 and 17%
    on the pi.
 
+## Follow-up: 16bpc AVX2 GDF, two versions
+
+Item 1 of the issue (dav2d #88) was written twice, independently: once by
+Claude (branch `gdf-16bpc-avx2` on the `EwoutH/dav2d` fork, `e2475122` +
+`8f9f5a09`) and once by Codex `gpt-6.1-sol` at high reasoning effort (branch
+`gdf-16bpc-codex`, `2c186ae4`). Both start from dav2d main `652ae8ab`, and
+both reuse the 8bpc filter core and add 16bpc row loaders.
+
+- **Same design for `gdf_prep`.** Claude's version calls the 8bpc
+  function's `.calc_grad`/`.main` code (+2.3 KB `.text`). Codex's version
+  emits the whole function twice from a macro (+6.8 KB).
+- **Correct.** Both pass checkasm on 2000 seeds with Codex's extended tests
+  (10- and 12-bit separately, every `gdf_add` width and scale). Both match
+  `avmdec` on all 88 corpus streams with 1 and 4 threads, and both link with
+  `-Dbitdepths=8` and `-Dbitdepths=16`.
+- **Same decode speed.** On the 24 10-bit streams, 1 thread, pinned, 2
+  interleaved repeats: 14.8 Mpix/s before, 29.3 Mpix/s after, for both.
+  That is 1.98x (1.39-2.47x), against the 2.1x estimate. Codex's time divided
+  by Claude's: 1.001 (0.991-1.008).
+- **checkasm cycles** per 64x64 block (C = about 950k / 18k):
+  - `gdf_prep`: Claude 58.6k / 58.3k (10/12-bit), Codex 56.2k / 56.2k. The
+    8bpc function also moves by 3-6% between the two builds, so this is
+    within code-placement noise.
+  - `gdf_add`: Claude 1.47k (16 pixels per store; may write up to 8 pixels
+    past `w`, the 8bpc asm writes up to 31), Codex 2.92k (8 pixels per store,
+    never past `w`). `gdf_add` costs about 2.5% of `gdf_prep`.
+
 ## Setup
 
 - **dav2d:** `9b5d2f6e`, the same builds as on 2 Nov (GCC 15.3, release, static),
