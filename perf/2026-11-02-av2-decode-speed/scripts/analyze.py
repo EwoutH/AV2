@@ -2,7 +2,9 @@
 
 Throughput is in megapixels per second (luma pixels x frames / wall time), so
 streams of different sizes can be pooled. Per (host, decoder, stream, threads)
-the median over reps is kept, of runs that were not disturbed. A decoder's
+the median is kept over all attempts with at most MAX_FOREIGN cores of other
+CPU use (the runner retried above 0.10, or 0.25 on the pi from 04:30 on 3 Nov;
+its own 2 ms polling reads as ~0.16 cores when 4 decoder threads fill 4 cores). A decoder's
 speed on a stream counts only if its output matched avmdec (md5_ok); splot
 has no MD5 mode and is checked separately (data/verify_*.jsonl).
 
@@ -26,6 +28,7 @@ DEC = {"avmdec": ("avmdec (AVM reference)", "#2a78d6"),
        "rav2d": ("rav2d", "#1baf7a"),
        "rusty_av2d": ("rusty_av2d", "#e87ba4"),
        "splot": ("splot", "#6250d6")}
+MAX_FOREIGN = 0.25
 HOST = {"pc": "pc: Core i5-4590 (4 cores, AVX2)", "pi": "pi: Raspberry Pi 4B (4x Cortex-A72, NEON)"}
 
 
@@ -50,7 +53,7 @@ def load():
     for p in sorted(DATA.glob("p[ci].jsonl")):
         for l in open(p):
             r = json.loads(l)
-            if not r.get("ok_to_keep", True):
+            if r["foreign_cores"] > MAX_FOREIGN or r["timeout"]:
                 continue
             k = (r["host"], r["decoder"], r["stream"], r["threads"])
             ok = r["md5_ok"] if r["decoder"] != "splot" else (r["rc"] == 0 and verify.get(k[:3], False))
@@ -68,7 +71,7 @@ def load():
                          fps=round(fr / wall, 3), correct=all(x[1] for x in v),
                          maxrss_mb=max(x[2]["maxrss_mb"] for x in v),
                          cpu_s=round(statistics.median(x[2]["user_s"] + x[2]["sys_s"] for x in v), 3),
-                         disturbed_runs=sum(x[2]["disturbed"] for x in v)))
+                         foreign_max=max(x[2]["foreign_cores"] for x in v)))
     return rows
 
 

@@ -4,13 +4,15 @@
 # Streams are copied to /dev/shm first so SD card reads never get timed.
 # Launch from the pc:
 #   ssh agent@pi.home 'cd ~/av2bench && nohup setsid scripts/run_pi.sh > run_pi.log 2>&1 < /dev/null &'
-# Cut at 23:20 on 2 Nov to fit one night (~4.5 h on the pi).
+# Cut at 23:20 on 2 Nov to fit one night (~4.5 h on the pi). From 04:30 on 3 Nov:
+# --max-foreign 0.25, as the runner's own 2 ms wait4 polling reads as ~0.16
+# foreign cores when 4 decoder threads fill the 4 cores, so every t4 run was retried.
 set -uo pipefail
 cd "$(dirname "$0")/.."
 SHM=/dev/shm/av2bench-streams
 mkdir -p $SHM && cp -rn streams/. $SHM/
 PY=$(nix shell nixpkgs#python3 -c sh -c 'command -v python3')
-B="$PY scripts/bench.py --host pi --decoders scripts/decoders_aarch64.json --stream-dir $SHM"
+B="$PY scripts/bench.py --host pi --decoders scripts/decoders_aarch64.json --stream-dir $SHM --max-foreign 0.25"
 OUT=data/pi.jsonl
 
 # 1. Headline: every fast decoder at 1 thread.
