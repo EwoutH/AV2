@@ -98,7 +98,7 @@ def main():
     style(); FIG.mkdir(exist_ok=True)
     rows = load()
     with open(DATA / "summary.csv", "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w = csv.DictWriter(f, fieldnames=list(rows[0]), lineterminator="\n")
         w.writeheader(); w.writerows(sorted(rows, key=lambda r: (r["host"], r["decoder"], r["stream"], r["threads"])))
     core = {l.split("\t")[0] for l in open(DATA / "streams_core.tsv") if not l.startswith("#")}
     by = {(r["host"], r["decoder"], r["stream"], r["threads"]): r for r in rows}
@@ -125,12 +125,15 @@ def main():
                 mp = f"{geomean([x['mpix_s'] for x, _ in good]):.1f}" if good else "-"
                 rt = f"{ratio:.2f}" if good else "- (output wrong)"
                 out.append(f"| {h} | {d} | {b} | {len(good)}/{len(pairs)} | {mp} | {rt} |")
-    fig, axes = plt.subplots(1, len(hosts), figsize=(5.4 * len(hosts), 3.0), sharex=True, squeeze=False)
+    fig, axes = plt.subplots(1, len(hosts), figsize=(4.6 * len(hosts) + 1.6, 3.0), sharex=True,
+                             sharey=True, squeeze=False)
+    ds = [d for d in DEC if any((d, b) in rel[h] for h in hosts for b in (8, 10))]
+    ys = list(range(len(ds)))[::-1]
     for ax, h in zip(axes[0], hosts):
-        ds = [d for d in DEC if any((d, b) in rel[h] for b in (8, 10))]
-        ys = list(range(len(ds)))[::-1]
         for y, d in zip(ys, ds):
             vals = [rel[h][(d, b)][0] for b in (8, 10) if (d, b) in rel[h]]
+            if not vals:
+                continue
             ax.hlines(y, min(vals), max(vals), color=GRID, lw=2)
             for b, off, mfc in ((8, 0.14, DEC[d][1]), (10, -0.14, BG)):
                 if (d, b) not in rel[h]:
@@ -168,8 +171,6 @@ def main():
                 continue
             ys = [geomean([by[(h, d, s, t)]["mpix_s"] for s in ss]) for t in ts]
             ax.plot(ts, ys, "-o", lw=2, ms=8, color=DEC[d][1], mec=BG, mew=2, label=DEC[d][0])
-            ax.annotate(DEC[d][0], (ts[-1], ys[-1]), xytext=(6, 0), textcoords="offset points",
-                        va="center", fontsize=9, color=INK)
             cells = {t: f"{y:.1f}" for t, y in zip(ts, ys)}
             out.append(f"| {h} | {d} | " + " | ".join(cells.get(t, "") for t in (1, 2, 3, 4)) + " |")
         ax.set_xticks([1, 2, 3, 4]); ax.set_xlabel("threads"); ax.set_ylabel("Mpix/s (geomean)")
