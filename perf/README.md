@@ -22,3 +22,10 @@ Each test has its own folder, `YYYY-MM-DD-<topic>/`, with:
   reanalysed.
 - `figures/`: PNG charts used in the write-up.
 - `scripts/`: the scripts that ran the test and made the figures.
+
+## Benchmark rules
+
+- Time decoders with null output (dav2d `--muxer null`, splot `--output-format null`, otherwise write to `/dev/null`). MD5 output is for correctness only: it slows decoding a lot and makes the timings meaningless.
+- Check correctness (MD5 against `avmdec --rawvideo --md5`) in a separate, untimed pass.
+- Give every decoder in a comparison the same kind of output sink.
+- The decode speeds in the 2026-10-20 and 2026-11-02 tests were measured with MD5 output for every decoder except splot, so they understate decode speed and favour splot.
