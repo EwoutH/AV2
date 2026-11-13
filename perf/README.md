@@ -27,5 +27,7 @@ Each test has its own folder, `YYYY-MM-DD-<topic>/`, with:
 
 - Time decoders with null output (dav2d `--muxer null`, splot `--output-format null`, otherwise write to `/dev/null`). MD5 output is for correctness only: it slows decoding a lot and makes the timings meaningless.
 - Check correctness (MD5 against `avmdec --rawvideo --md5`) in a separate, untimed pass.
-- Give every decoder in a comparison the same kind of output sink.
+- Give every decoder in a comparison the same kind of output sink, and check what its null mode skips: it must still do all decoding work, including film grain (splot's null mode skips grain).
+- Keep each timed run at 1 s or more (longer streams, or loop the input), so process start and CPU clock ramp-up don't dominate.
+- Script every build, with matching CPU tuning for C and Rust decoders on the same machine.
 - The decode speeds in the 2026-10-20 and 2026-11-02 tests were measured with MD5 output for every decoder except splot, so they understate decode speed and favour splot.
