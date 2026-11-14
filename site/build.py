@@ -206,6 +206,24 @@ avmdec output.ivf -o decoded.y4m""",
             release notes and <code>BUILD_INFO.txt</code>.</li>
             <li>BSD 2-Clause licensed; the licence is in each download.</li>""",
     },
+    {
+        "tag": "splot",
+        "name": "splot",
+        "role": "Decoder, encoder and validator (Rust)",
+        "about": """An independent AV2 toolkit written in Rust: a decoder, an
+            encoder and a bitstream validator in one binary.
+            Source: <a href="https://github.com/splotlabs/splot">github.com/splotlabs/splot</a>.""",
+        "commit_url": "https://github.com/splotlabs/splot/commit/{}",
+        "usage": """splot decode input.ivf -o decoded.y4m
+splot encode input.y4m -o output.ivf
+splot validate output.ivf""",
+        "notes": """<li>Each build decodes one of the <a href="../samples/">sample
+            streams</a> and compares the output with avmdec. The result is in the
+            release notes and <code>BUILD_INFO.txt</code>.</li>
+            <li>Licensed under the PolyForm Noncommercial License 1.0.0: commercial
+            use needs a separate licence from its author. The licence is in each
+            download.</li>""",
+    },
 ]
 
 

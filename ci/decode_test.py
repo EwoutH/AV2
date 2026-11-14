@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Decode a sample stream with dav2d or rav2d and compare against avmdec.
+"""Decode a sample stream with dav2d, rav2d or splot and compare against avmdec.
 
-Usage: decode_test.py <dav2d|rav2d> <decoder binary> <stream.ivf> <avmdec>
+Usage: decode_test.py <dav2d|rav2d|splot> <decoder binary> <stream.ivf> <avmdec>
 
 Both sides are MD5s of the decoded planes only: `avmdec --rawvideo --md5`
-for the reference, dav2d's md5 muxer, and the frame data of rav2d's Y4M
-output. (The sample manifests hold `avmdec --md5` without --rawvideo, which
+for the reference, dav2d's md5 muxer, the frame data of rav2d's Y4M
+output, and splot's raw (headerless) output. (The sample manifests hold `avmdec --md5` without --rawvideo, which
 hashes avmdec's Y4M output *including* its headers, so it never matches
 another decoder.) A mismatch or a failed decode is reported, not fatal.
 """
@@ -47,6 +47,8 @@ def main():
     print(f"reference: avmdec --rawvideo --md5: {expected} (exit {ref.returncode})")
     if decoder == "dav2d":
         cmd = [binary, "-i", stream, "--muxer", "md5", "-o", "decoded.md5"]
+    elif decoder == "splot":
+        cmd = [binary, "decode", stream, "--output-format", "raw", "-o", "decoded.yuv"]
     else:
         cmd = [binary, stream, "-o", "decoded.y4m"]
     print("command:", " ".join(cmd))
@@ -57,6 +59,9 @@ def main():
         return
     if decoder == "dav2d":
         got = open("decoded.md5").read().split()[0]
+    elif decoder == "splot":
+        with open("decoded.yuv", "rb") as f:
+            got = hashlib.file_digest(f, "md5").hexdigest()
     else:
         got = y4m_payload_md5("decoded.y4m")
     if expected is None:

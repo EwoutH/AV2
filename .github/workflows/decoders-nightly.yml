@@ -1,6 +1,6 @@
 name: AV2 decoder nightly builds
 
-# Builds the dav2d (C) and rav2d (Rust) AV2 decoders from their latest
+# Builds the dav2d (C), rav2d (Rust) and splot (Rust) AV2 decoders from their latest
 # commits and publishes each as its own GitHub release. A decoder is only
 # rebuilt on nights it has new commits. These releases never become the
 # repository's "latest" release; that stays the AVM build.
@@ -33,6 +33,7 @@ defaults:
 env:
   DAV2D_REPO: https://code.videolan.org/videolan/dav2d.git
   RAV2D_REPO: https://github.com/stukenov/rav2d.git
+  SPLOT_REPO: https://github.com/splotlabs/splot.git
   # Small 8-bit sample from the samples-v1 release, decoded by every build and
   # compared with avmdec from the latest AVM nightly (same platform).
   SAMPLES_URL: https://github.com/EwoutH/AV2/releases/download/samples-v1
@@ -50,6 +51,9 @@ jobs:
       rav2d_sha: ${{ steps.resolve.outputs.rav2d_sha }}
       rav2d_tag: ${{ steps.resolve.outputs.rav2d_tag }}
       rav2d_build: ${{ steps.resolve.outputs.rav2d_build }}
+      splot_sha: ${{ steps.resolve.outputs.splot_sha }}
+      splot_tag: ${{ steps.resolve.outputs.splot_tag }}
+      splot_build: ${{ steps.resolve.outputs.splot_build }}
     steps:
       - name: Resolve decoder commits
         id: resolve
@@ -59,7 +63,7 @@ jobs:
         run: |
           tags=$(gh release list --repo "$GITHUB_REPOSITORY" --limit 300 \
                    --json tagName --jq '.[].tagName')
-          for name in dav2d rav2d; do
+          for name in dav2d rav2d splot; do
             repo_var=${name^^}_REPO
             sha=$(git ls-remote "${!repo_var}" HEAD | cut -f 1)
             [[ -n "$sha" ]] || { echo "::error::Can't resolve $name HEAD"; exit 1; }
@@ -245,9 +249,87 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  splot:
+    name: splot (${{ matrix.platform }})
+    needs: check
+    if: needs.check.outputs.splot_build == 'true'
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { platform: linux-x64,     runner: ubuntu-26.04 }
+          - { platform: linux-arm64,   runner: ubuntu-26.04-arm }
+          - { platform: macos-arm64,   runner: macos-26 }
+          - { platform: macos-x64,     runner: macos-26-intel }
+          - { platform: windows-x64,   runner: windows-2025 }
+    env:
+      PLATFORM: ${{ matrix.platform }}
+      SHA: ${{ needs.check.outputs.splot_sha }}
+      MACOSX_DEPLOYMENT_TARGET: "11.0"
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.x"
+
+      - name: Fetch splot
+        run: |
+          git init -q src
+          git -C src fetch -q --depth 1 "$SPLOT_REPO" "$SHA"
+          git -C src checkout -q FETCH_HEAD
+
+      # splot pins its Rust version in rust-toolchain.toml, newer than the
+      # runners' stable. Install only that compiler, without the clippy and
+      # rust-analyzer components the file asks for.
+      - name: Build
+        run: |
+          tc=$(sed -n 's/^channel *= *"\(.*\)"/\1/p' src/rust-toolchain.toml)
+          [[ -n "$tc" ]] || { echo "::error::No channel in rust-toolchain.toml"; exit 1; }
+          rustup toolchain install "$tc" --profile minimal --no-self-update
+          export RUSTUP_TOOLCHAIN=$tc
+          # Static C runtime on Windows: no redistributable needed.
+          [[ "$RUNNER_OS" == Windows ]] && export RUSTFLAGS="-C target-feature=+crt-static"
+          cargo build --manifest-path src/Cargo.toml --release --locked -p splot-cli --bin splot
+          exe=; [[ "$RUNNER_OS" == Windows ]] && exe=.exe
+          echo "BIN=src/target/release/splot$exe" >> "$GITHUB_ENV"
+          echo "COMPILER=$(rustc --version)" >> "$GITHUB_ENV"
+
+      - name: Fetch test stream and avmdec
+        run: |
+          curl -fsSLO --retry 3 "$SAMPLES_URL/$TEST_STREAM"
+          if [[ "$RUNNER_OS" == Windows ]]; then
+            curl -fsSLO --retry 3 "$AVM_URL/avm-$PLATFORM.zip"
+            7z x -bso0 "avm-$PLATFORM.zip"
+            echo "AVMDEC=avm-$PLATFORM/avmdec.exe" >> "$GITHUB_ENV"
+          else
+            curl -fsSL --retry 3 "$AVM_URL/avm-$PLATFORM.tar.gz" | tar -xz
+            echo "AVMDEC=avm-$PLATFORM/avmdec" >> "$GITHUB_ENV"
+          fi
+
+      - name: Decode test
+        run: python ci/decode_test.py splot "$BIN" "$TEST_STREAM" "$AVMDEC" | tee test.log
+
+      # LICENSE.md holds the PolyForm Noncommercial terms and the
+      # "Required Notice" line, which must go with every copy.
+      - name: Package
+        run: bash ci/package_decoder.sh splot "$BIN" "$COMPILER" src/LICENSE.md
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: splot-${{ matrix.platform }}
+          path: |
+            splot-${{ matrix.platform }}.zip
+            splot-${{ matrix.platform }}.tar.gz
+            BUILD_INFO-splot-${{ matrix.platform }}.txt
+          if-no-files-found: error
+          retention-days: 7
+
   publish:
     name: Publish ${{ matrix.name }}
-    needs: [check, dav2d, rav2d]
+    needs: [check, dav2d, rav2d, splot]
     # Each decoder is published on its own, and only as a complete set of
     # platforms, so a failure of one doesn't hold back the other.
     if: always() && (github.event_name == 'schedule' || inputs.publish)
@@ -257,7 +339,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        name: [dav2d, rav2d]
+        name: [dav2d, rav2d, splot]
     env:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}
@@ -285,6 +367,8 @@ jobs:
                    about="the VideoLAN AV2 decoder (C)" ;;
             rav2d) url=https://github.com/stukenov/rav2d; commit=$url/commit/$SHA
                    about="an AV2 decoder in Rust" ;;
+            splot) url=https://github.com/splotlabs/splot; commit=$url/commit/$SHA
+                   about="an AV2 toolkit (decoder, encoder and validator) in Rust" ;;
           esac
           {
             echo "Unofficial build of [$NAME]($url), $about, at commit"
@@ -294,6 +378,12 @@ jobs:
             echo "[samples-v1](https://github.com/EwoutH/AV2/releases/tag/samples-v1) release"
             echo "(made with AVM) and compares the output with avmdec's MD5."
             echo
+            if [[ "$NAME" == splot ]]; then
+              echo "splot is licensed under the PolyForm Noncommercial License 1.0.0:"
+              echo "commercial use needs a separate licence from its author. The"
+              echo "licence is in each download."
+              echo
+            fi
             echo "| Platform | Compiler | Decode test |"
             echo "|---|---|---|"
             for f in dist/BUILD_INFO-*.txt; do
