@@ -24,6 +24,9 @@
         ]);
         CC = "gcc";
         CXX = "g++";
+        # The wrapper's default hardening (_FORTIFY_SOURCE etc.) gives MSan false
+        # positives in dav2d's testdata tests; Debian CI builds without it.
+        hardeningDisable = [ "all" ];
       };
     };
 }
