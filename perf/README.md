@@ -12,6 +12,7 @@ Speed and compression measurements of AV2 encoders and decoders.
 | 2026-10-30 | [AVM encoder: two weeks of av2-enc](2026-10-30-av2-enc-two-weeks/) | AVM `av2-enc` 89eae123d vs 97e8004e4 | 77 commits made every preset faster: 0.70-0.82x the time at s1-s3, 0.44-0.63x at s4-s9, for 0-5% more bits at the same preset. s4-s6 got a better speed/bits trade-off; s6-s9 now give identical streams. |
 | 2026-10-30 | [dav2d stress test](2026-10-30-dav2d-stress/) | dav2d `main` vs `avmdec`, random `avmenc` configs | 3,184 random encoder configs found 13 dav2d bugs, two with default settings. With 11 fixes, dav2d matches all 285 corpus streams, with 1 and 4 frame threads. |
 | 2026-11-02 | [AV2 decode speed on x86 and a Raspberry Pi](2026-11-02-av2-decode-speed/) | `avmdec`, dav2d, splot, rav2d, rusty_av2d | 88 streams on an i5-4590 and a Pi 4B. On x86, dav2d is 2.4x `avmdec` on 8-bit but 0.6x on 10-bit (its x86 asm speeds up 8-bit 4.5x, 10-bit 1.5x). On the pi, splot is fastest on one thread (2.8x) and NEON gives dav2d only 1.3x. Only dav2d and splot match `avmdec`. |
+| 2026-11-14 | [AV2 decode speed, latest decoders, null output](2026-11-14-av2-decode-speed/) | `avmdec`, dav2d, splot, rusty_av2d | Rerun with null output. splot doubled its x86 speed in 12 days; dav2d's code barely changed. On the pc, dav2d leads on 8-bit (2.5x `avmdec` vs splot 2.1x) and splot on 10-bit (1.5x vs 0.56x). On the pi, splot leads on one thread (2.9x) and the two are level on four. rusty_av2d now decodes correctly, at 0.3x `avmdec`. |
 
 ## Layout
 

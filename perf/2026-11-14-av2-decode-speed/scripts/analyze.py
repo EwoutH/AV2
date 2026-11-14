@@ -168,7 +168,7 @@ def main():
     from matplotlib.lines import Line2D
     axes[0][0].legend(handles=[Line2D([], [], marker="o", ls="", color=INK2, ms=7, label="8-bit streams"),
                                Line2D([], [], marker="o", ls="", color=INK2, mfc=BG, mew=2, ms=7, label="10-bit streams")],
-                      loc="lower right", fontsize=8)
+                      loc="upper left", fontsize=8)
     save(fig, "speed_vs_avmdec")
 
     # Figure 2: thread scaling on the core set (geomean Mpix/s per thread count).
@@ -184,42 +184,86 @@ def main():
             if not ss:
                 continue
             ys = [geomean([by[(h, d, s, t)]["mpix_s"] for s in ss]) for t in ts]
-            ax.plot(ts, ys, "-o", lw=2, ms=8, color=DEC[d][1], mec=BG, mew=2, label=DEC[d][0])
+            # Plot only series over the whole core set (avmdec on the pi ran 4
+            # threads on the tiled stream only; it is in the table).
+            if len(ss) == len(core):
+                ax.plot(ts, ys, "-o", lw=2, ms=8, color=DEC[d][1], mec=BG, mew=2, label=DEC[d][0])
             cells = {t: f"{y:.1f}" for t, y in zip(ts, ys)}
-            out.append(f"| {h} | {d} | " + " | ".join(cells.get(t, "") for t in (1, 2, 3, 4)) + " |")
+            note = "" if len(ss) == len(core) else f" ({len(ss)} stream{'s' if len(ss) > 1 else ''})"
+            out.append(f"| {h} | {d}{note} | " + " | ".join(cells.get(t, "") for t in (1, 2, 3, 4)) + " |")
         ax.set_xticks([1, 2, 3, 4]); ax.set_xlabel("threads"); ax.set_ylabel("Mpix/s (geomean)")
         ax.set_ylim(bottom=0); ax.set_title(HOST[h], fontsize=10, loc="left")
         ax.legend(loc="upper left", fontsize=8)
     save(fig, "thread_scaling")
 
     # Figure 3: per-stream dav2d / avmdec on the pc, whole corpus, 1 and 4 threads.
-    for t in (1, 4):
-        pts = sorted(((by[("pc", "avmdec", s, t)]["wall_s"] / by[("pc", "dav2d", s, t)]["wall_s"], s,
-                       by[("pc", "dav2d", s, t)]["bitdepth"])
-                      for (h, d, s, tt) in by if h == "pc" and d == "dav2d" and tt == t
-                      and ("pc", "avmdec", s, t) in by and by[("pc", "dav2d", s, t)]["correct"]
-                      and by[("pc", "avmdec", s, t)]["correct"]), reverse=True)
-        if not pts:
-            continue
-        out.append(f"\n## pc, whole corpus, {t} thread(s): dav2d vs avmdec over {len(pts)} streams\n")
-        for b in (8, 10):
-            q = [p[0] for p in pts if p[2] == b]
-            out.append(f"- {b}-bit: {len(q)} streams, geomean {geomean(q):.2f}x, range {min(q):.2f}-{max(q):.2f}x")
-        out.append(f"- all: geomean {geomean([p[0] for p in pts]):.2f}x, median {statistics.median(p[0] for p in pts):.2f}x, "
-                   f"range {pts[-1][0]:.2f}x ({pts[-1][1]}) to {pts[0][0]:.2f}x ({pts[0][1]})")
-        if t == 1:
-            fig, ax = plt.subplots(figsize=(7, 0.17 * len(pts) + 1))
-            ys = range(len(pts))[::-1]
-            ax.hlines(list(ys), 0, [p[0] for p in pts], color=GRID, lw=2)
-            for b, mfc, lab in ((8, DEC["dav2d"][1], "8-bit"), (10, BG, "10-bit")):
-                sel = [(p[0], y) for p, y in zip(pts, ys) if p[2] == b]
-                ax.plot([x for x, _ in sel], [y for _, y in sel], "o", ms=6, color=DEC["dav2d"][1],
-                        mfc=mfc, mew=1.5, ls="", label=f"{lab} ({len(sel)} streams)")
-            ax.axvline(1, color=INK2, lw=1, ls=":"); ax.legend(loc="lower right", fontsize=8)
-            ax.set_yticks(list(ys), [p[1].split("/", 1)[1].removesuffix(".ivf") for p in pts], fontsize=6.5)
-            ax.set_xlabel("dav2d speed relative to avmdec, 1 thread (pc)")
-            ax.set_xlim(left=0); ax.grid(axis="y", visible=False)
-            save(fig, "dav2d_vs_avmdec_per_stream")
+    for dec in ("dav2d", "splot"):
+        for t in (1, 4):
+            pts = sorted(((by[("pc", "avmdec", s, t)]["wall_s"] / by[("pc", dec, s, t)]["wall_s"], s,
+                           by[("pc", dec, s, t)]["bitdepth"])
+                          for (h, d, s, tt) in by if h == "pc" and d == dec and tt == t
+                          and ("pc", "avmdec", s, t) in by and by[("pc", dec, s, t)]["correct"]),
+                         reverse=True)
+            if not pts:
+                continue
+            out.append(f"\n## pc, {t} thread(s): {dec} vs avmdec over {len(pts)} streams\n")
+            for b in (8, 10):
+                q = [p[0] for p in pts if p[2] == b]
+                if q:
+                    out.append(f"- {b}-bit: {len(q)} streams, geomean {geomean(q):.2f}x, range {min(q):.2f}-{max(q):.2f}x")
+            out.append(f"- all: geomean {geomean([p[0] for p in pts]):.2f}x, median {statistics.median(p[0] for p in pts):.2f}x, "
+                       f"range {pts[-1][0]:.2f}x ({pts[-1][1]}) to {pts[0][0]:.2f}x ({pts[0][1]})")
+
+    # dav2d vs splot head to head, per stream, every stream both decoded.
+    out.append("\n## splot vs dav2d (splot speed / dav2d speed, geomean per stream; >1: splot faster)\n")
+    out.append("| host | threads | 8-bit | 10-bit | streams |\n|---|---|---|---|---|")
+    for h in hosts:
+        for t in (1, 2, 4):
+            q = {b: [by[(h, "dav2d", s, t)]["wall_s"] / by[(h, "splot", s, t)]["wall_s"]
+                     for (hh, d, s, tt) in by if hh == h and d == "dav2d" and tt == t
+                     and (h, "splot", s, t) in by and by[(h, "dav2d", s, t)]["bitdepth"] == b]
+                 for b in (8, 10)}
+            if q[8] or q[10]:
+                f = lambda v: f"{geomean(v):.2f}x ({min(v):.2f}-{max(v):.2f})" if v else "-"
+                out.append(f"| {h} | {t} | {f(q[8])} | {f(q[10])} | {len(q[8]) + len(q[10])} |")
+
+    # 1080p frame rates, 4 threads (geomean fps over the 1920-wide streams).
+    out.append("\n## 1080p, 4 threads: geomean fps over the 1920x1080 and 1080x1920 streams\n")
+    out.append("| host | decoder | 8-bit | 10-bit |\n|---|---|---|---|")
+    for h in hosts:
+        for d in ("avmdec", "dav2d", "splot"):
+            cells = []
+            for b in (8, 10):
+                v = [r["fps"] for r in rows if r["host"] == h and r["decoder"] == d and r["threads"] == 4
+                     and r["bitdepth"] == b and {r["width"], r["height"]} == {1920, 1080} and r["correct"]]
+                cells.append(f"{geomean(v):.0f} fps ({len(v)})" if v else "-")
+            out.append(f"| {h} | {d} | {cells[0]} | {cells[1]} |")
+
+    # Figure 3: per stream, dav2d and splot relative to avmdec, 1 thread, pc, whole
+    # corpus; sorted by dav2d.
+    t = 1
+    ss = [s for (h, d, s, tt) in by if h == "pc" and d == "avmdec" and tt == t
+          and all(("pc", x, s, t) in by and by[("pc", x, s, t)]["correct"] for x in ("dav2d", "splot"))]
+    rat = {(x, s): by[("pc", "avmdec", s, t)]["wall_s"] / by[("pc", x, s, t)]["wall_s"]
+           for s in ss for x in ("dav2d", "splot")}
+    ss.sort(key=lambda s: (by[("pc", "dav2d", s, t)]["bitdepth"], rat[("dav2d", s)]))
+    if ss:
+        fig, ax = plt.subplots(figsize=(7.4, 0.17 * len(ss) + 1.2))
+        ys = list(range(len(ss)))[::-1]
+        for y, s in zip(ys, ss):
+            a, b = rat[("dav2d", s)], rat[("splot", s)]
+            ax.hlines(y, min(a, b), max(a, b), color=GRID, lw=2)
+        for x in ("dav2d", "splot"):
+            ax.plot([rat[(x, s)] for s in ss], ys, "o", ms=5, color=DEC[x][1], ls="", label=DEC[x][0])
+        n10 = sum(by[("pc", "dav2d", s, t)]["bitdepth"] == 10 for s in ss)
+        ax.axhline(n10 - 0.5, color=INK2, lw=0.8)
+        ax.text(3.6, n10 - 0.2, "8-bit above, 10-bit below",
+                fontsize=7, color=INK2, ha="right", va="bottom")
+        ax.axvline(1, color=INK2, lw=1, ls=":"); ax.legend(loc="lower right", fontsize=8)
+        ax.set_yticks(ys, [s.split("/", 1)[1].removesuffix(".ivf") for s in ss], fontsize=6.5)
+        ax.set_xlabel("speed relative to avmdec, 1 thread (pc)")
+        ax.set_xlim(0, 3.7); ax.set_ylim(-0.8, len(ss) - 0.2); ax.grid(axis="y", visible=False)
+        save(fig, "per_stream_vs_avmdec")
 
     # asm gain: dav2d (asm) vs dav2d built with -Denable_asm=false, 1 thread, core set.
     out.append("\n## dav2d asm gain, 1 thread, core set (dav2d vs no-asm build, geomean per-stream ratio)\n")
@@ -269,6 +313,20 @@ def main():
                          if (h, d, s, t) in by and by[(h, d, s, t)]["correct"] and (h, d, s, t) in old]
                     if q:
                         out.append(f"| {h} | {d} | {t} | {len(q)} | {geomean(q):.2f}x |")
+    # Code change since 2 Nov: today's build vs the 2 Nov binary, both timed now
+    # with the same null sink on the same machine (core set).
+    out.append("\n## Today's build vs the 2 Nov binary, same sink (geomean per-stream speed ratio, core set)\n")
+    out.append("| host | decoder | threads | streams | 8-bit | 10-bit | all |\n|---|---|---|---|---|---|---|")
+    for h in hosts:
+        for d in ("avmdec", "dav2d", "splot"):
+            for t in (1, 4):
+                ss = [s for s in core if (h, d, s, t) in by and (h, d + "_nov2", s, t) in by]
+                if not ss:
+                    continue
+                q = {s: by[(h, d + "_nov2", s, t)]["wall_s"] / by[(h, d, s, t)]["wall_s"] for s in ss}
+                cell = lambda b: (f"{geomean([v for s, v in q.items() if by[(h, d, s, t)]['bitdepth'] == b]):.2f}x"
+                                  if any(by[(h, d, s, t)]["bitdepth"] == b for s in q) else "-")
+                out.append(f"| {h} | {d} | {t} | {len(ss)} | {cell(8)} | {cell(10)} | {geomean(list(q.values())):.2f}x |")
     (DATA / "summary.md").write_text("\n".join(out) + "\n")
     print("\n".join(out))
 
