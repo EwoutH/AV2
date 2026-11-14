@@ -1,0 +1,9 @@
+{
+  "avmdec": ["./bin/avmdec", "{ivf}", "--noblit", "--threads={threads}"],
+  "dav2d": ["./bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "null", "--threads", "{threads}", "--filmgrain", "1"],
+  "dav2d_noasm": ["./bin/dav2d_noasm", "-q", "-i", "{ivf}", "--muxer", "null", "--threads", "{threads}", "--filmgrain", "1"],
+  "splot": ["./bin/splot", "decode", "{ivf}", "--output-format", "raw", "-o", "/dev/null", "--threads", "{threads}"],
+  "rusty_av2d": ["./bin/rusty_av2d", "-q", "-i", "{ivf}", "--muxer", "null", "--threads", "{threads}", "--filmgrain", "1"],
+  "dav2d_nov2": ["../av2bench/bin/dav2d", "-q", "-i", "{ivf}", "--muxer", "null", "--threads", "{threads}", "--filmgrain", "1"],
+  "splot_nov2": ["../av2bench/bin/splot", "decode", "{ivf}", "--output-format", "raw", "-o", "/dev/null", "--threads", "{threads}"]
+}

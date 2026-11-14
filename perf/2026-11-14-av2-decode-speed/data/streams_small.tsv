@@ -1,0 +1,5 @@
+# file	frames	width	height	pixel_md5(avmdec --rawvideo --md5)	manifest_y4m_check
+samples/BlueSky_360p25_v2_qp160_130f.ivf	130	640	360	1387a90a860c59c9de0becbba902dae9	y4m_ok
+samples/FourPeople_480x270_60_qp110_130f.ivf	130	480	270	dce840e220c0716f7071c0a6954e416b	y4m_ok
+samples/FourPeople_480x270_60_qp210_130f.ivf	130	480	270	5104fe2e8c35a05c6b1048c74c664883	y4m_ok
+samples/Vertical_Bayshore_270x480_2997_qp160_130f.ivf	130	270	480	d5a6d649c38bdaaecdbfa0c6a354c192	y4m_ok
