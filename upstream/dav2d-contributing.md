@@ -4,9 +4,23 @@ Distilled from the review comments on our dav2d MRs and issues (full overview wi
 
 ## Code
 
-- Write code the way the dav2d authors would, not the smallest diff that matches AVM. Before pushing, reread the surrounding function: reuse locals already in scope, keep its units, fold into an existing branch rather than adding one, use `assert()` for impossible cases, put shared logic in the caller, move a function rather than forward-declare it. Style: [dav1d coding style](https://code.videolan.org/videolan/dav1d/-/wikis/coding-style).
+- Write code the way the dav2d authors would, not the smallest diff that matches AVM. Before pushing, reread the surrounding function: reuse locals already in scope, keep its units, fold into an existing branch rather than adding one, use `assert()` for impossible cases, put shared logic in the caller, move a function rather than forward-declare it. Style: see below.
 - Code comments: none by default. The why goes in the commit message and MR description. A comment is for a fact the code can't show, one short line. Check the diff for added `//` and `/*` before pushing; this was the most repeated review point.
 - Match AVM's output, not its structure. Per-block branches for a rare case get pushed back: prefer frame-level setup, and removing stale AV1 leftovers over guarding them.
+
+## Style
+
+Summary of the [dav1d coding style](https://code.videolan.org/videolan/dav1d/-/wikis/coding-style), which dav2d follows: mostly K&R.
+
+- Spaces only, 4-space indent, lines up to 80 characters (exceptions only where wrapping would be uglier).
+- Continuation lines: align with the `=` of the first line or indent one level; inside parentheses, align with the opening parenthesis.
+- `CamelCase` types, `under_score` variables.
+- `const` wherever possible, including on parameters in definitions (`const int num`, `const T *const p`); in header prototypes only on pointed-to data.
+- Opening brace on the same line, unless the function signature or condition spans several lines: then it goes on its own line.
+- Omit braces around a single-line body with a single-line condition.
+- `case` at the same indent as `switch`, its body one level deeper; trivial cases can be one line (`case 1: f(); break;`).
+- `goto` only for error handling.
+- Native types (`int`, `unsigned`) for scalars, sized types (`uint8_t`, `int16_t`) for arrays and vectors, `pixel`/`coef` in bitdepth-templated code.
 
 ## Shape of contributions
 
