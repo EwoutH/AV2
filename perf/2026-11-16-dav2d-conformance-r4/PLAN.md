@@ -29,7 +29,25 @@
 | stress | until 06:45 | stress4, 3 workers (round 3 did about 1200 configs per hour; the ASan decoder and 4:4:4 frames are slower, so expect 4000-6000) |
 | triage | 06:45-09:30 | triage4 + reductions |
 
-The scripts (`build.sh`, `run.sh`, `stress4.py`, `triage4.py`, `tools/y4mfmt.py`) and all output are in `/srv/compression/cache/av2conf/round4/` (`run.log` for progress, `summary.md` at the end). The unit will be `av2-r4`.
+The scripts (`build.sh`, `run.sh`, `run2.sh`, `stress4.py`, `triage4.py`, `tools/y4mfmt.py`) and all output are in `/srv/compression/cache/av2conf/round4/` (`run.log` for progress, `summary.md` at the end). Units `av2-r4` (first run), `av2-r4b` (restart, see below).
+
+## Restart (16 Nov 21:34)
+
+The first run (unit `av2-r4`) finished the baseline in 16 minutes, but stress4 died after 18 configs: the unit inherited a nix dev shell PATH, so `python` was a bare Python 3.14 without numpy, and every crop config (`tools/y4mfmt.py`) killed its worker thread. `run.sh` still ran triage and wrote `run.done`. Attempt 1 is kept in `round4/attempt1/`.
+
+Changes before the restart (unit `av2-r4b`, `run2.sh`, baseline not repeated):
+
+- **Robustness**: absolute `ds` python path; each config runs in a try/except (worker gives up after 10 errors in a row, tracebacks in `worker_errors.log`); a preflight runs `y4mfmt.py` once and checks the decoder paths before the workers start; `run2.sh` writes `run.FAILED` if stress produced fewer than 500 configs.
+- **Decoder = main 28e39df9 + !1018** (rbultje's draft CfL padding fix for #86). !1081 is merged without a CfL fix, so main's asm now crashes or mismatches on #86 streams; on IRC BBB (rbultje) suggested testing with !1018 applied, as he does. Checked: checkasm 3 seeds all 2473 pass; SVT low-res set 660/660 (main 650/660, the 10 failures are all #86: 4 crashes, 6 mismatches); corpus 1t 305/305 identical MD5 to main; the C assert `wpad * 4 < w / 2` that fired on `clk-poc/bay210_x2.ivf` in the ASan baseline is gone. Builds `round4/build/main-1018`, `main-1018-asan` (worktree `src/wt-x81-1018`).
+- **4:2:2 down from 25% to 10%** (4:2:0 85%, 4:4:4 5%): the only 4:2:2 failure of attempt 1 (v000019, testsrc10 130x74 10-bit) has the #101 pattern: luma exact in all frames, frames 0-2 exact, then a small chroma patch (rows 46-53, columns 46-57) on frames 3-5.
+- **Triage labels**: a mismatch with exact luma, exact frame 0 and differing chroma on a 4:2:2/4:4:4 stream goes to "known: #101-like" and is not reduced (checked: `i444/r444_ld.ivf` and v000019 are classified as #101-like, `tri/s2` is not). Sanitizer hits on `--enable-fwd-kf` configs go to a separate bucket that is reduced last: all 9 UBSan hits in the baseline (`recon_tmpl.c:2388/2443/2553`) are OLK/fwd-kf/S-frame streams (OLK reference handling is missing on main, `fix-olk-ref-reset` not upstream).
+- Stress until 06:45, triage until 09:30, as planned.
+
+## Baseline results (main 28e39df9, 16 Nov)
+
+- Corpus: of the 261 stream/mode results also in round 3's main run, none went from ok to failing; 51 now pass. The 102 round-3 failure streams outside that set that still fail in 1t also failed on 13 Nov main (89 with the same MD5, 13 different but still wrong: `rr/w` restricted switch, `fkf_*`, `u2816`, `tri/s2`, `u001694`, `u004952`, `u005105`). The `mr/` failures are open MR repros.
+- SVT low-res set: 77 streams fixed since 13 Nov main, none regressed; the 10 left are #86 (see above).
+- ASan+UBSan: 198/305; sanitizer hits only on OLK/fwd-kf streams (UBSan) and the #86 C assert.
 
 ## Neon on the pi (at most 2 threads)
 
@@ -46,7 +64,7 @@ Files: `round4/pi/` on the pc, `~/av2conf-r4/` on the pi (`run_pi.log`, `checkas
 - 4:4:4 inter frames decode with wrong chroma in small areas; key frames and luma match. It is not new: every dav2d build fails (main 28e39df9 asm and C, 13 Nov main, the old bench build), with streams from both avmenc versions. avmdec 487d0761 and av2-normative agree. (The smoke-test impression that only the new encoder triggers it was luck on one stream.)
 - Rate on 4-frame encodes of 4 clips (3 QPs, cpu-used 6/9, both encoders, inter-intra on/off): 4:4:4 40/96 mismatch, 4:2:2 4/96 (testsrc only), 4:2:0 0/96. Single encoder tool toggles only move the mismatch around.
 - Public 2-frame repro: `i444/r444_ld.ivf` (testsrc 4:4:4, `--limit=2 --lag-in-frames=0 --end-usage=q --qp=80 --cpu-used=9`), frame 1 V differs at x 116-119, y 14-23. Posted with that repro as dav2d #101 (cause unknown).
-- Effect on the run: the 4:4:4 share in stress4 is lowered from 20% to 5% so this one bug doesn't flood the triage. 4:2:2 stays at 25%.
+- Effect on the run: the 4:4:4 share in stress4 is lowered from 20% to 5% so this one bug doesn't flood the triage; 4:2:2 went from 25% to 10% at the restart.
 - Next step for the bug: block traces of frame 1 in both decoders (frame-1 trace builds are ready: `round4/build/dbg1`, `round4/build/avm-dbg1`).
 
 ## Morning work (next session)
