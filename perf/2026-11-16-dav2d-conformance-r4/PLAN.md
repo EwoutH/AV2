@@ -36,7 +36,7 @@ The scripts (`build.sh`, `run.sh`, `stress4.py`, `triage4.py`, `tools/y4mfmt.py`
 The pc only checks x86 asm and C, while a lot of AArch64 Neon code is landing in dav2d right now (!943, !1013, !1056, !1057, ...). dav2d main 28e39df9 is cross-built static for the pi (Cortex-A72): Neon, C only, checkasm.
 
 1. checkasm with 3 seeds: done 16 Nov 20:46, all 1596 tests pass.
-2. The pc baseline corpus (305 streams: non-hd corpus + round-3 failure streams) in Neon 1t, C 1t (2 streams at a time) and Neon with 2 threads/framedelay 2 (one at a time). Each result is compared with the reference and with pc main in the same mode, so Neon-only differences stand out. Running overnight.
+2. The pc baseline corpus (305 streams: non-hd corpus + round-3 failure streams) in Neon 1t, C 1t (2 streams at a time) and Neon with 2 threads/framedelay 2 (one at a time). Each result is compared with the reference and with pc main in the same mode, so Neon-only differences stand out. Done 16 Nov ~21:00: Neon 1t and C 1t give the same MD5 as pc main on all 305 streams (203 match the reference; the 102 others are known round-3 failures that fail the same way on the pc). Neon with 2 threads differs from pc main on 2 streams, both film grain on odd widths (#96, run-to-run nondeterminism on the pc too; u005105 gets an odd width from `--resize-mode=2`). No Neon-specific problem found.
 3. Morning: stress4 now keeps its passing streams (`round4/keep/`); decode them on the pi the same way (`pi/mkkeep.py`, then `pidec.py`).
 
 Files: `round4/pi/` on the pc, `~/av2conf-r4/` on the pi (`run_pi.log`, `checkasm_*.log`, `corpus.jsonl`, `pi.done`).
