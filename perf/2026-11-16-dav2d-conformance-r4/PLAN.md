@@ -20,7 +20,7 @@
    - decoders per stream: asm 1t, C+ASan+UBSan 1t, asm with a random thread count (2/3/4/6) and frame delay
 4. **Triage in the morning** (`triage4.py`): checks the reference against the av2-normative avmdec, reruns threaded failures 3x for flakiness, decodes each failure with the 13 Nov main build to tell new failures from old ones, buckets the failures by pattern (C+asm = parse/C, asm-only, threading-only, sanitizer) and format, and greedily reduces one stream per bucket.
 
-## Schedule (pc, 4 cores, 3 workers, Nice 19; starts once this plan is merged)
+## Schedule (pc, 4 cores, 3 workers, Nice 19; started 16 Nov evening with the owner's go-ahead)
 
 | Phase | Time | What |
 | --- | --- | --- |
@@ -31,13 +31,16 @@
 
 The scripts (`build.sh`, `run.sh`, `stress4.py`, `triage4.py`, `tools/y4mfmt.py`) and all output are in `/srv/compression/cache/av2conf/round4/` (`run.log` for progress, `summary.md` at the end). The unit will be `av2-r4`.
 
-## First lead from the smoke test
+## 4:4:4 inter chroma bug (found during planning, posted as dav2d #101)
 
-- 3 of the 9 smoke configs fail in all three dav2d decoders, all on 10-bit 4:4:4 sources. A plain encode reproduces it: `testsrc_176x144_444`, `--limit=3 --end-usage=q --qp=120 --cpu-used=9`. With avmenc 487d0761, every dav2d build mismatches (main 28e39df9 asm and C, 13 Nov main, the old bench build). With avmenc d891b232, all of them match. avmdec 487d0761 and av2-normative avmdec agree on the smoke failure I cross-checked (z000006), so this looks like a 4:4:4 decoder bug that the new encoder tuning (30fc684b3, speed features for low delay and SCC) now triggers.
-- The triage step will cover it, but it is worth looking at first in the morning: it probably accounts for a large share of the 4:4:4 bucket.
+- 4:4:4 inter frames decode with wrong chroma in small areas; key frames and luma match. It is not new: every dav2d build fails (main 28e39df9 asm and C, 13 Nov main, the old bench build), with streams from both avmenc versions. avmdec 487d0761 and av2-normative agree. (The smoke-test impression that only the new encoder triggers it was luck on one stream.)
+- Rate on 4-frame encodes of 4 clips (3 QPs, cpu-used 6/9, both encoders, inter-intra on/off): 4:4:4 40/96 mismatch, 4:2:2 4/96 (testsrc only), 4:2:0 0/96. Single encoder tool toggles only move the mismatch around.
+- Public 2-frame repro: `i444/r444_ld.ivf` (testsrc 4:4:4, `--limit=2 --lag-in-frames=0 --end-usage=q --qp=80 --cpu-used=9`), frame 1 V differs at x 116-119, y 14-23. Posted with that repro as dav2d #101 (cause unknown).
+- Effect on the run: the 4:4:4 share in stress4 is lowered from 20% to 5% so this one bug doesn't flood the triage. 4:2:2 stays at 25%.
+- Next step for the bug: block traces of frame 1 in both decoders (frame-1 trace builds are ready: `round4/build/dbg1`, `round4/build/avm-dbg1`).
 
 ## Morning work (next session)
 
 - Read `summary.md` and `base_*.log`. Start with failures that are new against 13 Nov main, then sanitizer hits, then 4:2:2/4:4:4 and 12-bit.
 - For each confirmed bug, find the cause, write a public testsrc-based repro and an MR draft, and run the regression and SVT set before anything goes upstream (see `upstream/dav2d-contributing.md`).
-- Probe results from planning (encoder d891b232, older dav2d build): 4:4:4, 4:2:2, 12-bit, `.obu`, cbr/vbr/cq/rt, still picture and operating point sets all matched avmdec on a short testsrc encode. The cropping window gives a different MD5 because dav2d's CLI doesn't apply it. That is a tooling question for upstream (should `tools/dav2d` apply `seq_hdr->crop`?), not a decoder bug.
+- Probe results from planning (encoder d891b232, older dav2d build): 12-bit, `.obu`, cbr/vbr/cq/rt, still picture and operating point sets all matched avmdec on a short testsrc encode. The cropping window gives a different MD5 because dav2d's CLI doesn't apply it. That is a tooling question for upstream (should `tools/dav2d` apply `seq_hdr->crop`?), not a decoder bug.
