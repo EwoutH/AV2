@@ -66,9 +66,39 @@ Files: `round4/pi/` on the pc, `~/av2conf-r4/` on the pi (`run_pi.log`, `checkas
 - Public 2-frame repro: `i444/r444_ld.ivf` (testsrc 4:4:4, `--limit=2 --lag-in-frames=0 --end-usage=q --qp=80 --cpu-used=9`), frame 1 V differs at x 116-119, y 14-23. Posted with that repro as dav2d #101 (cause unknown).
 - Effect on the run: the 4:4:4 share in stress4 is lowered from 20% to 5% so this one bug doesn't flood the triage; 4:2:2 went from 25% to 10% at the restart.
 - Next step for the bug: block traces of frame 1 in both decoders (frame-1 trace builds are ready: `round4/build/dbg1`, `round4/build/avm-dbg1`).
+- Solved the same night: two bugs. MHCCP used the top-right/bottom-left samples for 4 px luma edges (rbultje's !1102, same fix as ours) and inherited inter chroma tx types outside the chroma tx set (our !1105, merged). The 4:2:2 failures were the MHCCP bug.
 
 ## Morning work (next session)
 
 - Read `summary.md` and `base_*.log`. Start with failures that are new against 13 Nov main, then sanitizer hits, then 4:2:2/4:4:4 and 12-bit.
 - For each confirmed bug, find the cause, write a public testsrc-based repro and an MR draft, and run the regression and SVT set before anything goes upstream (see `upstream/dav2d-contributing.md`).
 - Probe results from planning (encoder d891b232, older dav2d build): 12-bit, `.obu`, cbr/vbr/cq/rt, still picture and operating point sets all matched avmdec on a short testsrc encode. The cropping window gives a different MD5 because dav2d's CLI doesn't apply it. That is a tooling question for upstream (should `tools/dav2d` apply `seq_hdr->crop`?), not a decoder bug.
+
+## Results (17 Nov)
+
+The run finished cleanly (`run.done` 07:04, no `run.FAILED`): 13322 configs, 11127 ok, 774 fail, 1342 encoder failures, 79 without a usable reference. Coverage: 10167 4:2:0, 1175 4:2:2, 559 4:4:4; 1755 12-bit; 1181 `.obu`; rate control q 8362, cbr 960, rt 954, vbr 938, cq 687.
+
+All 774 failures were decoded again (`scripts/r5/recheck.py`) with main 7b187849 + !1018 + !1102 + !1103 (`r5`: asm 1t, C ASan+UBSan 1t, the failing thread mode 3x), with gramner's new !1107-!1109 on top, and with plain main.
+
+- **324 fixed** on current main + the open MHCCP/CfL MRs (mostly the two #101 bugs). gramner's MRs fix nothing extra.
+- **134 reference disagreements**, all 12-bit: avmdec from av2-enc 487d0761 and from av2-normative 14f43e4c give different output. dav2d matches av2-enc on 69. Of the other 65, 10 are cropped (not checked) and 55 match neither decoder; 52 of those have a feature that fails for other reasons (24 lossless, 19 GER, 6 grain, 3 loop filters across tiles), 3 have none (v003085, v005121, v012262).
+- **316 still failing**, all explained (clusters: `scripts/r5/clusters.py`, flag ablation: `scripts/r5/ablate.py`):
+
+Mismatching streams by first matching cluster (159), then the sanitizer-only ones:
+
+| cluster | streams | cause and status |
+|---|---|---|
+| GER switch frames (no RAS) | 87 | 84 match with our open !1073 (data posted on !1073); 2 are #102, 1 is #103 |
+| cropping window | 30 | 29 are cropping window + grain, new issue **#103** (dav2d outputs the uncropped frame and synthesises grain on it; AVM crops first, so left/top crops change the grain); 1 is lossless 4:2:2 |
+| `disable_loopfilters_across_tiles` | 22 | new issue **#102**: parsed but ignored by deblocking, CDEF, CCSO, LR and GDF (each mismatches on its own) |
+| film grain / denoise | 15 | 14 are film grain on odd widths (#96; the random crops give odd widths); 1 (v011743) is the multi-frame header bug |
+| `--enable-fwd-kf` | 2 | v013159: open-loop key frame references (round-3 fix rebased on main, matches with it); v011123 (4:2:2) not rechecked with that fix + !1102 yet |
+| other | 3 | v010221: multi-frame header bug; v005357: lossless (#99 or round-3 lossless masked compound); v005552 (`--full-still-picture-hdr`, "No frames read"): open, the flag alone decodes fine |
+| UBSan only, output correct | 157 | new MR **!1111**: null `rp` pointer arithmetic with `ref_frame_mvs` off (176 streams have the report, incl. mismatching ones) |
+
+Multi-frame header bug (new MR **!1110**, frame size from the multi-frame header ignored): v010221 and v011743 match with it. v013159 (also a resized key frame with a multi-frame header) matches with the open-loop key frame fix alone.
+
+- **New against 13 Nov main**: only v000656 and v008369 (S-frames, 4:2:0); both broke between 6fbce209 and 79e95ee1 and are fixed again on a9b01371, so nothing to report.
+- 12-bit, 4:2:2 and `.obu` have no failures of their own once the causes above are taken out. Rate control (cbr/vbr/cq/rt) only shows up through the same causes.
+
+Upstream (17 Nov, all with public testsrc samples): issues #102 and #103; MRs !1110 (multi-frame header size) and !1111 (UBSan); note on #101 (fixed by !1102 + !1105); stress data on !1073. Checks before each MR: the corpus + SVT-AV2 low-res set (808 streams; only change: 2 SVT streams that crash in both builds, #86) and all 11901 failing and kept stress streams (only the intended streams change), asm 1t; repros also in C and with 4 threads.
