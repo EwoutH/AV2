@@ -49,13 +49,13 @@ Changes before the restart (unit `av2-r4b`, `run2.sh`, baseline not repeated):
 - SVT low-res set: 77 streams fixed since 13 Nov main, none regressed; the 10 left are #86 (see above).
 - ASan+UBSan: 198/305; sanitizer hits only on OLK/fwd-kf streams (UBSan) and the #86 C assert.
 
-## Neon on the pi (at most 2 threads)
+## Neon on the pi (at most 2 threads, 3 from 17 Nov)
 
 The pc only checks x86 asm and C, while a lot of AArch64 Neon code is landing in dav2d right now (!943, !1013, !1056, !1057, ...). dav2d main 28e39df9 is cross-built static for the pi (Cortex-A72): Neon, C only, checkasm.
 
 1. checkasm with 3 seeds: done 16 Nov 20:46, all 1596 tests pass.
 2. The pc baseline corpus (305 streams: non-hd corpus + round-3 failure streams) in Neon 1t, C 1t (2 streams at a time) and Neon with 2 threads/framedelay 2 (one at a time). Each result is compared with the reference and with pc main in the same mode, so Neon-only differences stand out. Done 16 Nov ~21:00: Neon 1t and C 1t give the same MD5 as pc main on all 305 streams (203 match the reference; the 102 others are known round-3 failures that fail the same way on the pc). Neon with 2 threads differs from pc main on 2 streams, both film grain on odd widths (#96, run-to-run nondeterminism on the pc too; u005105 gets an odd width from `--resize-mode=2`). No Neon-specific problem found.
-3. Morning: stress4 now keeps its passing streams (`round4/keep/`); decode them on the pi the same way (`pi/mkkeep.py`, then `pidec.py`).
+3. Kept stress streams (17 Nov, owner raised the limit to 3 threads): the 10563 passing streams without a cropping window (`pi/mkkeep.py`, `pidec.py`, three 1-thread decodes at a time) all match avmdec and pc main in Neon 1t, C 1t and Neon 2 threads/framedelay 2. No Neon-specific problem.
 
 Files: `round4/pi/` on the pc, `~/av2conf-r4/` on the pi (`run_pi.log`, `checkasm_*.log`, `corpus.jsonl`, `pi.done`).
 
@@ -92,7 +92,7 @@ Mismatching streams by first matching cluster (159), then the sanitizer-only one
 | cropping window | 30 | 29 are cropping window + grain, new issue **#103** (dav2d outputs the uncropped frame and synthesises grain on it; AVM crops first, so left/top crops change the grain); 1 is lossless 4:2:2 |
 | `disable_loopfilters_across_tiles` | 22 | new issue **#102**: parsed but ignored by deblocking, CDEF, CCSO, LR and GDF (each mismatches on its own) |
 | film grain / denoise | 15 | 14 are film grain on odd widths (#96; the random crops give odd widths); 1 (v011743) is the multi-frame header bug |
-| `--enable-fwd-kf` | 2 | v013159: open-loop key frame references (round-3 fix rebased on main, matches with it); v011123 (4:2:2) not rechecked with that fix + !1102 yet |
+| `--enable-fwd-kf` | 2 | v013159: open-loop key frame references, new MR **!1112** (round-3 fix rebased on main); v011123 (4:2:2) not rechecked with that fix + !1102 yet |
 | other | 3 | v010221: multi-frame header bug; v005357: lossless (#99 or round-3 lossless masked compound); v005552 (`--full-still-picture-hdr`, "No frames read"): open, the flag alone decodes fine |
 | UBSan only, output correct | 157 | new MR **!1111**: null `rp` pointer arithmetic with `ref_frame_mvs` off (176 streams have the report, incl. mismatching ones) |
 
@@ -101,4 +101,6 @@ Multi-frame header bug (new MR **!1110**, frame size from the multi-frame header
 - **New against 13 Nov main**: only v000656 and v008369 (S-frames, 4:2:0); both broke between 6fbce209 and 79e95ee1 and are fixed again on a9b01371, so nothing to report.
 - 12-bit, 4:2:2 and `.obu` have no failures of their own once the causes above are taken out. Rate control (cbr/vbr/cq/rt) only shows up through the same causes.
 
-Upstream (17 Nov, all with public testsrc samples): issues #102 and #103; MRs !1110 (multi-frame header size) and !1111 (UBSan); note on #101 (fixed by !1102 + !1105); stress data on !1073. Checks before each MR: the corpus + SVT-AV2 low-res set (808 streams; only change: 2 SVT streams that crash in both builds, #86) and all 11901 failing and kept stress streams (only the intended streams change), asm 1t; repros also in C and with 4 threads.
+Upstream (17 Nov, all with public testsrc samples): issues #102 and #103; MRs !1110 (multi-frame header size), !1111 (UBSan) and !1112 (open-loop key frame references; on the 808-stream set it changes exactly the 8 fwd-kf/OLK streams, all to the avmdec output, incl. round 3's u2816); note on #101 (fixed by !1102 + !1105); stress data on !1073. Checks before each MR: the corpus + SVT-AV2 low-res set (808 streams; only change: 2 SVT streams that crash in both builds, #86) and all 11901 failing and kept stress streams (only the intended streams change), asm 1t; repros also in C and with 4 threads.
+
+Archive: the 11900 stress streams (kept + failing), their sources and configs are in `/srv/compression/data/internal/av2conf-r4-stress/` (291 MB, private; `manifest.jsonl` has the avmenc arguments, avmdec MD5s and the 17 Nov cause per stream) as a regression set for later dav2d work. The streams follow AVM 487d0761's bitstream; re-encode from the configs once dav2d moves on.
