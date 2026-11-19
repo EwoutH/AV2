@@ -21,7 +21,7 @@
 
 | Phase | Time | What |
 | --- | --- | --- |
-| prep (done 19 Nov) | | builds: AVM 800611294e, dav2d b130414d release / C / C ASan+UBSan / asm ASan+UBSan / TSan; smoke test |
+| prep (done 19 Nov) | | builds: AVM 800611294e, dav2d b130414d release / C / C ASan+UBSan / asm ASan+UBSan / TSan; smoke test (below) |
 | baseline | ~1.5 h | `base_main`, `base_svt`, `base_asan`, `base_r4arch` |
 | stress | until 06:30 | stress5, 3 workers (round 4: ~1100 configs/h; damage and TSan cost extra, so expect 7000-9000) |
 | triage | 06:30-09:30 | triage5 + reductions (15 buckets max) |
@@ -36,3 +36,8 @@ Scripts and output: `/srv/compression/cache/av2conf/round5/` (`build.sh`, `run.s
 - Damaged-stream and TSan failures: reduce by hand (the stream is in `fail/<id>/damaged_*`), check whether they reproduce on the asm build without sanitizers, and look for duplicates among upstream's open issues before drafting anything.
 - New conformance failures: as round 4 (reference check, flakiness, reduction), then MR or issue drafts per `upstream/dav2d-contributing.md`.
 - Pi: decode the kept streams with Neon (3 threads max) as in round 4.
+
+## Smoke test (19 Nov, 18:45)
+
+- 12 stress5 configs with damage and TSan forced on (`R5_FORCE=1`, 4:2:0/4:2:2/4:4:4 mixed): all match avmdec in every decoder, with no sanitizer or TSan reports and no hangs. Most bit-flipped and truncated copies give decode errors, as expected. Copies with a dropped frame never do (dav2d keeps decoding without a word), so they mainly test the missing-reference paths for memory errors.
+- `base5.py` on the first 60 archive streams: 1.2 s with 2 jobs, so the whole archive takes about 4 min per build. Two of the three round-4 failures among them now match.
