@@ -46,7 +46,8 @@ with open(a.out, 'a', buffering=1) as out:
         variant = decode(a.variant, stream, a.threads)
         result = dict(stream=stream, expected=None if a.limit else expected,
                       variant=variant, threads=a.threads, limit=a.limit)
-        if a.limit or variant['rc'] != 0 or variant.get('md5') != expected:
+        result['has_diagnostics'] = bool(variant.get('stderr'))
+        if a.limit or variant['rc'] != 0 or variant.get('md5') != expected or result['has_diagnostics']:
             result['baseline'] = decode(a.baseline, stream, a.threads)
             result['matches_baseline'] = (
                 variant['rc'] == result['baseline']['rc'] == 0 and

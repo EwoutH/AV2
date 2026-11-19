@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Paired, resumable null-output A/B benchmark with competing-CPU rejection.
 
-Starts at load < 1 and < 0.10 busy cores. Later admission checks use idle-window
+Starts at load < 1 and the specified busy-core ceiling. Later admission checks use idle-window
 CPU activity so the benchmark's own recent load average does not stall it.
 """
 import argparse
@@ -163,6 +163,7 @@ def main():
                               limit=a.limit, repeat=repeats[row[0]], attempt=attempt,
                               order=names, results=results, accepted=accepted,
                               timestamp=datetime.now().astimezone().isoformat(),
+                              max_foreign=a.max_foreign,
                               affinity=sorted(os.sched_getaffinity(0)))
                 out.write(json.dumps(result) + '\n')
                 print(key, 'accepted', accepted, 'ratio',

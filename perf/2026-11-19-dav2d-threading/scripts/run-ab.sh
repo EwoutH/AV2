@@ -17,6 +17,7 @@ common=(
     --stream-dir /srv/compression/cache/av2bench/streams
     --scratch "$task_root/.work/ab/bench-scratch"
     --max-wait 1200
+    --max-foreign 0.20
 )
 python "$task_root/scripts/bench-ab.py" "${common[@]}" \
     --out "$task_root/data/ab-benchmark.jsonl" --configs 2:1,3:1 --reps 3
