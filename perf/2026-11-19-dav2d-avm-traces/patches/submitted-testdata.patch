@@ -1,0 +1,106 @@
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index da7c334..b6f63ca 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -180,6 +180,60 @@ test-avmdec:
+           done < expected.txt
+           exit $fail
+ 
++test-avm-traces:
++    extends: .test-common
++    image: registry.videolan.org/vlc-debian-unstable:20260908103441
++    tags:
++        - docker
++        - avx2
++        - amd64
++    artifacts:
++        reports: null
++        when: on_failure
++        paths:
++            - avm.log
++            - dav2d.log
++    script:
++        - set -eo pipefail
++        - git clone -b av2-normative --depth 1 --shallow-submodules
++              https://github.com/AOMediaCodec/avm avm-src
++        - |
++          cd avm-src
++          git config user.name "CI Bot"
++          git config user.email "ci-bot@example.com"
++          git am ../dav2d/patches/*.patch
++        - |
++          sed -i 's|#define DEBUG_OBU_HDR 0|#define DEBUG_OBU_HDR 1|' avm/debug.h
++          sed -i 's|#define DEBUG_SEQ_HDR 0|#define DEBUG_SEQ_HDR 1|' avm/debug.h
++          sed -i 's|#define DEBUG_FRAME_HDR 0|#define DEBUG_FRAME_HDR 1|' avm/debug.h
++          sed -i 's|#define DEBUG_BLOCK_INFO 0|#define DEBUG_BLOCK_INFO 1|' avm/debug.h
++          sed -i 's|#define DEBUG_B_PIXELS 0|#define DEBUG_B_PIXELS 1|' avm/debug.h
++          sed -i 's|#define DEBUG_REFMV 0|#define DEBUG_REFMV 1|' av2/common/mvref_common.c
++          sed -i 's|#define DEBUG_CI_HDR 0|#define DEBUG_CI_HDR 1|' av2/decoder/obu_ci.c
++          sed -i 's|#define DEBUG_FGM_HDR 0|#define DEBUG_FGM_HDR 1|' av2/decoder/obu_fgm.c
++          sed -i 's|cm->current_frame.frame_number == 0|cm->current_frame.frame_number <= 4|' avm/debug.h
++          git diff
++        - |
++          mkdir x86-64
++          cd x86-64
++          cmake .. -DAVM_TARGET_CPU=x86_64 -DENABLE_TESTS=0 -DCONFIG_AV2_ENCODER=0
++          make -j$(nproc) avmdec
++          cd ../..
++        - |
++          sed -i 's|#define DEBUG_OBU_HDR 0|#define DEBUG_OBU_HDR 1|' dav2d/src/obu.c
++          sed -i 's|#define DEBUG_SEQ_HDR 0|#define DEBUG_SEQ_HDR 1|' dav2d/src/obu.c
++          sed -i 's|#define DEBUG_FRAME_HDR 0|#define DEBUG_FRAME_HDR 1|' dav2d/src/obu.c
++          sed -i 's|#define DEBUG_BLOCK_INFO 0|#define DEBUG_BLOCK_INFO 1|' dav2d/src/debug.h
++          sed -i 's|#define DEBUG_B_PIXELS 0|#define DEBUG_B_PIXELS 1|' dav2d/src/debug.h
++          sed -i 's|#define DEBUG_REFMV 0|#define DEBUG_REFMV 1|' dav2d/src/refmvs.c
++          sed -i 's|#define DEBUG_CI_HDR 0|#define DEBUG_CI_HDR 1|' dav2d/src/obu.c
++          sed -i 's|#define DEBUG_FGM_HDR 0|#define DEBUG_FGM_HDR 1|' dav2d/src/obu.c
++          sed -i 's|frame_offset == 0|frame_offset <= 4|' dav2d/src/debug.h
++          git -C dav2d diff
++        - meson setup build dav2d --buildtype debugoptimized -Dtrim_dsp=false -Denable_tests=false
++        - ninja -C build tools/dav2d
++        - sh check-traces.sh "$PWD/avm-src/x86-64/avmdec" "$PWD/build/tools/dav2d"
++
+ check-samples-listed:
+     stage: test
+     image: registry.videolan.org/dav1d-debian-unstable:20260622120900
+diff --git a/check-traces.sh b/check-traces.sh
+new file mode 100644
+index 0000000..41f394f
+--- /dev/null
++++ b/check-traces.sh
+@@ -0,0 +1,15 @@
++#!/bin/sh
++set -eu
++
++data=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
++test -s "$data/trace-samples.txt"
++while IFS= read -r sample || [ -n "$sample" ]; do
++    test -f "$data/$sample"
++    echo "Tracing $sample"
++    "$1" "$data/$sample" -o /dev/null > avm.log
++    "$2" -i "$data/$sample" --muxer=null --threads=1 --quiet > dav2d.log
++    test -s avm.log
++    test -s dav2d.log
++    diff -uw avm.log dav2d.log
++    wc -l avm.log
++done < "$data/trace-samples.txt"
+diff --git a/trace-samples.txt b/trace-samples.txt
+new file mode 100644
+index 0000000..f8fd24a
+--- /dev/null
++++ b/trace-samples.txt
+@@ -0,0 +1,14 @@
++avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu
++avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu
++avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu
++avm/avm-v15.0.0-bus.64x64.l5.lossless.obu
++avm/avm-v15.0.0-bus.64x64.l5.obu
++avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu
++avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu
++avm/avm.bus.96x64.l5.qm1-cctx.obu
++avm/avm.bus.128x96.l5.qm1.obu
++avm/avm.bus.176x144.l5.opfl2.obu
++avm/avm.bus.480x144.l2.tilecols2.obu
++avm/avm.rot.128x128.l8.opfl-refine0.obu
++avm-10bit/avm.bus.128x96.l8.10bit.s4.obu
++avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu

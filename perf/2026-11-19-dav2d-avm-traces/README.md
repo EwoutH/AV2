@@ -4,7 +4,7 @@ Propose the shared test-data list with **14 already compatible samples**, then e
 
 This follows [rbultje's agreement on test-data !9](https://code.videolan.org/videolan/dav2d-test-data/-/merge_requests/9#note_598451) with the proposal in [note 598396](https://code.videolan.org/videolan/dav2d-test-data/-/merge_requests/9#note_598396). The owner supplied this later IRC clarification from BBB: keep working cases working; extending trace compatibility is not urgent, because the original purpose was decoder-mismatch debugging. The owner also said fixes with minimal added complexity can still go in. Accordingly, the CI change and the printing fixes are separate patches; no decoder algorithm changes or trace-normalizing filter are proposed.
 
-Nothing was posted upstream. These are local proposals, not GitLab pipeline results.
+The original audit below predates submission. After owner approval, the 14-sample change was submitted as test-data !14 and dav2d !1140; see [submission status and final diffs](SUBMITTED.md). The optional printing fixes remain local.
 
 ## Evidence and useful coverage
 

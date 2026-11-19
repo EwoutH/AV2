@@ -1,0 +1,104 @@
+[
+  {
+    "project": 5491,
+    "pipeline": 753339,
+    "status": "success",
+    "sha": "17f5af92cce9782418fd3e3ecb3db905e625a216",
+    "url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/pipelines/753339",
+    "jobs": [
+      {
+        "id": 2987056,
+        "name": "check-samples-listed",
+        "status": "success",
+        "duration": 4.814748,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987056"
+      },
+      {
+        "id": 2987055,
+        "name": "test-avm-traces",
+        "status": "success",
+        "duration": 50.072951,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987055"
+      },
+      {
+        "id": 2987054,
+        "name": "test-avmdec",
+        "status": "success",
+        "duration": 36.24583,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987054"
+      },
+      {
+        "id": 2987053,
+        "name": "test-debian-armv7-clang-5",
+        "status": "success",
+        "duration": 39.076998,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987053"
+      },
+      {
+        "id": 2987052,
+        "name": "test-debian-ppc64le",
+        "status": "success",
+        "duration": 103.95948,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987052"
+      },
+      {
+        "id": 2987051,
+        "name": "test-debian-aarch64",
+        "status": "success",
+        "duration": 79.842185,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987051"
+      },
+      {
+        "id": 2987050,
+        "name": "test-debian-tsan",
+        "status": "success",
+        "duration": 39.895599,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987050"
+      },
+      {
+        "id": 2987049,
+        "name": "test-debian-msan",
+        "status": "success",
+        "duration": 20.651044,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987049"
+      },
+      {
+        "id": 2987048,
+        "name": "test-debian-ubsan",
+        "status": "success",
+        "duration": 61.906819,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987048"
+      },
+      {
+        "id": 2987047,
+        "name": "test-debian-asan",
+        "status": "success",
+        "duration": 50.056554,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987047"
+      },
+      {
+        "id": 2987046,
+        "name": "test-debian",
+        "status": "success",
+        "duration": 28.75707,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d-test-data/-/jobs/2987046"
+      }
+    ]
+  },
+  {
+    "project": 5480,
+    "pipeline": 753338,
+    "status": "success",
+    "sha": "6460ee3e548b36e26c7dce82d183c659564a4cfa",
+    "url": "https://code.videolan.org/EwoutH/dav2d/-/pipelines/753338",
+    "jobs": [
+      {
+        "id": 2987045,
+        "name": "test-debian-avm",
+        "status": "success",
+        "duration": 58.302775,
+        "web_url": "https://code.videolan.org/EwoutH/dav2d/-/jobs/2987045"
+      }
+    ]
+  }
+]

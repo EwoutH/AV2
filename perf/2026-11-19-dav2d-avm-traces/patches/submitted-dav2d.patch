@@ -1,0 +1,28 @@
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 30e53085..32dc9b9e 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -484,21 +484,8 @@ test-debian-avm:
+         - meson test -v -C build
+         - ninja -C build
+         - |
+-          files=(
+-              "avm-v15.0.0-bus.64x64.l1.sdp0.obu"
+-              "avm-v15.0.0-bus.64x64.l1.sdp1.obu"
+-              "avm-v15.0.0-bus.64x64.l5.obu"
+-              "avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu"
+-              "avm-v15.0.0-bus.64x64.l5.lossless.obu"
+-              "avm-v15.0.0-hm.64x64.l5.filmgrain.obu"
+-          )
+-          for f in "${files[@]}"; do
+-              file="tests/dav2d-test-data/avm/$f"
+-              avm/x86-64/avmdec $file -o /dev/null > avm.log
+-              build/tools/dav2d -i $file --muxer=null --threads=1 --quiet > dav2d.log
+-              diff -uw {avm,dav2d}.log
+-              wc -l avm.log
+-          done
++          sh tests/dav2d-test-data/check-traces.sh \
++              "$PWD/avm/x86-64/avmdec" "$PWD/build/tools/dav2d"
+ 
+ test-debian-avx512:
+     extends:
