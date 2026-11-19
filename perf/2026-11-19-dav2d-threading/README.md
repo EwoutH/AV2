@@ -2,6 +2,8 @@
 
 The most useful next investigation is to separate **worker count, frames in flight, and decoding passes**. They currently change together in ways that can hide the cause of a scaling regression. A scheduler rewrite is not justified by the evidence collected here.
 
+The subsequent instrument-free A/B work is recorded in [FOLLOWUP.md](FOLLOWUP.md).
+
 This is research for discussion, not a proposed upstream submission. Nothing was posted upstream. The canonical dav2d checkout and existing conformance builds were left unchanged. The experimental source and binaries are disposable, ignored files under `.work/`.
 
 ## What was examined
@@ -158,6 +160,6 @@ meson setup perf/2026-11-19-dav2d-threading/.work/build \
 nice -n 19 ninja -j2 -C perf/2026-11-19-dav2d-threading/.work/build tools/dav2d
 ```
 
-Create the `.work/src` directory first in a fresh checkout. Use a fresh tree to avoid retaining the experimental patch accidentally. The JSONL files contain the exact decoder argument vectors. `diagnose.py --help` and `sweep.py --help` show runner arguments. The source patch can also be applied without instrumentation to a fresh `b130414d` tree for a controlled A/B build. The ignored local files currently retain both the instrumented baseline (`.work/dav2d-profile-baseline`) and the instrumented variant (`.work/build/tools/dav2d`).
+Create the `.work/src` directory first in a fresh checkout. Use a fresh tree to avoid retaining the experimental patch accidentally. The JSONL files contain the exact decoder argument vectors. `diagnose.py --help` and `sweep.py --help` show runner arguments. The source patch can also be applied without instrumentation to a fresh `b130414d` tree for a controlled A/B build. The initial instrumented binaries are retained as `.work/dav2d-profile-baseline` and `.work/ab/dav2d-instrumented-three-pass`; the follow-up reused `.work/build` for instrument-free builds.
 
-The artifact includes scripts, source patch, raw observations and generated [analysis tables](data/analysis.md). No benchmark or diagnostic job is intentionally left running after this investigation.
+The artifact includes scripts, source patch, raw observations and generated [analysis tables](data/analysis.md). All initial investigation jobs stopped; see [FOLLOWUP.md](FOLLOWUP.md) for subsequent work.

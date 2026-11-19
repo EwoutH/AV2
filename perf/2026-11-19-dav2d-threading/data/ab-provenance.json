@@ -1,0 +1,38 @@
+{
+  "source": "b130414d978a613671b6a14bf95040e2cba8d726",
+  "compiler": "GCC 16.2.0",
+  "instrumented": false,
+  "reused_objects": "Unchanged objects from the original b130414d diagnostic build; lib.c, decode.c, thread_task.c restored and rebuilt for baseline, then only documented lib/decode changes rebuilt for variant.",
+  "patch_sha256": "72ff91da867bba1afbeffc3828393df4fd5a7c0e30a66e38af6a30a2c8c577ad",
+  "binaries": {
+    "baseline": {
+      "path": "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-threading/.work/ab/baseline-build/tools/dav2d",
+      "sha256": "f5db4419dd7b907eeab166886369388a0fd75b2c0b0d230940fcedafd989b6fe"
+    },
+    "three-pass": {
+      "path": "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-threading/.work/ab/three-pass-build/tools/dav2d",
+      "sha256": "fbfb600074848089beb6ca79b4d17ece92490ebc686c0778433e4245583e07ab"
+    }
+  },
+  "build_options": {
+    "buildtype": "release",
+    "debug": false,
+    "default_library": "static",
+    "optimization": "3",
+    "b_lto": false,
+    "b_sanitize": [],
+    "b_ndebug": "if-release",
+    "c_args": [],
+    "c_link_args": [],
+    "bitdepths": [
+      "8",
+      "16"
+    ],
+    "enable_asm": true,
+    "enable_tools": true,
+    "enable_tests": false,
+    "logging": true,
+    "trim_dsp": "if-release"
+  },
+  "testdata_commit": "4f652e3b098c47cf57c3f3d2ebdd5c855ea6f358"
+}
