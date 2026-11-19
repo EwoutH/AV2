@@ -1,0 +1,58 @@
+[
+  {
+    "branch": "debug-palette-tx",
+    "sha": "5a3eea9659f75cfe49eeb06db9ae6b7992c0c298",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 15.979499988956377
+  },
+  {
+    "branch": "debug-scaled-mc",
+    "sha": "91afce10dd685408ab202f44b3712e6e715888d3",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 6.676048752153292
+  },
+  {
+    "branch": "avm-debug-color",
+    "sha": "9e505dbbbec784d755af8b5a89ca3013829c9f86",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 7.360255680046976
+  },
+  {
+    "branch": "avm-debug-tip",
+    "sha": "274324fcf5813a19600f18cad6cddb2c46563605",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 2.850638881092891
+  },
+  {
+    "branch": "avm-debug-inter-region",
+    "sha": "9031a6bc2e26b50f5245853cc0271d4fa3e41c96",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 10.4163312909659
+  },
+  {
+    "branch": "avm-debug-suffix",
+    "sha": "27f04fb3432050222537e4e4a3b71952588f7923",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 10.514711857074872
+  },
+  {
+    "branch": "avm-debug-segid",
+    "sha": "798fddd2ad7491705bd2a88a8b36705e3a2fa3ed",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 6.0558812390081584
+  },
+  {
+    "branch": "avm-debug-grain",
+    "sha": "d4499d808069434f10e22e0f86985f00de694606",
+    "trace_samples": 14,
+    "success": true,
+    "seconds": 5.903875462943688
+  }
+]

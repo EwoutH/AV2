@@ -1,0 +1,66 @@
+[
+  {
+    "branch": "debug-palette-tx",
+    "sha": "5a3eea9659f75cfe49eeb06db9ae6b7992c0c298",
+    "iid": 1141,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1141",
+    "draft": true,
+    "title": "Draft: debug: dump palette predictions per transform"
+  },
+  {
+    "branch": "debug-scaled-mc",
+    "sha": "91afce10dd685408ab202f44b3712e6e715888d3",
+    "iid": 1142,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1142",
+    "draft": true,
+    "title": "Draft: debug: remove unmatched scaled-MC diagnostics"
+  },
+  {
+    "branch": "avm-debug-color",
+    "sha": "9e505dbbbec784d755af8b5a89ca3013829c9f86",
+    "iid": 1143,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1143",
+    "draft": true,
+    "title": "Draft: avm: fix color-description trace labels"
+  },
+  {
+    "branch": "avm-debug-tip",
+    "sha": "274324fcf5813a19600f18cad6cddb2c46563605",
+    "iid": 1144,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1144",
+    "draft": true,
+    "title": "Draft: avm: select TIP output-picture dumps"
+  },
+  {
+    "branch": "avm-debug-inter-region",
+    "sha": "9031a6bc2e26b50f5245853cc0271d4fa3e41c96",
+    "iid": 1145,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1145",
+    "draft": true,
+    "title": "Draft: avm: limit inter-prediction dumps to the selected region"
+  },
+  {
+    "branch": "avm-debug-suffix",
+    "sha": "27f04fb3432050222537e4e4a3b71952588f7923",
+    "iid": 1146,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1146",
+    "draft": true,
+    "title": "Draft: avm: print suffix metadata OBU headers"
+  },
+  {
+    "branch": "avm-debug-segid",
+    "sha": "798fddd2ad7491705bd2a88a8b36705e3a2fa3ed",
+    "iid": 1147,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1147",
+    "draft": true,
+    "title": "Draft: avm: print derived segment IDs"
+  },
+  {
+    "branch": "avm-debug-grain",
+    "sha": "d4499d808069434f10e22e0f86985f00de694606",
+    "iid": 1148,
+    "url": "https://code.videolan.org/videolan/dav2d/-/merge_requests/1148",
+    "draft": true,
+    "title": "Draft: avm: print zero for absent chroma grain fields"
+  }
+]

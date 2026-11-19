@@ -1,0 +1,10 @@
+{
+  "pipeline": 753344,
+  "status": "success",
+  "sha": "6da39d527251182623078e30be240df930e0e746",
+  "url": "https://code.videolan.org/EwoutH/dav2d/-/pipelines/753344",
+  "job": 2987070,
+  "duration": 56.441724,
+  "trace_samples": 34,
+  "source_equivalent_to_full_md5_audit": true
+}

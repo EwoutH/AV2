@@ -1,0 +1,72 @@
+[
+  {
+    "branch": "debug-palette-tx",
+    "title": "debug: dump palette predictions per transform",
+    "body": "Move the luma palette dump after coefficient decoding and use the\ntransform dimensions, matching the AVM trace. Leave palette prediction\nitself at block level.",
+    "path": "src/recon_tmpl.c",
+    "kind": "dav2d",
+    "sha": "5a3eea9659f75cfe49eeb06db9ae6b7992c0c298"
+  },
+  {
+    "branch": "debug-scaled-mc",
+    "title": "debug: remove unmatched scaled-MC diagnostics",
+    "body": "The scaled-MC offset and edge-emulation prints have no counterpart in\nthe AVM trace. Remove them while retaining the prediction and\nreconstruction dumps.",
+    "path": "src/recon_tmpl.c",
+    "kind": "dav2d",
+    "sha": "91afce10dd685408ab202f44b3712e6e715888d3"
+  },
+  {
+    "branch": "avm-debug-color",
+    "title": "avm: fix color-description trace labels",
+    "body": "Pass transfer characteristics and matrix coefficients in the order of\nthe printf labels. The parsed color values are unchanged.",
+    "path": "patches/0006-color-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/decoder/obu_ci.c",
+    "sha": "9e505dbbbec784d755af8b5a89ca3013829c9f86"
+  },
+  {
+    "branch": "avm-debug-tip",
+    "title": "avm: select TIP output-picture dumps",
+    "body": "Dump the synthetic TIP picture here only when it is an output picture,\nand apply BLOCK_TO_DEBUG to its chunks. Reference predictions remain\ncovered by ordinary block dumps, as in dav2d.",
+    "path": "patches/0006-tip-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/common/tip.c",
+    "sha": "274324fcf5813a19600f18cad6cddb2c46563605"
+  },
+  {
+    "branch": "avm-debug-inter-region",
+    "title": "avm: limit inter-prediction dumps to the selected region",
+    "body": "For a selected large block, dump only its first 64x64 prediction chunk,\nmatching the region selected by the dav2d instrumentation.",
+    "path": "patches/0006-inter-region-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/decoder/decodeframe.c",
+    "sha": "9031a6bc2e26b50f5245853cc0271d4fa3e41c96"
+  },
+  {
+    "branch": "avm-debug-suffix",
+    "title": "avm: print suffix metadata OBU headers",
+    "body": "Print the header for accepted suffix metadata and padding OBUs in the\nsecond OBU-reading loop, as in the main loop.",
+    "path": "patches/0006-suffix-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/decoder/obu.c",
+    "sha": "27f04fb3432050222537e4e4a3b71952588f7923"
+  },
+  {
+    "branch": "avm-debug-segid",
+    "title": "avm: print derived segment IDs",
+    "body": "Print the spatially predicted segment ID before the skipped-block\nearly return. No entropy read is added.",
+    "path": "patches/0006-segid-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/decoder/decodemv.c",
+    "sha": "798fddd2ad7491705bd2a88a8b36705e3a2fa3ed"
+  },
+  {
+    "branch": "avm-debug-grain",
+    "title": "avm: print zero for absent chroma grain fields",
+    "body": "Print zero for absent chroma grain multipliers and offsets instead of\nsubtracting the signed bias from an unsigned default-zero value.",
+    "path": "patches/0006-grain-trace.patch",
+    "kind": "avm",
+    "avm_path": "av2/decoder/obu_fgm.c",
+    "sha": "d4499d808069434f10e22e0f86985f00de694606"
+  }
+]
