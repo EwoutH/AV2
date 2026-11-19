@@ -2,7 +2,8 @@
 set -euo pipefail
 task_root=$(cd "$(dirname "$0")/.." && pwd)
 cd "$task_root/../../"
-while systemctl --user is-active --quiet dav2d-threading-ab-benchmark-v2.service; do
+while systemctl --user is-active --quiet dav2d-threading-ab-benchmark-v2.service || \
+      systemctl --user is-active --quiet dav2d-threading-ab-clamped.service; do
     sleep 5
 done
 base="$task_root/.work/ab/baseline-build/tools/dav2d"
@@ -35,6 +36,8 @@ if [ ! -f "$san/build.ninja" ]; then
         -Db_lundef=false -Denable_tests=true -Denable_examples=false
 fi
 ninja -j1 -C "$san" tools/dav2d tests/seek_stress
+export ASAN_OPTIONS=abort_on_error=1:detect_leaks=1
+export UBSAN_OPTIONS=halt_on_error=1:print_stacktrace=1
 python "$check" \
     --baseline /srv/compression/cache/av2conf/round5/build/main-asan/tools/dav2d \
     --variant "$san/tools/dav2d" --streams "$task_root/data/testdata.tsv" \

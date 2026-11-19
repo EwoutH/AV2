@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 task_root=$(cd "$(dirname "$0")/.." && pwd)
+series=${BENCH_SERIES:-ab}
 cd "$task_root/../../"
 while systemctl --user is-active --quiet dav2d-threading-ab-core-check.service; do
     sleep 5
@@ -16,10 +17,12 @@ common=(
     --streams "$task_root/data/streams.tsv"
     --stream-dir /srv/compression/cache/av2bench/streams
     --scratch "$task_root/.work/ab/bench-scratch"
-    --max-wait 1200
+    --max-wait 1800
     --max-foreign 0.20
+    --max-idle 0.50
+    --retries 10
 )
 python "$task_root/scripts/bench-ab.py" "${common[@]}" \
-    --out "$task_root/data/ab-benchmark.jsonl" --configs 2:1,3:1 --reps 3
+    --out "$task_root/data/$series-benchmark.jsonl" --configs 2:1,3:1 --reps 3
 python "$task_root/scripts/bench-ab.py" "${common[@]}" \
-    --out "$task_root/data/ab-control.jsonl" --configs 3:2 --reps 3
+    --out "$task_root/data/$series-control.jsonl" --configs 3:2 --reps 3

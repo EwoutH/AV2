@@ -88,7 +88,10 @@ def main():
     p.add_argument('--limit', type=int, default=130)
     p.add_argument('--min-seconds', type=float, default=1.2)
     p.add_argument('--max-foreign', type=float, default=.10)
+    p.add_argument('--max-idle', type=float, default=.50,
+                   help='admission ceiling; actual timed pairs still use max-foreign')
     p.add_argument('--max-wait', type=float, default=3600)
+    p.add_argument('--retries', type=int, default=4)
     a = p.parse_args()
     scratch = Path(a.scratch)
     scratch.mkdir(parents=True, exist_ok=True)
@@ -116,7 +119,7 @@ def main():
             time.sleep(2)
             cores = (busy() - b0) / (time.monotonic() - t0)
             load = os.getloadavg()[0]
-            if cores <= a.max_foreign and (admitted or load < 1):
+            if cores <= a.max_idle and (admitted or load < 1):
                 admitted = True
                 return
             if time.monotonic() >= deadline:
@@ -139,7 +142,7 @@ def main():
             with open(Path(a.stream_dir) / row[0], 'rb') as stream:
                 while stream.read(1024 * 1024):
                     pass
-            for attempt in range(4):
+            for attempt in range(a.retries):
                 quiet()
                 # A single-thread calibration amortizes process startup on tiny streams.
                 if row[0] not in repeats:
@@ -164,6 +167,10 @@ def main():
                               order=names, results=results, accepted=accepted,
                               timestamp=datetime.now().astimezone().isoformat(),
                               max_foreign=a.max_foreign,
+                              max_idle=a.max_idle,
+                              uclamp={line.split(':')[0].strip(): line.split(':')[1].strip()
+                                      for line in Path('/proc/self/sched').read_text().splitlines()
+                                      if line.startswith(('uclamp.', 'effective uclamp.'))},
                               affinity=sorted(os.sched_getaffinity(0)))
                 out.write(json.dumps(result) + '\n')
                 print(key, 'accepted', accepted, 'ratio',

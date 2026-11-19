@@ -9,7 +9,8 @@ from statistics import geometric_mean, median
 root = Path(__file__).resolve().parents[1]
 tables = []
 summary = []
-for filename in ['ab-benchmark.jsonl', 'ab-control.jsonl']:
+for filename in ['ab-benchmark.jsonl', 'ab-control.jsonl',
+                 'ab-clamped-benchmark.jsonl', 'ab-clamped-control.jsonl']:
     path = root / 'data' / filename
     if not path.exists():
         continue
@@ -18,7 +19,11 @@ for filename in ['ab-benchmark.jsonl', 'ab-control.jsonl']:
     for r in rows:
         if r['accepted']:
             groups[r['stream'], r['threads'], r['framedelay']].append(r)
+    expected = 18 if 'control' in filename else 36
+    complete = len({(r['rep'], r['stream'], r['threads'], r['framedelay'])
+                    for r in rows if r['accepted']}) == expected
     tables += [f'## {filename}', '',
+               'Complete planned series.' if complete else 'Incomplete series: exploratory observations only.', '',
                f'{len(rows)} attempted pairs; {sum(r["accepted"] for r in rows)} accepted.', '',
                '| Stream | Workers / delay | Pairs | Speed ratio, median [range] | CPU ratio | RSS delta |',
                '|---|---:|---:|---:|---:|---:|']
