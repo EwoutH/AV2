@@ -1,0 +1,27 @@
+{
+  "cov": {
+    "path": "/srv/compression/cache/av2conf/round5/build/main-cov/tools/dav2d",
+    "sha256": "821242f12ccbea81780fd81a4dcd2714779469047809629e328d5e39e48ace2f"
+  },
+  "avm-trace": {
+    "path": "/srv/compression/cache/av2conf/round5/trace/avm-x86-12/avmdec",
+    "sha256": "655c37049b728ee958ed28c26224cad39b921d8309856fb31e622ddca3838b8d"
+  },
+  "dav2d-trace": {
+    "path": "/srv/compression/cache/av2conf/round5/trace/dav2d-build/tools/dav2d",
+    "sha256": "d5fa563d8708b987b44d105449afa493c57304913c521bc88770cc4b6224c72d"
+  },
+  "cov-source": {
+    "path": "/srv/compression/cache/av2conf/src/wt-rd5main",
+    "commit": "b130414d978a613671b6a14bf95040e2cba8d726"
+  },
+  "avm-trace-source": {
+    "path": "/srv/compression/cache/av2conf/round5/trace/avm",
+    "commit": "9123f33bfcd363293b21fa9082637a20ebb6881c"
+  },
+  "dav2d-trace-source": {
+    "path": "/srv/compression/cache/av2conf/round5/trace/dav2d",
+    "commit": "b130414d978a613671b6a14bf95040e2cba8d726"
+  },
+  "cov-callback": "// trace-pc-guard runtime: writes one byte per edge (hit or not) to $COV_OUT at exit\n#include <stdint.h>\n#include <stdio.h>\n#include <stdlib.h>\nstatic uint8_t *hit; static uint32_t n;\nstatic void dump(void) {\n    const char *p = getenv(\"COV_OUT\");\n    if (!p || !hit) return;\n    FILE *f = fopen(p, \"wb\"); if (!f) return;\n    fwrite(hit, 1, n, f); fclose(f);\n}\nvoid __sanitizer_cov_trace_pc_guard_init(uint32_t *start, uint32_t *stop) {\n    if (start == stop || *start) return;\n    uint32_t base = n;\n    for (uint32_t *x = start; x < stop; x++) *x = ++n;\n    hit = realloc(hit, n + 1);\n    for (uint32_t i = base; i <= n; i++) hit[i] = 0;\n    static int reg; if (!reg) { reg = 1; atexit(dump); }\n}\nvoid __sanitizer_cov_trace_pc_guard(uint32_t *g) { if (*g) hit[*g] = 1; }\n"
+}

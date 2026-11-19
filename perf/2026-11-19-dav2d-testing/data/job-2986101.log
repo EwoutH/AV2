@@ -1,0 +1,807 @@
+2026-11-19T18:36:21.916542Z 00O Running with gitlab-runner 19.5.3 (33227fd4)
+2026-11-19T18:36:21.916564Z 00O   on anya YykwduqHr, system ID: s_9b64dd3726b4
+2026-11-19T18:36:21.916568Z 00O   UUID: 01a1d33a-6166-779b-bf50-ffae2d8eec38
+2026-11-19T18:36:21.916628Z 00O section_start:1795113381:prepare_executor
+2026-11-19T18:36:21.916635Z 00O+Preparing the "docker" executor
+2026-11-19T18:36:21.934998Z 00O Using Docker executor with image registry.videolan.org/dav1d-debian-unstable:20260505173944 ...
+2026-11-19T18:36:23.144072Z 00O Using effective pull policy of [if-not-present] for container registry.videolan.org/dav1d-debian-unstable:20260505173944
+2026-11-19T18:36:23.144889Z 00O Using locally found image version due to "if-not-present" pull policy
+2026-11-19T18:36:23.144909Z 00O Using docker image sha256:7f784fa55543de59372e39719d855be6730f7fd64408ade5265a2a3d405e7895 for registry.videolan.org/dav1d-debian-unstable:20260505173944 with digest registry.videolan.org/dav1d-debian-unstable@sha256:0faf7f268ee003417d7facd98d2a815c31746356d8528dc281072fdb06f88e5d ...
+2026-11-19T18:36:23.144921Z 00O section_end:1795113383:prepare_executor
+2026-11-19T18:36:23.145103Z 00O+section_start:1795113383:prepare_script
+2026-11-19T18:36:23.145111Z 00O+Preparing environment
+2026-11-19T18:36:23.145875Z 00O Using effective pull policy of [if-not-present] for container sha256:52e0672802c86b1457857e0ad07ede33ee1bef0b013ffab39cae3099cb075905
+2026-11-19T18:36:23.412948Z 01O Running on runner-yykwduqhr-project-4935-concurrent-0 via anya...
+2026-11-19T18:36:23.421865Z 01O Running on CPU: AMD EPYC 7502P 32-Core Processor (avx, avx2)
+2026-11-19T18:36:23.725470Z 00O section_end:1795113383:prepare_script
+2026-11-19T18:36:23.726280Z 00O+section_start:1795113383:get_sources
+2026-11-19T18:36:23.726289Z 00O+Getting source from Git repository
+2026-11-19T18:36:24.071896Z 01O Gitaly correlation ID: 01M7THGVH6M0FFQ3V8K3JKFZR5
+2026-11-19T18:36:24.082701Z 01O Fetching changes with git depth set to 20...
+2026-11-19T18:36:24.087721Z 01O Reinitialized existing Git repository in /builds/videolan/dav2d/.git/
+2026-11-19T18:36:24.093101Z 01O Created fresh repository.
+2026-11-19T18:36:24.414243Z 01O Checking out 2ea62cc8 as detached HEAD (ref is main)...
+2026-11-19T18:36:24.442734Z 01O Removing build/
+2026-11-19T18:36:24.453126Z 01O Removing cache/
+2026-11-19T18:36:24.453130Z 01O Removing subprojects/.wraplock
+2026-11-19T18:36:24.453132Z 01O Removing subprojects/checkasm/
+2026-11-19T18:36:24.453133Z 01O Removing tests/dav2d-test-data/
+2026-11-19T18:36:24.545629Z 01O
+2026-11-19T18:36:24.545634Z 01O Skipping Git submodules setup
+2026-11-19T18:36:24.827200Z 00O section_end:1795113384:get_sources
+2026-11-19T18:36:24.827923Z 00O+section_start:1795113384:restore_cache
+2026-11-19T18:36:24.827932Z 00O+Restoring cache
+2026-11-19T18:36:25.205300Z 01O Checking cache for testdata.git-20260605-protected...
+2026-11-19T18:36:25.265264Z 01E No URL provided, cache will not be downloaded from shared cache server. Instead a local version of cache will be extracted.
+2026-11-19T18:36:25.274786Z 01O Successfully extracted cache
+2026-11-19T18:36:25.569246Z 00O section_end:1795113385:restore_cache
+2026-11-19T18:36:25.570405Z 00O+section_start:1795113385:step_script
+2026-11-19T18:36:25.570419Z 00O+Executing "step_script" stage of the job script
+2026-11-19T18:36:25.570441Z 00O Using effective pull policy of [if-not-present] for container registry.videolan.org/dav1d-debian-unstable:20260505173944
+2026-11-19T18:36:25.571436Z 00O Using docker image sha256:7f784fa55543de59372e39719d855be6730f7fd64408ade5265a2a3d405e7895 for registry.videolan.org/dav1d-debian-unstable:20260505173944 with digest registry.videolan.org/dav1d-debian-unstable@sha256:0faf7f268ee003417d7facd98d2a815c31746356d8528dc281072fdb06f88e5d ...
+2026-11-19T18:36:25.838131Z 01O $ git config --global --add safe.directory $CI_PROJECT_DIR
+2026-11-19T18:36:25.842220Z 01O $ test -d cache || mkdir cache
+2026-11-19T18:36:25.842233Z 01O $ test -d cache/dav2d-test-data.git && GIT_DIR=cache/dav2d-test-data.git git remote update
+2026-11-19T18:36:26.126427Z 01O $ test -d cache/dav2d-test-data.git || git clone --mirror https://code.videolan.org/videolan/dav2d-test-data.git cache/dav2d-test-data.git
+2026-11-19T18:36:26.126435Z 01O $ git clone cache/dav2d-test-data.git tests/dav2d-test-data
+2026-11-19T18:36:26.129259Z 01E Cloning into 'tests/dav2d-test-data'...
+2026-11-19T18:36:26.141469Z 01E done.
+2026-11-19T18:36:26.150194Z 01O $ git -C tests/dav2d-test-data describe --always --long
+2026-11-19T18:36:26.154228Z 01O 85af1c2
+2026-11-19T18:36:26.154889Z 01O $ meson setup build --buildtype debugoptimized -Dtestdata_tests=true -Dlogging=false -Db_sanitize=address
+2026-11-19T18:36:28.011085Z 01E Cloning into 'checkasm'...
+2026-11-19T18:36:28.618895Z 01E HEAD is now at 0df0253 meson: Enable -Wimplicit-fallthrough=5
+2026-11-19T18:36:29.595026Z 01O The Meson build system
+2026-11-19T18:36:29.595037Z 01O Version: 1.11.1
+2026-11-19T18:36:29.595039Z 01O Source dir: /builds/videolan/dav2d
+2026-11-19T18:36:29.595042Z 01O Build dir: /builds/videolan/dav2d/build
+2026-11-19T18:36:29.595044Z 01O Build type: native build
+2026-11-19T18:36:29.595046Z 01O Project name: dav2d
+2026-11-19T18:36:29.595046Z 01O Project version: 0.0.1
+2026-11-19T18:36:29.595048Z 01O C compiler for the host machine: cc (gcc 15.2.0 "cc (Debian 15.2.0-17) 15.2.0")
+2026-11-19T18:36:29.595049Z 01O C linker for the host machine: cc ld.bfd 2.46
+2026-11-19T18:36:29.595051Z 01O Host machine cpu family: x86_64
+2026-11-19T18:36:29.595052Z 01O Host machine cpu: x86_64
+2026-11-19T18:36:29.595053Z 01O Fetching value of define "DAV2D_API_VERSION_MAJOR" : 1
+2026-11-19T18:36:29.595054Z 01O Fetching value of define "DAV2D_API_VERSION_MINOR" : 0
+2026-11-19T18:36:29.595055Z 01O Fetching value of define "DAV2D_API_VERSION_PATCH" : 0
+2026-11-19T18:36:29.595056Z 01O Fetching value of define "__ILP32__" : (undefined)
+2026-11-19T18:36:29.595057Z 01O Run-time dependency threads found: YES
+2026-11-19T18:36:29.595058Z 01O Checking for function "clock_gettime" : YES
+2026-11-19T18:36:29.595060Z 01O Checking for function "sigaction" : YES
+2026-11-19T18:36:29.595061Z 01O Checking for function "posix_memalign" : YES
+2026-11-19T18:36:29.595062Z 01O Checking for function "memalign" : YES
+2026-11-19T18:36:29.595063Z 01O Checking for function "aligned_alloc" : YES
+2026-11-19T18:36:29.595064Z 01O Library dl found: YES
+2026-11-19T18:36:29.595065Z 01O Checking for function "dlsym" with dependency -ldl: YES
+2026-11-19T18:36:29.595116Z 01O Library m found: YES
+2026-11-19T18:36:29.595117Z 01O Check usable header "stdatomic.h" : YES
+2026-11-19T18:36:29.595118Z 01O Check usable header "sys/types.h" : YES
+2026-11-19T18:36:29.595119Z 01O Check usable header "unistd.h" : YES
+2026-11-19T18:36:29.595120Z 01O Check usable header "io.h" : NO
+2026-11-19T18:36:29.595121Z 01O Check usable header "pthread_np.h" : NO
+2026-11-19T18:36:29.595122Z 01O Checking for function "getopt_long" : YES
+2026-11-19T18:36:29.595123Z 01O Checking for function "pthread_getaffinity_np" with dependency threads: YES
+2026-11-19T18:36:29.595124Z 01O Checking for function "pthread_setaffinity_np" with dependency threads: YES
+2026-11-19T18:36:29.595126Z 01O Checking for function "pthread_setname_np" with dependency threads: YES
+2026-11-19T18:36:29.595127Z 01O Checking for function "pthread_set_name_np" with dependency threads: NO
+2026-11-19T18:36:29.595128Z 01O Checking if "_Generic" compiles: YES
+2026-11-19T18:36:29.595129Z 01O Compiler for C supports arguments -fvisibility=hidden: YES
+2026-11-19T18:36:29.595131Z 01O Compiler for C supports arguments -Wundef: YES
+2026-11-19T18:36:29.595132Z 01O Compiler for C supports arguments -Werror=vla: YES
+2026-11-19T18:36:29.595133Z 01O Compiler for C supports arguments -Wno-maybe-uninitialized: YES
+2026-11-19T18:36:29.595134Z 01O Compiler for C supports arguments -Wno-missing-field-initializers: YES
+2026-11-19T18:36:29.595135Z 01O Compiler for C supports arguments -Wno-stringop-overflow: YES
+2026-11-19T18:36:29.595137Z 01O Compiler for C supports arguments -Wno-unused-parameter: YES
+2026-11-19T18:36:29.595138Z 01O Compiler for C supports arguments -Wstrict-prototypes: YES
+2026-11-19T18:36:29.595139Z 01O Compiler for C supports arguments -Werror=missing-prototypes: YES
+2026-11-19T18:36:29.595140Z 01O Compiler for C supports arguments -Wshorten-64-to-32: NO
+2026-11-19T18:36:29.595141Z 01O Compiler for C supports arguments -fomit-frame-pointer: YES
+2026-11-19T18:36:29.595143Z 01O Compiler for C supports arguments -ffast-math: YES
+2026-11-19T18:36:29.595144Z 01O Fetching value of define "__AVX__" : (undefined)
+2026-11-19T18:36:29.595145Z 01O Program nasm found: YES (/usr/bin/nasm)
+2026-11-19T18:36:29.595146Z 01O Configuring config.asm using configuration
+2026-11-19T18:36:29.595147Z 01O Configuring config.h using configuration
+2026-11-19T18:36:29.595148Z 01O Found pkg-config: YES (/usr/bin/pkg-config) 2.5.1
+2026-11-19T18:36:29.595149Z 01O Header "xxhash.h" has symbol "XXH3_createState" : NO
+2026-11-19T18:36:29.595150Z 01O Configuring cli_config.h using configuration
+2026-11-19T18:36:29.595151Z 01O Found pkg-config: YES (/usr/bin/pkg-config) 2.5.1
+2026-11-19T18:36:29.595152Z 01O Did not find CMake 'cmake'
+2026-11-19T18:36:29.595153Z 01O Found CMake: NO
+2026-11-19T18:36:29.595154Z 01O Run-time dependency checkasm found: NO  (tried pkg-config and cmake)
+2026-11-19T18:36:29.595155Z 01O Looking for a fallback subproject for the dependency checkasm
+2026-11-19T18:36:29.595157Z 01O
+2026-11-19T18:36:29.595158Z 01O Executing subproject checkasm
+2026-11-19T18:36:29.595159Z 01O
+2026-11-19T18:36:29.595159Z 01O checkasm| Project name: checkasm
+2026-11-19T18:36:29.595160Z 01O checkasm| Project version: 1.2.0
+2026-11-19T18:36:29.595161Z 01O checkasm| C compiler for the host machine: cc (gcc 15.2.0 "cc (Debian 15.2.0-17) 15.2.0")
+2026-11-19T18:36:29.595163Z 01O checkasm| C linker for the host machine: cc ld.bfd 2.46
+2026-11-19T18:36:29.595164Z 01O checkasm| Compiler for C supports arguments -Wundef: YES (cached)
+2026-11-19T18:36:29.595165Z 01O checkasm| Compiler for C supports arguments -Werror=vla: YES (cached)
+2026-11-19T18:36:29.595166Z 01O checkasm| Compiler for C supports arguments -Wno-maybe-uninitialized: YES (cached)
+2026-11-19T18:36:29.595168Z 01O checkasm| Compiler for C supports arguments -Wno-missing-field-initializers: YES (cached)
+2026-11-19T18:36:29.595169Z 01O checkasm| Compiler for C supports arguments -Wno-unused-parameter: YES (cached)
+2026-11-19T18:36:29.595170Z 01O checkasm| Compiler for C supports arguments -Wstrict-prototypes: YES (cached)
+2026-11-19T18:36:29.595188Z 01O checkasm| Compiler for C supports arguments -Werror=missing-prototypes: YES (cached)
+2026-11-19T18:36:29.595190Z 01O checkasm| Compiler for C supports arguments -Wshorten-64-to-32: NO (cached)
+2026-11-19T18:36:29.595191Z 01O checkasm| Compiler for C supports arguments -Wtype-limits: YES
+2026-11-19T18:36:29.595192Z 01O checkasm| Compiler for C supports arguments -Wredundant-decls: YES
+2026-11-19T18:36:29.595194Z 01O checkasm| Compiler for C supports arguments -Wimplicit-fallthrough=5: YES
+2026-11-19T18:36:29.595195Z 01O checkasm| Compiler for C supports arguments -fvisibility=hidden: YES (cached)
+2026-11-19T18:36:29.595196Z 01O checkasm| Library m found: YES
+2026-11-19T18:36:29.595197Z 01O checkasm| Library rt found: YES
+2026-11-19T18:36:29.595198Z 01O checkasm| Library dl found: YES
+2026-11-19T18:36:29.595199Z 01O checkasm| Dependency threads for host machine found: YES unknown (cached)
+2026-11-19T18:36:29.595201Z 01O checkasm| Check usable header "pthread_np.h" : NO
+2026-11-19T18:36:29.595202Z 01O checkasm| Checking for function "pthread_setaffinity_np" with dependency threads: YES
+2026-11-19T18:36:29.595203Z 01O checkasm| Checking for function "clock_gettime" with dependency -lrt: YES
+2026-11-19T18:36:29.595204Z 01O checkasm| Checking for function "ioctl" : YES
+2026-11-19T18:36:29.595205Z 01O checkasm| Checking for function "isatty" : YES
+2026-11-19T18:36:29.595206Z 01O checkasm| Checking for function "prctl" : YES
+2026-11-19T18:36:29.595208Z 01O checkasm| Checking for function "sigaction" : YES
+2026-11-19T18:36:29.595209Z 01O checkasm| Checking for function "siglongjmp" : YES
+2026-11-19T18:36:29.595210Z 01O checkasm| Check usable header "stdbit.h" : YES
+2026-11-19T18:36:29.595211Z 01O checkasm| Header "linux/perf_event.h" has symbol "PERF_COUNT_HW_CPU_CYCLES" : YES
+2026-11-19T18:36:29.595212Z 01O checkasm| Fetching value of define "__AVX__" : (undefined)
+2026-11-19T18:36:29.595213Z 01O checkasm| Configuring checkasm_config_generated.h using configuration
+2026-11-19T18:36:29.595215Z 01O checkasm| Nasm compiler for the host machine: nasm (nasm 3.01)
+2026-11-19T18:36:29.595216Z 01O checkasm| Nasm linker for the host machine: cc ld.bfd 2.46
+2026-11-19T18:36:29.595217Z 01O checkasm| Configuring checkasm_config_generated.asm using configuration
+2026-11-19T18:36:29.595218Z 01O checkasm| Program doxygen skipped: feature docs disabled
+2026-11-19T18:36:29.595220Z 01O checkasm| Build targets in project: 8
+2026-11-19T18:36:29.595221Z 01O checkasm| Subproject checkasm finished.
+2026-11-19T18:36:29.595222Z 01O
+2026-11-19T18:36:29.595222Z 01O Dependency checkasm for host machine found: YES 1.2.0 (overridden)
+2026-11-19T18:36:29.595224Z 01O Compiler for C supports arguments -Werror=c11-extensions: NO
+2026-11-19T18:36:29.595225Z 01O Compiler for C supports arguments -Werror=c99-c11-compat: YES
+2026-11-19T18:36:29.595226Z 01O First supported argument: -Werror=c99-c11-compat
+2026-11-19T18:36:29.595227Z 01O Program objcopy found: YES (/usr/bin/objcopy)
+2026-11-19T18:36:29.595228Z 01O Build targets in project: 19
+2026-11-19T18:36:29.595229Z 01O
+2026-11-19T18:36:29.595230Z 01O dav2d 0.0.1
+2026-11-19T18:36:29.595231Z 01O
+2026-11-19T18:36:29.595232Z 01O   Subprojects
+2026-11-19T18:36:29.595233Z 01O     checkasm      : YES
+2026-11-19T18:36:29.595234Z 01O
+2026-11-19T18:36:29.595234Z 01O   User defined options
+2026-11-19T18:36:29.595235Z 01O     b_sanitize    : address
+2026-11-19T18:36:29.595236Z 01O     buildtype     : debugoptimized
+2026-11-19T18:36:29.595237Z 01O     logging       : false
+2026-11-19T18:36:29.595238Z 01O     testdata_tests: true
+2026-11-19T18:36:29.595239Z 01O
+2026-11-19T18:36:29.595240Z 01O Found ninja-1.13.2 at /usr/bin/ninja
+2026-11-19T18:36:29.655033Z 01O $ ninja -C build
+2026-11-19T18:36:29.657845Z 01O ninja: Entering directory `build'
+2026-11-19T18:36:29.768451Z 01O [1/144] Generating include/vcs_version.h with a custom command
+2026-11-19T18:36:29.790111Z 01O [2/144] Generating 'src/libdav2d.so.1.0.0.p/cpuid.obj'
+2026-11-19T18:36:29.819316Z 01O [3/144] Generating 'src/libdav2d.so.1.0.0.p/stx_avx512.obj'
+2026-11-19T18:36:29.839407Z 01O [4/144] Compiling C object src/libdav2d_bitdepth_8.a.p/stx_tmpl.c.o
+2026-11-19T18:36:29.840800Z 01O [5/144] Generating 'src/libdav2d.so.1.0.0.p/stx16_avx512.obj'
+2026-11-19T18:36:29.850814Z 01O [6/144] Compiling C object src/libdav2d_bitdepth_16.a.p/stx_tmpl.c.o
+2026-11-19T18:36:29.871434Z 01O [7/144] Compiling C object src/libdav2d.so.1.0.0.p/bacp.c.o
+2026-11-19T18:36:29.877184Z 01O [8/144] Generating 'src/libdav2d.so.1.0.0.p/msac.obj'
+2026-11-19T18:36:29.886288Z 01O [9/144] Generating 'src/libdav2d.so.1.0.0.p/stx_avx2.obj'
+2026-11-19T18:36:29.888255Z 01O [10/144] Compiling C object src/libdav2d_bitdepth_8.a.p/ccso_tmpl.c.o
+2026-11-19T18:36:29.893592Z 01O [11/144] Generating 'src/libdav2d.so.1.0.0.p/stx16_avx2.obj'
+2026-11-19T18:36:29.904054Z 01O [12/144] Compiling C object src/libdav2d.so.1.0.0.p/cpu.c.o
+2026-11-19T18:36:29.922238Z 01O [13/144] Generating 'src/libdav2d.so.1.0.0.p/ipred16_avx512.obj'
+2026-11-19T18:36:29.934397Z 01O [14/144] Compiling C object src/libdav2d_bitdepth_8.a.p/fg_apply_tmpl.c.o
+2026-11-19T18:36:29.935149Z 01O [15/144] Compiling C object src/libdav2d.so.1.0.0.p/ctx.c.o
+2026-11-19T18:36:29.941335Z 01O [16/144] Compiling C object src/libdav2d_bitdepth_16.a.p/ccso_tmpl.c.o
+2026-11-19T18:36:29.977059Z 01O [17/144] Compiling C object src/libdav2d.so.1.0.0.p/ibp.c.o
+2026-11-19T18:36:29.992447Z 01O [18/144] Compiling C object src/libdav2d_bitdepth_16.a.p/fg_apply_tmpl.c.o
+2026-11-19T18:36:30.043295Z 01O [19/144] Compiling C object src/libdav2d.so.1.0.0.p/log.c.o
+2026-11-19T18:36:30.064261Z 01O [20/144] Compiling C object src/libdav2d.so.1.0.0.p/gdf_tables.c.o
+2026-11-19T18:36:30.065004Z 01O [21/144] Generating 'src/libdav2d.so.1.0.0.p/pal.obj'
+2026-11-19T18:36:30.083015Z 01O [22/144] Compiling C object src/libdav2d.so.1.0.0.p/data.c.o
+2026-11-19T18:36:30.090241Z 01O [23/144] Compiling C object src/libdav2d_bitdepth_8.a.p/ipred_prepare_tmpl.c.o
+2026-11-19T18:36:30.114092Z 01O [24/144] Compiling C object src/libdav2d.so.1.0.0.p/mem.c.o
+2026-11-19T18:36:30.114554Z 01O [25/144] Compiling C object src/libdav2d.so.1.0.0.p/pal.c.o
+2026-11-19T18:36:30.115699Z 01O [26/144] Compiling C object src/libdav2d_bitdepth_8.a.p/itx_tmpl.c.o
+2026-11-19T18:36:30.134364Z 01O [27/144] Generating 'src/libdav2d.so.1.0.0.p/ipred_avx512.obj'
+2026-11-19T18:36:30.138404Z 01O [28/144] Generating 'src/libdav2d.so.1.0.0.p/ipred16_sse.obj'
+2026-11-19T18:36:30.141853Z 01O [29/144] Compiling C object src/libdav2d.so.1.0.0.p/getbits.c.o
+2026-11-19T18:36:30.142500Z 01O [30/144] Compiling C object src/libdav2d.so.1.0.0.p/itx_1d.c.o
+2026-11-19T18:36:30.145936Z 01O [31/144] Compiling C object src/libdav2d.so.1.0.0.p/scan.c.o
+2026-11-19T18:36:30.153986Z 01O [32/144] Compiling C object src/libdav2d_bitdepth_16.a.p/itx_tmpl.c.o
+2026-11-19T18:36:30.174597Z 01O [33/144] Generating 'src/libdav2d.so.1.0.0.p/cdef16_avx512.obj'
+2026-11-19T18:36:30.193203Z 01O [34/144] Compiling C object src/libdav2d_bitdepth_16.a.p/ipred_prepare_tmpl.c.o
+2026-11-19T18:36:30.198709Z 01O [35/144] Compiling C object src/libdav2d.so.1.0.0.p/tables.c.o
+2026-11-19T18:36:30.223383Z 01O [36/144] Compiling C object src/libdav2d.so.1.0.0.p/x86_cpu.c.o
+2026-11-19T18:36:30.242433Z 01O [37/144] Compiling C object src/libdav2d_bitdepth_8.a.p/cdef_tmpl.c.o
+2026-11-19T18:36:30.243408Z 01O [38/144] Compiling C object src/libdav2d.so.1.0.0.p/ref.c.o
+2026-11-19T18:36:30.258379Z 01O [39/144] Compiling C object src/libdav2d.so.1.0.0.p/wiener_tables.c.o
+2026-11-19T18:36:30.259012Z 01O [40/144] Compiling C object src/libdav2d.so.1.0.0.p/msac.c.o
+2026-11-19T18:36:30.266214Z 01O [41/144] Compiling C object src/libdav2d_bitdepth_16.a.p/cdef_tmpl.c.o
+2026-11-19T18:36:30.267348Z 01O [42/144] Compiling C object src/libdav2d.so.1.0.0.p/stx_tables.c.o
+2026-11-19T18:36:30.278671Z 01O [43/144] Compiling C object tools/libdav2d_input.a.p/input_input.c.o
+2026-11-19T18:36:30.290385Z 01O [44/144] Compiling C object tools/libdav2d_output.a.p/output_null.c.o
+2026-11-19T18:36:30.290927Z 01O [45/144] Generating 'src/libdav2d.so.1.0.0.p/cdef_avx512.obj'
+2026-11-19T18:36:30.291459Z 01O [46/144] Generating 'src/libdav2d.so.1.0.0.p/ipred_sse.obj'
+2026-11-19T18:36:30.308370Z 01O [47/144] Compiling C object src/libdav2d_bitdepth_8.a.p/deblock_tmpl.c.o
+2026-11-19T18:36:30.334147Z 01O [48/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/arm_cpu.c.o
+2026-11-19T18:36:30.344066Z 01O [49/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_macos_kperf.c.o
+2026-11-19T18:36:30.349505Z 01O [50/144] Compiling C object src/libdav2d.so.1.0.0.p/quantizer.c.o
+2026-11-19T18:36:30.360365Z 01O [51/144] Generating 'src/libdav2d.so.1.0.0.p/refmvs_temporal.obj'
+2026-11-19T18:36:30.372174Z 01O [52/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/riscv_cpu.c.o
+2026-11-19T18:36:30.377970Z 01O [53/144] Compiling C object src/libdav2d_bitdepth_16.a.p/deblock_tmpl.c.o
+2026-11-19T18:36:30.380098Z 01O [54/144] Compiling C object src/libdav2d.so.1.0.0.p/warpmv.c.o
+2026-11-19T18:36:30.390199Z 01O [55/144] Compiling C object tools/libdav2d_output.a.p/output_yuv.c.o
+2026-11-19T18:36:30.392735Z 01O [56/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_arm.c.o
+2026-11-19T18:36:30.414116Z 01O [57/144] Compiling C object tools/libdav2d_output.a.p/output_y4m2.c.o
+2026-11-19T18:36:30.418285Z 01O [58/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/cpu.c.o
+2026-11-19T18:36:30.428985Z 01O [59/144] Compiling C object tests/common.h_test.p/header_test.c.o
+2026-11-19T18:36:30.432096Z 01O [60/144] Compiling C object tools/libdav2d_input.a.p/input_section5.c.o
+2026-11-19T18:36:30.446001Z 01O [61/144] Compiling C object src/libdav2d_bitdepth_8.a.p/lr_apply_tmpl.c.o
+2026-11-19T18:36:30.452033Z 01O [62/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/signal.c.o
+2026-11-19T18:36:30.474699Z 01O [63/144] Compiling C object tools/libdav2d_output.a.p/output_output.c.o
+2026-11-19T18:36:30.475273Z 01O [64/144] Compiling C object src/libdav2d_bitdepth_8.a.p/cdef_apply_tmpl.c.o
+2026-11-19T18:36:30.476269Z 01O [65/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/stackguard.c.o
+2026-11-19T18:36:30.478043Z 01O [66/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/function.c.o
+2026-11-19T18:36:30.478207Z 01O [67/144] Compiling C object tests/version.h_test.p/header_test.c.o
+2026-11-19T18:36:30.479981Z 01O [68/144] Compiling C object tools/libdav2d_input.a.p/input_ivf.c.o
+2026-11-19T18:36:30.481163Z 01O [69/144] Compiling C object tests/data.h_test.p/header_test.c.o
+2026-11-19T18:36:30.495875Z 01O [70/144] Compiling C object tests/picture.h_test.p/header_test.c.o
+2026-11-19T18:36:30.496712Z 01O [71/144] Compiling C object tools/libdav2d_output.a.p/output_md5.c.o
+2026-11-19T18:36:30.499848Z 01O [72/144] Compiling C object tests/headers.h_test.p/header_test.c.o
+2026-11-19T18:36:30.502828Z 01O [73/144] Compiling C object tests/dav2d.h_test.p/header_test.c.o
+2026-11-19T18:36:30.504593Z 01O [74/144] Compiling C object src/libdav2d.so.1.0.0.p/picture.c.o
+2026-11-19T18:36:30.506197Z 01O [75/144] Linking static target tools/libdav2d_output.a
+2026-11-19T18:36:30.515854Z 01O [76/144] Linking static target tools/libdav2d_input.a
+2026-11-19T18:36:30.521229Z 01O [77/144] Linking target tests/common.h_test
+2026-11-19T18:36:30.524885Z 01O [78/144] Linking target tests/version.h_test
+2026-11-19T18:36:30.525317Z 01O [79/144] Generating 'src/libdav2d.so.1.0.0.p/filmgrain16_avx2.obj'
+2026-11-19T18:36:30.525703Z 01O [80/144] Compiling Nasm object subprojects/checkasm/src/libcheckasm.a.p/x86_checkasm.asm.o
+2026-11-19T18:36:30.527372Z 01O [81/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_linux.c.o
+2026-11-19T18:36:30.533844Z 01O [82/144] Linking target tests/data.h_test
+2026-11-19T18:36:30.540994Z 01O [83/144] Compiling C object src/libdav2d.so.1.0.0.p/wedge.c.o
+2026-11-19T18:36:30.541968Z 01O [84/144] Generating 'src/libdav2d.so.1.0.0.p/filmgrain_avx2.obj'
+2026-11-19T18:36:30.542286Z 01O [85/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/x86_cpu.c.o
+2026-11-19T18:36:30.549581Z 01O [86/144] Linking target tests/headers.h_test
+2026-11-19T18:36:30.551532Z 01O [87/144] Linking target tests/dav2d.h_test
+2026-11-19T18:36:30.554314Z 01O [88/144] Compiling C object src/libdav2d_bitdepth_16.a.p/lr_apply_tmpl.c.o
+2026-11-19T18:36:30.556970Z 01O [89/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/stats.c.o
+2026-11-19T18:36:30.562278Z 01O [90/144] Compiling C object src/libdav2d_bitdepth_16.a.p/cdef_apply_tmpl.c.o
+2026-11-19T18:36:30.565352Z 01O [91/144] Linking target tests/picture.h_test
+2026-11-19T18:36:30.570614Z 01O [92/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf.c.o
+2026-11-19T18:36:30.574127Z 01O [93/144] Compiling C object tests/libfuzzer/dav2d_fuzzer.p/main.c.o
+2026-11-19T18:36:30.579177Z 01O [94/144] Compiling C object tests/libfuzzer/dav2d_fuzzer_mt.p/main.c.o
+2026-11-19T18:36:30.618090Z 01O [95/144] Generating 'src/libdav2d.so.1.0.0.p/cdef16_avx2.obj'
+2026-11-19T18:36:30.629870Z 01O [96/144] Compiling C object src/libdav2d_bitdepth_8.a.p/filmgrain_tmpl.c.o
+2026-11-19T18:36:30.630049Z 01O [97/144] Compiling C object tests/libfuzzer/dav2d_fuzzer.p/dav2d_fuzzer.c.o
+2026-11-19T18:36:30.632638Z 01O [98/144] Compiling C object tools/dav2d.p/dav2d.c.o
+2026-11-19T18:36:30.634041Z 01O [99/144] Compiling C object tests/libfuzzer/dav2d_fuzzer_mt.p/dav2d_fuzzer.c.o
+2026-11-19T18:36:30.667434Z 01O [100/144] Compiling C object tools/dav2d.p/dav2d_cli_parse.c.o
+2026-11-19T18:36:30.676501Z 01O [101/144] Generating 'src/libdav2d.so.1.0.0.p/looprestoration_avx2.obj'
+2026-11-19T18:36:30.723149Z 01O [102/144] Compiling C object src/libdav2d.so.1.0.0.p/lib.c.o
+2026-11-19T18:36:30.772373Z 01O [103/144] Compiling C object src/libdav2d_bitdepth_16.a.p/filmgrain_tmpl.c.o
+2026-11-19T18:36:30.777119Z 01O [104/144] Generating 'src/libdav2d.so.1.0.0.p/filmgrain_sse.obj'
+2026-11-19T18:36:30.787457Z 01O [105/144] Generating 'src/libdav2d.so.1.0.0.p/cdef16_sse.obj'
+2026-11-19T18:36:30.812507Z 01O [106/144] Compiling C object src/libdav2d_bitdepth_8.a.p/db_apply_tmpl.c.o
+2026-11-19T18:36:30.823209Z 01O [107/144] Generating 'src/libdav2d.so.1.0.0.p/filmgrain16_sse.obj'
+2026-11-19T18:36:30.879194Z 01O [108/144] Compiling C object src/libdav2d_bitdepth_16.a.p/db_apply_tmpl.c.o
+2026-11-19T18:36:30.909252Z 01O [109/144] Compiling C object src/libdav2d.so.1.0.0.p/lf_mask.c.o
+2026-11-19T18:36:31.191638Z 01O [110/144] Generating 'src/libdav2d.so.1.0.0.p/ccso_avx2.obj'
+2026-11-19T18:36:31.197175Z 01O [111/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/checkasm.c.o
+2026-11-19T18:36:31.342061Z 01O [112/144] Generating 'src/libdav2d.so.1.0.0.p/cfl16_avx2.obj'
+2026-11-19T18:36:31.459922Z 01O [113/144] Compiling C object src/libdav2d_bitdepth_16.a.p/looprestoration_tmpl.c.o
+2026-11-19T18:36:31.468159Z 01O [114/144] Compiling C object src/libdav2d_bitdepth_8.a.p/mc_tmpl.c.o
+2026-11-19T18:36:31.472246Z 01O [115/144] Compiling C object src/libdav2d_bitdepth_8.a.p/looprestoration_tmpl.c.o
+2026-11-19T18:36:31.497446Z 01O [116/144] Generating 'src/libdav2d.so.1.0.0.p/ipred16_avx2.obj'
+2026-11-19T18:36:31.502876Z 01O [117/144] Generating 'src/libdav2d.so.1.0.0.p/refmvs.obj'
+2026-11-19T18:36:31.656602Z 01O [118/144] Compiling C object src/libdav2d_bitdepth_16.a.p/mc_tmpl.c.o
+2026-11-19T18:36:31.913553Z 01O [119/144] Compiling C object src/libdav2d_bitdepth_8.a.p/ipred_tmpl.c.o
+2026-11-19T18:36:31.974300Z 01O [120/144] Compiling C object src/libdav2d.so.1.0.0.p/thread_task.c.o
+2026-11-19T18:36:32.120316Z 01O [121/144] Compiling C object src/libdav2d_bitdepth_16.a.p/ipred_tmpl.c.o
+2026-11-19T18:36:32.124160Z 01O [122/144] Generating 'src/libdav2d.so.1.0.0.p/ipred_avx2.obj'
+2026-11-19T18:36:32.219324Z 01O [123/144] Generating 'src/libdav2d.so.1.0.0.p/wiener_avx2.obj'
+2026-11-19T18:36:32.278675Z 01O [124/144] Generating 'src/libdav2d.so.1.0.0.p/cdef_avx2.obj'
+2026-11-19T18:36:33.117630Z 01O [125/144] Generating 'src/libdav2d.so.1.0.0.p/deblock_avx2.obj'
+2026-11-19T18:36:33.340857Z 01O [126/144] Compiling C object src/libdav2d.so.1.0.0.p/obu.c.o
+2026-11-19T18:36:33.432670Z 01O [127/144] Compiling C object src/libdav2d.so.1.0.0.p/refmvs.c.o
+2026-11-19T18:36:33.440062Z 01O [128/144] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/utils.c.o
+2026-11-19T18:36:33.449751Z 01O [129/144] Linking static target subprojects/checkasm/src/libcheckasm.a
+2026-11-19T18:36:33.555193Z 01O [130/144] Generating 'src/libdav2d.so.1.0.0.p/itx16_avx2.obj'
+2026-11-19T18:36:33.988040Z 01O [131/144] Generating 'src/libdav2d.so.1.0.0.p/cdef_sse.obj'
+2026-11-19T18:36:35.311287Z 01O [132/144] Generating 'src/libdav2d.so.1.0.0.p/cfl_avx2.obj'
+2026-11-19T18:36:35.934167Z 01O [133/144] Generating 'src/libdav2d.so.1.0.0.p/mc_avx2.obj'
+2026-11-19T18:36:36.151930Z 01O [134/144] Generating 'src/libdav2d.so.1.0.0.p/mc16_avx2.obj'
+2026-11-19T18:36:36.740874Z 01O [135/144] Compiling C object src/libdav2d_bitdepth_8.a.p/recon_tmpl.c.o
+2026-11-19T18:36:36.863592Z 01O [136/144] Compiling C object src/libdav2d_bitdepth_16.a.p/recon_tmpl.c.o
+2026-11-19T18:36:39.739017Z 01O [137/144] Generating 'src/libdav2d.so.1.0.0.p/itx_avx2.obj'
+2026-11-19T18:36:40.403269Z 01O [138/144] Compiling C object src/libdav2d.so.1.0.0.p/decode.c.o
+2026-11-19T18:37:02.184980Z 01O [139/144] Compiling C object src/libdav2d.so.1.0.0.p/cdf.c.o
+2026-11-19T18:37:02.294754Z 01O [140/144] Linking target src/libdav2d.so.1.0.0
+2026-11-19T18:37:02.406227Z 01O [141/144] Generating symbol file src/libdav2d.so.1.0.0.p/libdav2d.so.1.0.0.symbols
+2026-11-19T18:37:02.445369Z 01O [142/144] Linking target tests/libfuzzer/dav2d_fuzzer_mt
+2026-11-19T18:37:02.447377Z 01O [143/144] Linking target tests/libfuzzer/dav2d_fuzzer
+2026-11-19T18:37:02.455472Z 01O [144/144] Linking target tools/dav2d
+2026-11-19T18:37:02.456879Z 01O $ cd build
+2026-11-19T18:37:02.456883Z 01O $ exit_code=0
+2026-11-19T18:37:02.456884Z 01O $ time meson test -v --setup=sanitizer --suite checkasm || exit_code=$((exit_code + $?))
+2026-11-19T18:37:02.712298Z 01O ninja: Entering directory `/builds/videolan/dav2d/build'
+2026-11-19T18:37:02.785669Z 01O [1/26] Generating include/vcs_version.h with a custom command
+2026-11-19T18:37:02.791241Z 01O [2/25] Compiling C object tests/checkasm.p/checkasm_checkasm.c.o
+2026-11-19T18:37:02.852717Z 01O [3/25] Compiling C object tests/checkasm.p/checkasm_pal.c.o
+2026-11-19T18:37:02.894195Z 01O [4/25] Compiling C object tests/checkasm.p/checkasm_bacp.c.o
+2026-11-19T18:37:02.953553Z 01O [5/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_stx.c.o
+2026-11-19T18:37:02.966657Z 01O [6/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_stx.c.o
+2026-11-19T18:37:02.978052Z 01O [7/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_cdef.c.o
+2026-11-19T18:37:03.000574Z 01O [8/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_cdef.c.o
+2026-11-19T18:37:03.061204Z 01O [9/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_ccso.c.o
+2026-11-19T18:37:03.118344Z 01O [10/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_ccso.c.o
+2026-11-19T18:37:03.121126Z 01O [11/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_itx.c.o
+2026-11-19T18:37:03.137363Z 01O [12/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_itx.c.o
+2026-11-19T18:37:03.296606Z 01O [13/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_filmgrain.c.o
+2026-11-19T18:37:03.328957Z 01O [14/25] Compiling C object tests/checkasm.p/checkasm_msac.c.o
+2026-11-19T18:37:03.369500Z 01O [15/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_filmgrain.c.o
+2026-11-19T18:37:03.467193Z 01O [16/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_deblock.c.o
+2026-11-19T18:37:03.568085Z 01O [17/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_ipred.c.o
+2026-11-19T18:37:03.571318Z 01O [18/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_deblock.c.o
+2026-11-19T18:37:03.609722Z 01O [19/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_ipred.c.o
+2026-11-19T18:37:03.694844Z 01O [20/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_looprestoration.c.o
+2026-11-19T18:37:03.730839Z 01O [21/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_looprestoration.c.o
+2026-11-19T18:37:04.352040Z 01O [22/25] Compiling C object tests/checkasm.p/checkasm_refmvs.c.o
+2026-11-19T18:37:04.470412Z 01O [23/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_mc.c.o
+2026-11-19T18:37:04.579517Z 01O [24/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_mc.c.o
+2026-11-19T18:37:04.734273Z 01O [25/25] Linking target tests/checkasm
+2026-11-19T18:37:04.738703Z 01O 1/1 checkasm - dav2d:checkasm RUNNING
+2026-11-19T18:37:04.738715Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=204 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tests/checkasm -v
+2026-11-19T18:37:04.738718Z 01O ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+2026-11-19T18:37:04.752782Z 01O checkasm:
+2026-11-19T18:37:04.752786Z 01O  - CPU: AMD EPYC 7502P 32-Core Processor (00830F10)
+2026-11-19T18:37:04.752787Z 01O  - Random seed: 501258825
+2026-11-19T18:37:04.752788Z 01O C:
+2026-11-19T18:37:04.752789Z 01O  - bacp.bacp_mask [OK]
+2026-11-19T18:37:04.767676Z 01O  - msac.decode_adapt [OK]
+2026-11-19T18:37:04.767836Z 01O  - msac.decode_bypass [OK]
+2026-11-19T18:37:04.767838Z 01O  - pal.pal_idx_finish [OK]
+2026-11-19T18:37:04.776102Z 01O  - refmvs.splat_mv    [OK]
+2026-11-19T18:37:04.778232Z 01O  - refmvs.splat_warpmv [OK]
+2026-11-19T18:37:04.779877Z 01O  - refmvs.splat_comp_warpmv [OK]
+2026-11-19T18:37:04.780305Z 01O  - refmvs.splat_comp_wedgemv [OK]
+2026-11-19T18:37:04.780818Z 01O  - refmvs.tip_projection     [OK]
+2026-11-19T18:37:04.781409Z 01O  - refmvs.tip_fill_holes     [OK]
+2026-11-19T18:37:04.782381Z 01O  - refmvs.tip_smoothen       [OK]
+2026-11-19T18:37:04.782447Z 01O  - refmvs.fill_gap_proj      [OK]
+2026-11-19T18:37:04.782585Z 01O  - refmvs.fill_gap_traj      [OK]
+2026-11-19T18:37:04.812126Z 01O  - refmvs.load_tmvs_refs     [OK]
+2026-11-19T18:37:04.812130Z 01O  - ccso_8bpc.ccso_prep_bo    [OK]
+2026-11-19T18:37:05.352242Z 01O  - ccso_8bpc.ccso_prep_clf   [OK]
+2026-11-19T18:37:05.352247Z 01O  - ccso_8bpc.ccso_add        [OK]
+2026-11-19T18:37:05.352248Z 01O  - cdef_8bpc.cdef_dir        [OK]
+2026-11-19T18:37:05.358192Z 01O  - cdef_8bpc.cdef_filter     [OK]
+2026-11-19T18:37:05.358262Z 01O  - deblock_8bpc.deblock_h_sb_y [OK]
+2026-11-19T18:37:05.358536Z 01O  - deblock_8bpc.deblock_v_sb_y [OK]
+2026-11-19T18:37:05.358540Z 01O  - deblock_8bpc.deblock_h_sb_uv [OK]
+2026-11-19T18:37:05.358541Z 01O  - deblock_8bpc.deblock_v_sb_uv [OK]
+2026-11-19T18:37:05.358601Z 01O  - deblock_8bpc.setup_thr_sb_seg_cols [OK]
+2026-11-19T18:37:05.358657Z 01O  - deblock_8bpc.setup_thr_sb_dq_cols  [OK]
+2026-11-19T18:37:05.358728Z 01O  - deblock_8bpc.setup_thr_sb_seg_rows [OK]
+2026-11-19T18:37:05.358730Z 01O  - deblock_8bpc.setup_thr_sb_dq_rows  [OK]
+2026-11-19T18:37:05.358783Z 01O  - deblock_8bpc.setup_thr_sb_simple   [OK]
+2026-11-19T18:37:05.360538Z 01O  - filmgrain_8bpc.gen_grain_y         [OK]
+2026-11-19T18:37:05.365504Z 01O  - filmgrain_8bpc.gen_grain_uv        [OK]
+2026-11-19T18:37:05.366039Z 01O  - filmgrain_8bpc.fgy_32x32xn         [OK]
+2026-11-19T18:37:05.373330Z 01O  - filmgrain_8bpc.fguv_32x32xn        [OK]
+2026-11-19T18:37:05.383959Z 01O  - ipred_8bpc.intra_pred              [OK]
+2026-11-19T18:37:05.653946Z 01O  - ipred_8bpc.cfl_explicit            [OK]
+2026-11-19T18:37:05.913536Z 01O  - ipred_8bpc.cfl_implicit            [OK]
+2026-11-19T18:37:05.916654Z 01O  - ipred_8bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:37:05.916658Z 01O  - ipred_8bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:37:05.916662Z 01O  - ipred_8bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:37:05.917465Z 01O  - ipred_8bpc.cfl_mh_pred             [OK]
+2026-11-19T18:37:05.917645Z 01O  - ipred_8bpc.pal_pred                [OK]
+2026-11-19T18:37:05.919514Z 01O  - itx_8bpc.add_tx4                   [OK]
+2026-11-19T18:37:05.927281Z 01O  - itx_8bpc.add_tx8                   [OK]
+2026-11-19T18:37:05.964892Z 01O  - itx_8bpc.add_tx16                  [OK]
+2026-11-19T18:37:06.042162Z 01O  - itx_8bpc.add_tx32                  [OK]
+2026-11-19T18:37:06.091934Z 01O  - itx_8bpc.add_tx64                  [OK]
+2026-11-19T18:37:06.091938Z 01O  - itx_8bpc.cctx                      [OK]
+2026-11-19T18:37:06.163205Z 01O  - looprestoration_8bpc.wiener        [OK]
+2026-11-19T18:37:06.203796Z 01O  - looprestoration_8bpc.gdf           [OK]
+2026-11-19T18:37:06.226089Z 01O  - mc_8bpc.mc                         [OK]
+2026-11-19T18:37:06.243160Z 01O  - mc_8bpc.mct                        [OK]
+2026-11-19T18:37:06.295931Z 01O  - mc_8bpc.mc_scaled                  [OK]
+2026-11-19T18:37:06.335827Z 01O  - mc_8bpc.mct_scaled                 [OK]
+2026-11-19T18:37:06.341371Z 01O  - mc_8bpc.avg                        [OK]
+2026-11-19T18:37:06.346519Z 01O  - mc_8bpc.w_avg                      [OK]
+2026-11-19T18:37:06.352038Z 01O  - mc_8bpc.mask                       [OK]
+2026-11-19T18:37:06.367957Z 01O  - mc_8bpc.w_mask                     [OK]
+2026-11-19T18:37:06.368402Z 01O  - mc_8bpc.blend                      [OK]
+2026-11-19T18:37:06.368407Z 01O  - mc_8bpc.warp8x8                    [OK]
+2026-11-19T18:37:06.368409Z 01O  - mc_8bpc.warp8x8t                   [OK]
+2026-11-19T18:37:06.368437Z 01O  - mc_8bpc.ext_warp4x4                [OK]
+2026-11-19T18:37:06.368439Z 01O  - mc_8bpc.ext_warp4x4t               [OK]
+2026-11-19T18:37:06.369950Z 01O  - mc_8bpc.emu_edge                   [OK]
+2026-11-19T18:37:06.370192Z 01O  - mc_8bpc.morph                      [OK]
+2026-11-19T18:37:06.370243Z 01O  - mc_8bpc.sad_refine_mv              [OK]
+2026-11-19T18:37:06.370659Z 01O  - mc_8bpc.opfl                       [OK]
+2026-11-19T18:37:06.370661Z 01O  - mc_8bpc.sad8x8                     [OK]
+2026-11-19T18:37:06.370662Z 01O  - stx_8bpc.stx4                      [OK]
+2026-11-19T18:37:06.370717Z 01O  - stx_8bpc.stx8                      [OK]
+2026-11-19T18:37:06.370885Z 01O  - ccso_16bpc.ccso_prep_bo            [OK]
+2026-11-19T18:37:06.966144Z 01O  - ccso_16bpc.ccso_prep_clf           [OK]
+2026-11-19T18:37:06.966148Z 01O  - ccso_16bpc.ccso_add                [OK]
+2026-11-19T18:37:06.966152Z 01O  - cdef_16bpc.cdef_dir                [OK]
+2026-11-19T18:37:06.972476Z 01O  - cdef_16bpc.cdef_filter             [OK]
+2026-11-19T18:37:06.972480Z 01O  - deblock_16bpc.deblock_h_sb_y       [OK]
+2026-11-19T18:37:06.972715Z 01O  - deblock_16bpc.deblock_v_sb_y       [OK]
+2026-11-19T18:37:06.972719Z 01O  - deblock_16bpc.deblock_h_sb_uv      [OK]
+2026-11-19T18:37:06.972721Z 01O  - deblock_16bpc.deblock_v_sb_uv      [OK]
+2026-11-19T18:37:06.972723Z 01O  - deblock_16bpc.setup_thr_sb_seg_cols [OK]
+2026-11-19T18:37:06.972724Z 01O  - deblock_16bpc.setup_thr_sb_dq_cols  [OK]
+2026-11-19T18:37:06.972745Z 01O  - deblock_16bpc.setup_thr_sb_seg_rows [OK]
+2026-11-19T18:37:06.972747Z 01O  - deblock_16bpc.setup_thr_sb_dq_rows  [OK]
+2026-11-19T18:37:06.972748Z 01O  - deblock_16bpc.setup_thr_sb_simple   [OK]
+2026-11-19T18:37:06.974552Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:37:06.979249Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:37:06.979680Z 01O  - filmgrain_16bpc.fgy_32x32xn         [OK]
+2026-11-19T18:37:06.982956Z 01O  - filmgrain_16bpc.fguv_32x32xn        [OK]
+2026-11-19T18:37:06.994911Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:37:07.267098Z 01O  - ipred_16bpc.cfl_explicit            [OK]
+2026-11-19T18:37:07.529871Z 01O  - ipred_16bpc.cfl_implicit            [OK]
+2026-11-19T18:37:07.533038Z 01O  - ipred_16bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:37:07.533044Z 01O  - ipred_16bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:37:07.533045Z 01O  - ipred_16bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:37:07.533697Z 01O  - ipred_16bpc.cfl_mh_pred             [OK]
+2026-11-19T18:37:07.533935Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:37:07.536447Z 01O  - itx_16bpc.add_tx4                   [OK]
+2026-11-19T18:37:07.546271Z 01O  - itx_16bpc.add_tx8                   [OK]
+2026-11-19T18:37:07.593245Z 01O  - itx_16bpc.add_tx16                  [OK]
+2026-11-19T18:37:07.691681Z 01O  - itx_16bpc.add_tx32                  [OK]
+2026-11-19T18:37:07.755207Z 01O  - itx_16bpc.add_tx64                  [OK]
+2026-11-19T18:37:07.755211Z 01O  - itx_16bpc.cctx                      [OK]
+2026-11-19T18:37:07.830314Z 01O  - looprestoration_16bpc.wiener        [OK]
+2026-11-19T18:37:07.864298Z 01O  - looprestoration_16bpc.gdf           [OK]
+2026-11-19T18:37:07.887232Z 01O  - mc_16bpc.mc                         [OK]
+2026-11-19T18:37:07.913167Z 01O  - mc_16bpc.mct                        [OK]
+2026-11-19T18:37:07.966797Z 01O  - mc_16bpc.mc_scaled                  [OK]
+2026-11-19T18:37:08.007209Z 01O  - mc_16bpc.mct_scaled                 [OK]
+2026-11-19T18:37:08.012669Z 01O  - mc_16bpc.avg                        [OK]
+2026-11-19T18:37:08.018015Z 01O  - mc_16bpc.w_avg                      [OK]
+2026-11-19T18:37:08.023270Z 01O  - mc_16bpc.mask                       [OK]
+2026-11-19T18:37:08.039815Z 01O  - mc_16bpc.w_mask                     [OK]
+2026-11-19T18:37:08.040129Z 01O  - mc_16bpc.blend                      [OK]
+2026-11-19T18:37:08.040134Z 01O  - mc_16bpc.warp8x8                    [OK]
+2026-11-19T18:37:08.040136Z 01O  - mc_16bpc.warp8x8t                   [OK]
+2026-11-19T18:37:08.040137Z 01O  - mc_16bpc.ext_warp4x4                [OK]
+2026-11-19T18:37:08.040138Z 01O  - mc_16bpc.ext_warp4x4t               [OK]
+2026-11-19T18:37:08.041737Z 01O  - mc_16bpc.emu_edge                   [OK]
+2026-11-19T18:37:08.041908Z 01O  - mc_16bpc.morph                      [OK]
+2026-11-19T18:37:08.041913Z 01O  - mc_16bpc.sad_refine_mv              [OK]
+2026-11-19T18:37:08.042472Z 01O  - mc_16bpc.opfl                       [OK]
+2026-11-19T18:37:08.042477Z 01O  - mc_16bpc.sad8x8                     [OK]
+2026-11-19T18:37:08.042483Z 01O  - stx_16bpc.stx4                      [OK]
+2026-11-19T18:37:08.042484Z 01O  - stx_16bpc.stx8                      [OK]
+2026-11-19T18:37:08.056567Z 01O SSE2:
+2026-11-19T18:37:08.056571Z 01O  - msac.decode_adapt                   [OK]
+2026-11-19T18:37:08.056573Z 01O  - msac.decode_bypass                  [OK]
+2026-11-19T18:37:08.067107Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:37:08.074803Z 01O SSSE3:
+2026-11-19T18:37:08.074807Z 01O  - pal.pal_idx_finish                  [OK]
+2026-11-19T18:37:08.080819Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:37:08.083812Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:37:08.084675Z 01O  - filmgrain_8bpc.gen_grain_y          [OK]
+2026-11-19T18:37:08.086605Z 01O  - filmgrain_8bpc.gen_grain_uv         [OK]
+2026-11-19T18:37:08.086976Z 01O  - ipred_8bpc.intra_pred               [OK]
+2026-11-19T18:37:08.088203Z 01O  - ipred_8bpc.pal_pred                 [OK]
+2026-11-19T18:37:08.090496Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:37:08.094934Z 01O  - cdef_16bpc.cdef_filter              [OK]
+2026-11-19T18:37:08.095756Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:37:08.097597Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:37:08.098020Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:37:08.099362Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:37:08.107891Z 01O SSE4.1:
+2026-11-19T18:37:08.107896Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:37:08.110916Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:37:08.114454Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:37:08.118261Z 01O AVX2:
+2026-11-19T18:37:08.118265Z 01O  - msac.decode_bypass                  [OK]
+2026-11-19T18:37:08.118266Z 01O  - pal.pal_idx_finish                  [OK]
+2026-11-19T18:37:08.125285Z 01O  - refmvs.splat_mv                     [OK]
+2026-11-19T18:37:08.127384Z 01O  - refmvs.splat_warpmv                 [OK]
+2026-11-19T18:37:08.128680Z 01O  - refmvs.splat_comp_warpmv            [OK]
+2026-11-19T18:37:08.129144Z 01O  - refmvs.splat_comp_wedgemv           [OK]
+2026-11-19T18:37:08.129681Z 01O  - refmvs.tip_projection               [OK]
+2026-11-19T18:37:08.130146Z 01O  - refmvs.tip_fill_holes               [OK]
+2026-11-19T18:37:08.130653Z 01O  - refmvs.tip_smoothen                 [OK]
+2026-11-19T18:37:08.130661Z 01O  - refmvs.fill_gap_proj                [OK]
+2026-11-19T18:37:08.130821Z 01O  - refmvs.fill_gap_traj                [OK]
+2026-11-19T18:37:08.130885Z 01O  - ccso_8bpc.ccso_prep_bo              [OK]
+2026-11-19T18:37:08.423715Z 01O  - ccso_8bpc.ccso_prep_clf             [OK]
+2026-11-19T18:37:08.423720Z 01O  - ccso_8bpc.ccso_add                  [OK]
+2026-11-19T18:37:08.423722Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:37:08.426966Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:37:08.426972Z 01O  - deblock_8bpc.deblock_h_sb_y         [OK]
+2026-11-19T18:37:08.427028Z 01O  - deblock_8bpc.deblock_v_sb_y         [OK]
+2026-11-19T18:37:08.427030Z 01O  - deblock_8bpc.deblock_h_sb_uv        [OK]
+2026-11-19T18:37:08.427034Z 01O  - deblock_8bpc.deblock_v_sb_uv        [OK]
+2026-11-19T18:37:08.427087Z 01O  - deblock_8bpc.setup_thr_sb_seg_cols  [OK]
+2026-11-19T18:37:08.427140Z 01O  - deblock_8bpc.setup_thr_sb_dq_cols   [OK]
+2026-11-19T18:37:08.427267Z 01O  - deblock_8bpc.setup_thr_sb_seg_rows  [OK]
+2026-11-19T18:37:08.427270Z 01O  - deblock_8bpc.setup_thr_sb_dq_rows   [OK]
+2026-11-19T18:37:08.427275Z 01O  - deblock_8bpc.setup_thr_sb_simple    [OK]
+2026-11-19T18:37:08.427677Z 01O  - filmgrain_8bpc.gen_grain_y          [OK]
+2026-11-19T18:37:08.428613Z 01O  - filmgrain_8bpc.gen_grain_uv         [OK]
+2026-11-19T18:37:08.430150Z 01O  - ipred_8bpc.intra_pred               [OK]
+2026-11-19T18:37:08.544079Z 01O  - ipred_8bpc.cfl_explicit             [OK]
+2026-11-19T18:37:08.652591Z 01O  - ipred_8bpc.cfl_implicit             [OK]
+2026-11-19T18:37:08.653649Z 01O  - ipred_8bpc.cfl_mh_gen_y             [OK]
+2026-11-19T18:37:08.653655Z 01O  - ipred_8bpc.cfl_mh_gen_mat           [OK]
+2026-11-19T18:37:08.653656Z 01O  - ipred_8bpc.cfl_calc_alphas          [OK]
+2026-11-19T18:37:08.654074Z 01O  - ipred_8bpc.cfl_mh_pred              [OK]
+2026-11-19T18:37:08.654079Z 01O  - ipred_8bpc.pal_pred                 [OK]
+2026-11-19T18:37:08.655809Z 01O  - itx_8bpc.add_tx4                    [OK]
+2026-11-19T18:37:08.662673Z 01O  - itx_8bpc.add_tx8                    [OK]
+2026-11-19T18:37:08.691195Z 01O  - itx_8bpc.add_tx16                   [OK]
+2026-11-19T18:37:08.745129Z 01O  - itx_8bpc.add_tx32                   [OK]
+2026-11-19T18:37:08.777002Z 01O  - itx_8bpc.add_tx64                   [OK]
+2026-11-19T18:37:08.777004Z 01O  - itx_8bpc.cctx                       [OK]
+2026-11-19T18:37:08.800993Z 01O  - looprestoration_8bpc.wiener         [OK]
+2026-11-19T18:37:08.821097Z 01O  - looprestoration_8bpc.gdf            [OK]
+2026-11-19T18:37:08.839958Z 01O  - mc_8bpc.mc                          [OK]
+2026-11-19T18:37:08.853956Z 01O  - mc_8bpc.mct                         [OK]
+2026-11-19T18:37:08.855464Z 01O  - mc_8bpc.avg                         [OK]
+2026-11-19T18:37:08.856780Z 01O  - mc_8bpc.w_avg                       [OK]
+2026-11-19T18:37:08.858295Z 01O  - mc_8bpc.mask                        [OK]
+2026-11-19T18:37:08.862907Z 01O  - mc_8bpc.w_mask                      [OK]
+2026-11-19T18:37:08.863267Z 01O  - mc_8bpc.blend                       [OK]
+2026-11-19T18:37:08.863269Z 01O  - mc_8bpc.warp8x8                     [OK]
+2026-11-19T18:37:08.863270Z 01O  - mc_8bpc.warp8x8t                    [OK]
+2026-11-19T18:37:08.863271Z 01O  - mc_8bpc.ext_warp4x4                 [OK]
+2026-11-19T18:37:08.863271Z 01O  - mc_8bpc.ext_warp4x4t                [OK]
+2026-11-19T18:37:08.864517Z 01O  - mc_8bpc.emu_edge                    [OK]
+2026-11-19T18:37:08.864799Z 01O  - mc_8bpc.morph                       [OK]
+2026-11-19T18:37:08.864800Z 01O  - mc_8bpc.sad_refine_mv               [OK]
+2026-11-19T18:37:08.865112Z 01O  - mc_8bpc.opfl                        [OK]
+2026-11-19T18:37:08.865146Z 01O  - mc_8bpc.sad8x8                      [OK]
+2026-11-19T18:37:08.865146Z 01O  - stx_8bpc.stx4                       [OK]
+2026-11-19T18:37:08.865156Z 01O  - stx_8bpc.stx8                       [OK]
+2026-11-19T18:37:08.865157Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:37:08.868472Z 01O  - cdef_16bpc.cdef_filter              [OK]
+2026-11-19T18:37:08.868760Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:37:08.869699Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:37:08.871199Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:37:08.873298Z 01O  - ipred_16bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:37:08.873300Z 01O  - ipred_16bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:37:08.873300Z 01O  - ipred_16bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:37:08.873752Z 01O  - ipred_16bpc.cfl_mh_pred             [OK]
+2026-11-19T18:37:08.873894Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:37:08.876221Z 01O  - itx_16bpc.add_tx4                   [OK]
+2026-11-19T18:37:08.884912Z 01O  - itx_16bpc.add_tx8                   [OK]
+2026-11-19T18:37:08.920515Z 01O  - itx_16bpc.add_tx16                  [OK]
+2026-11-19T18:37:08.921741Z 01O  - itx_16bpc.cctx                      [OK]
+2026-11-19T18:37:08.941859Z 01O  - mc_16bpc.mc                         [OK]
+2026-11-19T18:37:08.963868Z 01O  - mc_16bpc.mct                        [OK]
+2026-11-19T18:37:08.965583Z 01O  - mc_16bpc.avg                        [OK]
+2026-11-19T18:37:08.967107Z 01O  - mc_16bpc.w_avg                      [OK]
+2026-11-19T18:37:08.968668Z 01O  - mc_16bpc.mask                       [OK]
+2026-11-19T18:37:08.973577Z 01O  - mc_16bpc.w_mask                     [OK]
+2026-11-19T18:37:08.974110Z 01O  - mc_16bpc.blend                      [OK]
+2026-11-19T18:37:08.974111Z 01O  - mc_16bpc.warp8x8                    [OK]
+2026-11-19T18:37:08.974112Z 01O  - mc_16bpc.warp8x8t                   [OK]
+2026-11-19T18:37:08.975335Z 01O  - mc_16bpc.emu_edge                   [OK]
+2026-11-19T18:37:08.975576Z 01O  - mc_16bpc.morph                      [OK]
+2026-11-19T18:37:08.975578Z 01O  - mc_16bpc.sad_refine_mv              [OK]
+2026-11-19T18:37:08.975802Z 01O  - mc_16bpc.opfl                       [OK]
+2026-11-19T18:37:08.975803Z 01O  - mc_16bpc.sad8x8                     [OK]
+2026-11-19T18:37:08.975829Z 01O  - stx_16bpc.stx4                      [OK]
+2026-11-19T18:37:08.975830Z 01O  - stx_16bpc.stx8                      [OK]
+2026-11-19T18:37:08.975831Z 01O checkasm: all 2524 tests passed
+2026-11-19T18:37:08.987089Z 01O ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+2026-11-19T18:37:08.987094Z 01O 1/1 checkasm - dav2d:checkasm OK               4.25s
+2026-11-19T18:37:08.987095Z 01O
+2026-11-19T18:37:08.993071Z 01O
+2026-11-19T18:37:08.993072Z 01O Ok:                1
+2026-11-19T18:37:08.993073Z 01O Fail:              0
+2026-11-19T18:37:08.993074Z 01O
+2026-11-19T18:37:08.993075Z 01O Full log written to /builds/videolan/dav2d/build/meson-logs/testlog-sanitizer.txt
+2026-11-19T18:37:09.033194Z 01O $ time meson test -v --setup=sanitizer --suite testdata --test-args "--cpumask 0"    || exit_code=$((exit_code + $?))
+2026-11-19T18:37:09.033204Z 01E
+2026-11-19T18:37:09.033205Z 01E real	0m6.576s
+2026-11-19T18:37:09.033206Z 01E user	0m18.556s
+2026-11-19T18:37:09.033207Z 01E sys	0m1.399s
+2026-11-19T18:37:09.280713Z 01O ninja: Entering directory `/builds/videolan/dav2d/build'
+2026-11-19T18:37:09.358086Z 01O [1/6] Generating include/vcs_version.h with a custom command
+2026-11-19T18:37:09.367608Z 01O  1/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l10.deltaq1         RUNNING
+2026-11-19T18:37:09.367612Z 01O >>> MESON_TEST_ITERATION=1 MALLOC_PERTURB_=235 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu --verify a51faffac365722f94697051af0d9e00 --cpumask 0
+2026-11-19T18:37:09.367660Z 01O
+2026-11-19T18:37:09.375689Z 01O  2/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l1.partial_lossless RUNNING
+2026-11-19T18:37:09.375697Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=175 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu --verify 073a204edb3cd90bdf8d15d2bb4c6920 --cpumask 0
+2026-11-19T18:37:09.375701Z 01O
+2026-11-19T18:37:09.382948Z 01O  3/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l5.seg1             RUNNING
+2026-11-19T18:37:09.382953Z 01O >>> MESON_TEST_ITERATION=1 MALLOC_PERTURB_=136 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l5.seg1.obu --verify 841f3395b0836a92d5454e9bd30a3bb6 --cpumask 0
+2026-11-19T18:37:09.382957Z 01O
+2026-11-19T18:37:09.391648Z 01O  4/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp0               RUNNING
+2026-11-19T18:37:09.391653Z 01O >>> MALLOC_PERTURB_=127 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu --verify 15c9e34e1df4630094833207c5fc6a9c --cpumask 0
+2026-11-19T18:37:09.391657Z 01O
+2026-11-19T18:37:09.399680Z 01O  5/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp1               RUNNING
+2026-11-19T18:37:09.399685Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=69 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu --verify a5fc9864ff716f298b87c69107230b05 --cpumask 0
+2026-11-19T18:37:09.399689Z 01O
+2026-11-19T18:37:09.408709Z 01O  6/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.lossless           RUNNING
+2026-11-19T18:37:09.408717Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=109 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.lossless.obu --verify 1a00c22d0bc0a4f7b9dc33f5abeccd46 --cpumask 0
+2026-11-19T18:37:09.408721Z 01O
+2026-11-19T18:37:09.416465Z 01O  7/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5                    RUNNING
+2026-11-19T18:37:09.416470Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=112 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.obu --verify c7e65cb31f675f460daf745a42bf9d0e --cpumask 0
+2026-11-19T18:37:09.416528Z 01O
+2026-11-19T18:37:09.424207Z 01O  8/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0    RUNNING
+2026-11-19T18:37:09.424212Z 01O >>> MESON_TEST_ITERATION=1 MALLOC_PERTURB_=174 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu --verify ae41842a250d29146e5316a4f77271ed --cpumask 0
+2026-11-19T18:37:09.424219Z 01O
+2026-11-19T18:37:09.431211Z 01O  9/16 avm+testdata - dav2d:avm-v15.0.0-hm.64x64.l5.filmgrain           RUNNING
+2026-11-19T18:37:09.431215Z 01O >>> MALLOC_PERTURB_=43 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu --verify e4162fac59c040adfae012baa413c7d1 --cpumask 0
+2026-11-19T18:37:09.431219Z 01O
+2026-11-19T18:37:09.439122Z 01O 10/16 avm+testdata - dav2d:avm.bus.96x64.l5.qm1-cctx                   RUNNING
+2026-11-19T18:37:09.439130Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=131 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.96x64.l5.qm1-cctx.obu --verify 0e8030cc6454eb8b4b2e9b63c59e1b5e --cpumask 0
+2026-11-19T18:37:09.439134Z 01O
+2026-11-19T18:37:09.447376Z 01O 11/16 avm+testdata - dav2d:avm.bus.128x96.l5.qm1                       RUNNING
+2026-11-19T18:37:09.447389Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=144 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.128x96.l5.qm1.obu --verify d616284ea7e781699c1260474ca4a41a --cpumask 0
+2026-11-19T18:37:09.447395Z 01O
+2026-11-19T18:37:09.453291Z 01O 12/16 avm+testdata - dav2d:avm.bus.176x144.l5.opfl2                    RUNNING
+2026-11-19T18:37:09.453297Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=70 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.176x144.l5.opfl2.obu --verify f890a8cc8bdf119690d2dbb4853aeec0 --cpumask 0
+2026-11-19T18:37:09.453302Z 01O
+2026-11-19T18:37:09.459168Z 01O 13/16 avm+testdata - dav2d:avm.bus.480x144.l2.tilecols2                RUNNING
+2026-11-19T18:37:09.459173Z 01O >>> MESON_TEST_ITERATION=1 MALLOC_PERTURB_=210 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.480x144.l2.tilecols2.obu --verify 3e09b76415f2f56ba939aa349e02ecfd --cpumask 0
+2026-11-19T18:37:09.459223Z 01O
+2026-11-19T18:37:09.466898Z 01O 14/16 avm+testdata - dav2d:avm.bus.64x64.l17.qm1                       RUNNING
+2026-11-19T18:37:09.466903Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=49 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.64x64.l17.qm1.obu --verify f255f758d83f98a39a4c4b0ddd91ee8b --cpumask 0
+2026-11-19T18:37:09.466907Z 01O
+2026-11-19T18:37:09.474769Z 01O 15/16 avm+testdata - dav2d:avm.bus.128x96.l8.10bit.s4                  RUNNING
+2026-11-19T18:37:09.474774Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=240 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm-10bit/avm.bus.128x96.l8.10bit.s4.obu --verify 7ba299fb8fe54b99c4f16494dd7f86c5 --cpumask 0
+2026-11-19T18:37:09.474778Z 01O
+2026-11-19T18:37:09.482643Z 01O 16/16 avm+testdata - dav2d:avm.bus.176x144.l2.10bit.qp208              RUNNING
+2026-11-19T18:37:09.482650Z 01O >>> MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=12 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu --verify d498eb3771a7ab97284c7be929b24879 --cpumask 0
+2026-11-19T18:37:09.482654Z 01O
+2026-11-19T18:37:09.491977Z 01O  2/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l1.partial_lossless OK              0.12s
+2026-11-19T18:37:09.491989Z 01O
+2026-11-19T18:37:09.493020Z 01O  3/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l5.seg1             OK              0.11s
+2026-11-19T18:37:09.493025Z 01O
+2026-11-19T18:37:09.493958Z 01O  4/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp0               OK              0.10s
+2026-11-19T18:37:09.493964Z 01O
+2026-11-19T18:37:09.494852Z 01O  5/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp1               OK              0.10s
+2026-11-19T18:37:09.494856Z 01O
+2026-11-19T18:37:09.495715Z 01O  6/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.lossless           OK              0.09s
+2026-11-19T18:37:09.495719Z 01O
+2026-11-19T18:37:09.496571Z 01O  7/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5                    OK              0.08s
+2026-11-19T18:37:09.496576Z 01O
+2026-11-19T18:37:09.497432Z 01O  8/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0    OK              0.07s
+2026-11-19T18:37:09.497436Z 01O
+2026-11-19T18:37:09.498338Z 01O  9/16 avm+testdata - dav2d:avm-v15.0.0-hm.64x64.l5.filmgrain           OK              0.07s
+2026-11-19T18:37:09.498343Z 01O
+2026-11-19T18:37:09.498960Z 01O 10/16 avm+testdata - dav2d:avm.bus.96x64.l5.qm1-cctx                   OK              0.06s
+2026-11-19T18:37:09.498964Z 01O
+2026-11-19T18:37:09.499597Z 01O 11/16 avm+testdata - dav2d:avm.bus.128x96.l5.qm1                       OK              0.05s
+2026-11-19T18:37:09.499601Z 01O
+2026-11-19T18:37:09.518014Z 01O 14/16 avm+testdata - dav2d:avm.bus.64x64.l17.qm1                       OK              0.05s
+2026-11-19T18:37:09.518023Z 01O
+2026-11-19T18:37:09.523636Z 01O 16/16 avm+testdata - dav2d:avm.bus.176x144.l2.10bit.qp208              OK              0.04s
+2026-11-19T18:37:09.523641Z 01O
+2026-11-19T18:37:09.528171Z 01O 12/16 avm+testdata - dav2d:avm.bus.176x144.l5.opfl2                    OK              0.08s
+2026-11-19T18:37:09.528220Z 01O
+2026-11-19T18:37:09.529996Z 01O 15/16 avm+testdata - dav2d:avm.bus.128x96.l8.10bit.s4                  OK              0.06s
+2026-11-19T18:37:09.530000Z 01O
+2026-11-19T18:37:09.532176Z 01O 13/16 avm+testdata - dav2d:avm.bus.480x144.l2.tilecols2                OK              0.07s
+2026-11-19T18:37:09.532181Z 01O
+2026-11-19T18:37:09.743474Z 01O  1/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l10.deltaq1         OK              0.38s
+2026-11-19T18:37:09.743480Z 01O
+2026-11-19T18:37:09.751848Z 01O
+2026-11-19T18:37:09.751851Z 01O Ok:                16
+2026-11-19T18:37:09.751853Z 01O Fail:              0
+2026-11-19T18:37:09.751854Z 01O
+2026-11-19T18:37:09.751855Z 01O Full log written to /builds/videolan/dav2d/build/meson-logs/testlog-sanitizer.txt
+2026-11-19T18:37:09.794086Z 01O $ time meson test -v --setup=sanitizer --suite testdata --test-args "--cpumask 0xff" || exit_code=$((exit_code + $?))
+2026-11-19T18:37:09.794101Z 01E
+2026-11-19T18:37:09.794102Z 01E real	0m0.761s
+2026-11-19T18:37:09.794104Z 01E user	0m1.120s
+2026-11-19T18:37:09.794104Z 01E sys	0m0.421s
+2026-11-19T18:37:10.038328Z 01O ninja: Entering directory `/builds/videolan/dav2d/build'
+2026-11-19T18:37:10.115982Z 01O [1/6] Generating include/vcs_version.h with a custom command
+2026-11-19T18:37:10.125724Z 01O  1/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l10.deltaq1         RUNNING
+2026-11-19T18:37:10.125727Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=134 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu --verify a51faffac365722f94697051af0d9e00 --cpumask 0xff
+2026-11-19T18:37:10.125733Z 01O
+2026-11-19T18:37:10.133139Z 01O  2/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l1.partial_lossless RUNNING
+2026-11-19T18:37:10.133151Z 01O >>> MALLOC_PERTURB_=236 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu --verify 073a204edb3cd90bdf8d15d2bb4c6920 --cpumask 0xff
+2026-11-19T18:37:10.133157Z 01O
+2026-11-19T18:37:10.140638Z 01O  3/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l5.seg1             RUNNING
+2026-11-19T18:37:10.140647Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=196 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.352x288.l5.seg1.obu --verify 841f3395b0836a92d5454e9bd30a3bb6 --cpumask 0xff
+2026-11-19T18:37:10.140652Z 01O
+2026-11-19T18:37:10.148439Z 01O  4/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp0               RUNNING
+2026-11-19T18:37:10.148445Z 01O >>> MALLOC_PERTURB_=115 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu --verify 15c9e34e1df4630094833207c5fc6a9c --cpumask 0xff
+2026-11-19T18:37:10.148452Z 01O
+2026-11-19T18:37:10.157006Z 01O  5/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp1               RUNNING
+2026-11-19T18:37:10.157077Z 01O >>> MALLOC_PERTURB_=125 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu --verify a5fc9864ff716f298b87c69107230b05 --cpumask 0xff
+2026-11-19T18:37:10.157081Z 01O
+2026-11-19T18:37:10.165171Z 01O  6/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.lossless           RUNNING
+2026-11-19T18:37:10.165177Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=127 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.lossless.obu --verify 1a00c22d0bc0a4f7b9dc33f5abeccd46 --cpumask 0xff
+2026-11-19T18:37:10.165182Z 01O
+2026-11-19T18:37:10.172190Z 01O  7/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5                    RUNNING
+2026-11-19T18:37:10.172196Z 01O >>> MALLOC_PERTURB_=52 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.obu --verify c7e65cb31f675f460daf745a42bf9d0e --cpumask 0xff
+2026-11-19T18:37:10.172200Z 01O
+2026-11-19T18:37:10.179197Z 01O  8/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0    RUNNING
+2026-11-19T18:37:10.179202Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=64 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu --verify ae41842a250d29146e5316a4f77271ed --cpumask 0xff
+2026-11-19T18:37:10.179204Z 01O
+2026-11-19T18:37:10.187875Z 01O  9/16 avm+testdata - dav2d:avm-v15.0.0-hm.64x64.l5.filmgrain           RUNNING
+2026-11-19T18:37:10.187886Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=41 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu --verify e4162fac59c040adfae012baa413c7d1 --cpumask 0xff
+2026-11-19T18:37:10.187891Z 01O
+2026-11-19T18:37:10.196066Z 01O 10/16 avm+testdata - dav2d:avm.bus.96x64.l5.qm1-cctx                   RUNNING
+2026-11-19T18:37:10.196072Z 01O >>> MALLOC_PERTURB_=179 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.96x64.l5.qm1-cctx.obu --verify 0e8030cc6454eb8b4b2e9b63c59e1b5e --cpumask 0xff
+2026-11-19T18:37:10.196078Z 01O
+2026-11-19T18:37:10.203876Z 01O 11/16 avm+testdata - dav2d:avm.bus.128x96.l5.qm1                       RUNNING
+2026-11-19T18:37:10.203881Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=242 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.128x96.l5.qm1.obu --verify d616284ea7e781699c1260474ca4a41a --cpumask 0xff
+2026-11-19T18:37:10.203950Z 01O
+2026-11-19T18:37:10.211270Z 01O 12/16 avm+testdata - dav2d:avm.bus.176x144.l5.opfl2                    RUNNING
+2026-11-19T18:37:10.211276Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=85 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.176x144.l5.opfl2.obu --verify f890a8cc8bdf119690d2dbb4853aeec0 --cpumask 0xff
+2026-11-19T18:37:10.211282Z 01O
+2026-11-19T18:37:10.219910Z 01O 13/16 avm+testdata - dav2d:avm.bus.480x144.l2.tilecols2                RUNNING
+2026-11-19T18:37:10.219915Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=162 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.480x144.l2.tilecols2.obu --verify 3e09b76415f2f56ba939aa349e02ecfd --cpumask 0xff
+2026-11-19T18:37:10.219922Z 01O
+2026-11-19T18:37:10.225678Z 01O 14/16 avm+testdata - dav2d:avm.bus.64x64.l17.qm1                       RUNNING
+2026-11-19T18:37:10.225683Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=119 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm/avm.bus.64x64.l17.qm1.obu --verify f255f758d83f98a39a4c4b0ddd91ee8b --cpumask 0xff
+2026-11-19T18:37:10.225690Z 01O
+2026-11-19T18:37:10.233809Z 01O 15/16 avm+testdata - dav2d:avm.bus.128x96.l8.10bit.s4                  RUNNING
+2026-11-19T18:37:10.233815Z 01O >>> LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MALLOC_PERTURB_=13 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm-10bit/avm.bus.128x96.l8.10bit.s4.obu --verify 7ba299fb8fe54b99c4f16494dd7f86c5 --cpumask 0xff
+2026-11-19T18:37:10.233821Z 01O
+2026-11-19T18:37:10.242007Z 01O 16/16 avm+testdata - dav2d:avm.bus.176x144.l2.10bit.qp208              RUNNING
+2026-11-19T18:37:10.242012Z 01O >>> MALLOC_PERTURB_=2 LD_LIBRARY_PATH=/builds/videolan/dav2d/build/src MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 /builds/videolan/dav2d/build/tools/dav2d -q --threads 1 --filmgrain=1 -i /builds/videolan/dav2d/build/../tests/dav2d-test-data/avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu --verify d498eb3771a7ab97284c7be929b24879 --cpumask 0xff
+2026-11-19T18:37:10.242018Z 01O
+2026-11-19T18:37:10.251070Z 01O  1/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l10.deltaq1         OK              0.13s
+2026-11-19T18:37:10.251075Z 01O
+2026-11-19T18:37:10.252128Z 01O  2/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l1.partial_lossless OK              0.12s
+2026-11-19T18:37:10.252133Z 01O
+2026-11-19T18:37:10.252951Z 01O  3/16 avm+testdata - dav2d:avm-v15.0.0-bus.352x288.l5.seg1             OK              0.11s
+2026-11-19T18:37:10.252991Z 01O
+2026-11-19T18:37:10.253785Z 01O  4/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp0               OK              0.11s
+2026-11-19T18:37:10.253790Z 01O
+2026-11-19T18:37:10.254585Z 01O  5/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l1.sdp1               OK              0.10s
+2026-11-19T18:37:10.254589Z 01O
+2026-11-19T18:37:10.255374Z 01O  6/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.lossless           OK              0.09s
+2026-11-19T18:37:10.255379Z 01O
+2026-11-19T18:37:10.256237Z 01O  7/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5                    OK              0.08s
+2026-11-19T18:37:10.256241Z 01O
+2026-11-19T18:37:10.257026Z 01O  8/16 avm+testdata - dav2d:avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0    OK              0.08s
+2026-11-19T18:37:10.257030Z 01O
+2026-11-19T18:37:10.257859Z 01O  9/16 avm+testdata - dav2d:avm-v15.0.0-hm.64x64.l5.filmgrain           OK              0.07s
+2026-11-19T18:37:10.257863Z 01O
+2026-11-19T18:37:10.258640Z 01O 10/16 avm+testdata - dav2d:avm.bus.96x64.l5.qm1-cctx                   OK              0.06s
+2026-11-19T18:37:10.258645Z 01O
+2026-11-19T18:37:10.259452Z 01O 11/16 avm+testdata - dav2d:avm.bus.128x96.l5.qm1                       OK              0.06s
+2026-11-19T18:37:10.259457Z 01O
+2026-11-19T18:37:10.260256Z 01O 13/16 avm+testdata - dav2d:avm.bus.480x144.l2.tilecols2                OK              0.04s
+2026-11-19T18:37:10.260261Z 01O
+2026-11-19T18:37:10.261270Z 01O 12/16 avm+testdata - dav2d:avm.bus.176x144.l5.opfl2                    OK              0.05s
+2026-11-19T18:37:10.261275Z 01O
+2026-11-19T18:37:10.262298Z 01O 14/16 avm+testdata - dav2d:avm.bus.64x64.l17.qm1                       OK              0.04s
+2026-11-19T18:37:10.262303Z 01O
+2026-11-19T18:37:10.279378Z 01O 16/16 avm+testdata - dav2d:avm.bus.176x144.l2.10bit.qp208              OK              0.04s
+2026-11-19T18:37:10.279383Z 01O
+2026-11-19T18:37:10.280788Z 01O 15/16 avm+testdata - dav2d:avm.bus.128x96.l8.10bit.s4                  OK              0.05s
+2026-11-19T18:37:10.280793Z 01O
+2026-11-19T18:37:10.291679Z 01O
+2026-11-19T18:37:10.291684Z 01O Ok:                16
+2026-11-19T18:37:10.291685Z 01O Fail:              0
+2026-11-19T18:37:10.291687Z 01O
+2026-11-19T18:37:10.291688Z 01O Full log written to /builds/videolan/dav2d/build/meson-logs/testlog-sanitizer.txt
+2026-11-19T18:37:10.334863Z 01O $ if [ $exit_code -ne 0 ]; then exit $exit_code; fi
+2026-11-19T18:37:10.334878Z 01E
+2026-11-19T18:37:10.334880Z 01E real	0m0.541s
+2026-11-19T18:37:10.334882Z 01E user	0m0.592s
+2026-11-19T18:37:10.334883Z 01E sys	0m0.406s
+2026-11-19T18:37:13.710458Z 00O section_end:1795113433:step_script
+2026-11-19T18:37:13.711228Z 00O+section_start:1795113433:archive_cache
+2026-11-19T18:37:13.711238Z 00O+Saving cache for successful job
+2026-11-19T18:37:14.058337Z 01O Creating cache testdata.git-20260605-protected...
+2026-11-19T18:37:14.127993Z 01E cache/dav2d-test-data.git/: found 32 matching artifact files and directories
+2026-11-19T18:37:14.144463Z 01E No URL provided, cache will not be uploaded to shared cache server. Cache will be stored only locally.
+2026-11-19T18:37:14.148987Z 01O Created cache
+2026-11-19T18:37:14.453543Z 00O section_end:1795113434:archive_cache
+2026-11-19T18:37:14.454136Z 00O+section_start:1795113434:upload_artifacts_on_success
+2026-11-19T18:37:14.454147Z 00O+Uploading artifacts for successful job
+2026-11-19T18:37:14.818315Z 01O Uploading artifacts...
+2026-11-19T18:37:14.880858Z 01E WARNING: build/meson-logs/testlog.junit.xml: no matching files. Ensure that the artifact path is relative to the working directory (/builds/videolan/dav2d)
+2026-11-19T18:37:14.880871Z 01E ERROR: No files to upload
+2026-11-19T18:37:15.137104Z 00O section_end:1795113435:upload_artifacts_on_success
+2026-11-19T18:37:15.137699Z 00O+section_start:1795113435:cleanup_file_variables
+2026-11-19T18:37:15.137708Z 00O+Cleaning up project directory and file based variables
+2026-11-19T18:37:15.749267Z 00O section_end:1795113435:cleanup_file_variables
+2026-11-19T18:37:15.759179Z 00O Job succeeded

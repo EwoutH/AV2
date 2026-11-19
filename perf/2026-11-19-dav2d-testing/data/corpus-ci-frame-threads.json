@@ -1,0 +1,170 @@
+{
+  "ref": "ci-frame-threads",
+  "sha": "5213d1c1835d19afc790faa34a3f0d4411f2ad93",
+  "streams": 16,
+  "bytes": 94058,
+  "hit_guards": 8843,
+  "total_guards": 19423,
+  "samples": [
+    {
+      "name": "avm-v15.0.0-bus.352x288.l10.deltaq1",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu",
+      "md5": "a51faffac365722f94697051af0d9e00",
+      "sha256": "01aa3993aa410d529f9c72736f692e0abba9d1f45f7243c2e8eda0989994d85a",
+      "size": 852,
+      "edges": 4582,
+      "guards": 19423,
+      "seconds": 0.21576597401872277
+    },
+    {
+      "name": "avm-v15.0.0-bus.352x288.l1.partial_lossless",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu",
+      "md5": "073a204edb3cd90bdf8d15d2bb4c6920",
+      "sha256": "17bd22d7a1ee7e221281e33d7569564ea8d5b050f61a317e2e621003300ed8f5",
+      "size": 5250,
+      "edges": 3230,
+      "guards": 19423,
+      "seconds": 0.043262769002467394
+    },
+    {
+      "name": "avm-v15.0.0-bus.352x288.l5.seg1",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l5.seg1.obu",
+      "md5": "841f3395b0836a92d5454e9bd30a3bb6",
+      "sha256": "6794853123bc026d3972ac87ea841bd71b58ef57c601fcc58b4bb41a5e221b64",
+      "size": 324,
+      "edges": 3411,
+      "guards": 19423,
+      "seconds": 0.04960105801001191
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l1.sdp0",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu",
+      "md5": "15c9e34e1df4630094833207c5fc6a9c",
+      "sha256": "2b7a969b8d6a7601552a4a20023f1465229be12ae8005d8a5d3708757fb6714d",
+      "size": 1643,
+      "edges": 2148,
+      "guards": 19423,
+      "seconds": 0.012413998832926154
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l1.sdp1",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu",
+      "md5": "a5fc9864ff716f298b87c69107230b05",
+      "sha256": "ec17e09c44c2827eeaa0fa2842a049ad8e877cef78eec55fd08aa2d4b791f687",
+      "size": 1628,
+      "edges": 2082,
+      "guards": 19423,
+      "seconds": 0.012968230992555618
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5.lossless",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.lossless.obu",
+      "md5": "1a00c22d0bc0a4f7b9dc33f5abeccd46",
+      "sha256": "745957fa4046ab69ec06c60a35fdc44e6fd092d3109f318edfaf18a11c758d66",
+      "size": 13623,
+      "edges": 3726,
+      "guards": 19423,
+      "seconds": 0.01576668513007462
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.obu",
+      "md5": "c7e65cb31f675f460daf745a42bf9d0e",
+      "sha256": "e1f76370667214c0b8953a060ed0c71ddf383055968326a133badf429ee33a71",
+      "size": 2446,
+      "edges": 4425,
+      "guards": 19423,
+      "seconds": 0.01683333795517683
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu",
+      "md5": "ae41842a250d29146e5316a4f77271ed",
+      "sha256": "17a2259a035969be8eb129588deb1432f92f212b26278284e5dae303e52ce19e",
+      "size": 2429,
+      "edges": 4238,
+      "guards": 19423,
+      "seconds": 0.015406940132379532
+    },
+    {
+      "name": "avm-v15.0.0-hm.64x64.l5.filmgrain",
+      "filename": "avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu",
+      "md5": "e4162fac59c040adfae012baa413c7d1",
+      "sha256": "3346ccfc9f3ac3e437c4f56cc7dc0549bd91f995f94ee6d07772ba3bc2ef2386",
+      "size": 1637,
+      "edges": 3058,
+      "guards": 19423,
+      "seconds": 0.01412705797702074
+    },
+    {
+      "name": "avm.bus.96x64.l5.qm1-cctx",
+      "filename": "avm/avm.bus.96x64.l5.qm1-cctx.obu",
+      "md5": "0e8030cc6454eb8b4b2e9b63c59e1b5e",
+      "sha256": "98cb30d350d66c8c4011bebfaf91c42245c37a6fa089e4c9e9359a0a789e51e3",
+      "size": 4767,
+      "edges": 3982,
+      "guards": 19423,
+      "seconds": 0.016612206818535924
+    },
+    {
+      "name": "avm.bus.128x96.l5.qm1",
+      "filename": "avm/avm.bus.128x96.l5.qm1.obu",
+      "md5": "d616284ea7e781699c1260474ca4a41a",
+      "sha256": "8a1311ddbff4c1f4139ce2ef025503dc46066e7df662bcfb17b80f27e4ddff95",
+      "size": 8873,
+      "edges": 4595,
+      "guards": 19423,
+      "seconds": 0.023940032813698053
+    },
+    {
+      "name": "avm.bus.176x144.l5.opfl2",
+      "filename": "avm/avm.bus.176x144.l5.opfl2.obu",
+      "md5": "f890a8cc8bdf119690d2dbb4853aeec0",
+      "sha256": "8b847d4db49e89c21ba4e13f6882ad364402a0b0f483af44efceeaaddf9fa15a",
+      "size": 4007,
+      "edges": 4628,
+      "guards": 19423,
+      "seconds": 0.03880805894732475
+    },
+    {
+      "name": "avm.bus.480x144.l2.tilecols2",
+      "filename": "avm/avm.bus.480x144.l2.tilecols2.obu",
+      "md5": "3e09b76415f2f56ba939aa349e02ecfd",
+      "sha256": "9a29a0bfc763ee3d3377138449189605f2addd89608c39e0802e65c091ae76b4",
+      "size": 2051,
+      "edges": 3644,
+      "guards": 19423,
+      "seconds": 0.03835942503064871
+    },
+    {
+      "name": "avm.bus.64x64.l17.qm1",
+      "filename": "avm/avm.bus.64x64.l17.qm1.obu",
+      "md5": "f255f758d83f98a39a4c4b0ddd91ee8b",
+      "sha256": "2e0ec3e67da161dd3295d5dc1640442352a79c478328bbaa23cf388aa14e899e",
+      "size": 1753,
+      "edges": 4812,
+      "guards": 19423,
+      "seconds": 0.024511052994057536
+    },
+    {
+      "name": "avm.bus.128x96.l8.10bit.s4",
+      "filename": "avm-10bit/avm.bus.128x96.l8.10bit.s4.obu",
+      "md5": "7ba299fb8fe54b99c4f16494dd7f86c5",
+      "sha256": "3e7dbb0c01ec68a8bc20aa285ce3209005ba3e79e173a8a93008035841f96dde",
+      "size": 41650,
+      "edges": 4172,
+      "guards": 19423,
+      "seconds": 0.03322677896358073
+    },
+    {
+      "name": "avm.bus.176x144.l2.10bit.qp208",
+      "filename": "avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu",
+      "md5": "d498eb3771a7ab97284c7be929b24879",
+      "sha256": "bc40e778ec24e452dc35f66fc449d95f8705ff612390bf1b45e35fac41ad2c78",
+      "size": 1125,
+      "edges": 3311,
+      "guards": 19423,
+      "seconds": 0.024596633855253458
+    }
+  ]
+}

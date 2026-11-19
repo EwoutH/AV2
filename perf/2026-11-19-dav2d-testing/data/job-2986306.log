@@ -1,0 +1,543 @@
+2026-11-19T18:47:26.166434Z 00O Running with gitlab-runner 19.5.3 (33227fd4)
+2026-11-19T18:47:26.166448Z 00O   on pushkin 9iu44w_BN, system ID: s_329201f7479a
+2026-11-19T18:47:26.166450Z 00O   UUID: 01a1d33a-607a-7eb2-9429-784e71fb8c4c
+2026-11-19T18:47:26.166484Z 00O section_start:1795114046:prepare_executor
+2026-11-19T18:47:26.166487Z 00O+Preparing the "docker" executor
+2026-11-19T18:47:26.183859Z 00O Using Docker executor with image registry.videolan.org/vlc-debian-unstable:20260908103441 ...
+2026-11-19T18:47:27.231623Z 00O Using effective pull policy of [always] for container registry.videolan.org/vlc-debian-unstable:20260908103441
+2026-11-19T18:47:27.244439Z 00O Pulling docker image registry.videolan.org/vlc-debian-unstable:20260908103441 ...
+2026-11-19T18:47:27.382083Z 00O Using docker image sha256:c3e437ff6b51a0f88a50762443cce6be9f4d839231f566543a2a3407302ea130 for registry.videolan.org/vlc-debian-unstable:20260908103441 with digest registry.videolan.org/vlc-debian-unstable@sha256:c3e437ff6b51a0f88a50762443cce6be9f4d839231f566543a2a3407302ea130 ...
+2026-11-19T18:47:27.382106Z 00O section_end:1795114047:prepare_executor
+2026-11-19T18:47:27.382323Z 00O+section_start:1795114047:prepare_script
+2026-11-19T18:47:27.382331Z 00O+Preparing environment
+2026-11-19T18:47:27.395363Z 00O Using effective pull policy of [always] for container sha256:14372d66430b654b3368a48ce3d8530f7a689d5a05adccff7376451f3749b0fc
+2026-11-19T18:47:27.635846Z 01O Running on runner-9iu44wbn-project-5491-concurrent-0 via pushkin...
+2026-11-19T18:47:27.641291Z 01O Running on CPU: AMD EPYC 7502P 32-Core Processor (avx, avx2)
+2026-11-19T18:47:27.875580Z 00O section_end:1795114047:prepare_script
+2026-11-19T18:47:27.876138Z 00O+section_start:1795114047:get_sources
+2026-11-19T18:47:27.876142Z 00O+Getting source from Git repository
+2026-11-19T18:47:28.179344Z 01O Gitaly correlation ID: 01M7TJ5453CWNEVA81AA6QN76P
+2026-11-19T18:47:28.187716Z 01O Fetching changes with git depth set to 20...
+2026-11-19T18:47:28.192514Z 01O Reinitialized existing Git repository in /builds/EwoutH/dav2d-test-data/.git/
+2026-11-19T18:47:28.195097Z 01O Created fresh repository.
+2026-11-19T18:47:28.590595Z 01O Checking out 074f8dbe as detached HEAD (ref is add-coverage-samples)...
+2026-11-19T18:47:28.639004Z 01O Removing avm-build/
+2026-11-19T18:47:28.778773Z 01O Removing avm-src/
+2026-11-19T18:47:28.778781Z 01O Removing expected.txt
+2026-11-19T18:47:28.839512Z 01O
+2026-11-19T18:47:28.839517Z 01O Skipping Git submodules setup
+2026-11-19T18:47:29.064266Z 00O section_end:1795114049:get_sources
+2026-11-19T18:47:29.065979Z 00O+section_start:1795114049:step_script
+2026-11-19T18:47:29.065990Z 00O+Executing "step_script" stage of the job script
+2026-11-19T18:47:29.066004Z 00O Using effective pull policy of [always] for container registry.videolan.org/vlc-debian-unstable:20260908103441
+2026-11-19T18:47:29.080861Z 00O Using docker image sha256:c3e437ff6b51a0f88a50762443cce6be9f4d839231f566543a2a3407302ea130 for registry.videolan.org/vlc-debian-unstable:20260908103441 with digest registry.videolan.org/vlc-debian-unstable@sha256:c3e437ff6b51a0f88a50762443cce6be9f4d839231f566543a2a3407302ea130 ...
+2026-11-19T18:47:29.333081Z 01O $ git config --global --add safe.directory $CI_PROJECT_DIR
+2026-11-19T18:47:29.335060Z 01O $ git clone -b "$AVM_REF" --depth 1 https://github.com/AOMediaCodec/avm avm-src
+2026-11-19T18:47:29.336611Z 01E Cloning into 'avm-src'...
+2026-11-19T18:47:35.376388Z 01O $ git -C avm-src log -1 --format='%H %s'
+2026-11-19T18:47:35.380517Z 01O 14f43e4cd8e1dcfcbb709bcf6e08001a5f188845 Check the requirement on is_first_tile_group (#5143) (#5171)
+2026-11-19T18:47:35.380802Z 01O $ cmake -S avm-src -B avm-build -DAVM_TARGET_CPU=x86_64 -DENABLE_TESTS=0 -DCONFIG_AV2_ENCODER=0 -DCONFIG_TESTONLY_12BIT_SUPPORT=1
+2026-11-19T18:47:35.475127Z 01O -- The C compiler identification is GNU 16.2.0
+2026-11-19T18:47:35.556271Z 01O -- The CXX compiler identification is GNU 16.2.0
+2026-11-19T18:47:35.578150Z 01O -- The ASM compiler identification is GNU
+2026-11-19T18:47:35.579435Z 01O -- Found assembler: /usr/bin/cc
+2026-11-19T18:47:35.584958Z 01O -- Detecting C compiler ABI info
+2026-11-19T18:47:35.690609Z 01O -- Detecting C compiler ABI info - done
+2026-11-19T18:47:35.726544Z 01O -- Check for working C compiler: /usr/bin/cc - skipped
+2026-11-19T18:47:35.726706Z 01O -- Detecting C compile features
+2026-11-19T18:47:35.727804Z 01O -- Detecting C compile features - done
+2026-11-19T18:47:35.755750Z 01O -- Detecting CXX compiler ABI info
+2026-11-19T18:47:35.869449Z 01O -- Detecting CXX compiler ABI info - done
+2026-11-19T18:47:35.887684Z 01O -- Check for working CXX compiler: /usr/bin/c++ - skipped
+2026-11-19T18:47:35.887988Z 01O -- Detecting CXX compile features
+2026-11-19T18:47:35.888630Z 01O -- Detecting CXX compile features - done
+2026-11-19T18:47:35.910690Z 01O -- Found Git: /usr/bin/git (found version "2.55.0")
+2026-11-19T18:47:35.921026Z 01O -- Found Perl: /usr/bin/perl (found version "5.42.3")
+2026-11-19T18:47:35.922023Z 01O -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+2026-11-19T18:47:36.027039Z 01O -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+2026-11-19T18:47:36.028285Z 01O -- Found Threads: TRUE
+2026-11-19T18:47:36.039727Z 01E --- avm_configure: Detected CPU: x86_64
+2026-11-19T18:47:36.103461Z 01O -- The ASM_NASM compiler identification is YASM
+2026-11-19T18:47:36.105921Z 01O -- Found assembler: /usr/bin/yasm
+2026-11-19T18:47:36.108926Z 01E CMake Warning at cmake/util.cmake:60 (message):
+2026-11-19T18:47:36.108927Z 01E   --- Enabled CONFIG_TENSORFLOW_LITE, required for CONFIG_ML_PART_SPLIT.
+2026-11-19T18:47:36.108928Z 01E Call Stack (most recent call first):
+2026-11-19T18:47:36.108929Z 01E   cmake/avm_experiment_deps.cmake:46 (change_config_and_warn)
+2026-11-19T18:47:36.108930Z 01E   cmake/avm_configure.cmake:226 (fix_experiment_configs)
+2026-11-19T18:47:36.108930Z 01E   CMakeLists.txt:77 (include)
+2026-11-19T18:47:36.108931Z 01E
+2026-11-19T18:47:36.108931Z 01E
+2026-11-19T18:47:36.109010Z 01E Running C compiler test: inline_check_1
+2026-11-19T18:47:36.109257Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:47:36.211400Z 01E Running CXX compiler test: inline_check_1
+2026-11-19T18:47:36.211410Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:47:36.211412Z 01O -- Performing Test CXX_TEST_COMPILED
+2026-11-19T18:47:36.316899Z 01O -- Performing Test CXX_TEST_COMPILED - Success
+2026-11-19T18:47:36.317308Z 01E Running C compiler test: unistd_check
+2026-11-19T18:47:36.317427Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:47:36.426225Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:47:36.426248Z 01E Running CXX compiler test: unistd_check
+2026-11-19T18:47:36.426313Z 01O -- Performing Test CXX_TEST_COMPILED
+2026-11-19T18:47:36.535585Z 01O -- Performing Test CXX_TEST_COMPILED - Success
+2026-11-19T18:47:36.535599Z 01E Running C compiler test: fenv_check
+2026-11-19T18:47:36.535708Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:47:36.651036Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:47:36.651994Z 01E Checking C compiler flag support for: -std=c11
+2026-11-19T18:47:36.653720Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:36.763225Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:36.763360Z 01E Checking C compiler flag support for: -std=c++17
+2026-11-19T18:47:36.764014Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:36.865481Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:36.865766Z 01E Checking C compiler flag support for: -Wall
+2026-11-19T18:47:36.866499Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:36.958336Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:36.958347Z 01E Checking C++ compiler flag support for: -Wall
+2026-11-19T18:47:36.959536Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:37.079240Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.079780Z 01E Checking C compiler flag support for: -Wdisabled-optimization
+2026-11-19T18:47:37.081351Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:37.194587Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.195056Z 01E Checking C++ compiler flag support for: -Wdisabled-optimization
+2026-11-19T18:47:37.196751Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:37.324598Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.325156Z 01E Checking C compiler flag support for: -Wextra
+2026-11-19T18:47:37.326755Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:37.443430Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.443844Z 01E Checking C++ compiler flag support for: -Wextra
+2026-11-19T18:47:37.445495Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:37.568151Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.568197Z 01E Checking C compiler flag support for: -Wfloat-conversion
+2026-11-19T18:47:37.569861Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:37.684284Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.684633Z 01E Checking C++ compiler flag support for: -Wfloat-conversion
+2026-11-19T18:47:37.685385Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:37.795870Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.796352Z 01E Checking C compiler flag support for: -Wlogical-op
+2026-11-19T18:47:37.798264Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:37.904547Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:37.905056Z 01E Checking C++ compiler flag support for: -Wlogical-op
+2026-11-19T18:47:37.906698Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:38.024697Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.025265Z 01E Checking C compiler flag support for: -Wno-comment
+2026-11-19T18:47:38.026930Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:38.138370Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.138741Z 01E Checking C++ compiler flag support for: -Wno-comment
+2026-11-19T18:47:38.139876Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:38.263715Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.264258Z 01E Checking C compiler flag support for: -Wpointer-arith
+2026-11-19T18:47:38.265834Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:38.410104Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.410449Z 01E Checking C++ compiler flag support for: -Wpointer-arith
+2026-11-19T18:47:38.411995Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:38.534136Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.534336Z 01E Checking C compiler flag support for: -Wshorten-64-to-32
+2026-11-19T18:47:38.535090Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:38.605368Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:38.605887Z 01E Checking C++ compiler flag support for: -Wshorten-64-to-32
+2026-11-19T18:47:38.607502Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:38.672189Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:38.672470Z 01E Checking C compiler flag support for: -Wsign-compare
+2026-11-19T18:47:38.673154Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:38.777829Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.778210Z 01E Checking C++ compiler flag support for: -Wsign-compare
+2026-11-19T18:47:38.782995Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:38.911990Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:38.912393Z 01E Checking C compiler flag support for: -Wstring-conversion
+2026-11-19T18:47:38.913643Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:38.972871Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:38.973059Z 01E Checking C++ compiler flag support for: -Wstring-conversion
+2026-11-19T18:47:38.974727Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:39.034529Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:39.034780Z 01E Checking C compiler flag support for: -Wtype-limits
+2026-11-19T18:47:39.036345Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:39.149549Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.150094Z 01E Checking C++ compiler flag support for: -Wtype-limits
+2026-11-19T18:47:39.151130Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:39.265547Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.266161Z 01E Checking C compiler flag support for: -Wuninitialized
+2026-11-19T18:47:39.267946Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:39.375892Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.376224Z 01E Checking C++ compiler flag support for: -Wuninitialized
+2026-11-19T18:47:39.377839Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:39.492430Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.493007Z 01E Checking C compiler flag support for: -Wunreachable-code-return
+2026-11-19T18:47:39.494701Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:39.568591Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:39.569145Z 01E Checking C++ compiler flag support for: -Wunreachable-code-return
+2026-11-19T18:47:39.570859Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:39.651316Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:39.651454Z 01E Checking C compiler flag support for: -Wunused
+2026-11-19T18:47:39.652794Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:39.758663Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.758782Z 01E Checking C++ compiler flag support for: -Wunused
+2026-11-19T18:47:39.759964Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:39.880593Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:39.881196Z 01E Checking C compiler flag support for: -Wvla
+2026-11-19T18:47:39.882809Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:40.001893Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.002410Z 01E Checking C++ compiler flag support for: -Wvla
+2026-11-19T18:47:40.004116Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:40.114834Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.115221Z 01E Checking C compiler flag support for: -Wc23-extensions
+2026-11-19T18:47:40.115895Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:40.162023Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:47:40.162521Z 01E Checking C++ compiler flag support for: -Wc++20-extensions
+2026-11-19T18:47:40.164276Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:40.285518Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.285532Z 01E Checking C++ compiler flag support for: -Wc++23-extensions
+2026-11-19T18:47:40.285972Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:40.403967Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.404544Z 01E Checking C compiler flag support for: -Wa,--gsframe=no
+2026-11-19T18:47:40.406176Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:40.522079Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.522345Z 01E Checking C++ compiler flag support for: -Wa,--gsframe=no
+2026-11-19T18:47:40.523084Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:40.636112Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.636638Z 01E Checking C compiler flag support for: -Wstack-usage=960000
+2026-11-19T18:47:40.638283Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:40.746468Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.746690Z 01E Checking C++ compiler flag support for: -Wstack-usage=960000
+2026-11-19T18:47:40.747392Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:40.858851Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.859338Z 01E Checking C compiler flag support for: -Wimplicit-function-declaration
+2026-11-19T18:47:40.861024Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:40.977987Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:40.978612Z 01E Checking C compiler flag support for: -Wshadow
+2026-11-19T18:47:40.980198Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:41.092472Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.093048Z 01E Checking C compiler flag support for: -Wundef
+2026-11-19T18:47:41.094759Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:41.204140Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.204904Z 01E Checking C compiler flag support for: -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+2026-11-19T18:47:41.206431Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:41.329936Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.330569Z 01E Checking C++ compiler flag support for: -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+2026-11-19T18:47:41.332163Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:41.448011Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.448588Z 01E Checking C compiler flag support for: -D_LARGEFILE_SOURCE
+2026-11-19T18:47:41.450196Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:41.614204Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.614462Z 01E Checking C++ compiler flag support for: -D_LARGEFILE_SOURCE
+2026-11-19T18:47:41.615221Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:41.723594Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.724125Z 01E Checking C compiler flag support for: -D_FILE_OFFSET_BITS=64
+2026-11-19T18:47:41.725333Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:47:41.833144Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:47:41.833690Z 01E Checking C++ compiler flag support for: -D_FILE_OFFSET_BITS=64
+2026-11-19T18:47:41.835287Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:47:41.977330Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:47:42.343810Z 01O -- Found Python: /usr/bin/python3 (found version "3.14.7") found components: Interpreter
+2026-11-19T18:47:42.351025Z 01O -- Performing Test FLAG_SUPPORTED
+2026-11-19T18:47:42.466173Z 01O -- Performing Test FLAG_SUPPORTED - Success
+2026-11-19T18:47:42.469943Z 01E Checking C compiler flag support for: -msse2
+2026-11-19T18:47:42.471044Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:42.577654Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:42.578122Z 01E Checking C compiler flag support for: -msse2
+2026-11-19T18:47:42.579824Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:42.700387Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:42.700886Z 01E Checking C compiler flag support for: -msse3
+2026-11-19T18:47:42.701628Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:42.826370Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:42.826906Z 01E Checking C compiler flag support for: -msse3
+2026-11-19T18:47:42.828589Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:42.942650Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:42.943148Z 01E Checking C compiler flag support for: -mssse3
+2026-11-19T18:47:42.944838Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:43.051843Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:43.052227Z 01E Checking C compiler flag support for: -mssse3
+2026-11-19T18:47:43.053905Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:43.172342Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:43.173343Z 01E Checking C compiler flag support for: -msse4.1
+2026-11-19T18:47:43.175038Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:43.284823Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:43.284932Z 01E Checking C compiler flag support for: -msse4.1
+2026-11-19T18:47:43.285674Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:43.390774Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:43.391914Z 01E Checking C compiler flag support for: -msse4.2
+2026-11-19T18:47:43.393516Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:43.496907Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:43.497331Z 01E Checking C compiler flag support for: -msse4.2
+2026-11-19T18:47:43.499062Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:43.612851Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:43.613334Z 01E Checking C compiler flag support for: -mavx2
+2026-11-19T18:47:43.614936Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:47:43.721766Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:47:43.722164Z 01E Checking C compiler flag support for: -mavx2
+2026-11-19T18:47:43.723887Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:47:43.835293Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:47:43.872421Z 01O -- Found Doxygen: /usr/bin/doxygen (found version "1.15.0") found components: doxygen dot
+2026-11-19T18:47:43.995446Z 01O -- Configuring done (8.6s)
+2026-11-19T18:47:44.111149Z 01O -- Generating done (0.1s)
+2026-11-19T18:47:44.111604Z 01O -- Build files have been written to: /builds/EwoutH/dav2d-test-data/avm-build
+2026-11-19T18:47:44.119247Z 01O $ make -C avm-build -j$(nproc) avmdec
+2026-11-19T18:47:44.130455Z 01O make: Entering directory '/builds/EwoutH/dav2d-test-data/avm-build'
+2026-11-19T18:47:44.192473Z 01O [  0%] Updating version info if necessary.
+2026-11-19T18:47:44.192909Z 01O [  0%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/common/hdr_util.cc.o
+2026-11-19T18:47:44.194189Z 01O [  2%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvmuxer.cc.o
+2026-11-19T18:47:44.194194Z 01O [  2%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/cpu_id.cc.o
+2026-11-19T18:47:44.195406Z 01O [  2%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvwriter.cc.o
+2026-11-19T18:47:44.196148Z 01O [  2%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/planar_functions.cc.o
+2026-11-19T18:47:44.196151Z 01O [  2%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvmuxerutil.cc.o
+2026-11-19T18:47:44.196687Z 01O [  3%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_any.cc.o
+2026-11-19T18:47:44.197076Z 01O [  3%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvparser/mkvreader.cc.o
+2026-11-19T18:47:44.197426Z 01O [  3%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_common.cc.o
+2026-11-19T18:47:44.197849Z 01O [  3%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_win.cc.o
+2026-11-19T18:47:44.198515Z 01O [  4%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvparser/mkvparser.cc.o
+2026-11-19T18:47:44.198772Z 01O [  4%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_gcc.cc.o
+2026-11-19T18:47:44.199714Z 01O [  4%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_common.cc.o
+2026-11-19T18:47:44.199944Z 01O [  5%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_neon64.cc.o
+2026-11-19T18:47:44.200271Z 01O [  6%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_mips.cc.o
+2026-11-19T18:47:44.200778Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale.cc.o
+2026-11-19T18:47:44.200781Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_neon.cc.o
+2026-11-19T18:47:44.201533Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_any.cc.o
+2026-11-19T18:47:44.201717Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_neon64.cc.o
+2026-11-19T18:47:44.203190Z 01O [  9%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_gcc.cc.o
+2026-11-19T18:47:44.203641Z 01O [  9%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_mips.cc.o
+2026-11-19T18:47:44.204158Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_neon.cc.o
+2026-11-19T18:47:44.205310Z 01O [ 11%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_win.cc.o
+2026-11-19T18:47:44.219499Z 01O [ 11%] Built target avm_version_check
+2026-11-19T18:47:44.244349Z 01O [ 11%] Building C object CMakeFiles/avm_version.dir/gen_src/avm_version_dummy.c.o
+2026-11-19T18:47:44.271173Z 01O [ 12%] Linking C static library libavm_version.a
+2026-11-19T18:47:44.341539Z 01O [ 13%] Built target avm_version
+2026-11-19T18:47:44.367193Z 01O [ 13%] Building C object CMakeFiles/avm_rtcd.dir/avm_dsp/avm_dsp_rtcd.c.o
+2026-11-19T18:47:44.368590Z 01O [ 13%] Building C object CMakeFiles/avm_rtcd.dir/avm_scale/avm_scale_rtcd.c.o
+2026-11-19T18:47:44.368949Z 01O [ 14%] Building C object CMakeFiles/avm_rtcd.dir/av2/common/av2_rtcd.c.o
+2026-11-19T18:47:44.569766Z 01O [ 17%] Built target avm_rtcd
+2026-11-19T18:47:44.595526Z 01O [ 18%] Building C object CMakeFiles/lanczos_resample.dir/common/lanczos_resample.c.o
+2026-11-19T18:47:44.602765Z 01O [ 19%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/ivfdec.c.o
+2026-11-19T18:47:44.602775Z 01O [ 19%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/obudec.c.o
+2026-11-19T18:47:44.602776Z 01O [ 19%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/video_reader.c.o
+2026-11-19T18:47:44.602777Z 01O [ 21%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_mask.c.o
+2026-11-19T18:47:44.602779Z 01O [ 21%] Building CXX object CMakeFiles/avm_decoder_app_util.dir/common/webmdec.cc.o
+2026-11-19T18:47:44.602780Z 01O [ 22%] Building C object CMakeFiles/avm_common_app_util.dir/common/args_helper.c.o
+2026-11-19T18:47:44.602781Z 01O [ 22%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/avm_convolve.c.o
+2026-11-19T18:47:44.602782Z 01O [ 22%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avm_convolve_copy_sse2.c.o
+2026-11-19T18:47:44.602783Z 01O [ 22%] Building C object CMakeFiles/avm_common_app_util.dir/av2/arg_defs.c.o
+2026-11-19T18:47:44.602784Z 01O [ 24%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/bitwriter_buffer.c.o
+2026-11-19T18:47:44.602785Z 01O [ 24%] Building C object CMakeFiles/avm_common_app_util.dir/common/av2_config.c.o
+2026-11-19T18:47:44.602787Z 01O [ 26%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/bitreader.c.o
+2026-11-19T18:47:44.602787Z 01O [ 26%] Building C object CMakeFiles/avm_dsp_decoder_avx2_intrinsics.dir/avm_dsp/x86/entdec_avx2.c.o
+2026-11-19T18:47:44.602789Z 01O [ 26%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/binary_codes_reader.c.o
+2026-11-19T18:47:44.602806Z 01O [ 26%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_high_subpixel_bilinear_sse2.asm.o
+2026-11-19T18:47:44.602808Z 01O [ 26%] Building C object CMakeFiles/avm_common_app_util.dir/common/tools_common.c.o
+2026-11-19T18:47:44.602809Z 01O [ 27%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/entdec.c.o
+2026-11-19T18:47:44.602810Z 01O [ 27%] Building C object CMakeFiles/avm_common_app_util.dir/common/md5_utils.c.o
+2026-11-19T18:47:44.602810Z 01O [ 27%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_hmask.c.o
+2026-11-19T18:47:44.602811Z 01O [ 27%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/bitreader_buffer.c.o
+2026-11-19T18:47:44.602817Z 01O [ 27%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_subpixel_8t_sse2.asm.o
+2026-11-19T18:47:44.602925Z 01O [ 28%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_subpixel_bilinear_sse2.asm.o
+2026-11-19T18:47:44.602930Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_common_ssse3_intrinsics.dir/avm_dsp/x86/highbd_convolve_ssse3.c.o
+2026-11-19T18:47:44.603423Z 01O [ 31%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/highbd_intrapred_asm_sse2.asm.o
+2026-11-19T18:47:44.603425Z 01O [ 31%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/av2_dx_iface.c.o
+2026-11-19T18:47:44.603426Z 01O [ 31%] Building ASM_NASM object CMakeFiles/avm_dsp_common_ssse3.dir/avm_dsp/x86/avm_subpixel_bilinear_ssse3.asm.o
+2026-11-19T18:47:44.603804Z 01O [ 31%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avm_asm_stubs.c.o
+2026-11-19T18:47:44.603848Z 01O [ 31%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/fft_sse2.c.o
+2026-11-19T18:47:44.603902Z 01O [ 31%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_vmask.c.o
+2026-11-19T18:47:44.606601Z 01O [ 32%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/entcode.c.o
+2026-11-19T18:47:44.606610Z 01O [ 32%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/inv_wht_sse2.asm.o
+2026-11-19T18:47:44.606612Z 01O [ 32%] Building ASM_NASM object CMakeFiles/avm_dsp_common_ssse3.dir/avm_dsp/x86/avm_subpixel_8t_ssse3.asm.o
+2026-11-19T18:47:44.606613Z 01O [ 33%] Building C object CMakeFiles/avm_common_app_util.dir/common/rawenc.c.o
+2026-11-19T18:47:44.606614Z 01O [ 34%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/grain_synthesis.c.o
+2026-11-19T18:47:44.606616Z 01O [ 34%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/fft.c.o
+2026-11-19T18:47:44.606617Z 01O [ 34%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/avm_scale.c.o
+2026-11-19T18:47:44.606631Z 01O [ 35%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/cdef_block_ssse3.c.o
+2026-11-19T18:47:44.606731Z 01O [ 36%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/highbd_sad_sse2.asm.o
+2026-11-19T18:47:44.606895Z 01O [ 36%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/intra_matrix_avx2.c.o
+2026-11-19T18:47:44.607058Z 01O [ 37%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/cdef_block_sse4.c.o
+2026-11-19T18:47:44.607247Z 01O [ 37%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_intrapred_sse2.c.o
+2026-11-19T18:47:44.607564Z 01O [ 37%] Building C object CMakeFiles/avm_util.dir/avm_util/avm_thread.c.o
+2026-11-19T18:47:44.609770Z 01O [ 41%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/yv12config.c.o
+2026-11-19T18:47:44.609776Z 01O [ 41%] Building C object CMakeFiles/avm_common_app_util.dir/common/args.c.o
+2026-11-19T18:47:44.609778Z 01O [ 41%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/gen_scalers.c.o
+2026-11-19T18:47:44.609779Z 01O [ 42%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_high_subpixel_8t_sse2.asm.o
+2026-11-19T18:47:44.611085Z 01O [ 42%] Building C object CMakeFiles/avm_mem.dir/avm_mem/avm_mem.c.o
+2026-11-19T18:47:44.611106Z 01O [ 42%] Building C object CMakeFiles/avm_common_app_util.dir/common/y4menc.c.o
+2026-11-19T18:47:44.611107Z 01O [ 42%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_convolve_sse2.c.o
+2026-11-19T18:47:44.616457Z 01O [ 43%] Building C object CMakeFiles/avm_av2_common_sse2_intrinsics.dir/av2/common/cdef_block_sse2.c.o
+2026-11-19T18:47:44.616469Z 01O [ 43%] Building C object CMakeFiles/avm_av2_common.dir/common/args_helper.c.o
+2026-11-19T18:47:44.617683Z 01O [ 43%] Building ASM_NASM object CMakeFiles/avm_ports.dir/avm_ports/emms.asm.o
+2026-11-19T18:47:44.619321Z 01O [ 43%] Building C object CMakeFiles/avm_dsp.dir/gen_src/avm_av2_dummy.c.o
+2026-11-19T18:47:44.619541Z 01O [ 43%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_hmask_sse4.c.o
+2026-11-19T18:47:44.620014Z 01O [ 43%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/avm_convolve_copy_avx2.c.o
+2026-11-19T18:47:44.623697Z 01O [ 44%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_subtract_sse2.c.o
+2026-11-19T18:47:44.625899Z 01O [ 44%] Building C object CMakeFiles/avm_av2_common_sse2_intrinsics.dir/av2/common/x86/cfl_sse2.c.o
+2026-11-19T18:47:44.631040Z 01O [ 44%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/annexA.c.o
+2026-11-19T18:47:44.631200Z 01O [ 45%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_mask_sse4.c.o
+2026-11-19T18:47:44.638321Z 01O [ 47%] Built target avm_ports
+2026-11-19T18:47:44.638330Z 01O [ 47%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/intrapred.c.o
+2026-11-19T18:47:44.652145Z 01O [ 47%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_vmask_sse4.c.o
+2026-11-19T18:47:44.663927Z 01O [ 47%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/fft_avx2.c.o
+2026-11-19T18:47:44.680846Z 01O [ 48%] Building C object CMakeFiles/avm_dsp.dir/gen_src/avm_dsp_dummy.c.o
+2026-11-19T18:47:44.687307Z 01O [ 48%] Building C object CMakeFiles/avm_util.dir/avm_util/debug_util.c.o
+2026-11-19T18:47:44.689266Z 01O [ 49%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/loopfilter_sse4.c.o
+2026-11-19T18:47:44.695847Z 01O [ 50%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/highbd_convolve_avx2.c.o
+2026-11-19T18:47:44.695855Z 01O [ 50%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/loopfilter.c.o
+2026-11-19T18:47:44.703689Z 01O [ 51%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/yv12extend.c.o
+2026-11-19T18:47:44.710694Z 01O [ 51%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/cfl_ssse3.c.o
+2026-11-19T18:47:44.723724Z 01O [ 51%] Built target avm_mem
+2026-11-19T18:47:44.726248Z 01O [ 51%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/affine_optflow_refine_avx2.c.o
+2026-11-19T18:47:44.731010Z 01O [ 51%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avg_intrin_sse2.c.o
+2026-11-19T18:47:44.731015Z 01O [ 51%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/intrapred_avx2.c.o
+2026-11-19T18:47:44.732777Z 01O [ 52%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/cdef_block_avx2.c.o
+2026-11-19T18:47:44.748012Z 01O [ 52%] Built target avm_dsp
+2026-11-19T18:47:44.748022Z 01O [ 52%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/annexF.c.o
+2026-11-19T18:47:44.752559Z 01O [ 54%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/blend_a64_mask_avx2.c.o
+2026-11-19T18:47:44.762767Z 01O [ 56%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodeframe.c.o
+2026-11-19T18:47:44.762775Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/bawp_avx2.c.o
+2026-11-19T18:47:44.765313Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/cfl_avx2.c.o
+2026-11-19T18:47:44.765855Z 01O [ 56%] Built target avm_dsp_common_ssse3
+2026-11-19T18:47:44.767559Z 01O [ 56%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodemv.c.o
+2026-11-19T18:47:44.767719Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/alloccommon.c.o
+2026-11-19T18:47:44.768315Z 01O [ 57%] Building C object CMakeFiles/avm_av2_common.dir/av2/arg_defs.c.o
+2026-11-19T18:47:44.771908Z 01O [ 57%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/highbd_convolve_2d_ssse3.c.o
+2026-11-19T18:47:44.775140Z 01O [ 57%] Built target avm_util
+2026-11-19T18:47:44.780752Z 01O [ 57%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decoder.c.o
+2026-11-19T18:47:44.782916Z 01O [ 58%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodetxb.c.o
+2026-11-19T18:47:44.787691Z 01O [ 59%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/highbd_wiener_convolve_ssse3.c.o
+2026-11-19T18:47:44.798507Z 01O [ 59%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/reconinter_ssse3.c.o
+2026-11-19T18:47:44.800027Z 01O [ 60%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_inv_txfm2d.c.o
+2026-11-19T18:47:44.801196Z 01O [ 62%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_ccso_avx2.c.o
+2026-11-19T18:47:44.812489Z 01O [ 62%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_convolve_2d_avx2.c.o
+2026-11-19T18:47:44.832041Z 01O [ 62%] Built target avm_decoder_app_util
+2026-11-19T18:47:44.836629Z 01O [ 62%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_inv_txfm_avx2.c.o
+2026-11-19T18:47:44.837536Z 01O [ 63%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_jnt_convolve_avx2.c.o
+2026-11-19T18:47:44.847981Z 01O [ 64%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/sad.c.o
+2026-11-19T18:47:44.855355Z 01O [ 64%] Built target avm_dsp_decoder
+2026-11-19T18:47:44.878086Z 01O [ 64%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/av2_convolve_horiz_rs_sse4.c.o
+2026-11-19T18:47:44.888944Z 01O [ 64%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/avg_intrin_avx2.c.o
+2026-11-19T18:47:44.892797Z 01O [ 64%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_loopfilter.c.o
+2026-11-19T18:47:44.910995Z 01O [ 64%] Built target avm_dsp_common_ssse3_intrinsics
+2026-11-19T18:47:44.927888Z 01O [ 64%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/detokenize.c.o
+2026-11-19T18:47:44.929924Z 01O [ 64%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_wiener_convolve_avx2.c.o
+2026-11-19T18:47:44.938506Z 01O [ 65%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_qm.c.o
+2026-11-19T18:47:44.941291Z 01O [ 65%] Built target avm_scale
+2026-11-19T18:47:44.951846Z 01O [ 66%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/av2_convolve_scale_sse4.c.o
+2026-11-19T18:47:44.961504Z 01O [ 67%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_warp_affine_avx2.c.o
+2026-11-19T18:47:45.037718Z 01O [ 67%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/subtract.c.o
+2026-11-19T18:47:45.043527Z 01O [ 67%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_txfm.c.o
+2026-11-19T18:47:45.048191Z 01O [ 68%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/avg.c.o
+2026-11-19T18:47:45.056327Z 01O [ 68%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_fgm.c.o
+2026-11-19T18:47:45.071913Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/cfl_sse4.c.o
+2026-11-19T18:47:45.084329Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/reconinter_avx2.c.o
+2026-11-19T18:47:45.159487Z 01O [ 70%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/blockd.c.o
+2026-11-19T18:47:45.231903Z 01O [ 71%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/gdf_block_avx2.c.o
+2026-11-19T18:47:45.269678Z 01O [ 71%] Built target avm_common_app_util
+2026-11-19T18:47:45.274214Z 01O [ 72%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_convolve_2d_sse4.c.o
+2026-11-19T18:47:45.286427Z 01O [ 72%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_inv_txfm_sse4.c.o
+2026-11-19T18:47:45.302526Z 01O [ 73%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu.c.o
+2026-11-19T18:47:45.327956Z 01O [ 73%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_jnt_convolve_sse4.c.o
+2026-11-19T18:47:45.390915Z 01O [ 73%] Built target avm_dsp_decoder_avx2_intrinsics
+2026-11-19T18:47:45.394593Z 01O [ 73%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_ci.c.o
+2026-11-19T18:47:45.403625Z 01O [ 73%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_atlas.c.o
+2026-11-19T18:47:45.407910Z 01O [ 74%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_warp_plane_sse4.c.o
+2026-11-19T18:47:45.407918Z 01O [ 74%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cdef.c.o
+2026-11-19T18:47:45.409397Z 01O [ 75%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/gdf.c.o
+2026-11-19T18:47:45.431394Z 01O [ 75%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/gdf_block.c.o
+2026-11-19T18:47:45.462934Z 01O [ 77%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_lcr.c.o
+2026-11-19T18:47:45.462943Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cdef_block.c.o
+2026-11-19T18:47:45.500836Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cfl.c.o
+2026-11-19T18:47:45.504845Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/convolve.c.o
+2026-11-19T18:47:45.511732Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/intra_edge_sse4.c.o
+2026-11-19T18:47:45.521089Z 01O [ 78%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_ops.c.o
+2026-11-19T18:47:45.521205Z 01O [ 78%] Built target avm_dsp_common_sse2
+2026-11-19T18:47:45.524286Z 01O [ 79%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_buf.c.o
+2026-11-19T18:47:45.529867Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/optflow_refine_sse4.c.o
+2026-11-19T18:47:45.540188Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/reconinter_sse4.c.o
+2026-11-19T18:47:45.552499Z 01O [ 81%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropy.c.o
+2026-11-19T18:47:45.568387Z 01O [ 81%] Built target avm_dsp_common_sse2_intrinsics
+2026-11-19T18:47:45.576780Z 01O [ 81%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropymode.c.o
+2026-11-19T18:47:45.589267Z 01O [ 82%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropymv.c.o
+2026-11-19T18:47:45.609472Z 01O [ 82%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/frame_buffers.c.o
+2026-11-19T18:47:45.713634Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/idct.c.o
+2026-11-19T18:47:45.736640Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/level.c.o
+2026-11-19T18:47:45.740789Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/mvref_common.c.o
+2026-11-19T18:47:45.740857Z 01O [ 85%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/obu_util.c.o
+2026-11-19T18:47:45.742640Z 01O [ 85%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/odintrin.c.o
+2026-11-19T18:47:45.746041Z 01O [ 86%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/predefined_qm.c.o
+2026-11-19T18:47:45.783787Z 01O [ 86%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/pred_common.c.o
+2026-11-19T18:47:45.791942Z 01O [ 87%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/quant_common.c.o
+2026-11-19T18:47:45.799790Z 01O [ 87%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/reconinter.c.o
+2026-11-19T18:47:45.808774Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/resize.c.o
+2026-11-19T18:47:45.812673Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/reconintra.c.o
+2026-11-19T18:47:45.824696Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/restoration.c.o
+2026-11-19T18:47:45.830003Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/scan.c.o
+2026-11-19T18:47:45.837976Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/tile_common.c.o
+2026-11-19T18:47:45.840357Z 01O [ 89%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/scale.c.o
+2026-11-19T18:47:45.846555Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/seg_common.c.o
+2026-11-19T18:47:45.851388Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/thread_common.c.o
+2026-11-19T18:47:45.871894Z 01O [ 90%] Built target avm_dsp_common_sse4_1_intrinsics
+2026-11-19T18:47:45.882573Z 01O [ 91%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/timing.c.o
+2026-11-19T18:47:45.889657Z 01O [ 91%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/tip.c.o
+2026-11-19T18:47:45.896674Z 01O [ 93%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/txb_common.c.o
+2026-11-19T18:47:45.898918Z 01O [ 93%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/warped_motion.c.o
+2026-11-19T18:47:45.917485Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/hr_coding.c.o
+2026-11-19T18:47:45.949161Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cost.c.o
+2026-11-19T18:47:45.993743Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/intra_matrix.c.o
+2026-11-19T18:47:46.048048Z 01O [ 94%] Built target avm_av2_common_sse2_intrinsics
+2026-11-19T18:47:46.052885Z 01O [ 95%] Building CXX object CMakeFiles/avm_av2_common.dir/av2/common/intra_dip.cc.o
+2026-11-19T18:47:46.058680Z 01O [ 95%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/ccso.c.o
+2026-11-19T18:47:46.059811Z 01O [ 96%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/bru.c.o
+2026-11-19T18:47:46.081937Z 01O [ 96%] Built target lanczos_resample
+2026-11-19T18:47:46.089164Z 01O [ 96%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/banding_metadata.c.o
+2026-11-19T18:47:46.229911Z 01O [ 96%] Built target avm_av2_common_ssse3_intrinsics
+2026-11-19T18:47:47.859112Z 01O [ 96%] Built target avm_av2_common_sse4_intrinsics
+2026-11-19T18:47:48.612505Z 01O [ 96%] Built target webm
+2026-11-19T18:47:48.758979Z 01O [ 96%] Built target avm_av2_common_avx2_intrinsics
+2026-11-19T18:47:52.344349Z 01O [ 96%] Built target avm_dsp_common_avx2_intrinsics
+2026-11-19T18:47:52.493088Z 01O [ 96%] Built target yuv
+2026-11-19T18:47:52.713533Z 01O [ 96%] Built target avm_av2_decoder
+2026-11-19T18:47:53.760358Z 01O [ 96%] Built target avm_av2_common
+2026-11-19T18:47:56.413388Z 01O [ 96%] Built target avm_dsp_common
+2026-11-19T18:47:56.444223Z 01O [ 96%] Building C object CMakeFiles/avm.dir/config/avm_config.c.o
+2026-11-19T18:47:56.446214Z 01O [ 96%] Building C object CMakeFiles/avm.dir/avm/src/avm_codec.c.o
+2026-11-19T18:47:56.446541Z 01O [ 97%] Building C object CMakeFiles/avm.dir/avm/src/avm_decoder.c.o
+2026-11-19T18:47:56.447119Z 01O [ 97%] Building C object CMakeFiles/avm.dir/avm/src/avm_integer.c.o
+2026-11-19T18:47:56.447271Z 01O [ 98%] Building C object CMakeFiles/avm.dir/avm/src/avm_image.c.o
+2026-11-19T18:47:56.447272Z 01O [ 98%] Building C object CMakeFiles/avm.dir/avm/src/avm_encoder.c.o
+2026-11-19T18:47:56.743885Z 01O [ 98%] Linking CXX static library libavm.a
+2026-11-19T18:47:56.940427Z 01O [ 98%] Built target avm
+2026-11-19T18:47:56.968713Z 01O [100%] Building C object CMakeFiles/avmdec.dir/apps/avmdec.c.o
+2026-11-19T18:47:57.404734Z 01O [100%] Linking CXX executable avmdec
+2026-11-19T18:47:57.531480Z 01O [100%] Built target avmdec
+2026-11-19T18:47:57.548198Z 01O make: Leaving directory '/builds/EwoutH/dav2d-test-data/avm-build'
+2026-11-19T18:47:57.549084Z 01O $ grep -HoE "files\('[^']+'\), '[0-9a-f]{32}'" */meson.build | # collapsed multi-line command
+2026-11-19T18:47:57.576415Z 01O ok   avm-10bit/avm.mandel.200x112.l1.12bit.still-fg.obu
+2026-11-19T18:47:57.612051Z 01O ok   avm-10bit/avm.mandel.200x112.l10.12bit.fg13.obu
+2026-11-19T18:47:57.645118Z 01O ok   avm-10bit/avm.testsrc.130x74.l12.10bit.tile-rows2.obu
+2026-11-19T18:47:57.676663Z 01O ok   avm-10bit/avm.testsrc.130x74.l2.422.12bit.obu
+2026-11-19T18:47:57.713362Z 01O ok   avm-10bit/avm.testsrc.130x74.l20.10bit.resize9-fwdkf.obu
+2026-11-19T18:47:57.751241Z 01O ok   avm-10bit/avm.testsrc.130x74.l20.422.10bit.s1.obu
+2026-11-19T18:47:57.781345Z 01O ok   avm-10bit/avm.testsrc.130x74.l4.10bit.sb256.obu
+2026-11-19T18:47:57.805424Z 01O ok   avm-10bit/avm.testsrc.176x144.l1.12bit.still-screen.obu
+2026-11-19T18:47:57.848210Z 01O ok   avm-10bit/avm.bus.128x96.l8.10bit.s4.obu
+2026-11-19T18:47:57.876571Z 01O ok   avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu
+2026-11-19T18:47:57.913422Z 01O ok   avm/avm.mandel.200x112.l10.refs2-sef.obu
+2026-11-19T18:47:57.945158Z 01O ok   avm/avm.mandel.200x112.l6.resize9.obu
+2026-11-19T18:47:57.967952Z 01O ok   avm/avm.testsrc.176x144.l1.422.opsets.obu
+2026-11-19T18:47:58.029277Z 01O ok   avm/avm.testsrc.176x144.l12.444.fg.obu
+2026-11-19T18:47:58.105714Z 01O ok   avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu
+2026-11-19T18:47:58.136493Z 01O ok   avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu
+2026-11-19T18:47:58.180471Z 01O ok   avm/avm-v15.0.0-bus.352x288.l5.seg1.obu
+2026-11-19T18:47:58.200954Z 01O ok   avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu
+2026-11-19T18:47:58.220682Z 01O ok   avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu
+2026-11-19T18:47:58.252238Z 01O ok   avm/avm-v15.0.0-bus.64x64.l5.lossless.obu
+2026-11-19T18:47:58.282754Z 01O ok   avm/avm-v15.0.0-bus.64x64.l5.obu
+2026-11-19T18:47:58.312122Z 01O ok   avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu
+2026-11-19T18:47:58.340436Z 01O ok   avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu
+2026-11-19T18:47:58.371686Z 01O ok   avm/avm.bus.96x64.l5.qm1-cctx.obu
+2026-11-19T18:47:58.408059Z 01O ok   avm/avm.bus.128x96.l5.qm1.obu
+2026-11-19T18:47:58.444048Z 01O ok   avm/avm.bus.176x144.l5.opfl2.obu
+2026-11-19T18:47:58.478527Z 01O ok   avm/avm.bus.480x144.l2.tilecols2.obu
+2026-11-19T18:47:58.513000Z 01O ok   avm/avm.bus.64x64.l17.qm1.obu
+2026-11-19T18:47:58.542846Z 01O ok   avm/avm.testsrc.176x144.l3.ref-frame-mvs0.obu
+2026-11-19T18:47:58.564717Z 01O ok   avm/avm.testsrc.256x256.l1.lossless-sb128.obu
+2026-11-19T18:47:58.595854Z 01O ok   avm/avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu
+2026-11-19T18:47:58.619156Z 01O ok   avm/avm.testsrc.176x144.l1.tile-rows1.obu
+2026-11-19T18:47:58.653622Z 01O ok   avm/avm.testsrc.176x144.l8.sframe.obu
+2026-11-19T18:47:58.682000Z 01O ok   avm/avm.testsrc.176x144.l2.fg11.obu
+2026-11-19T18:47:58.718650Z 01O ok   avm/avm.rot.128x128.l8.opfl-refine0.obu
+2026-11-19T18:47:59.025491Z 00O section_end:1795114079:step_script
+2026-11-19T18:47:59.027619Z 00O+section_start:1795114079:cleanup_file_variables
+2026-11-19T18:47:59.027628Z 00O+Cleaning up project directory and file based variables
+2026-11-19T18:47:59.469975Z 00O section_end:1795114079:cleanup_file_variables
+2026-11-19T18:47:59.501508Z 00O Job succeeded

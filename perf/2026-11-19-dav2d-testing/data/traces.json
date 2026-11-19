@@ -1,0 +1,422 @@
+[
+  {
+    "name": "avm.mandel.200x112.l10.refs2-sef",
+    "filename": "avm/avm.mandel.200x112.l10.refs2-sef.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.12722540087997913,
+    "avm_bytes": 456039,
+    "dav2d_bytes": 129878
+  },
+  {
+    "name": "avm.mandel.200x112.l6.resize9",
+    "filename": "avm/avm.mandel.200x112.l6.resize9.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.07772607705555856,
+    "avm_bytes": 163029,
+    "dav2d_bytes": 123997
+  },
+  {
+    "name": "avm.testsrc.176x144.l1.422.opsets",
+    "filename": "avm/avm.testsrc.176x144.l1.422.opsets.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.0658023830037564,
+    "avm_bytes": 63785,
+    "dav2d_bytes": 63743
+  },
+  {
+    "name": "avm.testsrc.176x144.l12.444.fg",
+    "filename": "avm/avm.testsrc.176x144.l12.444.fg.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.14939829800277948,
+    "avm_bytes": 416528,
+    "dav2d_bytes": 226397
+  },
+  {
+    "name": "avm-v15.0.0-bus.352x288.l10.deltaq1",
+    "filename": "avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.1425836079288274,
+    "avm_bytes": 459858,
+    "dav2d_bytes": 129074
+  },
+  {
+    "name": "avm-v15.0.0-bus.352x288.l1.partial_lossless",
+    "filename": "avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.06676795496605337,
+    "avm_bytes": 39919,
+    "dav2d_bytes": 39919
+  },
+  {
+    "name": "avm-v15.0.0-bus.352x288.l5.seg1",
+    "filename": "avm/avm-v15.0.0-bus.352x288.l5.seg1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.10793667193502188,
+    "avm_bytes": 1009305,
+    "dav2d_bytes": 86769
+  },
+  {
+    "name": "avm-v15.0.0-bus.64x64.l1.sdp0",
+    "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.11532319220714271,
+    "avm_bytes": 549879,
+    "dav2d_bytes": 549879
+  },
+  {
+    "name": "avm-v15.0.0-bus.64x64.l1.sdp1",
+    "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.058802057057619095,
+    "avm_bytes": 545632,
+    "dav2d_bytes": 545632
+  },
+  {
+    "name": "avm-v15.0.0-bus.64x64.l5.lossless",
+    "filename": "avm/avm-v15.0.0-bus.64x64.l5.lossless.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.20624859002418816,
+    "avm_bytes": 4294800,
+    "dav2d_bytes": 4294800
+  },
+  {
+    "name": "avm-v15.0.0-bus.64x64.l5",
+    "filename": "avm/avm-v15.0.0-bus.64x64.l5.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.12614154000766575,
+    "avm_bytes": 1233892,
+    "dav2d_bytes": 1233892
+  },
+  {
+    "name": "avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0",
+    "filename": "avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.10669823200441897,
+    "avm_bytes": 1228844,
+    "dav2d_bytes": 1228844
+  },
+  {
+    "name": "avm-v15.0.0-hm.64x64.l5.filmgrain",
+    "filename": "avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.07988423993811011,
+    "avm_bytes": 459782,
+    "dav2d_bytes": 459782
+  },
+  {
+    "name": "avm.bus.96x64.l5.qm1-cctx",
+    "filename": "avm/avm.bus.96x64.l5.qm1-cctx.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.11569853685796261,
+    "avm_bytes": 1424646,
+    "dav2d_bytes": 1424646
+  },
+  {
+    "name": "avm.bus.128x96.l5.qm1",
+    "filename": "avm/avm.bus.128x96.l5.qm1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.09898065985180438,
+    "avm_bytes": 1484162,
+    "dav2d_bytes": 1484162
+  },
+  {
+    "name": "avm.bus.176x144.l5.opfl2",
+    "filename": "avm/avm.bus.176x144.l5.opfl2.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.08392814197577536,
+    "avm_bytes": 407473,
+    "dav2d_bytes": 407473
+  },
+  {
+    "name": "avm.bus.480x144.l2.tilecols2",
+    "filename": "avm/avm.bus.480x144.l2.tilecols2.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.10527150006964803,
+    "avm_bytes": 70796,
+    "dav2d_bytes": 70796
+  },
+  {
+    "name": "avm.bus.64x64.l17.qm1",
+    "filename": "avm/avm.bus.64x64.l17.qm1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.07914905599318445,
+    "avm_bytes": 544500,
+    "dav2d_bytes": 507423
+  },
+  {
+    "name": "avm.testsrc.176x144.l3.ref-frame-mvs0",
+    "filename": "avm/avm.testsrc.176x144.l3.ref-frame-mvs0.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.06690635997802019,
+    "avm_bytes": 256599,
+    "dav2d_bytes": 256386
+  },
+  {
+    "name": "avm.testsrc.256x256.l1.lossless-sb128",
+    "filename": "avm/avm.testsrc.256x256.l1.lossless-sb128.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.06253484101034701,
+    "avm_bytes": 242950,
+    "dav2d_bytes": 241082
+  },
+  {
+    "name": "avm.testsrc.176x144.l3.cdef-on-skip-txfm0",
+    "filename": "avm/avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.09123834199272096,
+    "avm_bytes": 433358,
+    "dav2d_bytes": 433276
+  },
+  {
+    "name": "avm.testsrc.176x144.l1.tile-rows1",
+    "filename": "avm/avm.testsrc.176x144.l1.tile-rows1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.049950572894886136,
+    "avm_bytes": 90086,
+    "dav2d_bytes": 89989
+  },
+  {
+    "name": "avm.testsrc.176x144.l8.sframe",
+    "filename": "avm/avm.testsrc.176x144.l8.sframe.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.08317018393427134,
+    "avm_bytes": 331706,
+    "dav2d_bytes": 230412
+  },
+  {
+    "name": "avm.testsrc.176x144.l2.fg11",
+    "filename": "avm/avm.testsrc.176x144.l2.fg11.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.10167997609823942,
+    "avm_bytes": 294333,
+    "dav2d_bytes": 294292
+  },
+  {
+    "name": "avm.rot.128x128.l8.opfl-refine0",
+    "filename": "avm/avm.rot.128x128.l8.opfl-refine0.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.11308179795742035,
+    "avm_bytes": 984948,
+    "dav2d_bytes": 984948
+  },
+  {
+    "name": "avm.mandel.200x112.l1.12bit.still-fg",
+    "filename": "avm-10bit/avm.mandel.200x112.l1.12bit.still-fg.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.08167005609720945,
+    "avm_bytes": 53302,
+    "dav2d_bytes": 53302
+  },
+  {
+    "name": "avm.mandel.200x112.l10.12bit.fg13",
+    "filename": "avm-10bit/avm.mandel.200x112.l10.12bit.fg13.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.12585624493658543,
+    "avm_bytes": 793215,
+    "dav2d_bytes": 138185
+  },
+  {
+    "name": "avm.testsrc.130x74.l12.10bit.tile-rows2",
+    "filename": "avm-10bit/avm.testsrc.130x74.l12.10bit.tile-rows2.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.1163567251060158,
+    "avm_bytes": 669782,
+    "dav2d_bytes": 297628
+  },
+  {
+    "name": "avm.testsrc.130x74.l2.422.12bit",
+    "filename": "avm-10bit/avm.testsrc.130x74.l2.422.12bit.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.09749986603856087,
+    "avm_bytes": 101775,
+    "dav2d_bytes": 101775
+  },
+  {
+    "name": "avm.testsrc.130x74.l20.10bit.resize9-fwdkf",
+    "filename": "avm-10bit/avm.testsrc.130x74.l20.10bit.resize9-fwdkf.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.1328197589609772,
+    "avm_bytes": 461075,
+    "dav2d_bytes": 487613
+  },
+  {
+    "name": "avm.testsrc.130x74.l20.422.10bit.s1",
+    "filename": "avm-10bit/avm.testsrc.130x74.l20.422.10bit.s1.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.1308140989858657,
+    "avm_bytes": 671210,
+    "dav2d_bytes": 309747
+  },
+  {
+    "name": "avm.testsrc.130x74.l4.10bit.sb256",
+    "filename": "avm-10bit/avm.testsrc.130x74.l4.10bit.sb256.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.08226034790277481,
+    "avm_bytes": 379218,
+    "dav2d_bytes": 282891
+  },
+  {
+    "name": "avm.testsrc.176x144.l1.12bit.still-screen",
+    "filename": "avm-10bit/avm.testsrc.176x144.l1.12bit.still-screen.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": false,
+    "seconds": 0.053656539879739285,
+    "avm_bytes": 128110,
+    "dav2d_bytes": 128159
+  },
+  {
+    "name": "avm.bus.128x96.l8.10bit.s4",
+    "filename": "avm-10bit/avm.bus.128x96.l8.10bit.s4.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.18790805689059198,
+    "avm_bytes": 3137042,
+    "dav2d_bytes": 3137042
+  },
+  {
+    "name": "avm.bus.176x144.l2.10bit.qp208",
+    "filename": "avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu",
+    "returncodes": [
+      0,
+      0
+    ],
+    "trace_equal": true,
+    "seconds": 0.09884907794184983,
+    "avm_bytes": 121030,
+    "dav2d_bytes": 121030
+  }
+]

@@ -1,0 +1,1450 @@
+2026-11-19T18:35:48.792475Z 00O Running with gitlab-runner 19.5.3 (33227fd4)
+2026-11-19T18:35:48.792504Z 00O   on pushkin 9iu44w_BN, system ID: s_329201f7479a
+2026-11-19T18:35:48.792508Z 00O   UUID: 01a1d33a-607a-7eb2-9429-784e71fb8c4c
+2026-11-19T18:35:48.792564Z 00O section_start:1795113348:prepare_executor
+2026-11-19T18:35:48.792571Z 00O+Preparing the "docker" executor
+2026-11-19T18:35:48.810240Z 00O Using Docker executor with image registry.videolan.org/vlc-debian-unstable:20250528090433 ...
+2026-11-19T18:35:50.040069Z 00O Using effective pull policy of [always] for container registry.videolan.org/vlc-debian-unstable:20250528090433
+2026-11-19T18:35:50.056795Z 00O Pulling docker image registry.videolan.org/vlc-debian-unstable:20250528090433 ...
+2026-11-19T18:35:50.175777Z 00O Using docker image sha256:925cf1006d9583636598c74ce7c1d99f11ef32d4bf57534dd3d8801fac2f33bd for registry.videolan.org/vlc-debian-unstable:20250528090433 with digest registry.videolan.org/vlc-debian-unstable@sha256:925cf1006d9583636598c74ce7c1d99f11ef32d4bf57534dd3d8801fac2f33bd ...
+2026-11-19T18:35:50.175797Z 00O section_end:1795113350:prepare_executor
+2026-11-19T18:35:50.176024Z 00O+section_start:1795113350:prepare_script
+2026-11-19T18:35:50.176034Z 00O+Preparing environment
+2026-11-19T18:35:50.186870Z 00O Using effective pull policy of [always] for container sha256:14372d66430b654b3368a48ce3d8530f7a689d5a05adccff7376451f3749b0fc
+2026-11-19T18:35:50.400376Z 01O Running on runner-9iu44wbn-project-4935-concurrent-0 via pushkin...
+2026-11-19T18:35:50.404202Z 01O Running on CPU: AMD EPYC 7502P 32-Core Processor (avx, avx2)
+2026-11-19T18:35:50.678535Z 00O section_end:1795113350:prepare_script
+2026-11-19T18:35:50.678928Z 00O+section_start:1795113350:get_sources
+2026-11-19T18:35:50.678932Z 00O+Getting source from Git repository
+2026-11-19T18:35:50.962040Z 01O Gitaly correlation ID: 01M7THFVB850ZK7W6KJW7E7V5D
+2026-11-19T18:35:50.968886Z 01O Fetching changes with git depth set to 20...
+2026-11-19T18:35:50.972145Z 01O Reinitialized existing Git repository in /builds/videolan/dav2d/.git/
+2026-11-19T18:35:50.974743Z 01O Created fresh repository.
+2026-11-19T18:35:51.323613Z 01O Checking out 2ea62cc8 as detached HEAD (ref is main)...
+2026-11-19T18:35:51.339170Z 01O Removing build/
+2026-11-19T18:35:51.345289Z 01O Removing subprojects/checkasm/
+2026-11-19T18:35:51.400783Z 01O
+2026-11-19T18:35:51.400790Z 01O Skipping Git submodules setup
+2026-11-19T18:35:51.657650Z 00O section_end:1795113351:get_sources
+2026-11-19T18:35:51.658081Z 00O+section_start:1795113351:restore_cache
+2026-11-19T18:35:51.658087Z 00O+Restoring cache
+2026-11-19T18:35:51.950521Z 01O Checking cache for testdata.git-20260605-protected...
+2026-11-19T18:35:52.004724Z 01E No URL provided, cache will not be downloaded from shared cache server. Instead a local version of cache will be extracted.
+2026-11-19T18:35:52.013213Z 01O Successfully extracted cache
+2026-11-19T18:35:52.299536Z 00O section_end:1795113352:restore_cache
+2026-11-19T18:35:52.301671Z 00O+section_start:1795113352:step_script
+2026-11-19T18:35:52.301701Z 00O+Executing "step_script" stage of the job script
+2026-11-19T18:35:52.301719Z 00O Using effective pull policy of [always] for container registry.videolan.org/vlc-debian-unstable:20250528090433
+2026-11-19T18:35:52.319403Z 00O Using docker image sha256:925cf1006d9583636598c74ce7c1d99f11ef32d4bf57534dd3d8801fac2f33bd for registry.videolan.org/vlc-debian-unstable:20250528090433 with digest registry.videolan.org/vlc-debian-unstable@sha256:925cf1006d9583636598c74ce7c1d99f11ef32d4bf57534dd3d8801fac2f33bd ...
+2026-11-19T18:35:52.570187Z 01O $ git config --global --add safe.directory $CI_PROJECT_DIR
+2026-11-19T18:35:52.571999Z 01O $ test -d cache || mkdir cache
+2026-11-19T18:35:52.572007Z 01O $ test -d cache/dav2d-test-data.git && GIT_DIR=cache/dav2d-test-data.git git remote update
+2026-11-19T18:35:53.035777Z 01E From https://code.videolan.org/videolan/dav2d-test-data
+2026-11-19T18:35:53.035789Z 01E  * [new ref]         refs/merge-requests/10/head -> refs/merge-requests/10/head
+2026-11-19T18:35:53.035823Z 01E  * [new ref]         refs/merge-requests/10/merge -> refs/merge-requests/10/merge
+2026-11-19T18:35:53.036125Z 01E  * [new ref]         refs/merge-requests/11/head -> refs/merge-requests/11/head
+2026-11-19T18:35:53.036342Z 01E  * [new ref]         refs/merge-requests/11/merge -> refs/merge-requests/11/merge
+2026-11-19T18:35:53.036654Z 01E  + ee6ac49...1e22c88 refs/merge-requests/6/head  -> refs/merge-requests/6/head  (forced update)
+2026-11-19T18:35:53.036792Z 01E  + 769dfee...3c7760c refs/merge-requests/6/merge -> refs/merge-requests/6/merge  (forced update)
+2026-11-19T18:35:53.037041Z 01E  * [new ref]         refs/merge-requests/8/head  -> refs/merge-requests/8/head
+2026-11-19T18:35:53.037284Z 01E  * [new ref]         refs/merge-requests/8/merge -> refs/merge-requests/8/merge
+2026-11-19T18:35:53.037569Z 01E  * [new ref]         refs/merge-requests/9/head  -> refs/merge-requests/9/head
+2026-11-19T18:35:53.037680Z 01E  * [new ref]         refs/merge-requests/9/merge -> refs/merge-requests/9/merge
+2026-11-19T18:35:53.041743Z 01O $ test -d cache/dav2d-test-data.git || git clone --mirror https://code.videolan.org/videolan/dav2d-test-data.git cache/dav2d-test-data.git
+2026-11-19T18:35:53.041750Z 01O $ git clone cache/dav2d-test-data.git tests/dav2d-test-data
+2026-11-19T18:35:53.043925Z 01E Cloning into 'tests/dav2d-test-data'...
+2026-11-19T18:35:53.055562Z 01E done.
+2026-11-19T18:35:53.059900Z 01O $ git -C tests/dav2d-test-data describe --always --long
+2026-11-19T18:35:53.062861Z 01O 85af1c2
+2026-11-19T18:35:53.063203Z 01O $ set -eo pipefail
+2026-11-19T18:35:53.063205Z 01O $ git clone -b av2-normative --depth 1 --shallow-submodules https://github.com/AOMediaCodec/avm avm
+2026-11-19T18:35:53.065504Z 01E Cloning into 'avm'...
+2026-11-19T18:35:59.523788Z 01O $ cd avm # collapsed multi-line command
+2026-11-19T18:36:00.230466Z 01O Applying: OBU header & sequence header debugging.
+2026-11-19T18:36:00.230476Z 01O Applying: Frame header debugging.
+2026-11-19T18:36:00.230478Z 01O Applying: Partitioning, block and coefficient decoding debugging helpers.
+2026-11-19T18:36:00.230481Z 01O Applying: Print Intra Prediction, DQ coeffs and inverse transform
+2026-11-19T18:36:00.230482Z 01O Applying: Add --loopfilters to enable/disable loopfilters
+2026-11-19T18:36:00.234599Z 01O $ sed -i 's|#define DEBUG_OBU_HDR 0|#define DEBUG_OBU_HDR 1|' avm/debug.h # collapsed multi-line command
+2026-11-19T18:36:00.276459Z 01O diff --git a/av2/common/mvref_common.c b/av2/common/mvref_common.c
+2026-11-19T18:36:00.276493Z 01O index 1d5ef2b..8e657a2 100644
+2026-11-19T18:36:00.276495Z 01O --- a/av2/common/mvref_common.c
+2026-11-19T18:36:00.276497Z 01O +++ b/av2/common/mvref_common.c
+2026-11-19T18:36:00.276498Z 01O @@ -55,7 +55,7 @@ enum {
+2026-11-19T18:36:00.276499Z 01O  #define TIP_MFMV_STACK_SIZE 3  // The limit for original TMVP w/ TIP.
+2026-11-19T18:36:00.276501Z 01O  #define MFMV_STACK_SIZE 4      // The total limit of motion field candidates.
+2026-11-19T18:36:00.276502Z 01O
+2026-11-19T18:36:00.276503Z 01O -#define DEBUG_REFMV 0
+2026-11-19T18:36:00.276504Z 01O +#define DEBUG_REFMV 1
+2026-11-19T18:36:00.276505Z 01O
+2026-11-19T18:36:00.276506Z 01O  #if DEBUG_BLOCK_INFO && DEBUG_REFMV
+2026-11-19T18:36:00.276507Z 01O  #define RDB_ONLY(x...) x
+2026-11-19T18:36:00.276508Z 01O diff --git a/av2/decoder/obu_ci.c b/av2/decoder/obu_ci.c
+2026-11-19T18:36:00.276509Z 01O index 8a0b702..56e6b8e 100644
+2026-11-19T18:36:00.276510Z 01O --- a/av2/decoder/obu_ci.c
+2026-11-19T18:36:00.276511Z 01O +++ b/av2/decoder/obu_ci.c
+2026-11-19T18:36:00.276512Z 01O @@ -25,7 +25,7 @@
+2026-11-19T18:36:00.276513Z 01O  #include "av2/decoder/obu.h"
+2026-11-19T18:36:00.276514Z 01O  #include "av2/common/av2_common_int.h"
+2026-11-19T18:36:00.276515Z 01O
+2026-11-19T18:36:00.276515Z 01O -#define DEBUG_CI_HDR 0
+2026-11-19T18:36:00.276516Z 01O +#define DEBUG_CI_HDR 1
+2026-11-19T18:36:00.276517Z 01O
+2026-11-19T18:36:00.276518Z 01O  static int av2_set_sar_info(ContentInterpretation *ci_params) {
+2026-11-19T18:36:00.276519Z 01O    int supported_sample_aspect_ratio = 1;
+2026-11-19T18:36:00.276520Z 01O diff --git a/av2/decoder/obu_fgm.c b/av2/decoder/obu_fgm.c
+2026-11-19T18:36:00.276522Z 01O index 8ebf851..2134f96 100644
+2026-11-19T18:36:00.276523Z 01O --- a/av2/decoder/obu_fgm.c
+2026-11-19T18:36:00.276524Z 01O +++ b/av2/decoder/obu_fgm.c
+2026-11-19T18:36:00.276524Z 01O @@ -26,7 +26,7 @@
+2026-11-19T18:36:00.276525Z 01O  #include "av2/decoder/decodeframe.h"
+2026-11-19T18:36:00.276526Z 01O  #include "av2/decoder/obu.h"
+2026-11-19T18:36:00.276527Z 01O
+2026-11-19T18:36:00.276528Z 01O -#define DEBUG_FGM_HDR 0
+2026-11-19T18:36:00.276529Z 01O +#define DEBUG_FGM_HDR 1
+2026-11-19T18:36:00.276530Z 01O
+2026-11-19T18:36:00.276531Z 01O  void copy_fgm_from_list(AV2_COMMON *cm, avm_film_grain_t *pars,
+2026-11-19T18:36:00.276532Z 01O                          const struct film_grain_model *fgm) {
+2026-11-19T18:36:00.276533Z 01O diff --git a/avm/debug.h b/avm/debug.h
+2026-11-19T18:36:00.276534Z 01O index 1a2b2e1..b1347d2 100644
+2026-11-19T18:36:00.276535Z 01O --- a/avm/debug.h
+2026-11-19T18:36:00.276536Z 01O +++ b/avm/debug.h
+2026-11-19T18:36:00.276537Z 01O @@ -32,16 +32,16 @@
+2026-11-19T18:36:00.276538Z 01O  #include <stdio.h>
+2026-11-19T18:36:00.276539Z 01O  #include <stddef.h>
+2026-11-19T18:36:00.276540Z 01O
+2026-11-19T18:36:00.276540Z 01O -#define DEBUG_OBU_HDR 0
+2026-11-19T18:36:00.276541Z 01O -#define DEBUG_SEQ_HDR 0
+2026-11-19T18:36:00.276542Z 01O -#define DEBUG_FRAME_HDR 0
+2026-11-19T18:36:00.276543Z 01O +#define DEBUG_OBU_HDR 1
+2026-11-19T18:36:00.276544Z 01O +#define DEBUG_SEQ_HDR 1
+2026-11-19T18:36:00.276545Z 01O +#define DEBUG_FRAME_HDR 1
+2026-11-19T18:36:00.276546Z 01O  #define DEBUG_MULTI_FRAME_HDR 0
+2026-11-19T18:36:00.276547Z 01O -#define DEBUG_BLOCK_INFO 0
+2026-11-19T18:36:00.276548Z 01O -#define DEBUG_B_PIXELS 0
+2026-11-19T18:36:00.276549Z 01O +#define DEBUG_BLOCK_INFO 1
+2026-11-19T18:36:00.276550Z 01O +#define DEBUG_B_PIXELS 1
+2026-11-19T18:36:00.276551Z 01O  #if DEBUG_BLOCK_INFO
+2026-11-19T18:36:00.276552Z 01O  #define DB_ONLY(x...) x,
+2026-11-19T18:36:00.276553Z 01O  #define BLOCK_TO_DEBUG \
+2026-11-19T18:36:00.276554Z 01O -    (cm->current_frame.frame_number == 0 && \
+2026-11-19T18:36:00.276555Z 01O +    (cm->current_frame.frame_number <= 4 && \
+2026-11-19T18:36:00.276556Z 01O       mi_row >= 0 && mi_row < 16 && mi_col >= 0 && mi_col < 16)
+2026-11-19T18:36:00.276557Z 01O  #define DEBUG_BLOCK_printf(fmt...) \
+2026-11-19T18:36:00.276558Z 01O      if (BLOCK_TO_DEBUG) printf(fmt)
+2026-11-19T18:36:00.276676Z 01O $ mkdir x86-64 # collapsed multi-line command
+2026-11-19T18:36:00.344235Z 01O -- The C compiler identification is GNU 14.2.0
+2026-11-19T18:36:00.412326Z 01O -- The CXX compiler identification is GNU 14.2.0
+2026-11-19T18:36:00.426641Z 01O -- The ASM compiler identification is GNU
+2026-11-19T18:36:00.430116Z 01O -- Found assembler: /usr/bin/cc
+2026-11-19T18:36:00.441661Z 01O -- Detecting C compiler ABI info
+2026-11-19T18:36:00.551818Z 01O -- Detecting C compiler ABI info - done
+2026-11-19T18:36:00.583469Z 01O -- Check for working C compiler: /usr/bin/cc - skipped
+2026-11-19T18:36:00.584193Z 01O -- Detecting C compile features
+2026-11-19T18:36:00.585275Z 01O -- Detecting C compile features - done
+2026-11-19T18:36:00.605981Z 01O -- Detecting CXX compiler ABI info
+2026-11-19T18:36:00.724701Z 01O -- Detecting CXX compiler ABI info - done
+2026-11-19T18:36:00.762108Z 01O -- Check for working CXX compiler: /usr/bin/c++ - skipped
+2026-11-19T18:36:00.762908Z 01O -- Detecting CXX compile features
+2026-11-19T18:36:00.764777Z 01O -- Detecting CXX compile features - done
+2026-11-19T18:36:00.786989Z 01O -- Found Git: /usr/bin/git (found version "2.49.0")
+2026-11-19T18:36:00.800615Z 01O -- Found Perl: /usr/bin/perl (found version "5.40.1")
+2026-11-19T18:36:00.802619Z 01O -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+2026-11-19T18:36:00.929947Z 01O -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+2026-11-19T18:36:00.932296Z 01O -- Found Threads: TRUE
+2026-11-19T18:36:00.947774Z 01E --- avm_configure: Detected CPU: x86_64
+2026-11-19T18:36:01.008894Z 01O -- The ASM_NASM compiler identification is YASM
+2026-11-19T18:36:01.011299Z 01O -- Found assembler: /usr/bin/yasm
+2026-11-19T18:36:01.013624Z 01E CMake Warning at cmake/util.cmake:60 (message):
+2026-11-19T18:36:01.013627Z 01E   --- Enabled CONFIG_TENSORFLOW_LITE, required for CONFIG_ML_PART_SPLIT.
+2026-11-19T18:36:01.013629Z 01E Call Stack (most recent call first):
+2026-11-19T18:36:01.013630Z 01E   cmake/avm_experiment_deps.cmake:46 (change_config_and_warn)
+2026-11-19T18:36:01.013632Z 01E   cmake/avm_configure.cmake:226 (fix_experiment_configs)
+2026-11-19T18:36:01.013633Z 01E   CMakeLists.txt:77 (include)
+2026-11-19T18:36:01.013634Z 01E
+2026-11-19T18:36:01.013635Z 01E
+2026-11-19T18:36:01.013765Z 01E Running C compiler test: inline_check_1
+2026-11-19T18:36:01.013936Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:36:01.130401Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:36:01.130635Z 01E Running CXX compiler test: inline_check_1
+2026-11-19T18:36:01.130751Z 01O -- Performing Test CXX_TEST_COMPILED
+2026-11-19T18:36:01.258438Z 01O -- Performing Test CXX_TEST_COMPILED - Success
+2026-11-19T18:36:01.258755Z 01E Running C compiler test: unistd_check
+2026-11-19T18:36:01.258995Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:36:01.383040Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:36:01.383129Z 01E Running CXX compiler test: unistd_check
+2026-11-19T18:36:01.383356Z 01O -- Performing Test CXX_TEST_COMPILED
+2026-11-19T18:36:01.515896Z 01O -- Performing Test CXX_TEST_COMPILED - Success
+2026-11-19T18:36:01.516217Z 01E Running C compiler test: fenv_check
+2026-11-19T18:36:01.516424Z 01O -- Performing Test C_TEST_COMPILED
+2026-11-19T18:36:01.638058Z 01O -- Performing Test C_TEST_COMPILED - Success
+2026-11-19T18:36:01.639150Z 01E Checking C compiler flag support for: -std=c11
+2026-11-19T18:36:01.640792Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:01.761619Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:01.762015Z 01E Checking C compiler flag support for: -std=c++17
+2026-11-19T18:36:01.763801Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:01.902864Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:01.903357Z 01E Checking C compiler flag support for: -Wall
+2026-11-19T18:36:01.905134Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:02.023961Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.024453Z 01E Checking C++ compiler flag support for: -Wall
+2026-11-19T18:36:02.026205Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:02.162006Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.162501Z 01E Checking C compiler flag support for: -Wdisabled-optimization
+2026-11-19T18:36:02.164246Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:02.280648Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.280964Z 01E Checking C++ compiler flag support for: -Wdisabled-optimization
+2026-11-19T18:36:02.282515Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:02.409748Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.410264Z 01E Checking C compiler flag support for: -Wextra
+2026-11-19T18:36:02.412082Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:02.534810Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.534971Z 01E Checking C++ compiler flag support for: -Wextra
+2026-11-19T18:36:02.536721Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:02.666214Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.666373Z 01E Checking C compiler flag support for: -Wfloat-conversion
+2026-11-19T18:36:02.668027Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:02.792801Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.793297Z 01E Checking C++ compiler flag support for: -Wfloat-conversion
+2026-11-19T18:36:02.795030Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:02.927236Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:02.927621Z 01E Checking C compiler flag support for: -Wlogical-op
+2026-11-19T18:36:02.928990Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:03.044557Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.044662Z 01E Checking C++ compiler flag support for: -Wlogical-op
+2026-11-19T18:36:03.046016Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:03.167752Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.168257Z 01E Checking C compiler flag support for: -Wno-comment
+2026-11-19T18:36:03.170011Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:03.292863Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.293379Z 01E Checking C++ compiler flag support for: -Wno-comment
+2026-11-19T18:36:03.295067Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:03.424464Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.424991Z 01E Checking C compiler flag support for: -Wpointer-arith
+2026-11-19T18:36:03.426690Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:03.543842Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.544278Z 01E Checking C++ compiler flag support for: -Wpointer-arith
+2026-11-19T18:36:03.546065Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:03.674172Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.674539Z 01E Checking C compiler flag support for: -Wshorten-64-to-32
+2026-11-19T18:36:03.675960Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:03.745225Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:03.745618Z 01E Checking C++ compiler flag support for: -Wshorten-64-to-32
+2026-11-19T18:36:03.747018Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:03.829093Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:03.829582Z 01E Checking C compiler flag support for: -Wsign-compare
+2026-11-19T18:36:03.831327Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:03.955922Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:03.956110Z 01E Checking C++ compiler flag support for: -Wsign-compare
+2026-11-19T18:36:03.956839Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:04.076488Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.076842Z 01E Checking C compiler flag support for: -Wstring-conversion
+2026-11-19T18:36:04.078182Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:04.145330Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:04.145799Z 01E Checking C++ compiler flag support for: -Wstring-conversion
+2026-11-19T18:36:04.147512Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:04.214854Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:04.215242Z 01E Checking C compiler flag support for: -Wtype-limits
+2026-11-19T18:36:04.216587Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:04.326489Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.326904Z 01E Checking C++ compiler flag support for: -Wtype-limits
+2026-11-19T18:36:04.328725Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:04.450242Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.450714Z 01E Checking C compiler flag support for: -Wuninitialized
+2026-11-19T18:36:04.452319Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:04.569049Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.569448Z 01E Checking C++ compiler flag support for: -Wuninitialized
+2026-11-19T18:36:04.570764Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:04.705979Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.706347Z 01E Checking C compiler flag support for: -Wunreachable-code-return
+2026-11-19T18:36:04.708340Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:04.792948Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:04.793356Z 01E Checking C++ compiler flag support for: -Wunreachable-code-return
+2026-11-19T18:36:04.795073Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:04.870447Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:04.870679Z 01E Checking C compiler flag support for: -Wunused
+2026-11-19T18:36:04.872009Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:04.988266Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:04.988699Z 01E Checking C++ compiler flag support for: -Wunused
+2026-11-19T18:36:04.990510Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:05.116002Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.116379Z 01E Checking C compiler flag support for: -Wvla
+2026-11-19T18:36:05.117706Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:05.236231Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.236663Z 01E Checking C++ compiler flag support for: -Wvla
+2026-11-19T18:36:05.238430Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:05.362687Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.362815Z 01E Checking C compiler flag support for: -Wc23-extensions
+2026-11-19T18:36:05.363564Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:05.422487Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:05.422956Z 01E Checking C++ compiler flag support for: -Wc++20-extensions
+2026-11-19T18:36:05.424746Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:05.553134Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.553215Z 01E Checking C++ compiler flag support for: -Wc++23-extensions
+2026-11-19T18:36:05.554036Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:05.682694Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.683108Z 01E Checking C compiler flag support for: -Wa,--gsframe=no
+2026-11-19T18:36:05.684454Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:05.753024Z 01O -- Performing Test C_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:05.753213Z 01E Checking C++ compiler flag support for: -Wa,--gsframe=no
+2026-11-19T18:36:05.753976Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:05.821510Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Failed
+2026-11-19T18:36:05.821991Z 01E Checking C compiler flag support for: -Wstack-usage=960000
+2026-11-19T18:36:05.823732Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:05.943735Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:05.943935Z 01E Checking C++ compiler flag support for: -Wstack-usage=960000
+2026-11-19T18:36:05.945319Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:06.071341Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.071899Z 01E Checking C compiler flag support for: -Wimplicit-function-declaration
+2026-11-19T18:36:06.073564Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:06.187649Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.188145Z 01E Checking C compiler flag support for: -Wshadow
+2026-11-19T18:36:06.189873Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:06.309777Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.310063Z 01E Checking C compiler flag support for: -Wundef
+2026-11-19T18:36:06.311307Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:06.430292Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.430687Z 01E Checking C compiler flag support for: -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+2026-11-19T18:36:06.431841Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:06.563092Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.563597Z 01E Checking C++ compiler flag support for: -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0
+2026-11-19T18:36:06.565422Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:06.697368Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.697994Z 01E Checking C compiler flag support for: -D_LARGEFILE_SOURCE
+2026-11-19T18:36:06.699717Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:06.828237Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.828794Z 01E Checking C++ compiler flag support for: -D_LARGEFILE_SOURCE
+2026-11-19T18:36:06.830536Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:06.955630Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:06.956094Z 01E Checking C compiler flag support for: -D_FILE_OFFSET_BITS=64
+2026-11-19T18:36:06.957794Z 01O -- Performing Test C_FLAG_SUPPORTED
+2026-11-19T18:36:07.075548Z 01O -- Performing Test C_FLAG_SUPPORTED - Success
+2026-11-19T18:36:07.076139Z 01E Checking C++ compiler flag support for: -D_FILE_OFFSET_BITS=64
+2026-11-19T18:36:07.077875Z 01O -- Performing Test CXX_FLAG_SUPPORTED
+2026-11-19T18:36:07.205311Z 01O -- Performing Test CXX_FLAG_SUPPORTED - Success
+2026-11-19T18:36:07.551288Z 01O -- Found Python: /usr/bin/python3 (found version "3.13.3") found components: Interpreter
+2026-11-19T18:36:07.555928Z 01O -- Performing Test FLAG_SUPPORTED
+2026-11-19T18:36:07.664954Z 01O -- Performing Test FLAG_SUPPORTED - Success
+2026-11-19T18:36:07.669857Z 01E Checking C compiler flag support for: -msse2
+2026-11-19T18:36:07.671523Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:07.787595Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:07.787935Z 01E Checking C compiler flag support for: -msse2
+2026-11-19T18:36:07.789312Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:07.908980Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:07.909486Z 01E Checking C compiler flag support for: -msse3
+2026-11-19T18:36:07.910254Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:08.032960Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:08.033382Z 01E Checking C compiler flag support for: -msse3
+2026-11-19T18:36:08.035115Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:08.162991Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:08.163490Z 01E Checking C compiler flag support for: -mssse3
+2026-11-19T18:36:08.165265Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:08.278535Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:08.279035Z 01E Checking C compiler flag support for: -mssse3
+2026-11-19T18:36:08.280932Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:08.410814Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:08.411388Z 01E Checking C compiler flag support for: -msse4.1
+2026-11-19T18:36:08.412205Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:08.524207Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:08.524442Z 01E Checking C compiler flag support for: -msse4.1
+2026-11-19T18:36:08.525150Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:08.648252Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:08.649402Z 01E Checking C compiler flag support for: -msse4.2
+2026-11-19T18:36:08.651160Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:08.769207Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:08.769503Z 01E Checking C compiler flag support for: -msse4.2
+2026-11-19T18:36:08.770944Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:08.891914Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:08.892064Z 01E Checking C compiler flag support for: -mavx2
+2026-11-19T18:36:08.892820Z 01O -- Performing Test HAVE_C_FLAG
+2026-11-19T18:36:09.016675Z 01O -- Performing Test HAVE_C_FLAG - Success
+2026-11-19T18:36:09.017115Z 01E Checking C compiler flag support for: -mavx2
+2026-11-19T18:36:09.018882Z 01O -- Performing Test HAVE_CXX_FLAG
+2026-11-19T18:36:09.154999Z 01O -- Performing Test HAVE_CXX_FLAG - Success
+2026-11-19T18:36:09.196806Z 01O -- Found Doxygen: /usr/bin/doxygen (found version "1.9.8") found components: doxygen dot
+2026-11-19T18:36:09.350063Z 01O -- Configuring done (9.1s)
+2026-11-19T18:36:09.456163Z 01O -- Generating done (0.1s)
+2026-11-19T18:36:09.456681Z 01O -- Build files have been written to: /builds/videolan/dav2d/avm/x86-64
+2026-11-19T18:36:09.550252Z 01O [  0%] Updating version info if necessary.
+2026-11-19T18:36:09.554062Z 01O [  0%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_common.cc.o
+2026-11-19T18:36:09.554888Z 01O [  0%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/common/hdr_util.cc.o
+2026-11-19T18:36:09.555285Z 01O [  1%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_neon.cc.o
+2026-11-19T18:36:09.555295Z 01O [  2%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/cpu_id.cc.o
+2026-11-19T18:36:09.555296Z 01O [  2%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvparser/mkvreader.cc.o
+2026-11-19T18:36:09.555298Z 01O [  2%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_win.cc.o
+2026-11-19T18:36:09.555299Z 01O [  2%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_mips.cc.o
+2026-11-19T18:36:09.555403Z 01O [  2%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvwriter.cc.o
+2026-11-19T18:36:09.556131Z 01O [  3%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/planar_functions.cc.o
+2026-11-19T18:36:09.556133Z 01O [  3%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale.cc.o
+2026-11-19T18:36:09.556367Z 01O [  4%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvmuxer.cc.o
+2026-11-19T18:36:09.556634Z 01O [  5%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvparser/mkvparser.cc.o
+2026-11-19T18:36:09.556715Z 01O [  6%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_gcc.cc.o
+2026-11-19T18:36:09.556716Z 01O [  6%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_common.cc.o
+2026-11-19T18:36:09.556938Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_any.cc.o
+2026-11-19T18:36:09.556940Z 01O [  8%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_any.cc.o
+2026-11-19T18:36:09.557506Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_neon.cc.o
+2026-11-19T18:36:09.557521Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_neon64.cc.o
+2026-11-19T18:36:09.558110Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_mips.cc.o
+2026-11-19T18:36:09.558284Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_neon64.cc.o
+2026-11-19T18:36:09.559886Z 01O [ 10%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/row_gcc.cc.o
+2026-11-19T18:36:09.562016Z 01O [ 11%] Building CXX object CMakeFiles/yuv.dir/third_party/libyuv/source/scale_win.cc.o
+2026-11-19T18:36:09.562584Z 01O [ 11%] Building CXX object CMakeFiles/webm.dir/third_party/libwebm/mkvmuxer/mkvmuxerutil.cc.o
+2026-11-19T18:36:09.578205Z 01O [ 11%] Built target avm_version_check
+2026-11-19T18:36:09.607376Z 01O [ 11%] Building C object CMakeFiles/avm_version.dir/gen_src/avm_version_dummy.c.o
+2026-11-19T18:36:09.635528Z 01O [ 12%] Linking C static library libavm_version.a
+2026-11-19T18:36:09.748885Z 01O [ 13%] Built target avm_version
+2026-11-19T18:36:09.775429Z 01O [ 13%] Building C object CMakeFiles/avm_rtcd.dir/avm_dsp/avm_dsp_rtcd.c.o
+2026-11-19T18:36:09.775900Z 01O [ 13%] Building C object CMakeFiles/avm_rtcd.dir/avm_scale/avm_scale_rtcd.c.o
+2026-11-19T18:36:09.776773Z 01O [ 14%] Building C object CMakeFiles/avm_rtcd.dir/av2/common/av2_rtcd.c.o
+2026-11-19T18:36:09.990605Z 01O [ 17%] Built target avm_rtcd
+2026-11-19T18:36:10.022714Z 01O [ 18%] Building C object CMakeFiles/lanczos_resample.dir/common/lanczos_resample.c.o
+2026-11-19T18:36:10.022729Z 01O [ 18%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/avm_convolve.c.o
+2026-11-19T18:36:10.023029Z 01O [ 18%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/ivfdec.c.o
+2026-11-19T18:36:10.023039Z 01O [ 18%] Building C object CMakeFiles/avm_dsp_common_ssse3_intrinsics.dir/avm_dsp/x86/highbd_convolve_ssse3.c.o
+2026-11-19T18:36:10.023154Z 01O [ 18%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/bitreader_buffer.c.o
+2026-11-19T18:36:10.024073Z 01O [ 19%] Building CXX object CMakeFiles/avm_decoder_app_util.dir/common/webmdec.cc.o
+2026-11-19T18:36:10.024451Z 01O [ 20%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/obudec.c.o
+2026-11-19T18:36:10.024453Z 01O [ 20%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_hmask_sse4.c.o
+2026-11-19T18:36:10.024455Z 01O [ 20%] Building C object CMakeFiles/avm_decoder_app_util.dir/common/video_reader.c.o
+2026-11-19T18:36:10.025131Z 01O [ 21%] Building C object CMakeFiles/avm_dsp.dir/gen_src/avm_dsp_dummy.c.o
+2026-11-19T18:36:10.025269Z 01O [ 21%] Building C object CMakeFiles/avm_dsp.dir/gen_src/avm_av2_dummy.c.o
+2026-11-19T18:36:10.027640Z 01O [ 21%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/binary_codes_reader.c.o
+2026-11-19T18:36:10.027644Z 01O [ 21%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_hmask.c.o
+2026-11-19T18:36:10.027645Z 01O [ 25%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avm_convolve_copy_sse2.c.o
+2026-11-19T18:36:10.027646Z 01O [ 25%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_mask.c.o
+2026-11-19T18:36:10.027647Z 01O [ 25%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/bitwriter_buffer.c.o
+2026-11-19T18:36:10.027648Z 01O [ 26%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/blend_a64_vmask.c.o
+2026-11-19T18:36:10.027650Z 01O [ 27%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/av2_dx_iface.c.o
+2026-11-19T18:36:10.027651Z 01O [ 27%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/bitreader.c.o
+2026-11-19T18:36:10.027652Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/entcode.c.o
+2026-11-19T18:36:10.027653Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/fft_sse2.c.o
+2026-11-19T18:36:10.027687Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_vmask_sse4.c.o
+2026-11-19T18:36:10.027701Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_intrapred_sse2.c.o
+2026-11-19T18:36:10.027702Z 01O [ 28%] Building C object CMakeFiles/avm_dsp_decoder.dir/avm_dsp/entdec.c.o
+2026-11-19T18:36:10.027887Z 01O [ 31%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_convolve_sse2.c.o
+2026-11-19T18:36:10.027996Z 01O [ 32%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/intrapred.c.o
+2026-11-19T18:36:10.031207Z 01O [ 32%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/blend_a64_mask_sse4.c.o
+2026-11-19T18:36:10.031229Z 01O [ 32%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/fft.c.o
+2026-11-19T18:36:10.031231Z 01O [ 33%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/highbd_subtract_sse2.c.o
+2026-11-19T18:36:10.031232Z 01O [ 34%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/gen_scalers.c.o
+2026-11-19T18:36:10.031234Z 01O [ 34%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avm_asm_stubs.c.o
+2026-11-19T18:36:10.031235Z 01O [ 35%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodeframe.c.o
+2026-11-19T18:36:10.031236Z 01O [ 35%] Building C object CMakeFiles/avm_dsp_common_sse2_intrinsics.dir/avm_dsp/x86/avg_intrin_sse2.c.o
+2026-11-19T18:36:10.031237Z 01O [ 35%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/avm_scale.c.o
+2026-11-19T18:36:10.031238Z 01O [ 35%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/yv12config.c.o
+2026-11-19T18:36:10.031240Z 01O [ 36%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/grain_synthesis.c.o
+2026-11-19T18:36:10.031241Z 01O [ 36%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/subtract.c.o
+2026-11-19T18:36:10.031242Z 01O [ 37%] Building C object CMakeFiles/avm_scale.dir/avm_scale/generic/yv12extend.c.o
+2026-11-19T18:36:10.031243Z 01O [ 39%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/sad.c.o
+2026-11-19T18:36:10.031244Z 01O [ 39%] Building C object CMakeFiles/avm_dsp_common_sse4_1_intrinsics.dir/avm_dsp/x86/loopfilter_sse4.c.o
+2026-11-19T18:36:10.031245Z 01O [ 39%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/loopfilter.c.o
+2026-11-19T18:36:10.031246Z 01O [ 39%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/annexF.c.o
+2026-11-19T18:36:10.031247Z 01O [ 39%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodemv.c.o
+2026-11-19T18:36:10.032480Z 01O [ 40%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_high_subpixel_8t_sse2.asm.o
+2026-11-19T18:36:10.032875Z 01O [ 40%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decoder.c.o
+2026-11-19T18:36:10.036191Z 01O [ 40%] Building ASM_NASM object CMakeFiles/avm_ports.dir/avm_ports/emms.asm.o
+2026-11-19T18:36:10.038330Z 01O [ 41%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_high_subpixel_bilinear_sse2.asm.o
+2026-11-19T18:36:10.038338Z 01O [ 41%] Building C object CMakeFiles/avm_av2_common.dir/common/args_helper.c.o
+2026-11-19T18:36:10.047857Z 01O [ 42%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/intra_matrix_avx2.c.o
+2026-11-19T18:36:10.047868Z 01O [ 42%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/cdef_block_ssse3.c.o
+2026-11-19T18:36:10.047870Z 01O [ 42%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/avm_convolve_copy_avx2.c.o
+2026-11-19T18:36:10.047872Z 01O [ 43%] Building C object CMakeFiles/avm_mem.dir/avm_mem/avm_mem.c.o
+2026-11-19T18:36:10.047873Z 01O [ 43%] Building C object CMakeFiles/avm_util.dir/avm_util/avm_thread.c.o
+2026-11-19T18:36:10.047875Z 01O [ 43%] Building C object CMakeFiles/avm_av2_common_sse2_intrinsics.dir/av2/common/cdef_block_sse2.c.o
+2026-11-19T18:36:10.047876Z 01O [ 44%] Building C object CMakeFiles/avm_common_app_util.dir/av2/arg_defs.c.o
+2026-11-19T18:36:10.047877Z 01O [ 44%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/cdef_block_sse4.c.o
+2026-11-19T18:36:10.047884Z 01O [ 44%] Building ASM_NASM object CMakeFiles/avm_dsp_common_ssse3.dir/avm_dsp/x86/avm_subpixel_8t_ssse3.asm.o
+2026-11-19T18:36:10.054955Z 01O [ 45%] Building C object CMakeFiles/avm_dsp_decoder_avx2_intrinsics.dir/avm_dsp/x86/entdec_avx2.c.o
+2026-11-19T18:36:10.059852Z 01O [ 47%] Building C object CMakeFiles/avm_dsp_common.dir/avm_dsp/avg.c.o
+2026-11-19T18:36:10.066975Z 01O [ 47%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_subpixel_8t_sse2.asm.o
+2026-11-19T18:36:10.080265Z 01O [ 47%] Built target avm_ports
+2026-11-19T18:36:10.080275Z 01O [ 48%] Building ASM_NASM object CMakeFiles/avm_dsp_common_ssse3.dir/avm_dsp/x86/avm_subpixel_bilinear_ssse3.asm.o
+2026-11-19T18:36:10.096044Z 01O [ 48%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/av2_convolve_horiz_rs_sse4.c.o
+2026-11-19T18:36:10.099282Z 01O [ 48%] Built target avm_dsp
+2026-11-19T18:36:10.100064Z 01O [ 49%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/avm_subpixel_bilinear_sse2.asm.o
+2026-11-19T18:36:10.110410Z 01O [ 49%] Building C object CMakeFiles/avm_common_app_util.dir/common/args_helper.c.o
+2026-11-19T18:36:10.116017Z 01O [ 49%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/fft_avx2.c.o
+2026-11-19T18:36:10.116026Z 01O [ 50%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/highbd_convolve_avx2.c.o
+2026-11-19T18:36:10.121884Z 01O [ 50%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/highbd_intrapred_asm_sse2.asm.o
+2026-11-19T18:36:10.124248Z 01O [ 50%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/intrapred_avx2.c.o
+2026-11-19T18:36:10.126258Z 01O [ 52%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/blend_a64_mask_avx2.c.o
+2026-11-19T18:36:10.127813Z 01O [ 51%] Building C object CMakeFiles/avm_common_app_util.dir/common/args.c.o
+2026-11-19T18:36:10.140522Z 01O [ 52%] Building C object CMakeFiles/avm_util.dir/avm_util/debug_util.c.o
+2026-11-19T18:36:10.147894Z 01O [ 54%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/decodetxb.c.o
+2026-11-19T18:36:10.154115Z 01O [ 54%] Built target avm_mem
+2026-11-19T18:36:10.163731Z 01O [ 54%] Building C object CMakeFiles/avm_common_app_util.dir/common/av2_config.c.o
+2026-11-19T18:36:10.163740Z 01O [ 55%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/highbd_sad_sse2.asm.o
+2026-11-19T18:36:10.163746Z 01O [ 55%] Building C object CMakeFiles/avm_av2_common_sse2_intrinsics.dir/av2/common/x86/cfl_sse2.c.o
+2026-11-19T18:36:10.179711Z 01O [ 55%] Building C object CMakeFiles/avm_dsp_common_avx2_intrinsics.dir/avm_dsp/x86/avg_intrin_avx2.c.o
+2026-11-19T18:36:10.179721Z 01O [ 55%] Built target avm_dsp_common_ssse3
+2026-11-19T18:36:10.180139Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/cdef_block_avx2.c.o
+2026-11-19T18:36:10.187407Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/cfl_ssse3.c.o
+2026-11-19T18:36:10.191889Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/highbd_convolve_2d_ssse3.c.o
+2026-11-19T18:36:10.195695Z 01O [ 56%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/annexA.c.o
+2026-11-19T18:36:10.198587Z 01O [ 56%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/detokenize.c.o
+2026-11-19T18:36:10.216149Z 01O [ 57%] Building C object CMakeFiles/avm_common_app_util.dir/common/md5_utils.c.o
+2026-11-19T18:36:10.217229Z 01O [ 58%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/av2_convolve_scale_sse4.c.o
+2026-11-19T18:36:10.219763Z 01O [ 58%] Built target avm_util
+2026-11-19T18:36:10.238614Z 01O [ 58%] Built target avm_decoder_app_util
+2026-11-19T18:36:10.242625Z 01O [ 58%] Building ASM_NASM object CMakeFiles/avm_dsp_common_sse2.dir/avm_dsp/x86/inv_wht_sse2.asm.o
+2026-11-19T18:36:10.254556Z 01O [ 60%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/highbd_wiener_convolve_ssse3.c.o
+2026-11-19T18:36:10.254565Z 01O [ 60%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_qm.c.o
+2026-11-19T18:36:10.255691Z 01O [ 60%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/affine_optflow_refine_avx2.c.o
+2026-11-19T18:36:10.262441Z 01O [ 62%] Building C object CMakeFiles/avm_av2_common_ssse3_intrinsics.dir/av2/common/x86/reconinter_ssse3.c.o
+2026-11-19T18:36:10.262450Z 01O [ 62%] Building C object CMakeFiles/avm_av2_common.dir/av2/arg_defs.c.o
+2026-11-19T18:36:10.285823Z 01O [ 63%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/bawp_avx2.c.o
+2026-11-19T18:36:10.296532Z 01O [ 63%] Built target avm_scale
+2026-11-19T18:36:10.308071Z 01O [ 63%] Built target avm_dsp_decoder
+2026-11-19T18:36:10.315868Z 01O [ 63%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/alloccommon.c.o
+2026-11-19T18:36:10.319091Z 01O [ 63%] Building C object CMakeFiles/avm_common_app_util.dir/common/tools_common.c.o
+2026-11-19T18:36:10.319156Z 01O [ 63%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_fgm.c.o
+2026-11-19T18:36:10.327273Z 01O [ 63%] Built target avm_dsp_common_ssse3_intrinsics
+2026-11-19T18:36:10.333498Z 01O [ 64%] Building C object CMakeFiles/avm_common_app_util.dir/common/rawenc.c.o
+2026-11-19T18:36:10.340023Z 01O [ 64%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/cfl_avx2.c.o
+2026-11-19T18:36:10.359918Z 01O [ 65%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu.c.o
+2026-11-19T18:36:10.363826Z 01O [ 66%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_ccso_avx2.c.o
+2026-11-19T18:36:10.370074Z 01O [ 66%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/cfl_sse4.c.o
+2026-11-19T18:36:10.370081Z 01O [ 67%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_convolve_2d_sse4.c.o
+2026-11-19T18:36:10.386980Z 01O [ 67%] Building C object CMakeFiles/avm_common_app_util.dir/common/y4menc.c.o
+2026-11-19T18:36:10.392827Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_inv_txfm2d.c.o
+2026-11-19T18:36:10.407917Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_inv_txfm_sse4.c.o
+2026-11-19T18:36:10.462163Z 01O [ 68%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_ci.c.o
+2026-11-19T18:36:10.479813Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_convolve_2d_avx2.c.o
+2026-11-19T18:36:10.479823Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_loopfilter.c.o
+2026-11-19T18:36:10.497200Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_inv_txfm_avx2.c.o
+2026-11-19T18:36:10.515885Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/av2_txfm.c.o
+2026-11-19T18:36:10.526610Z 01O [ 68%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_jnt_convolve_sse4.c.o
+2026-11-19T18:36:10.530399Z 01O [ 70%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_jnt_convolve_avx2.c.o
+2026-11-19T18:36:10.591997Z 01O [ 70%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_atlas.c.o
+2026-11-19T18:36:10.615908Z 01O [ 71%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/blockd.c.o
+2026-11-19T18:36:10.619910Z 01O [ 71%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_wiener_convolve_avx2.c.o
+2026-11-19T18:36:10.677499Z 01O [ 72%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/highbd_warp_affine_avx2.c.o
+2026-11-19T18:36:10.727575Z 01O [ 72%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/x86/reconinter_avx2.c.o
+2026-11-19T18:36:10.735440Z 01O [ 73%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_lcr.c.o
+2026-11-19T18:36:10.738120Z 01O [ 74%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/highbd_warp_plane_sse4.c.o
+2026-11-19T18:36:10.759840Z 01O [ 74%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/intra_edge_sse4.c.o
+2026-11-19T18:36:10.787862Z 01O [ 75%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/optflow_refine_sse4.c.o
+2026-11-19T18:36:10.807859Z 01O [ 75%] Building C object CMakeFiles/avm_av2_common_sse4_intrinsics.dir/av2/common/x86/reconinter_sse4.c.o
+2026-11-19T18:36:10.815735Z 01O [ 75%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_ops.c.o
+2026-11-19T18:36:10.852610Z 01O [ 77%] Building C object CMakeFiles/avm_av2_decoder.dir/av2/decoder/obu_buf.c.o
+2026-11-19T18:36:10.866359Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common_avx2_intrinsics.dir/av2/common/gdf_block_avx2.c.o
+2026-11-19T18:36:10.884824Z 01O [ 78%] Built target avm_common_app_util
+2026-11-19T18:36:10.900431Z 01O [ 78%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cdef.c.o
+2026-11-19T18:36:10.904328Z 01O [ 79%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/gdf.c.o
+2026-11-19T18:36:10.904551Z 01O [ 79%] Built target avm_dsp_common_sse2_intrinsics
+2026-11-19T18:36:10.910644Z 01O [ 79%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/gdf_block.c.o
+2026-11-19T18:36:10.915832Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cdef_block.c.o
+2026-11-19T18:36:10.926843Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/convolve.c.o
+2026-11-19T18:36:10.932328Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropymode.c.o
+2026-11-19T18:36:10.935952Z 01O [ 80%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cfl.c.o
+2026-11-19T18:36:10.944099Z 01O [ 81%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropy.c.o
+2026-11-19T18:36:10.971927Z 01O [ 82%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/entropymv.c.o
+2026-11-19T18:36:10.987003Z 01O [ 82%] Built target avm_dsp_common_sse2
+2026-11-19T18:36:11.007485Z 01O [ 82%] Built target avm_dsp_decoder_avx2_intrinsics
+2026-11-19T18:36:11.007496Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/frame_buffers.c.o
+2026-11-19T18:36:11.007498Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/idct.c.o
+2026-11-19T18:36:11.027872Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/mvref_common.c.o
+2026-11-19T18:36:11.036375Z 01O [ 83%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/level.c.o
+2026-11-19T18:36:11.045986Z 01O [ 85%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/obu_util.c.o
+2026-11-19T18:36:11.069823Z 01O [ 85%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/odintrin.c.o
+2026-11-19T18:36:11.089117Z 01O [ 86%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/predefined_qm.c.o
+2026-11-19T18:36:11.118434Z 01O [ 86%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/pred_common.c.o
+2026-11-19T18:36:11.124477Z 01O [ 86%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/reconintra.c.o
+2026-11-19T18:36:11.126173Z 01O [ 87%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/quant_common.c.o
+2026-11-19T18:36:11.126440Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/resize.c.o
+2026-11-19T18:36:11.127810Z 01O [ 88%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/reconinter.c.o
+2026-11-19T18:36:11.136768Z 01O [ 89%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/scale.c.o
+2026-11-19T18:36:11.136778Z 01O [ 89%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/scan.c.o
+2026-11-19T18:36:11.145575Z 01O [ 89%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/restoration.c.o
+2026-11-19T18:36:11.177222Z 01O [ 90%] Built target avm_dsp_common_sse4_1_intrinsics
+2026-11-19T18:36:11.180342Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/seg_common.c.o
+2026-11-19T18:36:11.204353Z 01O [ 90%] Built target lanczos_resample
+2026-11-19T18:36:11.214966Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/tile_common.c.o
+2026-11-19T18:36:11.220303Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/thread_common.c.o
+2026-11-19T18:36:11.225632Z 01O [ 90%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/tip.c.o
+2026-11-19T18:36:11.228495Z 01O [ 91%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/timing.c.o
+2026-11-19T18:36:11.251897Z 01O [ 93%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/txb_common.c.o
+2026-11-19T18:36:11.281508Z 01O [ 93%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/warped_motion.c.o
+2026-11-19T18:36:11.282953Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/hr_coding.c.o
+2026-11-19T18:36:11.307112Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/cost.c.o
+2026-11-19T18:36:11.372135Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/intra_matrix.c.o
+2026-11-19T18:36:11.381396Z 01O [ 94%] Built target avm_av2_common_sse2_intrinsics
+2026-11-19T18:36:11.406591Z 01O [ 94%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/ccso.c.o
+2026-11-19T18:36:11.417575Z 01O [ 95%] Building CXX object CMakeFiles/avm_av2_common.dir/av2/common/intra_dip.cc.o
+2026-11-19T18:36:11.465383Z 01O [ 95%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/banding_metadata.c.o
+2026-11-19T18:36:11.484648Z 01O [ 96%] Building C object CMakeFiles/avm_av2_common.dir/av2/common/bru.c.o
+2026-11-19T18:36:11.683920Z 01O [ 96%] Built target avm_av2_common_ssse3_intrinsics
+2026-11-19T18:36:12.125748Z 01O [ 96%] Built target avm_av2_common_sse4_intrinsics
+2026-11-19T18:36:12.723318Z 01O [ 96%] Built target webm
+2026-11-19T18:36:13.103679Z 01O [ 96%] Built target avm_av2_common_avx2_intrinsics
+2026-11-19T18:36:15.843599Z 01O [ 96%] Built target avm_dsp_common_avx2_intrinsics
+2026-11-19T18:36:16.589884Z 01O [ 96%] Built target yuv
+2026-11-19T18:36:17.187974Z 01O [ 96%] Built target avm_av2_decoder
+2026-11-19T18:36:17.422808Z 01O [ 96%] Built target avm_av2_common
+2026-11-19T18:36:18.163545Z 01O [ 96%] Built target avm_dsp_common
+2026-11-19T18:36:18.194404Z 01O [ 96%] Building C object CMakeFiles/avm.dir/config/avm_config.c.o
+2026-11-19T18:36:18.195430Z 01O [ 97%] Building C object CMakeFiles/avm.dir/avm/src/avm_decoder.c.o
+2026-11-19T18:36:18.195712Z 01O [ 97%] Building C object CMakeFiles/avm.dir/avm/src/avm_encoder.c.o
+2026-11-19T18:36:18.195991Z 01O [ 98%] Building C object CMakeFiles/avm.dir/avm/src/avm_image.c.o
+2026-11-19T18:36:18.196144Z 01O [ 98%] Building C object CMakeFiles/avm.dir/avm/src/avm_integer.c.o
+2026-11-19T18:36:18.199600Z 01O [ 98%] Building C object CMakeFiles/avm.dir/avm/src/avm_codec.c.o
+2026-11-19T18:36:18.505751Z 01O [ 98%] Linking CXX static library libavm.a
+2026-11-19T18:36:18.742735Z 01O [ 98%] Built target avm
+2026-11-19T18:36:18.771046Z 01O [100%] Building C object CMakeFiles/avmdec.dir/apps/avmdec.c.o
+2026-11-19T18:36:19.173498Z 01O [100%] Linking CXX executable avmdec
+2026-11-19T18:36:19.304171Z 01O [100%] Built target avmdec
+2026-11-19T18:36:19.324703Z 01O $ sed -i 's|#define DEBUG_OBU_HDR 0|#define DEBUG_OBU_HDR 1|' src/obu.c # collapsed multi-line command
+2026-11-19T18:36:19.349225Z 01O diff --git a/src/debug.h b/src/debug.h
+2026-11-19T18:36:19.349233Z 01O index a3d4285..1afa26f 100644
+2026-11-19T18:36:19.349234Z 01O --- a/src/debug.h
+2026-11-19T18:36:19.349235Z 01O +++ b/src/debug.h
+2026-11-19T18:36:19.349236Z 01O @@ -28,11 +28,11 @@
+2026-11-19T18:36:19.349236Z 01O  #ifndef DAV2D_SRC_DEBUG_H
+2026-11-19T18:36:19.349237Z 01O  #define DAV2D_SRC_DEBUG_H
+2026-11-19T18:36:19.349238Z 01O
+2026-11-19T18:36:19.349238Z 01O -#define DEBUG_BLOCK_INFO 0
+2026-11-19T18:36:19.349238Z 01O +#define DEBUG_BLOCK_INFO 1
+2026-11-19T18:36:19.349239Z 01O  #if DEBUG_BLOCK_INFO
+2026-11-19T18:36:19.349239Z 01O  #define DB_ONLY(...) __VA_ARGS__,
+2026-11-19T18:36:19.349240Z 01O  #define BLOCK_TO_DEBUG_S(frame_offset, by, bx) \
+2026-11-19T18:36:19.349240Z 01O -    frame_offset == 0 && by >= 0 && by < 16 && bx >= 0 && bx < 16
+2026-11-19T18:36:19.349241Z 01O +    frame_offset <= 4 && by >= 0 && by < 16 && bx >= 0 && bx < 16
+2026-11-19T18:36:19.349242Z 01O  #define BLOCK_TO_DEBUG BLOCK_TO_DEBUG_S(f->frame_hdr->frame_offset, t->by, t->bx)
+2026-11-19T18:36:19.349242Z 01O  #define DEBUG_BLOCK_printf(...) \
+2026-11-19T18:36:19.349243Z 01O      if (BLOCK_TO_DEBUG) { \
+2026-11-19T18:36:19.349243Z 01O @@ -43,6 +43,6 @@
+2026-11-19T18:36:19.349256Z 01O  #define BLOCK_TO_DEBUG 0
+2026-11-19T18:36:19.349257Z 01O  #define DEBUG_BLOCK_printf(...) do { } while (0)
+2026-11-19T18:36:19.349257Z 01O  #endif
+2026-11-19T18:36:19.349258Z 01O -#define DEBUG_B_PIXELS 0
+2026-11-19T18:36:19.349258Z 01O +#define DEBUG_B_PIXELS 1
+2026-11-19T18:36:19.349258Z 01O
+2026-11-19T18:36:19.349259Z 01O  #endif /* DAV2D_SRC_DEBUG_H */
+2026-11-19T18:36:19.349259Z 01O diff --git a/src/obu.c b/src/obu.c
+2026-11-19T18:36:19.349260Z 01O index 2ba2254..6ef4950 100644
+2026-11-19T18:36:19.349260Z 01O --- a/src/obu.c
+2026-11-19T18:36:19.349261Z 01O +++ b/src/obu.c
+2026-11-19T18:36:19.349261Z 01O @@ -209,7 +209,7 @@ static NOINLINE int parse_seq_hdr(Dav2dSequenceHeader *const hdr,
+2026-11-19T18:36:19.349262Z 01O                                    GetBits *const gb,
+2026-11-19T18:36:19.349262Z 01O                                    const int strict_std_compliance)
+2026-11-19T18:36:19.349263Z 01O  {
+2026-11-19T18:36:19.349263Z 01O -#define DEBUG_SEQ_HDR 0
+2026-11-19T18:36:19.349264Z 01O +#define DEBUG_SEQ_HDR 1
+2026-11-19T18:36:19.349264Z 01O
+2026-11-19T18:36:19.349264Z 01O  #if DEBUG_SEQ_HDR
+2026-11-19T18:36:19.349265Z 01O      const unsigned init_bit_pos = dav2d_get_bits_pos(gb);
+2026-11-19T18:36:19.349265Z 01O @@ -1096,7 +1096,7 @@ static void rescale_matrix(int32_t *const dm, const int32_t *const sm,
+2026-11-19T18:36:19.349266Z 01O  static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+2026-11-19T18:36:19.349267Z 01O                             const enum Dav2dObuType obu_type)
+2026-11-19T18:36:19.349267Z 01O  {
+2026-11-19T18:36:19.349267Z 01O -#define DEBUG_FRAME_HDR 0
+2026-11-19T18:36:19.349268Z 01O +#define DEBUG_FRAME_HDR 1
+2026-11-19T18:36:19.349268Z 01O
+2026-11-19T18:36:19.349269Z 01O  #if DEBUG_FRAME_HDR
+2026-11-19T18:36:19.349269Z 01O      const uint8_t *const init_ptr = &gb->ptr[-!!(gb->bits_left & 7)];
+2026-11-19T18:36:19.349270Z 01O @@ -2238,7 +2238,7 @@ error:
+2026-11-19T18:36:19.349270Z 01O  }
+2026-11-19T18:36:19.349270Z 01O
+2026-11-19T18:36:19.349271Z 01O  static int parse_fgm_hdr(Dav2dContext *const c, GetBits *const gb) {
+2026-11-19T18:36:19.349271Z 01O -#define DEBUG_FGM_HDR 0
+2026-11-19T18:36:19.349272Z 01O +#define DEBUG_FGM_HDR 1
+2026-11-19T18:36:19.349272Z 01O  #if DEBUG_FGM_HDR
+2026-11-19T18:36:19.349273Z 01O      const uint8_t *const init_ptr = gb->ptr;
+2026-11-19T18:36:19.349273Z 01O  #endif
+2026-11-19T18:36:19.349273Z 01O @@ -2352,7 +2352,7 @@ error:
+2026-11-19T18:36:19.349274Z 01O  static int parse_ci_hdr(Dav2dContext *const c, GetBits *const gb,
+2026-11-19T18:36:19.349274Z 01O                          const int strict_std_compliance)
+2026-11-19T18:36:19.349275Z 01O  {
+2026-11-19T18:36:19.349275Z 01O -#define DEBUG_CI_HDR 0
+2026-11-19T18:36:19.349276Z 01O +#define DEBUG_CI_HDR 1
+2026-11-19T18:36:19.349276Z 01O  #if DEBUG_CI_HDR
+2026-11-19T18:36:19.349277Z 01O      const uint8_t *const init_ptr = gb->ptr;
+2026-11-19T18:36:19.349277Z 01O  #endif
+2026-11-19T18:36:19.349278Z 01O @@ -2630,7 +2630,7 @@ ptrdiff_t dav2d_parse_obus(Dav2dContext *const c, Dav2dData *const in) {
+2026-11-19T18:36:19.349278Z 01O          if (!in_temporal_layer || !in_spatial_layer)
+2026-11-19T18:36:19.349279Z 01O              return gb.ptr_end - gb.ptr_start;
+2026-11-19T18:36:19.349279Z 01O      }
+2026-11-19T18:36:19.349280Z 01O -#define DEBUG_OBU_HDR 0
+2026-11-19T18:36:19.349280Z 01O +#define DEBUG_OBU_HDR 1
+2026-11-19T18:36:19.349281Z 01O      if (DEBUG_OBU_HDR)
+2026-11-19T18:36:19.349281Z 01O          printf("OBU type=%d size=%td\n",
+2026-11-19T18:36:19.349282Z 01O                 type, gb.ptr_end - gb.ptr);
+2026-11-19T18:36:19.349282Z 01O diff --git a/src/refmvs.c b/src/refmvs.c
+2026-11-19T18:36:19.349283Z 01O index 0f2523c..85e0511 100644
+2026-11-19T18:36:19.349283Z 01O --- a/src/refmvs.c
+2026-11-19T18:36:19.349283Z 01O +++ b/src/refmvs.c
+2026-11-19T18:36:19.349284Z 01O @@ -41,7 +41,7 @@
+2026-11-19T18:36:19.349284Z 01O  #include "src/mem.h"
+2026-11-19T18:36:19.349285Z 01O  #include "src/refmvs.h"
+2026-11-19T18:36:19.349285Z 01O
+2026-11-19T18:36:19.349285Z 01O -#define DEBUG_REFMV 0
+2026-11-19T18:36:19.349290Z 01O +#define DEBUG_REFMV 1
+2026-11-19T18:36:19.349290Z 01O
+2026-11-19T18:36:19.349290Z 01O  #define INVALID_REF2REF INT8_MIN
+2026-11-19T18:36:19.349291Z 01O
+2026-11-19T18:36:19.349510Z 01O $ meson setup build --buildtype debugoptimized -Dtrim_dsp=false && ninja -C build
+2026-11-19T18:36:20.963007Z 01E Cloning into 'checkasm'...
+2026-11-19T18:36:21.523126Z 01E HEAD is now at 0df0253 meson: Enable -Wimplicit-fallthrough=5
+2026-11-19T18:36:22.116737Z 01O The Meson build system
+2026-11-19T18:36:22.116747Z 01O Version: 1.7.0
+2026-11-19T18:36:22.116748Z 01O Source dir: /builds/videolan/dav2d
+2026-11-19T18:36:22.116750Z 01O Build dir: /builds/videolan/dav2d/build
+2026-11-19T18:36:22.116752Z 01O Build type: native build
+2026-11-19T18:36:22.116753Z 01O Project name: dav2d
+2026-11-19T18:36:22.116754Z 01O Project version: 0.0.1
+2026-11-19T18:36:22.116755Z 01O C compiler for the host machine: cc (gcc 14.2.0 "cc (Debian 14.2.0-19) 14.2.0")
+2026-11-19T18:36:22.116756Z 01O C linker for the host machine: cc ld.bfd 2.44
+2026-11-19T18:36:22.116758Z 01O Host machine cpu family: x86_64
+2026-11-19T18:36:22.116758Z 01O Host machine cpu: x86_64
+2026-11-19T18:36:22.116759Z 01O Fetching value of define "DAV2D_API_VERSION_MAJOR" : 1
+2026-11-19T18:36:22.116760Z 01O Fetching value of define "DAV2D_API_VERSION_MINOR" : 0
+2026-11-19T18:36:22.116761Z 01O Fetching value of define "DAV2D_API_VERSION_PATCH" : 0
+2026-11-19T18:36:22.116762Z 01O Fetching value of define "__ILP32__" : (undefined)
+2026-11-19T18:36:22.116763Z 01O Run-time dependency threads found: YES
+2026-11-19T18:36:22.116764Z 01O Checking for function "clock_gettime" : YES
+2026-11-19T18:36:22.116765Z 01O Checking for function "sigaction" : YES
+2026-11-19T18:36:22.116766Z 01O Checking for function "posix_memalign" : YES
+2026-11-19T18:36:22.116767Z 01O Checking for function "memalign" : YES
+2026-11-19T18:36:22.116768Z 01O Checking for function "aligned_alloc" : YES
+2026-11-19T18:36:22.116769Z 01O Library dl found: YES
+2026-11-19T18:36:22.116770Z 01O Checking for function "dlsym" with dependency -ldl: YES
+2026-11-19T18:36:22.116771Z 01O Library m found: YES
+2026-11-19T18:36:22.116772Z 01O Check usable header "stdatomic.h" : YES
+2026-11-19T18:36:22.116773Z 01O Check usable header "sys/types.h" : YES
+2026-11-19T18:36:22.116774Z 01O Check usable header "unistd.h" : YES
+2026-11-19T18:36:22.116775Z 01O Check usable header "io.h" : NO
+2026-11-19T18:36:22.116776Z 01O Check usable header "pthread_np.h" : NO
+2026-11-19T18:36:22.116777Z 01O Checking for function "getopt_long" : YES
+2026-11-19T18:36:22.116777Z 01O Checking for function "pthread_getaffinity_np" with dependency threads: YES
+2026-11-19T18:36:22.116779Z 01O Checking for function "pthread_setaffinity_np" with dependency threads: YES
+2026-11-19T18:36:22.116780Z 01O Checking for function "pthread_setname_np" with dependency threads: YES
+2026-11-19T18:36:22.116781Z 01O Checking for function "pthread_set_name_np" with dependency threads: NO
+2026-11-19T18:36:22.116782Z 01O Checking if "_Generic" compiles: YES
+2026-11-19T18:36:22.116783Z 01O Compiler for C supports arguments -fvisibility=hidden: YES
+2026-11-19T18:36:22.116784Z 01O Compiler for C supports arguments -Wundef: YES
+2026-11-19T18:36:22.116785Z 01O Compiler for C supports arguments -Werror=vla: YES
+2026-11-19T18:36:22.116786Z 01O Compiler for C supports arguments -Wno-maybe-uninitialized: YES
+2026-11-19T18:36:22.116787Z 01O Compiler for C supports arguments -Wno-missing-field-initializers: YES
+2026-11-19T18:36:22.116788Z 01O Compiler for C supports arguments -Wno-stringop-overflow: YES
+2026-11-19T18:36:22.116790Z 01O Compiler for C supports arguments -Wno-unused-parameter: YES
+2026-11-19T18:36:22.116791Z 01O Compiler for C supports arguments -Wstrict-prototypes: YES
+2026-11-19T18:36:22.116792Z 01O Compiler for C supports arguments -Werror=missing-prototypes: YES
+2026-11-19T18:36:22.116793Z 01O Compiler for C supports arguments -Wshorten-64-to-32: NO
+2026-11-19T18:36:22.116794Z 01O Compiler for C supports arguments -fomit-frame-pointer: YES
+2026-11-19T18:36:22.116815Z 01O Compiler for C supports arguments -ffast-math: YES
+2026-11-19T18:36:22.116816Z 01O Fetching value of define "__AVX__" : (undefined)
+2026-11-19T18:36:22.116817Z 01O Program nasm found: YES (/usr/bin/nasm)
+2026-11-19T18:36:22.116818Z 01O Configuring config.asm using configuration
+2026-11-19T18:36:22.116819Z 01O Configuring config.h using configuration
+2026-11-19T18:36:22.116820Z 01O Found pkg-config: YES (/usr/bin/pkg-config) 1.8.1
+2026-11-19T18:36:22.116822Z 01O Header "xxhash.h" has symbol "XXH3_createState" : YES
+2026-11-19T18:36:22.116823Z 01O Configuring cli_config.h using configuration
+2026-11-19T18:36:22.116824Z 01O Found CMake: /usr/bin/cmake (3.31.6)
+2026-11-19T18:36:22.116825Z 01O Run-time dependency checkasm found: NO (tried pkgconfig and cmake)
+2026-11-19T18:36:22.116826Z 01O Looking for a fallback subproject for the dependency checkasm
+2026-11-19T18:36:22.116827Z 01O
+2026-11-19T18:36:22.116828Z 01O Executing subproject checkasm
+2026-11-19T18:36:22.116829Z 01O
+2026-11-19T18:36:22.116829Z 01O checkasm| Project name: checkasm
+2026-11-19T18:36:22.116830Z 01O checkasm| Project version: 1.2.0
+2026-11-19T18:36:22.116831Z 01O checkasm| C compiler for the host machine: cc (gcc 14.2.0 "cc (Debian 14.2.0-19) 14.2.0")
+2026-11-19T18:36:22.116833Z 01O checkasm| C linker for the host machine: cc ld.bfd 2.44
+2026-11-19T18:36:22.116834Z 01O checkasm| Compiler for C supports arguments -Wundef: YES (cached)
+2026-11-19T18:36:22.116835Z 01O checkasm| Compiler for C supports arguments -Werror=vla: YES (cached)
+2026-11-19T18:36:22.116837Z 01O checkasm| Compiler for C supports arguments -Wno-maybe-uninitialized: YES (cached)
+2026-11-19T18:36:22.116838Z 01O checkasm| Compiler for C supports arguments -Wno-missing-field-initializers: YES (cached)
+2026-11-19T18:36:22.116839Z 01O checkasm| Compiler for C supports arguments -Wno-unused-parameter: YES (cached)
+2026-11-19T18:36:22.116841Z 01O checkasm| Compiler for C supports arguments -Wstrict-prototypes: YES (cached)
+2026-11-19T18:36:22.116842Z 01O checkasm| Compiler for C supports arguments -Werror=missing-prototypes: YES (cached)
+2026-11-19T18:36:22.116843Z 01O checkasm| Compiler for C supports arguments -Wshorten-64-to-32: NO (cached)
+2026-11-19T18:36:22.116844Z 01O checkasm| Compiler for C supports arguments -Wtype-limits: YES
+2026-11-19T18:36:22.116846Z 01O checkasm| Compiler for C supports arguments -Wredundant-decls: YES
+2026-11-19T18:36:22.116847Z 01O checkasm| Compiler for C supports arguments -Wimplicit-fallthrough=5: YES
+2026-11-19T18:36:22.116848Z 01O checkasm| Compiler for C supports arguments -fvisibility=hidden: YES (cached)
+2026-11-19T18:36:22.116849Z 01O checkasm| Library m found: YES
+2026-11-19T18:36:22.116850Z 01O checkasm| Library rt found: YES
+2026-11-19T18:36:22.116851Z 01O checkasm| Library dl found: YES
+2026-11-19T18:36:22.116852Z 01O checkasm| Dependency threads found: YES unknown (cached)
+2026-11-19T18:36:22.116853Z 01O checkasm| Check usable header "pthread_np.h" : NO
+2026-11-19T18:36:22.116854Z 01O checkasm| Checking for function "pthread_setaffinity_np" with dependency threads: YES
+2026-11-19T18:36:22.116855Z 01O checkasm| Checking for function "clock_gettime" with dependency -lrt: YES
+2026-11-19T18:36:22.116856Z 01O checkasm| Checking for function "ioctl" : YES
+2026-11-19T18:36:22.116857Z 01O checkasm| Checking for function "isatty" : YES
+2026-11-19T18:36:22.116858Z 01O checkasm| Checking for function "prctl" : YES
+2026-11-19T18:36:22.116859Z 01O checkasm| Checking for function "sigaction" : YES
+2026-11-19T18:36:22.116860Z 01O checkasm| Checking for function "siglongjmp" : YES
+2026-11-19T18:36:22.116861Z 01O checkasm| Check usable header "stdbit.h" : YES
+2026-11-19T18:36:22.116862Z 01O checkasm| Header "linux/perf_event.h" has symbol "PERF_COUNT_HW_CPU_CYCLES" : YES
+2026-11-19T18:36:22.116863Z 01O checkasm| Fetching value of define "__AVX__" : (undefined)
+2026-11-19T18:36:22.116864Z 01O checkasm| Configuring checkasm_config_generated.h using configuration
+2026-11-19T18:36:22.116865Z 01O checkasm| Nasm compiler for the host machine: nasm (nasm 2.16.03)
+2026-11-19T18:36:22.116873Z 01O checkasm| Nasm linker for the host machine: cc ld.bfd 2.44
+2026-11-19T18:36:22.116875Z 01O checkasm| Configuring checkasm_config_generated.asm using configuration
+2026-11-19T18:36:22.116876Z 01O checkasm| Program doxygen skipped: feature docs disabled
+2026-11-19T18:36:22.116877Z 01O checkasm| Build targets in project: 8
+2026-11-19T18:36:22.116878Z 01O checkasm| Subproject checkasm finished.
+2026-11-19T18:36:22.116879Z 01O
+2026-11-19T18:36:22.116879Z 01O Dependency checkasm found: YES 1.2.0 (overridden)
+2026-11-19T18:36:22.116880Z 01O Compiler for C supports arguments -Werror=c11-extensions: NO
+2026-11-19T18:36:22.116881Z 01O Compiler for C supports arguments -Werror=c99-c11-compat: YES
+2026-11-19T18:36:22.116882Z 01O First supported argument: -Werror=c99-c11-compat
+2026-11-19T18:36:22.116883Z 01O Program objcopy found: YES (/usr/bin/objcopy)
+2026-11-19T18:36:22.116884Z 01O Build targets in project: 19
+2026-11-19T18:36:22.116885Z 01O
+2026-11-19T18:36:22.116886Z 01O dav2d 0.0.1
+2026-11-19T18:36:22.116887Z 01O
+2026-11-19T18:36:22.116887Z 01O   Subprojects
+2026-11-19T18:36:22.116888Z 01O     checkasm : YES
+2026-11-19T18:36:22.116889Z 01O
+2026-11-19T18:36:22.116890Z 01O   User defined options
+2026-11-19T18:36:22.116891Z 01O     buildtype: debugoptimized
+2026-11-19T18:36:22.116892Z 01O     trim_dsp : false
+2026-11-19T18:36:22.116892Z 01O
+2026-11-19T18:36:22.116893Z 01O Found ninja-1.12.1 at /usr/bin/ninja
+2026-11-19T18:36:22.182981Z 01O ninja: Entering directory `build'
+2026-11-19T18:36:22.268597Z 01O [1/145] Generating 'src/libdav2d.so.1.0.0.p/cpuid.obj'
+2026-11-19T18:36:22.288188Z 01O [2/145] Generating include/vcs_version.h with a custom command
+2026-11-19T18:36:22.300267Z 01O [3/145] Generating 'src/libdav2d.so.1.0.0.p/stx_avx512.obj'
+2026-11-19T18:36:22.301373Z 01O [4/145] Compiling C object src/libdav2d_bitdepth_8.a.p/stx_tmpl.c.o
+2026-11-19T18:36:22.312262Z 01O [5/145] Generating 'src/libdav2d.so.1.0.0.p/stx16_avx512.obj'
+2026-11-19T18:36:22.329038Z 01O [6/145] Compiling C object src/libdav2d_bitdepth_16.a.p/stx_tmpl.c.o
+2026-11-19T18:36:22.332446Z 01O [7/145] Compiling C object src/libdav2d_bitdepth_8.a.p/fg_apply_tmpl.c.o
+2026-11-19T18:36:22.348258Z 01O [8/145] Generating 'src/libdav2d.so.1.0.0.p/stx_avx2.obj'
+2026-11-19T18:36:22.353699Z 01O [9/145] Compiling C object src/libdav2d.so.1.0.0.p/bacp.c.o
+2026-11-19T18:36:22.358638Z 01O [10/145] Compiling C object src/libdav2d.so.1.0.0.p/ctx.c.o
+2026-11-19T18:36:22.360226Z 01O [11/145] Generating 'src/libdav2d.so.1.0.0.p/msac.obj'
+2026-11-19T18:36:22.364446Z 01O [12/145] Compiling C object src/libdav2d.so.1.0.0.p/cpu.c.o
+2026-11-19T18:36:22.375904Z 01O [13/145] Compiling C object src/libdav2d_bitdepth_16.a.p/fg_apply_tmpl.c.o
+2026-11-19T18:36:22.380168Z 01O [14/145] Generating 'src/libdav2d.so.1.0.0.p/ipred16_avx512.obj'
+2026-11-19T18:36:22.387890Z 01O [15/145] Compiling C object src/libdav2d_bitdepth_16.a.p/ccso_tmpl.c.o
+2026-11-19T18:36:22.408835Z 01O [16/145] Generating 'src/libdav2d.so.1.0.0.p/stx16_avx2.obj'
+2026-11-19T18:36:22.413177Z 01O [17/145] Compiling C object tools/libdav2d_input.a.p/input_input.c.o
+2026-11-19T18:36:22.426503Z 01O [18/145] Compiling C object src/libdav2d.so.1.0.0.p/ibp.c.o
+2026-11-19T18:36:22.451025Z 01O [19/145] Compiling C object src/libdav2d.so.1.0.0.p/data.c.o
+2026-11-19T18:36:22.463186Z 01O [20/145] Compiling C object src/libdav2d_bitdepth_8.a.p/ccso_tmpl.c.o
+2026-11-19T18:36:22.488235Z 01O [21/145] Generating 'src/libdav2d.so.1.0.0.p/pal.obj'
+2026-11-19T18:36:22.489716Z 01O [22/145] Compiling C object src/libdav2d.so.1.0.0.p/log.c.o
+2026-11-19T18:36:22.515453Z 01O [23/145] Compiling C object src/libdav2d.so.1.0.0.p/getbits.c.o
+2026-11-19T18:36:22.517658Z 01O [24/145] Compiling C object src/libdav2d.so.1.0.0.p/mem.c.o
+2026-11-19T18:36:22.525968Z 01O [25/145] Compiling C object src/libdav2d_bitdepth_8.a.p/ipred_prepare_tmpl.c.o
+2026-11-19T18:36:22.535142Z 01O [26/145] Compiling C object src/libdav2d.so.1.0.0.p/itx_1d.c.o
+2026-11-19T18:36:22.549301Z 01O [27/145] Compiling C object src/libdav2d.so.1.0.0.p/gdf_tables.c.o
+2026-11-19T18:36:22.551803Z 01O [28/145] Generating 'src/libdav2d.so.1.0.0.p/ipred16_sse.obj'
+2026-11-19T18:36:22.556267Z 01O [29/145] Compiling C object src/libdav2d_bitdepth_16.a.p/itx_tmpl.c.o
+2026-11-19T18:36:22.556847Z 01O [30/145] Generating 'src/libdav2d.so.1.0.0.p/ipred_avx512.obj'
+2026-11-19T18:36:22.565750Z 01O [31/145] Compiling C object src/libdav2d_bitdepth_8.a.p/deblock_tmpl.c.o
+2026-11-19T18:36:22.571473Z 01O [32/145] Compiling C object src/libdav2d.so.1.0.0.p/pal.c.o
+2026-11-19T18:36:22.576174Z 01O [33/145] Compiling C object src/libdav2d_bitdepth_16.a.p/cdef_tmpl.c.o
+2026-11-19T18:36:22.581143Z 01O [34/145] Compiling C object src/libdav2d_bitdepth_16.a.p/deblock_tmpl.c.o
+2026-11-19T18:36:22.584549Z 01O [35/145] Compiling C object src/libdav2d.so.1.0.0.p/ref.c.o
+2026-11-19T18:36:22.594913Z 01O [36/145] Compiling C object src/libdav2d_bitdepth_8.a.p/itx_tmpl.c.o
+2026-11-19T18:36:22.596412Z 01O [37/145] Compiling C object src/libdav2d.so.1.0.0.p/tables.c.o
+2026-11-19T18:36:22.609987Z 01O [38/145] Compiling C object src/libdav2d.so.1.0.0.p/scan.c.o
+2026-11-19T18:36:22.616400Z 01O [39/145] Compiling C object src/libdav2d_bitdepth_8.a.p/cdef_tmpl.c.o
+2026-11-19T18:36:22.620912Z 01O [40/145] Generating 'src/libdav2d.so.1.0.0.p/cdef16_avx512.obj'
+2026-11-19T18:36:22.632336Z 01O [41/145] Compiling C object tools/libdav2d_output.a.p/output_null.c.o
+2026-11-19T18:36:22.640739Z 01O [42/145] Generating 'src/libdav2d.so.1.0.0.p/ipred_sse.obj'
+2026-11-19T18:36:22.645349Z 01O [43/145] Compiling C object src/libdav2d.so.1.0.0.p/wiener_tables.c.o
+2026-11-19T18:36:22.650943Z 01O [44/145] Compiling C object src/libdav2d_bitdepth_8.a.p/lr_apply_tmpl.c.o
+2026-11-19T18:36:22.656303Z 01O [45/145] Compiling C object src/libdav2d_bitdepth_16.a.p/ipred_prepare_tmpl.c.o
+2026-11-19T18:36:22.660977Z 01O [46/145] Generating 'src/libdav2d.so.1.0.0.p/cdef_avx512.obj'
+2026-11-19T18:36:22.665351Z 01O [47/145] Compiling C object src/libdav2d.so.1.0.0.p/stx_tables.c.o
+2026-11-19T18:36:22.680839Z 01O [48/145] Compiling C object src/libdav2d.so.1.0.0.p/picture.c.o
+2026-11-19T18:36:22.681473Z 01O [49/145] Compiling C object src/libdav2d.so.1.0.0.p/x86_cpu.c.o
+2026-11-19T18:36:22.687724Z 01O [50/145] Compiling C object tools/libdav2d_output.a.p/output_yuv.c.o
+2026-11-19T18:36:22.690200Z 01O [51/145] Compiling C object src/libdav2d.so.1.0.0.p/msac.c.o
+2026-11-19T18:36:22.693548Z 01O [52/145] Compiling C object src/libdav2d.so.1.0.0.p/quantizer.c.o
+2026-11-19T18:36:22.697572Z 01O [53/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/arm_cpu.c.o
+2026-11-19T18:36:22.701278Z 01O [54/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/riscv_cpu.c.o
+2026-11-19T18:36:22.704360Z 01O [55/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_macos_kperf.c.o
+2026-11-19T18:36:22.706956Z 01O [56/145] Compiling C object src/libdav2d_bitdepth_16.a.p/cdef_apply_tmpl.c.o
+2026-11-19T18:36:22.708131Z 01O [57/145] Compiling C object src/libdav2d.so.1.0.0.p/warpmv.c.o
+2026-11-19T18:36:22.725878Z 01O [58/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_arm.c.o
+2026-11-19T18:36:22.729510Z 01O [59/145] Compiling C object tools/libdav2d_input.a.p/input_ivf.c.o
+2026-11-19T18:36:22.732219Z 01O [60/145] Compiling C object tools/libdav2d_output.a.p/output_y4m2.c.o
+2026-11-19T18:36:22.740181Z 01O [61/145] Compiling C object tools/libdav2d_input.a.p/input_section5.c.o
+2026-11-19T18:36:22.740728Z 01O [62/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/cpu.c.o
+2026-11-19T18:36:22.741123Z 01O [63/145] Compiling C object tools/libdav2d_output.a.p/output_output.c.o
+2026-11-19T18:36:22.744473Z 01O [64/145] Generating 'src/libdav2d.so.1.0.0.p/refmvs_temporal.obj'
+2026-11-19T18:36:22.751849Z 01O [65/145] Compiling C object src/libdav2d_bitdepth_8.a.p/cdef_apply_tmpl.c.o
+2026-11-19T18:36:22.752360Z 01O [66/145] Compiling C object tests/common.h_test.p/header_test.c.o
+2026-11-19T18:36:22.757174Z 01O [67/145] Compiling C object tests/data.h_test.p/header_test.c.o
+2026-11-19T18:36:22.760906Z 01O [68/145] Linking static target tools/libdav2d_input.a
+2026-11-19T18:36:22.765090Z 01O [69/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/signal.c.o
+2026-11-19T18:36:22.765602Z 01O [70/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/stackguard.c.o
+2026-11-19T18:36:22.768097Z 01O [71/145] Compiling C object tests/version.h_test.p/header_test.c.o
+2026-11-19T18:36:22.770566Z 01O [72/145] Compiling C object tests/dav2d.h_test.p/header_test.c.o
+2026-11-19T18:36:22.771835Z 01O [73/145] Compiling C object tests/picture.h_test.p/header_test.c.o
+2026-11-19T18:36:22.772554Z 01O [74/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/function.c.o
+2026-11-19T18:36:22.790520Z 01O [75/145] Compiling C object tests/headers.h_test.p/header_test.c.o
+2026-11-19T18:36:22.795147Z 01O [76/145] Linking target tests/common.h_test
+2026-11-19T18:36:22.795279Z 01O [77/145] Compiling C object src/libdav2d_bitdepth_16.a.p/lr_apply_tmpl.c.o
+2026-11-19T18:36:22.796499Z 01O [78/145] Linking target tests/data.h_test
+2026-11-19T18:36:22.797086Z 01O [79/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/x86_cpu.c.o
+2026-11-19T18:36:22.801222Z 01O [80/145] Linking target tests/version.h_test
+2026-11-19T18:36:22.801299Z 01O [81/145] Linking target tests/dav2d.h_test
+2026-11-19T18:36:22.807732Z 01O [82/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/stats.c.o
+2026-11-19T18:36:22.811333Z 01O [83/145] Linking target tests/picture.h_test
+2026-11-19T18:36:22.811341Z 01O [84/145] Compiling C object src/libdav2d_bitdepth_8.a.p/filmgrain_tmpl.c.o
+2026-11-19T18:36:22.813198Z 01O [85/145] Generating 'src/libdav2d.so.1.0.0.p/filmgrain16_avx2.obj'
+2026-11-19T18:36:22.821013Z 01O [86/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf_linux.c.o
+2026-11-19T18:36:22.822680Z 01O [87/145] Linking target tests/headers.h_test
+2026-11-19T18:36:22.823716Z 01O [88/145] Compiling C object tools/libdav2d_output.a.p/output_md5.c.o
+2026-11-19T18:36:22.825193Z 01O [89/145] Compiling C object tests/libfuzzer/dav2d_fuzzer_mt.p/main.c.o
+2026-11-19T18:36:22.842105Z 01O [90/145] Compiling C object tests/libfuzzer/dav2d_fuzzer.p/main.c.o
+2026-11-19T18:36:22.843880Z 01O [91/145] Compiling C object src/libdav2d.so.1.0.0.p/lib.c.o
+2026-11-19T18:36:22.844450Z 01O [92/145] Compiling C object tests/libfuzzer/dav2d_fuzzer.p/dav2d_fuzzer.c.o
+2026-11-19T18:36:22.845312Z 01O [93/145] Compiling C object src/libdav2d.so.1.0.0.p/wedge.c.o
+2026-11-19T18:36:22.856012Z 01O [94/145] Compiling Nasm object subprojects/checkasm/src/libcheckasm.a.p/x86_checkasm.asm.o
+2026-11-19T18:36:22.865452Z 01O [95/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/perf.c.o
+2026-11-19T18:36:22.875642Z 01O [96/145] Compiling C object tests/libfuzzer/dav2d_fuzzer_mt.p/dav2d_fuzzer.c.o
+2026-11-19T18:36:22.877567Z 01O [97/145] Compiling C object tools/dav2d.p/dav2d_cli_parse.c.o
+2026-11-19T18:36:22.880132Z 01O [98/145] Compiling C object src/libdav2d_bitdepth_8.a.p/db_apply_tmpl.c.o
+2026-11-19T18:36:22.890587Z 01O [99/145] Compiling C object src/libdav2d_bitdepth_16.a.p/filmgrain_tmpl.c.o
+2026-11-19T18:36:22.892167Z 01O [100/145] Compiling C object tools/dav2d.p/dav2d.c.o
+2026-11-19T18:36:22.905690Z 01O [101/145] Compiling C object src/libdav2d_bitdepth_16.a.p/db_apply_tmpl.c.o
+2026-11-19T18:36:22.906134Z 01O [102/145] Generating 'src/libdav2d.so.1.0.0.p/filmgrain_avx2.obj'
+2026-11-19T18:36:22.981240Z 01O [103/145] Generating 'src/libdav2d.so.1.0.0.p/looprestoration_avx2.obj'
+2026-11-19T18:36:22.986703Z 01O [104/145] Generating 'src/libdav2d.so.1.0.0.p/cdef16_avx2.obj'
+2026-11-19T18:36:23.028803Z 01O [105/145] Generating 'src/libdav2d.so.1.0.0.p/cdef16_sse.obj'
+2026-11-19T18:36:23.119850Z 01O [106/145] Compiling C object src/libdav2d_bitdepth_16.a.p/looprestoration_tmpl.c.o
+2026-11-19T18:36:23.127519Z 01O [107/145] Compiling C object src/libdav2d_bitdepth_8.a.p/looprestoration_tmpl.c.o
+2026-11-19T18:36:23.141278Z 01O [108/145] Compiling C object src/libdav2d.so.1.0.0.p/lf_mask.c.o
+2026-11-19T18:36:23.154513Z 01O [109/145] Generating 'src/libdav2d.so.1.0.0.p/filmgrain16_sse.obj'
+2026-11-19T18:36:23.154612Z 01O [110/145] Compiling C object tools/libdav2d_output.a.p/output_xxhash.c.o
+2026-11-19T18:36:23.160414Z 01O [111/145] Linking static target tools/libdav2d_output.a
+2026-11-19T18:36:23.193634Z 01O [112/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/checkasm.c.o
+2026-11-19T18:36:23.237932Z 01O [113/145] Compiling C object src/libdav2d.so.1.0.0.p/thread_task.c.o
+2026-11-19T18:36:23.250134Z 01O [114/145] Generating 'src/libdav2d.so.1.0.0.p/filmgrain_sse.obj'
+2026-11-19T18:36:23.272366Z 01O [115/145] Generating 'src/libdav2d.so.1.0.0.p/ccso_avx2.obj'
+2026-11-19T18:36:23.294346Z 01O [116/145] Compiling C object src/libdav2d_bitdepth_8.a.p/mc_tmpl.c.o
+2026-11-19T18:36:23.385319Z 01O [117/145] Compiling C object src/libdav2d_bitdepth_16.a.p/mc_tmpl.c.o
+2026-11-19T18:36:23.386693Z 01O [118/145] Generating 'src/libdav2d.so.1.0.0.p/cfl16_avx2.obj'
+2026-11-19T18:36:23.463724Z 01O [119/145] Generating 'src/libdav2d.so.1.0.0.p/ipred16_avx2.obj'
+2026-11-19T18:36:23.641777Z 01O [120/145] Compiling C object src/libdav2d_bitdepth_16.a.p/ipred_tmpl.c.o
+2026-11-19T18:36:23.690284Z 01O [121/145] Compiling C object src/libdav2d_bitdepth_8.a.p/ipred_tmpl.c.o
+2026-11-19T18:36:23.780243Z 01O [122/145] Generating 'src/libdav2d.so.1.0.0.p/refmvs.obj'
+2026-11-19T18:36:24.062652Z 01O [123/145] Generating 'src/libdav2d.so.1.0.0.p/wiener_avx2.obj'
+2026-11-19T18:36:24.150249Z 01O [124/145] Generating 'src/libdav2d.so.1.0.0.p/ipred_avx2.obj'
+2026-11-19T18:36:24.244049Z 01O [125/145] Compiling C object src/libdav2d.so.1.0.0.p/obu.c.o
+2026-11-19T18:36:24.465501Z 01O [126/145] Generating 'src/libdav2d.so.1.0.0.p/cdef_avx2.obj'
+2026-11-19T18:36:24.728704Z 01O [127/145] Compiling C object src/libdav2d.so.1.0.0.p/refmvs.c.o
+2026-11-19T18:36:24.742148Z 01O [128/145] Compiling C object subprojects/checkasm/src/libcheckasm.a.p/utils.c.o
+2026-11-19T18:36:24.750907Z 01O [129/145] Linking static target subprojects/checkasm/src/libcheckasm.a
+2026-11-19T18:36:25.225038Z 01O [130/145] Generating 'src/libdav2d.so.1.0.0.p/deblock_avx2.obj'
+2026-11-19T18:36:25.301998Z 01O [131/145] Generating 'src/libdav2d.so.1.0.0.p/itx16_avx2.obj'
+2026-11-19T18:36:25.943929Z 01O [132/145] Generating 'src/libdav2d.so.1.0.0.p/cdef_sse.obj'
+2026-11-19T18:36:26.077225Z 01O [133/145] Compiling C object src/libdav2d_bitdepth_8.a.p/recon_tmpl.c.o
+2026-11-19T18:36:26.077229Z 01O ../src/recon_tmpl.c: In function 'decode_coefs':
+2026-11-19T18:36:26.077229Z 01O ../src/recon_tmpl.c:817:66: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077230Z 01O   817 |                             depth, "", i, sz_ctx, ctx, tok < 3 ? -1 : hr_ctx,
+2026-11-19T18:36:26.077231Z 01O       |                                                                  ^~
+2026-11-19T18:36:26.077232Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077232Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077233Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077234Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077235Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077235Z 01O       |                                                    ^~
+2026-11-19T18:36:26.077236Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077236Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077237Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077237Z 01O ../src/recon_tmpl.c:1061:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077238Z 01O  1061 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 1);
+2026-11-19T18:36:26.077251Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077251Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077252Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077253Z 01O       |                                                       ^~
+2026-11-19T18:36:26.077253Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077254Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077254Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077255Z 01O ../src/recon_tmpl.c:1061:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077255Z 01O  1061 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 1);
+2026-11-19T18:36:26.077256Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077256Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077257Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077258Z 01O       |                                                    ^~
+2026-11-19T18:36:26.077258Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077259Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077259Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077260Z 01O ../src/recon_tmpl.c:1063:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077260Z 01O  1063 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 0);
+2026-11-19T18:36:26.077261Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077261Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077262Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077263Z 01O       |                                                       ^~
+2026-11-19T18:36:26.077263Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077264Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077264Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077265Z 01O ../src/recon_tmpl.c:1063:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077266Z 01O  1063 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 0);
+2026-11-19T18:36:26.077266Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077267Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077267Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077268Z 01O       |                                                    ^~
+2026-11-19T18:36:26.077269Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077269Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077270Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077270Z 01O ../src/recon_tmpl.c:1072:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077271Z 01O  1072 |             DECODE_COEFS_CLASS(TX_CLASS_H, y, 0);
+2026-11-19T18:36:26.077271Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077272Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077273Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077273Z 01O       |                                                       ^~
+2026-11-19T18:36:26.077277Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077278Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077278Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077279Z 01O ../src/recon_tmpl.c:1072:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077279Z 01O  1072 |             DECODE_COEFS_CLASS(TX_CLASS_H, y, 0);
+2026-11-19T18:36:26.077280Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077280Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077281Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077282Z 01O       |                                                    ^~
+2026-11-19T18:36:26.077282Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077283Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077283Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077284Z 01O ../src/recon_tmpl.c:1080:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077284Z 01O  1080 |             DECODE_COEFS_CLASS(TX_CLASS_V, y, 0);
+2026-11-19T18:36:26.077285Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.077285Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.077286Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.077287Z 01O       |                                                       ^~
+2026-11-19T18:36:26.077287Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.077288Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.077288Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.077289Z 01O ../src/recon_tmpl.c:1080:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.077290Z 01O  1080 |             DECODE_COEFS_CLASS(TX_CLASS_V, y, 0);
+2026-11-19T18:36:26.077290Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.135970Z 01O [134/145] Compiling C object src/libdav2d_bitdepth_16.a.p/recon_tmpl.c.o
+2026-11-19T18:36:26.135981Z 01O ../src/recon_tmpl.c: In function 'decode_coefs':
+2026-11-19T18:36:26.135985Z 01O ../src/recon_tmpl.c:817:66: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.135987Z 01O   817 |                             depth, "", i, sz_ctx, ctx, tok < 3 ? -1 : hr_ctx,
+2026-11-19T18:36:26.135989Z 01O       |                                                                  ^~
+2026-11-19T18:36:26.135990Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.135992Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.135993Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.135994Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.135996Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.135998Z 01O       |                                                    ^~
+2026-11-19T18:36:26.135999Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136000Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136001Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136003Z 01O ../src/recon_tmpl.c:1061:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136004Z 01O  1061 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 1);
+2026-11-19T18:36:26.136037Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136038Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136041Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136043Z 01O       |                                                       ^~
+2026-11-19T18:36:26.136044Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136045Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136046Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136047Z 01O ../src/recon_tmpl.c:1061:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136049Z 01O  1061 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 1);
+2026-11-19T18:36:26.136050Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136051Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136053Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136054Z 01O       |                                                    ^~
+2026-11-19T18:36:26.136055Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136057Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136058Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136059Z 01O ../src/recon_tmpl.c:1063:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136060Z 01O  1063 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 0);
+2026-11-19T18:36:26.136061Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136062Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136064Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136066Z 01O       |                                                       ^~
+2026-11-19T18:36:26.136067Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136068Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136069Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136070Z 01O ../src/recon_tmpl.c:1063:17: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136071Z 01O  1063 |                 DECODE_COEFS_CLASS(TX_CLASS_2D, x + y, 0);
+2026-11-19T18:36:26.136073Z 01O       |                 ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136074Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136076Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136077Z 01O       |                                                    ^~
+2026-11-19T18:36:26.136078Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136079Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136080Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136081Z 01O ../src/recon_tmpl.c:1072:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136083Z 01O  1072 |             DECODE_COEFS_CLASS(TX_CLASS_H, y, 0);
+2026-11-19T18:36:26.136084Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136085Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136087Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136096Z 01O       |                                                       ^~
+2026-11-19T18:36:26.136097Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136099Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136100Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136101Z 01O ../src/recon_tmpl.c:1072:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136102Z 01O  1072 |             DECODE_COEFS_CLASS(TX_CLASS_H, y, 0);
+2026-11-19T18:36:26.136104Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136106Z 01O ../src/recon_tmpl.c:966:52: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136109Z 01O   966 |                             tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136110Z 01O       |                                                    ^~
+2026-11-19T18:36:26.136112Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136114Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136115Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136117Z 01O ../src/recon_tmpl.c:1080:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136119Z 01O  1080 |             DECODE_COEFS_CLASS(TX_CLASS_V, y, 0);
+2026-11-19T18:36:26.136120Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.136122Z 01O ../src/recon_tmpl.c:994:55: warning: operand of '?:' changes signedness from 'int' to 'unsigned int' due to unsignedness of other operand [-Wsign-compare]
+2026-11-19T18:36:26.136124Z 01O   994 |                             dc_tok < lim || !hi_cdf ? -1 : hr_ctx, \
+2026-11-19T18:36:26.136126Z 01O       |                                                       ^~
+2026-11-19T18:36:26.136127Z 01O ../src/recon_tmpl.c:373:21: note: in definition of macro 'DEBUG_CF_printf'
+2026-11-19T18:36:26.136129Z 01O   373 |     if (dbg) printf(__VA_ARGS__)
+2026-11-19T18:36:26.136130Z 01O       |                     ^~~~~~~~~~~
+2026-11-19T18:36:26.136131Z 01O ../src/recon_tmpl.c:1080:13: note: in expansion of macro 'DECODE_COEFS_CLASS'
+2026-11-19T18:36:26.136133Z 01O  1080 |             DECODE_COEFS_CLASS(TX_CLASS_V, y, 0);
+2026-11-19T18:36:26.136135Z 01O       |             ^~~~~~~~~~~~~~~~~~
+2026-11-19T18:36:26.430436Z 01O [135/145] Compiling C object src/libdav2d.so.1.0.0.p/decode.c.o
+2026-11-19T18:36:26.666659Z 01O [136/145] Compiling C object src/libdav2d.so.1.0.0.p/cdf.c.o
+2026-11-19T18:36:26.735315Z 01O [137/145] Generating 'src/libdav2d.so.1.0.0.p/cfl_avx2.obj'
+2026-11-19T18:36:27.280673Z 01O [138/145] Generating 'src/libdav2d.so.1.0.0.p/mc16_avx2.obj'
+2026-11-19T18:36:27.312640Z 01O [139/145] Generating 'src/libdav2d.so.1.0.0.p/mc_avx2.obj'
+2026-11-19T18:36:29.390771Z 01O [140/145] Generating 'src/libdav2d.so.1.0.0.p/itx_avx2.obj'
+2026-11-19T18:36:29.465585Z 01O [141/145] Linking target src/libdav2d.so.1.0.0
+2026-11-19T18:36:29.568623Z 01O [142/145] Generating symbol file src/libdav2d.so.1.0.0.p/libdav2d.so.1.0.0.symbols
+2026-11-19T18:36:29.590921Z 01O [143/145] Linking target tests/libfuzzer/dav2d_fuzzer
+2026-11-19T18:36:29.591479Z 01O [144/145] Linking target tests/libfuzzer/dav2d_fuzzer_mt
+2026-11-19T18:36:29.599192Z 01O [145/145] Linking target tools/dav2d
+2026-11-19T18:36:29.599944Z 01O $ meson test -v -C build
+2026-11-19T18:36:29.801535Z 01O ninja: Entering directory `/builds/videolan/dav2d/build'
+2026-11-19T18:36:29.846218Z 01O [1/26] Compiling C object tests/checkasm.p/checkasm_checkasm.c.o
+2026-11-19T18:36:29.859166Z 01O [2/26] Generating include/vcs_version.h with a custom command
+2026-11-19T18:36:29.898809Z 01O [3/25] Compiling C object tests/checkasm.p/checkasm_pal.c.o
+2026-11-19T18:36:29.925052Z 01O [4/25] Compiling C object tests/checkasm.p/checkasm_bacp.c.o
+2026-11-19T18:36:29.974408Z 01O [5/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_stx.c.o
+2026-11-19T18:36:29.987072Z 01O [6/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_stx.c.o
+2026-11-19T18:36:29.998490Z 01O [7/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_cdef.c.o
+2026-11-19T18:36:30.016852Z 01O [8/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_cdef.c.o
+2026-11-19T18:36:30.051087Z 01O [9/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_itx.c.o
+2026-11-19T18:36:30.065393Z 01O [10/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_itx.c.o
+2026-11-19T18:36:30.080699Z 01O [11/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_ccso.c.o
+2026-11-19T18:36:30.111142Z 01O [12/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_ccso.c.o
+2026-11-19T18:36:30.171384Z 01O [13/25] Compiling C object tests/checkasm.p/checkasm_msac.c.o
+2026-11-19T18:36:30.209110Z 01O [14/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_filmgrain.c.o
+2026-11-19T18:36:30.289680Z 01O [15/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_deblock.c.o
+2026-11-19T18:36:30.290526Z 01O [16/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_filmgrain.c.o
+2026-11-19T18:36:30.308972Z 01O [17/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_deblock.c.o
+2026-11-19T18:36:30.460907Z 01O [18/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_ipred.c.o
+2026-11-19T18:36:30.508360Z 01O [19/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_ipred.c.o
+2026-11-19T18:36:30.549091Z 01O [20/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_looprestoration.c.o
+2026-11-19T18:36:30.580031Z 01O [21/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_looprestoration.c.o
+2026-11-19T18:36:30.959949Z 01O [22/25] Compiling C object tests/checkasm.p/checkasm_refmvs.c.o
+2026-11-19T18:36:30.981128Z 01O [23/25] Compiling C object tests/libcheckasm_bitdepth_8.a.p/checkasm_mc.c.o
+2026-11-19T18:36:31.087625Z 01O [24/25] Compiling C object tests/libcheckasm_bitdepth_16.a.p/checkasm_mc.c.o
+2026-11-19T18:36:31.192963Z 01O [25/25] Linking target tests/checkasm
+2026-11-19T18:36:31.196679Z 01O 1/7 dav2d:checkasm / checkasm      RUNNING
+2026-11-19T18:36:31.196684Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=41 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 /builds/videolan/dav2d/build/tests/checkasm -v
+2026-11-19T18:36:31.196687Z 01O
+2026-11-19T18:36:31.201737Z 01O 2/7 dav2d:headers / common.h_test  RUNNING
+2026-11-19T18:36:31.201740Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=198 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 /builds/videolan/dav2d/build/tests/common.h_test
+2026-11-19T18:36:31.201743Z 01O
+2026-11-19T18:36:31.206829Z 01O 3/7 dav2d:headers / data.h_test    RUNNING
+2026-11-19T18:36:31.206839Z 01O >>> MALLOC_PERTURB_=43 UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 /builds/videolan/dav2d/build/tests/data.h_test
+2026-11-19T18:36:31.206843Z 01O
+2026-11-19T18:36:31.212379Z 01O 4/7 dav2d:headers / dav2d.h_test   RUNNING
+2026-11-19T18:36:31.212381Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 MALLOC_PERTURB_=239 /builds/videolan/dav2d/build/tests/dav2d.h_test
+2026-11-19T18:36:31.212383Z 01O
+2026-11-19T18:36:31.218218Z 01O 5/7 dav2d:headers / headers.h_test RUNNING
+2026-11-19T18:36:31.218243Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 MALLOC_PERTURB_=230 /builds/videolan/dav2d/build/tests/headers.h_test
+2026-11-19T18:36:31.218247Z 01O
+2026-11-19T18:36:31.223033Z 01O 6/7 dav2d:headers / picture.h_test RUNNING
+2026-11-19T18:36:31.223036Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 MALLOC_PERTURB_=58 /builds/videolan/dav2d/build/tests/picture.h_test
+2026-11-19T18:36:31.223039Z 01O
+2026-11-19T18:36:31.227863Z 01O 7/7 dav2d:headers / version.h_test RUNNING
+2026-11-19T18:36:31.227867Z 01O >>> UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 MALLOC_PERTURB_=50 MESON_TEST_ITERATION=1 MSAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1:print_stacktrace=1 ASAN_OPTIONS=halt_on_error=1:abort_on_error=1:print_summary=1 /builds/videolan/dav2d/build/tests/version.h_test
+2026-11-19T18:36:31.227870Z 01O
+2026-11-19T18:36:31.233682Z 01O 2/7 dav2d:headers / common.h_test  OK               0.03s
+2026-11-19T18:36:31.233685Z 01O
+2026-11-19T18:36:31.234383Z 01O 3/7 dav2d:headers / data.h_test    OK               0.03s
+2026-11-19T18:36:31.234386Z 01O
+2026-11-19T18:36:31.234981Z 01O 4/7 dav2d:headers / dav2d.h_test   OK               0.02s
+2026-11-19T18:36:31.234984Z 01O
+2026-11-19T18:36:31.235482Z 01O 5/7 dav2d:headers / headers.h_test OK               0.02s
+2026-11-19T18:36:31.235485Z 01O
+2026-11-19T18:36:31.236004Z 01O 6/7 dav2d:headers / picture.h_test OK               0.01s
+2026-11-19T18:36:31.236007Z 01O
+2026-11-19T18:36:31.236543Z 01O 7/7 dav2d:headers / version.h_test OK               0.01s
+2026-11-19T18:36:31.236546Z 01O
+2026-11-19T18:36:34.557586Z 01O 1/7 dav2d:checkasm / checkasm      OK               3.36s
+2026-11-19T18:36:34.557591Z 01O ――――――――――――――――――――――――――――――――――――― ✀  ―――――――――――――――――――――――――――――――――――――
+2026-11-19T18:36:34.557593Z 01O stderr:
+2026-11-19T18:36:34.557594Z 01O checkasm:
+2026-11-19T18:36:34.557594Z 01O  - CPU: AMD EPYC 7502P 32-Core Processor (00830F10)
+2026-11-19T18:36:34.557596Z 01O  - Random seed: 1310207373
+2026-11-19T18:36:34.557596Z 01O C:
+2026-11-19T18:36:34.557597Z 01O  - bacp.bacp_mask [OK]
+2026-11-19T18:36:34.557597Z 01O  - msac.decode_adapt [OK]
+2026-11-19T18:36:34.557598Z 01O  - msac.decode_bypass [OK]
+2026-11-19T18:36:34.557598Z 01O  - pal.pal_idx_finish [OK]
+2026-11-19T18:36:34.557598Z 01O  - refmvs.splat_mv    [OK]
+2026-11-19T18:36:34.557599Z 01O  - refmvs.splat_warpmv [OK]
+2026-11-19T18:36:34.557599Z 01O  - refmvs.splat_comp_warpmv [OK]
+2026-11-19T18:36:34.557600Z 01O  - refmvs.splat_comp_wedgemv [OK]
+2026-11-19T18:36:34.557600Z 01O  - refmvs.tip_projection     [OK]
+2026-11-19T18:36:34.557601Z 01O  - refmvs.tip_fill_holes     [OK]
+2026-11-19T18:36:34.557601Z 01O  - refmvs.tip_smoothen       [OK]
+2026-11-19T18:36:34.557602Z 01O  - refmvs.fill_gap_proj      [OK]
+2026-11-19T18:36:34.557602Z 01O  - refmvs.fill_gap_traj      [OK]
+2026-11-19T18:36:34.557602Z 01O  - refmvs.load_tmvs_refs     [OK]
+2026-11-19T18:36:34.557603Z 01O  - ccso_8bpc.ccso_prep_bo    [OK]
+2026-11-19T18:36:34.557603Z 01O  - ccso_8bpc.ccso_prep_clf   [OK]
+2026-11-19T18:36:34.557604Z 01O  - ccso_8bpc.ccso_add        [OK]
+2026-11-19T18:36:34.557604Z 01O  - cdef_8bpc.cdef_dir        [OK]
+2026-11-19T18:36:34.557605Z 01O  - cdef_8bpc.cdef_filter     [OK]
+2026-11-19T18:36:34.557605Z 01O  - deblock_8bpc.deblock_h_sb_y [OK]
+2026-11-19T18:36:34.557606Z 01O  - deblock_8bpc.deblock_v_sb_y [OK]
+2026-11-19T18:36:34.557606Z 01O  - deblock_8bpc.deblock_h_sb_uv [OK]
+2026-11-19T18:36:34.557606Z 01O  - deblock_8bpc.deblock_v_sb_uv [OK]
+2026-11-19T18:36:34.557620Z 01O  - deblock_8bpc.setup_thr_sb_seg_cols [OK]
+2026-11-19T18:36:34.557620Z 01O  - deblock_8bpc.setup_thr_sb_dq_cols  [OK]
+2026-11-19T18:36:34.557621Z 01O  - deblock_8bpc.setup_thr_sb_seg_rows [OK]
+2026-11-19T18:36:34.557621Z 01O  - deblock_8bpc.setup_thr_sb_dq_rows  [OK]
+2026-11-19T18:36:34.557622Z 01O  - deblock_8bpc.setup_thr_sb_simple   [OK]
+2026-11-19T18:36:34.557622Z 01O  - filmgrain_8bpc.gen_grain_y         [OK]
+2026-11-19T18:36:34.557623Z 01O  - filmgrain_8bpc.gen_grain_uv        [OK]
+2026-11-19T18:36:34.557623Z 01O  - filmgrain_8bpc.fgy_32x32xn         [OK]
+2026-11-19T18:36:34.557624Z 01O  - filmgrain_8bpc.fguv_32x32xn        [OK]
+2026-11-19T18:36:34.557624Z 01O  - ipred_8bpc.intra_pred              [OK]
+2026-11-19T18:36:34.557625Z 01O  - ipred_8bpc.cfl_explicit            [OK]
+2026-11-19T18:36:34.557625Z 01O  - ipred_8bpc.cfl_implicit            [OK]
+2026-11-19T18:36:34.557626Z 01O  - ipred_8bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:36:34.557626Z 01O  - ipred_8bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:36:34.557627Z 01O  - ipred_8bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:36:34.557627Z 01O  - ipred_8bpc.cfl_mh_pred             [OK]
+2026-11-19T18:36:34.557628Z 01O  - ipred_8bpc.pal_pred                [OK]
+2026-11-19T18:36:34.557628Z 01O  - itx_8bpc.add_tx4                   [OK]
+2026-11-19T18:36:34.557628Z 01O  - itx_8bpc.add_tx8                   [OK]
+2026-11-19T18:36:34.557629Z 01O  - itx_8bpc.add_tx16                  [OK]
+2026-11-19T18:36:34.557629Z 01O  - itx_8bpc.add_tx32                  [OK]
+2026-11-19T18:36:34.557630Z 01O  - itx_8bpc.add_tx64                  [OK]
+2026-11-19T18:36:34.557630Z 01O  - itx_8bpc.cctx                      [OK]
+2026-11-19T18:36:34.557631Z 01O  - looprestoration_8bpc.wiener        [OK]
+2026-11-19T18:36:34.557631Z 01O  - looprestoration_8bpc.gdf           [OK]
+2026-11-19T18:36:34.557632Z 01O  - mc_8bpc.mc                         [OK]
+2026-11-19T18:36:34.557632Z 01O  - mc_8bpc.mct                        [OK]
+2026-11-19T18:36:34.557633Z 01O  - mc_8bpc.mc_scaled                  [OK]
+2026-11-19T18:36:34.557633Z 01O  - mc_8bpc.mct_scaled                 [OK]
+2026-11-19T18:36:34.557634Z 01O  - mc_8bpc.avg                        [OK]
+2026-11-19T18:36:34.557634Z 01O  - mc_8bpc.w_avg                      [OK]
+2026-11-19T18:36:34.557634Z 01O  - mc_8bpc.mask                       [OK]
+2026-11-19T18:36:34.557635Z 01O  - mc_8bpc.w_mask                     [OK]
+2026-11-19T18:36:34.557635Z 01O  - mc_8bpc.blend                      [OK]
+2026-11-19T18:36:34.557636Z 01O  - mc_8bpc.warp8x8                    [OK]
+2026-11-19T18:36:34.557636Z 01O  - mc_8bpc.warp8x8t                   [OK]
+2026-11-19T18:36:34.557637Z 01O  - mc_8bpc.ext_warp4x4                [OK]
+2026-11-19T18:36:34.557637Z 01O  - mc_8bpc.ext_warp4x4t               [OK]
+2026-11-19T18:36:34.557638Z 01O  - mc_8bpc.emu_edge                   [OK]
+2026-11-19T18:36:34.557638Z 01O  - mc_8bpc.morph                      [OK]
+2026-11-19T18:36:34.557639Z 01O  - mc_8bpc.sad_refine_mv              [OK]
+2026-11-19T18:36:34.557639Z 01O  - mc_8bpc.opfl                       [OK]
+2026-11-19T18:36:34.557640Z 01O  - mc_8bpc.sad8x8                     [OK]
+2026-11-19T18:36:34.557640Z 01O  - stx_8bpc.stx4                      [OK]
+2026-11-19T18:36:34.557641Z 01O  - stx_8bpc.stx8                      [OK]
+2026-11-19T18:36:34.557641Z 01O  - ccso_16bpc.ccso_prep_bo            [OK]
+2026-11-19T18:36:34.557641Z 01O  - ccso_16bpc.ccso_prep_clf           [OK]
+2026-11-19T18:36:34.557642Z 01O  - ccso_16bpc.ccso_add                [OK]
+2026-11-19T18:36:34.557642Z 01O  - cdef_16bpc.cdef_dir                [OK]
+2026-11-19T18:36:34.557643Z 01O  - cdef_16bpc.cdef_filter             [OK]
+2026-11-19T18:36:34.557643Z 01O  - deblock_16bpc.deblock_h_sb_y       [OK]
+2026-11-19T18:36:34.557644Z 01O  - deblock_16bpc.deblock_v_sb_y       [OK]
+2026-11-19T18:36:34.557644Z 01O  - deblock_16bpc.deblock_h_sb_uv      [OK]
+2026-11-19T18:36:34.557645Z 01O  - deblock_16bpc.deblock_v_sb_uv      [OK]
+2026-11-19T18:36:34.557649Z 01O  - deblock_16bpc.setup_thr_sb_seg_cols [OK]
+2026-11-19T18:36:34.557649Z 01O  - deblock_16bpc.setup_thr_sb_dq_cols  [OK]
+2026-11-19T18:36:34.557650Z 01O  - deblock_16bpc.setup_thr_sb_seg_rows [OK]
+2026-11-19T18:36:34.557650Z 01O  - deblock_16bpc.setup_thr_sb_dq_rows  [OK]
+2026-11-19T18:36:34.557651Z 01O  - deblock_16bpc.setup_thr_sb_simple   [OK]
+2026-11-19T18:36:34.557651Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:36:34.557652Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:36:34.557652Z 01O  - filmgrain_16bpc.fgy_32x32xn         [OK]
+2026-11-19T18:36:34.557653Z 01O  - filmgrain_16bpc.fguv_32x32xn        [OK]
+2026-11-19T18:36:34.557653Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:36:34.557654Z 01O  - ipred_16bpc.cfl_explicit            [OK]
+2026-11-19T18:36:34.557654Z 01O  - ipred_16bpc.cfl_implicit            [OK]
+2026-11-19T18:36:34.557655Z 01O  - ipred_16bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:36:34.557655Z 01O  - ipred_16bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:36:34.557656Z 01O  - ipred_16bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:36:34.557656Z 01O  - ipred_16bpc.cfl_mh_pred             [OK]
+2026-11-19T18:36:34.557656Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:36:34.557657Z 01O  - itx_16bpc.add_tx4                   [OK]
+2026-11-19T18:36:34.557657Z 01O  - itx_16bpc.add_tx8                   [OK]
+2026-11-19T18:36:34.557658Z 01O  - itx_16bpc.add_tx16                  [OK]
+2026-11-19T18:36:34.557658Z 01O  - itx_16bpc.add_tx32                  [OK]
+2026-11-19T18:36:34.557659Z 01O  - itx_16bpc.add_tx64                  [OK]
+2026-11-19T18:36:34.557659Z 01O  - itx_16bpc.cctx                      [OK]
+2026-11-19T18:36:34.557660Z 01O  - looprestoration_16bpc.wiener        [OK]
+2026-11-19T18:36:34.557660Z 01O  - looprestoration_16bpc.gdf           [OK]
+2026-11-19T18:36:34.557661Z 01O  - mc_16bpc.mc                         [OK]
+2026-11-19T18:36:34.557661Z 01O  - mc_16bpc.mct                        [OK]
+2026-11-19T18:36:34.557662Z 01O  - mc_16bpc.mc_scaled                  [OK]
+2026-11-19T18:36:34.557662Z 01O  - mc_16bpc.mct_scaled                 [OK]
+2026-11-19T18:36:34.557663Z 01O  - mc_16bpc.avg                        [OK]
+2026-11-19T18:36:34.557663Z 01O  - mc_16bpc.w_avg                      [OK]
+2026-11-19T18:36:34.557664Z 01O  - mc_16bpc.mask                       [OK]
+2026-11-19T18:36:34.557664Z 01O  - mc_16bpc.w_mask                     [OK]
+2026-11-19T18:36:34.557665Z 01O  - mc_16bpc.blend                      [OK]
+2026-11-19T18:36:34.557665Z 01O  - mc_16bpc.warp8x8                    [OK]
+2026-11-19T18:36:34.557665Z 01O  - mc_16bpc.warp8x8t                   [OK]
+2026-11-19T18:36:34.557666Z 01O  - mc_16bpc.ext_warp4x4                [OK]
+2026-11-19T18:36:34.557666Z 01O  - mc_16bpc.ext_warp4x4t               [OK]
+2026-11-19T18:36:34.557667Z 01O  - mc_16bpc.emu_edge                   [OK]
+2026-11-19T18:36:34.557667Z 01O  - mc_16bpc.morph                      [OK]
+2026-11-19T18:36:34.557668Z 01O  - mc_16bpc.sad_refine_mv              [OK]
+2026-11-19T18:36:34.557668Z 01O  - mc_16bpc.opfl                       [OK]
+2026-11-19T18:36:34.557669Z 01O  - mc_16bpc.sad8x8                     [OK]
+2026-11-19T18:36:34.557669Z 01O  - stx_16bpc.stx4                      [OK]
+2026-11-19T18:36:34.557670Z 01O  - stx_16bpc.stx8                      [OK]
+2026-11-19T18:36:34.557670Z 01O SSE2:
+2026-11-19T18:36:34.557671Z 01O  - msac.decode_adapt                   [OK]
+2026-11-19T18:36:34.557671Z 01O  - msac.decode_bypass                  [OK]
+2026-11-19T18:36:34.557672Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:36:34.557672Z 01O SSSE3:
+2026-11-19T18:36:34.557672Z 01O  - pal.pal_idx_finish                  [OK]
+2026-11-19T18:36:34.557673Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:36:34.557673Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:36:34.557674Z 01O  - filmgrain_8bpc.gen_grain_y          [OK]
+2026-11-19T18:36:34.557674Z 01O  - filmgrain_8bpc.gen_grain_uv         [OK]
+2026-11-19T18:36:34.557679Z 01O  - ipred_8bpc.intra_pred               [OK]
+2026-11-19T18:36:34.557679Z 01O  - ipred_8bpc.pal_pred                 [OK]
+2026-11-19T18:36:34.557679Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:36:34.557680Z 01O  - cdef_16bpc.cdef_filter              [OK]
+2026-11-19T18:36:34.557680Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:36:34.557681Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:36:34.557681Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:36:34.557682Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:36:34.557682Z 01O SSE4.1:
+2026-11-19T18:36:34.557683Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:36:34.557683Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:36:34.557684Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:36:34.557684Z 01O AVX2:
+2026-11-19T18:36:34.557685Z 01O  - msac.decode_bypass                  [OK]
+2026-11-19T18:36:34.557685Z 01O  - pal.pal_idx_finish                  [OK]
+2026-11-19T18:36:34.557685Z 01O  - refmvs.splat_mv                     [OK]
+2026-11-19T18:36:34.557686Z 01O  - refmvs.splat_warpmv                 [OK]
+2026-11-19T18:36:34.557686Z 01O  - refmvs.splat_comp_warpmv            [OK]
+2026-11-19T18:36:34.557687Z 01O  - refmvs.splat_comp_wedgemv           [OK]
+2026-11-19T18:36:34.557687Z 01O  - refmvs.tip_projection               [OK]
+2026-11-19T18:36:34.557688Z 01O  - refmvs.tip_fill_holes               [OK]
+2026-11-19T18:36:34.557688Z 01O  - refmvs.tip_smoothen                 [OK]
+2026-11-19T18:36:34.557689Z 01O  - refmvs.fill_gap_proj                [OK]
+2026-11-19T18:36:34.557689Z 01O  - refmvs.fill_gap_traj                [OK]
+2026-11-19T18:36:34.557690Z 01O  - ccso_8bpc.ccso_prep_bo              [OK]
+2026-11-19T18:36:34.557690Z 01O  - ccso_8bpc.ccso_prep_clf             [OK]
+2026-11-19T18:36:34.557691Z 01O  - ccso_8bpc.ccso_add                  [OK]
+2026-11-19T18:36:34.557691Z 01O  - cdef_8bpc.cdef_dir                  [OK]
+2026-11-19T18:36:34.557692Z 01O  - cdef_8bpc.cdef_filter               [OK]
+2026-11-19T18:36:34.557692Z 01O  - deblock_8bpc.deblock_h_sb_y         [OK]
+2026-11-19T18:36:34.557693Z 01O  - deblock_8bpc.deblock_v_sb_y         [OK]
+2026-11-19T18:36:34.557693Z 01O  - deblock_8bpc.deblock_h_sb_uv        [OK]
+2026-11-19T18:36:34.557693Z 01O  - deblock_8bpc.deblock_v_sb_uv        [OK]
+2026-11-19T18:36:34.557694Z 01O  - deblock_8bpc.setup_thr_sb_seg_cols  [OK]
+2026-11-19T18:36:34.557694Z 01O  - deblock_8bpc.setup_thr_sb_dq_cols   [OK]
+2026-11-19T18:36:34.557695Z 01O  - deblock_8bpc.setup_thr_sb_seg_rows  [OK]
+2026-11-19T18:36:34.557695Z 01O  - deblock_8bpc.setup_thr_sb_dq_rows   [OK]
+2026-11-19T18:36:34.557696Z 01O  - deblock_8bpc.setup_thr_sb_simple    [OK]
+2026-11-19T18:36:34.557696Z 01O  - filmgrain_8bpc.gen_grain_y          [OK]
+2026-11-19T18:36:34.557697Z 01O  - filmgrain_8bpc.gen_grain_uv         [OK]
+2026-11-19T18:36:34.557698Z 01O  - ipred_8bpc.intra_pred               [OK]
+2026-11-19T18:36:34.557698Z 01O  - ipred_8bpc.cfl_explicit             [OK]
+2026-11-19T18:36:34.557698Z 01O  - ipred_8bpc.cfl_implicit             [OK]
+2026-11-19T18:36:34.557699Z 01O  - ipred_8bpc.cfl_mh_gen_y             [OK]
+2026-11-19T18:36:34.557699Z 01O  - ipred_8bpc.cfl_mh_gen_mat           [OK]
+2026-11-19T18:36:34.557700Z 01O  - ipred_8bpc.cfl_calc_alphas          [OK]
+2026-11-19T18:36:34.557700Z 01O  - ipred_8bpc.cfl_mh_pred              [OK]
+2026-11-19T18:36:34.557701Z 01O  - ipred_8bpc.pal_pred                 [OK]
+2026-11-19T18:36:34.557701Z 01O  - itx_8bpc.add_tx4                    [OK]
+2026-11-19T18:36:34.557702Z 01O  - itx_8bpc.add_tx8                    [OK]
+2026-11-19T18:36:34.557702Z 01O  - itx_8bpc.add_tx16                   [OK]
+2026-11-19T18:36:34.557703Z 01O  - itx_8bpc.add_tx32                   [OK]
+2026-11-19T18:36:34.557703Z 01O  - itx_8bpc.add_tx64                   [OK]
+2026-11-19T18:36:34.557704Z 01O  - itx_8bpc.cctx                       [OK]
+2026-11-19T18:36:34.557704Z 01O  - looprestoration_8bpc.wiener         [OK]
+2026-11-19T18:36:34.557708Z 01O  - looprestoration_8bpc.gdf            [OK]
+2026-11-19T18:36:34.557709Z 01O  - mc_8bpc.mc                          [OK]
+2026-11-19T18:36:34.557709Z 01O  - mc_8bpc.mct                         [OK]
+2026-11-19T18:36:34.557710Z 01O  - mc_8bpc.avg                         [OK]
+2026-11-19T18:36:34.557710Z 01O  - mc_8bpc.w_avg                       [OK]
+2026-11-19T18:36:34.557711Z 01O  - mc_8bpc.mask                        [OK]
+2026-11-19T18:36:34.557711Z 01O  - mc_8bpc.w_mask                      [OK]
+2026-11-19T18:36:34.557712Z 01O  - mc_8bpc.blend                       [OK]
+2026-11-19T18:36:34.557712Z 01O  - mc_8bpc.warp8x8                     [OK]
+2026-11-19T18:36:34.557712Z 01O  - mc_8bpc.warp8x8t                    [OK]
+2026-11-19T18:36:34.557713Z 01O  - mc_8bpc.ext_warp4x4                 [OK]
+2026-11-19T18:36:34.557713Z 01O  - mc_8bpc.ext_warp4x4t                [OK]
+2026-11-19T18:36:34.557714Z 01O  - mc_8bpc.emu_edge                    [OK]
+2026-11-19T18:36:34.557714Z 01O  - mc_8bpc.morph                       [OK]
+2026-11-19T18:36:34.557715Z 01O  - mc_8bpc.sad_refine_mv               [OK]
+2026-11-19T18:36:34.557715Z 01O  - mc_8bpc.opfl                        [OK]
+2026-11-19T18:36:34.557716Z 01O  - mc_8bpc.sad8x8                      [OK]
+2026-11-19T18:36:34.557716Z 01O  - stx_8bpc.stx4                       [OK]
+2026-11-19T18:36:34.557717Z 01O  - stx_8bpc.stx8                       [OK]
+2026-11-19T18:36:34.557717Z 01O  - cdef_16bpc.cdef_dir                 [OK]
+2026-11-19T18:36:34.557718Z 01O  - cdef_16bpc.cdef_filter              [OK]
+2026-11-19T18:36:34.557718Z 01O  - filmgrain_16bpc.gen_grain_y         [OK]
+2026-11-19T18:36:34.557719Z 01O  - filmgrain_16bpc.gen_grain_uv        [OK]
+2026-11-19T18:36:34.557719Z 01O  - ipred_16bpc.intra_pred              [OK]
+2026-11-19T18:36:34.557719Z 01O  - ipred_16bpc.cfl_mh_gen_y            [OK]
+2026-11-19T18:36:34.557720Z 01O  - ipred_16bpc.cfl_mh_gen_mat          [OK]
+2026-11-19T18:36:34.557720Z 01O  - ipred_16bpc.cfl_calc_alphas         [OK]
+2026-11-19T18:36:34.557721Z 01O  - ipred_16bpc.cfl_mh_pred             [OK]
+2026-11-19T18:36:34.557721Z 01O  - ipred_16bpc.pal_pred                [OK]
+2026-11-19T18:36:34.557722Z 01O  - itx_16bpc.add_tx4                   [OK]
+2026-11-19T18:36:34.557722Z 01O  - itx_16bpc.add_tx8                   [OK]
+2026-11-19T18:36:34.557723Z 01O  - itx_16bpc.add_tx16                  [OK]
+2026-11-19T18:36:34.557723Z 01O  - itx_16bpc.cctx                      [OK]
+2026-11-19T18:36:34.557724Z 01O  - mc_16bpc.mc                         [OK]
+2026-11-19T18:36:34.557724Z 01O  - mc_16bpc.mct                        [OK]
+2026-11-19T18:36:34.557725Z 01O  - mc_16bpc.avg                        [OK]
+2026-11-19T18:36:34.557725Z 01O  - mc_16bpc.w_avg                      [OK]
+2026-11-19T18:36:34.557726Z 01O  - mc_16bpc.mask                       [OK]
+2026-11-19T18:36:34.557726Z 01O  - mc_16bpc.w_mask                     [OK]
+2026-11-19T18:36:34.557726Z 01O  - mc_16bpc.blend                      [OK]
+2026-11-19T18:36:34.557727Z 01O  - mc_16bpc.warp8x8                    [OK]
+2026-11-19T18:36:34.557727Z 01O  - mc_16bpc.warp8x8t                   [OK]
+2026-11-19T18:36:34.557728Z 01O  - mc_16bpc.emu_edge                   [OK]
+2026-11-19T18:36:34.557728Z 01O  - mc_16bpc.morph                      [OK]
+2026-11-19T18:36:34.557729Z 01O  - mc_16bpc.sad_refine_mv              [OK]
+2026-11-19T18:36:34.557729Z 01O  - mc_16bpc.opfl                       [OK]
+2026-11-19T18:36:34.557730Z 01O  - mc_16bpc.sad8x8                     [OK]
+2026-11-19T18:36:34.557730Z 01O  - stx_16bpc.stx4                      [OK]
+2026-11-19T18:36:34.557731Z 01O  - stx_16bpc.stx8                      [OK]
+2026-11-19T18:36:34.557731Z 01O checkasm: all 2524 tests passed
+2026-11-19T18:36:34.557732Z 01O ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+2026-11-19T18:36:34.557736Z 01O
+2026-11-19T18:36:34.560104Z 01O
+2026-11-19T18:36:34.560111Z 01O Ok:                 7
+2026-11-19T18:36:34.560112Z 01O Expected Fail:      0
+2026-11-19T18:36:34.560113Z 01O Fail:               0
+2026-11-19T18:36:34.560114Z 01O Unexpected Pass:    0
+2026-11-19T18:36:34.560114Z 01O Skipped:            0
+2026-11-19T18:36:34.560115Z 01O Timeout:            0
+2026-11-19T18:36:34.560115Z 01O
+2026-11-19T18:36:34.560116Z 01O Full log written to /builds/videolan/dav2d/build/meson-logs/testlog.txt
+2026-11-19T18:36:34.598447Z 01O $ ninja -C build
+2026-11-19T18:36:34.600296Z 01O ninja: Entering directory `build'
+2026-11-19T18:36:34.659768Z 01O [1/8] Generating include/vcs_version.h with a custom command
+2026-11-19T18:36:34.660282Z 01O $ files=( # collapsed multi-line command
+2026-11-19T18:36:34.697893Z 01O 12076 avm.log
+2026-11-19T18:36:34.739230Z 01O 12111 avm.log
+2026-11-19T18:36:34.803497Z 01O 26778 avm.log
+2026-11-19T18:36:34.868864Z 01O 26732 avm.log
+2026-11-19T18:36:34.988984Z 01O 93395 avm.log
+2026-11-19T18:36:35.041317Z 01O 10207 avm.log
+2026-11-19T18:36:35.269175Z 00O section_end:1795113395:step_script
+2026-11-19T18:36:35.269587Z 00O+section_start:1795113395:archive_cache
+2026-11-19T18:36:35.269592Z 00O+Saving cache for successful job
+2026-11-19T18:36:35.560529Z 01O Creating cache testdata.git-20260605-protected...
+2026-11-19T18:36:35.621106Z 01E cache/dav2d-test-data.git/: found 137 matching artifact files and directories
+2026-11-19T18:36:35.678066Z 01E No URL provided, cache will not be uploaded to shared cache server. Cache will be stored only locally.
+2026-11-19T18:36:35.683057Z 01O Created cache
+2026-11-19T18:36:35.917940Z 00O section_end:1795113395:archive_cache
+2026-11-19T18:36:35.918254Z 00O+section_start:1795113395:upload_artifacts_on_success
+2026-11-19T18:36:35.918260Z 00O+Uploading artifacts for successful job
+2026-11-19T18:36:36.166908Z 01O Uploading artifacts...
+2026-11-19T18:36:36.225781Z 01E build/meson-logs/testlog.junit.xml: found 1 matching artifact files and directories
+2026-11-19T18:36:36.574893Z 01E Uploading artifacts as "junit" to coordinator... 201 Created  correlation_id=01M7THHA2P4TF1FDVEAMB674AP id=2986099 status=201 token=[redacted]
+2026-11-19T18:36:36.957421Z 00O section_end:1795113396:upload_artifacts_on_success
+2026-11-19T18:36:36.957688Z 00O+section_start:1795113396:cleanup_file_variables
+2026-11-19T18:36:36.957693Z 00O+Cleaning up project directory and file based variables
+2026-11-19T18:36:37.471354Z 00O section_end:1795113397:cleanup_file_variables
+2026-11-19T18:36:37.493065Z 00O Job succeeded
