@@ -1,0 +1,62 @@
+# Copyright © 2018-2020, VideoLAN and dav2d authors
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# 1. Redistributions of source code must retain the above copyright notice, this
+#    list of conditions and the following disclaimer.
+#
+# 2. Redistributions in binary form must reproduce the above copyright notice,
+#    this list of conditions and the following disclaimer in the documentation
+#    and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+dav2d_test_args += ['--filmgrain=1']
+
+tests = [
+	['avm.mandel.200x112.l10.refs2-sef', files('avm.mandel.200x112.l10.refs2-sef.obu'), 'e069400d48e46a3eeed3c2075b3415e8'],
+	['avm.mandel.200x112.l6.resize9', files('avm.mandel.200x112.l6.resize9.obu'), 'bec966138d20f985c6769a70d5eaa9ca'],
+	['avm.testsrc.176x144.l1.422.opsets', files('avm.testsrc.176x144.l1.422.opsets.obu'), '624108d0b56c1b1554974eaf6047a760'],
+	['avm.testsrc.176x144.l12.444.fg', files('avm.testsrc.176x144.l12.444.fg.obu'), '4adcbf4a0ed1fcb474e165ab1779cb00'],
+	['avm-v15.0.0-bus.352x288.l10.deltaq1', files('avm-v15.0.0-bus.352x288.l10.deltaq1.obu'), 'a51faffac365722f94697051af0d9e00'],
+	['avm-v15.0.0-bus.352x288.l1.partial_lossless', files('avm-v15.0.0-bus.352x288.l1.partial_lossless.obu'), '073a204edb3cd90bdf8d15d2bb4c6920'],
+	['avm-v15.0.0-bus.352x288.l5.seg1', files('avm-v15.0.0-bus.352x288.l5.seg1.obu'), '841f3395b0836a92d5454e9bd30a3bb6'],
+	['avm-v15.0.0-bus.64x64.l1.sdp0', files('avm-v15.0.0-bus.64x64.l1.sdp0.obu'), '15c9e34e1df4630094833207c5fc6a9c'],
+	['avm-v15.0.0-bus.64x64.l1.sdp1', files('avm-v15.0.0-bus.64x64.l1.sdp1.obu'), 'a5fc9864ff716f298b87c69107230b05'],
+	['avm-v15.0.0-bus.64x64.l5.lossless', files('avm-v15.0.0-bus.64x64.l5.lossless.obu'), '1a00c22d0bc0a4f7b9dc33f5abeccd46'],
+	['avm-v15.0.0-bus.64x64.l5', files('avm-v15.0.0-bus.64x64.l5.obu'), 'c7e65cb31f675f460daf745a42bf9d0e'],
+	['avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0', files('avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu'), 'ae41842a250d29146e5316a4f77271ed'],
+	['avm-v15.0.0-hm.64x64.l5.filmgrain', files('avm-v15.0.0-hm.64x64.l5.filmgrain.obu'), 'e4162fac59c040adfae012baa413c7d1'],
+	['avm.bus.96x64.l5.qm1-cctx', files('avm.bus.96x64.l5.qm1-cctx.obu'), '0e8030cc6454eb8b4b2e9b63c59e1b5e'],
+	['avm.bus.128x96.l5.qm1', files('avm.bus.128x96.l5.qm1.obu'), 'd616284ea7e781699c1260474ca4a41a'],
+	['avm.bus.176x144.l5.opfl2', files('avm.bus.176x144.l5.opfl2.obu'), 'f890a8cc8bdf119690d2dbb4853aeec0'],
+	['avm.bus.480x144.l2.tilecols2', files('avm.bus.480x144.l2.tilecols2.obu'), '3e09b76415f2f56ba939aa349e02ecfd'],
+	['avm.bus.64x64.l17.qm1', files('avm.bus.64x64.l17.qm1.obu'), 'f255f758d83f98a39a4c4b0ddd91ee8b'],
+	['avm.testsrc.176x144.l3.ref-frame-mvs0', files('avm.testsrc.176x144.l3.ref-frame-mvs0.obu'), '304ce0198b7c2c1a867c9be64eb04858'],
+	['avm.testsrc.256x256.l1.lossless-sb128', files('avm.testsrc.256x256.l1.lossless-sb128.obu'), 'e3ad19380957e0364a889e21b9aff97a', ['--threads', '4', '--framedelay', '4']],
+	['avm.testsrc.176x144.l3.cdef-on-skip-txfm0', files('avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu'), 'f004b83f42c3343edbee4e332cc93f0d'],
+	['avm.testsrc.176x144.l1.tile-rows1', files('avm.testsrc.176x144.l1.tile-rows1.obu'), '7cd5b6e6acdc28dd180e3deb8b90879f'],
+	['avm.testsrc.176x144.l8.sframe', files('avm.testsrc.176x144.l8.sframe.obu'), '2ce84e4809ed52c3d1b358fc82b98e0a'],
+	['avm.testsrc.176x144.l2.fg11', files('avm.testsrc.176x144.l2.fg11.obu'), 'f7d14f644be36a486507119e647e3240'],
+	['avm.rot.128x128.l8.opfl-refine0', files('avm.rot.128x128.l8.opfl-refine0.obu'), '19754c23daeffa4652b473ee14001333'],
+	['avm.testsrc.176x144.l2.mfh-resize-kf', files('avm.testsrc.176x144.l2.mfh-resize-kf.obu'), '1629b369c40bd56bb1452c93bc4ed588'],
+	['avm.testsrc.176x144.l8.422.ii-smooth', files('avm.testsrc.176x144.l8.422.ii-smooth.obu'), 'ee46e828445a5d6f4469563ecca78dc1'],
+	['avm.testsrc.176x144.l4.444.mhccp', files('avm.testsrc.176x144.l4.444.mhccp.obu'), '70406360fd253ea4c65f887dacb9e9c5'],
+]
+
+foreach test : tests
+    test(test[0], dav2d, suite: ['avm', 'testdata'],
+         args: dav2d_test_args + ['-i', test[1], '--verify', test[2]] +
+               (test.length() > 3 ? test[3] : []))
+endforeach

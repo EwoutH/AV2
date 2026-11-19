@@ -1,5 +1,7 @@
 # dav2d testing audit, 19 November 2026
 
+**Status update, 21:17 CET:** the sample MRs and four-frame CI changes below have merged. See [the refreshed ranking](CURRENT-PRIORITIES.md) for outstanding work. This document and its CI matrix retain the original measurement baseline; the AVM tracing work is now owned by another session.
+
 The best return is to land the pending regression/format samples and four-frame runs, then repair the empty seek suite. The architecture matrix is already broad. Adding architectures or duplicating sanitizer builds is lower value than making existing jobs exercise more decoder states.
 
 | Rank | Concrete change | Evidence | Added CI work / readiness |
