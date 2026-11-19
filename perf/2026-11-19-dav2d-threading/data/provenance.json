@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-19",
+  "source": "b130414d978a613671b6a14bf95040e2cba8d726",
+  "reference_binary": "/srv/compression/cache/av2conf/round5/build/main/tools/dav2d",
+  "compiler": "GCC 16.2.0",
+  "reference_build": {
+    "buildtype": "release",
+    "default_library": "static",
+    "enable_asm": true,
+    "b_lto": false,
+    "c_args": []
+  },
+  "diagnostic_build": "release, static, asm enabled, no LTO, same nix develop toolchain",
+  "sizeof": {
+    "Av2Block": 80,
+    "CodedBlockInfo": 12,
+    "Dav2dTask": 32,
+    "Dav2dFrameContext": 6232,
+    "Dav2dTaskContext": 779776
+  },
+  "machine": "i5-4590, four cores, NixOS",
+  "timing_status": "Stopped after foreign encoding work appeared; incomplete, no new aggregate throughput conclusions",
+  "diagnostic_status": "Instrumented worker wall times under shared-machine load and MD5 output; no performance claims"
+}

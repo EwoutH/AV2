@@ -1,0 +1,7 @@
+# file	frames	width	height	pixel_md5(avmdec --rawvideo --md5)	manifest_y4m_check
+hd/Noise_Ocean_1920x1080_60fps_filmgrain_qp135_130f.ivf	130	1920	1080	c73569211c3ea6b49f9dce99506dafb0	y4m_ok
+hd/Slides1_1920x1080_30fps_8bit_420_screen_qp135_130f.ivf	130	1920	1080	e796cc8b1c73653ce18330c8bea092ab	y4m_ok
+hd/old_town_cross_1080p50_tiles4x2_qp135_500f.ivf	500	1920	1080	48b0f111e1db062008e8fca9f3df0d49	y4m_ok
+hd/Netflix_DrivingPOV_720p_60fps_10bit_420_qp135_600f.ivf	600	1280	720	12073be49871255d7c749910e5fd46d9	y4m_ok
+hd/crowd_run_1080p50_qp135_500f.ivf	500	1920	1080	6509f02fdaa77f90f6cf1e564200dfdf	y4m_ok
+samples/FourPeople_480x270_60_qp210_130f.ivf	130	480	270	5104fe2e8c35a05c6b1048c74c664883	y4m_ok

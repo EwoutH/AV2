@@ -1,0 +1,41 @@
+--- a/src/lib.c
++++ b/src/lib.c
+@@ -247,7 +247,7 @@
+         atomic_init(&c->task_thread.cond_signaled, 0);
+         c->task_thread.inited = 1;
+     }
+-    c->task_thread.n_passes = 1 + (c->n_tc > 1) + (c->n_fc > 1);
++    c->task_thread.n_passes = c->n_tc > 1 ? 3 : 1;
+ 
+     c->dpb_sz = c->n_fc + 1 + DAV2D_NUM_REF_FRAMES + DAV2D_REFS_PER_FRAME;
+     c->dpb = dav2d_malloc(ALLOC_THREAD_CTX, sizeof(*c->dpb) * c->dpb_sz);
+--- a/src/decode.c
++++ b/src/decode.c
+@@ -4696,7 +4696,7 @@
+     }
+ 
+     if (t->task_thread.pass == PASS_MVRES &&
+-        IS_INTER_OR_SWITCH(f->frame_hdr) && c->n_fc > 1)
++        IS_INTER_OR_SWITCH(f->frame_hdr) && c->task_thread.n_passes == 3)
+     {
+         const int sby = (t->by - ts->tiling.row_start) >> f->sb_shift;
+         int (*const lowest_px)[2] = ts->lowest_pixel[sby];
+@@ -4886,7 +4886,7 @@
+     const int num_sb256 = f->sb256w * f->sb256h;
+     const uint8_t *const size_mul = ss_size_mul[f->cur.p.p.layout];
+     const int hbd = !!f->seq_hdr->hbd;
+-    if (c->n_fc > 1) {
++    if (c->task_thread.n_passes == 3) {
+         const int lowest_pixel_mem_sz = f->frame_hdr->tiling.t.cols * f->sbh;
+         if (lowest_pixel_mem_sz != f->tile_thread.lowest_pixel_mem_sz) {
+             dav2d_free(f->tile_thread.lowest_pixel_mem);
+@@ -5178,7 +5178,8 @@
+         const int ret =
+             dav2d_refmvs_init_frame(&f->rf, f->seq_hdr, f->frame_hdr,
+                                     f->refpoc, f->mvs, f->refrefpoc, f->refcnt,
+-                                    f->ref_mvs, f->c->n_tc > 1, f->c->n_fc > 1);
++                                    f->ref_mvs, f->c->n_tc > 1,
++                                    f->c->task_thread.n_passes == 3);
+         if (ret < 0) return ret;
+     }
+ 
