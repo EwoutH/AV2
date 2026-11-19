@@ -1,0 +1,222 @@
+--- avm
++++ dav2d
+@@ -70,5 +70,2 @@
+ Resetting refbank: remain=4|hits=0|0
+-       decode_cf[y=0,x=0,pl=0,tx=32x8]: r=65376
+-        Post-all_zero[ctx=0|2|0,1]: r=54816
+-        Post-y_cf_blk[tx=32x8,txtp=dct/dct,eob=-1]: r=54816
+ y-pal-pred
+@@ -82,2 +79,5 @@
+  4a 4a 1e 1e 1e 92 92 1e 29 92 92 2b 2b 92 92 30 20 92 92 20 20 20 20 20 20 20 20 20 20 92 92 30
++       decode_cf[y=0,x=0,pl=0,tx=32x8]: r=65376
++        Post-all_zero[ctx=0|2|0,1]: r=54816
++        Post-y_cf_blk[tx=32x8,txtp=dct/dct,eob=-1]: r=54816
+      decode_sb[y=2,x=0,bs=32x8,plane=y]: r=54816
+@@ -93,2 +93,11 @@
+         Post-txpart[ctx=0|0|2,1]: r=40192
++y-pal-pred
++ 51 51 20 20 92 92 29 29 29 29 92 92 92 92 30 30
++ 51 51 20 20 92 92 29 29 29 29 92 92 92 92 30 30
++ 51 51 20 20 92 92 29 92 92 29 92 92 92 92 30 92
++ 51 51 20 20 92 92 29 92 92 29 92 92 92 92 30 92
++ 51 51 20 20 92 92 29 29 29 29 92 92 92 92 30 30
++ 51 51 20 20 92 92 29 29 29 29 92 92 92 92 30 30
++ 51 51 20 20 20 92 92 29 29 92 92 2b 2b 92 92 30
++ 51 51 20 20 20 20 92 92 92 92 2b 2b 2b 2b 92 92
+         decode_cf[y=2,x=0,pl=0,tx=8x4]: r=40192
+@@ -134,7 +143,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=adst/adst,eob=21]: r=32856
+-y-pal-pred
+- 51 51 20 20 92 92 29 29
+- 51 51 20 20 92 92 29 29
+- 51 51 20 20 92 92 29 92
+- 51 51 20 20 92 92 29 92
+ dq
+@@ -156,7 +160,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/dct,eob=-1]: r=38528
+-y-pal-pred
+- 29 29 92 92 92 92 30 30
+- 29 29 92 92 92 92 30 30
+- 92 29 92 92 92 92 30 92
+- 92 29 92 92 92 92 30 92
+         decode_cf[y=3,x=0,pl=0,tx=8x4]: r=38528
+@@ -176,7 +175,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=adst/adst,eob=3]: r=54000
+-y-pal-pred
+- 51 51 20 20 92 92 29 29
+- 51 51 20 20 92 92 29 29
+- 51 51 20 20 20 92 92 29
+- 51 51 20 20 20 20 92 92
+ dq
+@@ -203,7 +197,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/dct,eob=-1]: r=61520
+-y-pal-pred
+- 29 29 92 92 92 92 30 30
+- 29 29 92 92 92 92 30 30
+- 29 92 92 2b 2b 92 92 30
+- 92 92 2b 2b 2b 2b 92 92
+       decode_sb[y=2,x=4,bs=16x8,plane=y]: r=61520
+@@ -217,5 +206,2 @@
+         Post-txpart[ctx=0|0|2,0]: r=51872
+-        decode_cf[y=2,x=4,pl=0,tx=16x8]: r=51872
+-         Post-all_zero[ctx=0|2|0,1]: r=58368
+-         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=58368
+ y-pal-pred
+@@ -229,2 +215,5 @@
+  92 92 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 92 92
++        decode_cf[y=2,x=4,pl=0,tx=16x8]: r=51872
++         Post-all_zero[ctx=0|2|0,1]: r=58368
++         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=58368
+     decode_sb[y=0,x=8,bs=32x16,plane=y]: r=58368
+@@ -290,5 +279,2 @@
+          Post-txpart[ctx=0|0|8,0]: r=41024
+-         decode_cf[y=1,x=8,pl=0,tx=16x4]: r=41024
+-          Post-all_zero[ctx=0|1|0,1]: r=59520
+-          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=59520
+ y-pal-pred
+@@ -298,2 +284,5 @@
+  30 92 92 30 30 92 92 30 30 92 92 30 30 30 30 30
++         decode_cf[y=1,x=8,pl=0,tx=16x4]: r=41024
++          Post-all_zero[ctx=0|1|0,1]: r=59520
++          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=59520
+       decode_sb[y=2,x=8,bs=16x8,plane=y]: r=59520
+@@ -307,5 +296,2 @@
+         Post-txpart[ctx=0|0|2,0]: r=32792
+-        decode_cf[y=2,x=8,pl=0,tx=16x8]: r=32792
+-         Post-all_zero[ctx=0|2|0,1]: r=44160
+-         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=44160
+ y-pal-pred
+@@ -319,2 +305,5 @@
+  92 92 3c 3c 30 30 92 92 92 92 30 30 30 30 30 30
++        decode_cf[y=2,x=8,pl=0,tx=16x8]: r=32792
++         Post-all_zero[ctx=0|2|0,1]: r=44160
++         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=44160
+      decode_sb[y=0,x=12,bs=16x16,plane=y]: r=44160
+@@ -510,5 +499,2 @@
+          Post-txpart[ctx=0|0|8,0]: r=63280
+-         decode_cf[y=0,x=15,pl=0,tx=4x16]: r=63280
+-          Post-all_zero[ctx=0|1|0,1]: r=34208
+-          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=34208
+ y-pal-pred
+@@ -530,2 +516,5 @@
+  40 40 92 92
++         decode_cf[y=0,x=15,pl=0,tx=4x16]: r=63280
++          Post-all_zero[ctx=0|1|0,1]: r=34208
++          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=34208
+    decode_sb[y=4,x=0,bs=64x16,plane=y]: r=34208
+@@ -644,2 +633,11 @@
+          Post-txpart[ctx=0|0|1,0]: r=65328
++y-pal-pred
++ 29 29 2b 2b 2b 2b 30 30
++ 29 29 2b 2b 2b 2b 30 30
++ 29 29 2b 2b 2b 2b 30 30
++ 29 29 2b 2b 2b 2b 30 30
++ 20 20 20 20 2b 2b 30 30
++ 20 20 20 20 2b 2b 30 30
++ 20 20 20 20 20 20 20 20
++ 20 20 20 20 20 20 20 20
+          decode_cf[y=4,x=2,pl=0,tx=8x8]: r=65328
+@@ -678,11 +676,2 @@
+           Post-y_cf_blk[tx=8x8,txtp=adst/flipadst,eob=20]: r=45120
+-y-pal-pred
+- 29 29 2b 2b 2b 2b 30 30
+- 29 29 2b 2b 2b 2b 30 30
+- 29 29 2b 2b 2b 2b 30 30
+- 29 29 2b 2b 2b 2b 30 30
+- 20 20 20 20 2b 2b 30 30
+- 20 20 20 20 2b 2b 30 30
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+ dq
+@@ -736,2 +725,19 @@
+ Updating refbank availability: remain=4|hits=0|4
++y-pal-pred
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 30 30 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 38 38 3a 3a 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 20 20 20 20 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 20 20 20 20 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 20 20 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 20 20 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 20 20 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 20 20 20 20 20 20 20 20 30 30
+        decode_cf[y=4,x=4,pl=0,tx=8x8]: r=36192
+@@ -775,11 +781,2 @@
+         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=27]: r=40352
+-y-pal-pred
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+- 30 30 36 36 36 36 38 38
+ dq
+@@ -805,11 +802,2 @@
+         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=45360
+-y-pal-pred
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+        decode_cf[y=6,x=4,pl=0,tx=8x8]: r=45360
+@@ -817,11 +805,2 @@
+         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=53616
+-y-pal-pred
+- 20 20 20 20 20 20 38 38
+- 20 20 20 20 20 20 38 38
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+- 20 20 20 20 20 20 20 20
+        decode_cf[y=6,x=6,pl=0,tx=8x8]: r=53616
+@@ -829,11 +808,2 @@
+         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=46920
+-y-pal-pred
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 20 20 3c 3c 3f 3f 3f 3f
+- 20 20 3c 3c 3f 3f 3f 3f
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+     decode_sb[y=4,x=8,bs=32x16,plane=y]: r=46920
+@@ -850,2 +820,19 @@
+ Updating refbank availability: remain=5|hits=0|4
++y-pal-pred
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 30 30 30 30 30 30
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 30 30 30 30 30 30
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 30 30
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 30 30
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 3f 3f 3c 3c 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 30 30 30 30 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
++ 30 30 30 30 3c 3c 3a 3a 3a 3a 3a 3a 36 36 36 36
+        decode_cf[y=4,x=8,pl=0,tx=16x16]: r=33608
+@@ -927,19 +914,2 @@
+         Post-y_cf_blk[tx=16x16,txtp=dct/dct,eob=65]: r=36528
+-y-pal-pred
+- 3f 3f 3c 3c 3c 3c 3a 3a 3a 

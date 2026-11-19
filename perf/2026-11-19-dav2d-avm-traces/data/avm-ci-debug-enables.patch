@@ -1,0 +1,66 @@
+diff --git a/av2/common/mvref_common.c b/av2/common/mvref_common.c
+index 1d5ef2ba72..8e657a2dc5 100644
+--- a/av2/common/mvref_common.c
++++ b/av2/common/mvref_common.c
+@@ -55,7 +55,7 @@ enum {
+ #define TIP_MFMV_STACK_SIZE 3  // The limit for original TMVP w/ TIP.
+ #define MFMV_STACK_SIZE 4      // The total limit of motion field candidates.
+ 
+-#define DEBUG_REFMV 0
++#define DEBUG_REFMV 1
+ 
+ #if DEBUG_BLOCK_INFO && DEBUG_REFMV
+ #define RDB_ONLY(x...) x
+diff --git a/av2/decoder/obu_ci.c b/av2/decoder/obu_ci.c
+index 8a0b702753..56e6b8ecfd 100644
+--- a/av2/decoder/obu_ci.c
++++ b/av2/decoder/obu_ci.c
+@@ -25,7 +25,7 @@
+ #include "av2/decoder/obu.h"
+ #include "av2/common/av2_common_int.h"
+ 
+-#define DEBUG_CI_HDR 0
++#define DEBUG_CI_HDR 1
+ 
+ static int av2_set_sar_info(ContentInterpretation *ci_params) {
+   int supported_sample_aspect_ratio = 1;
+diff --git a/av2/decoder/obu_fgm.c b/av2/decoder/obu_fgm.c
+index 8ebf851f71..2134f96d6c 100644
+--- a/av2/decoder/obu_fgm.c
++++ b/av2/decoder/obu_fgm.c
+@@ -26,7 +26,7 @@
+ #include "av2/decoder/decodeframe.h"
+ #include "av2/decoder/obu.h"
+ 
+-#define DEBUG_FGM_HDR 0
++#define DEBUG_FGM_HDR 1
+ 
+ void copy_fgm_from_list(AV2_COMMON *cm, avm_film_grain_t *pars,
+                         const struct film_grain_model *fgm) {
+diff --git a/avm/debug.h b/avm/debug.h
+index 1a2b2e1ef9..b1347d2eb5 100644
+--- a/avm/debug.h
++++ b/avm/debug.h
+@@ -32,16 +32,16 @@
+ #include <stdio.h>
+ #include <stddef.h>
+ 
+-#define DEBUG_OBU_HDR 0
+-#define DEBUG_SEQ_HDR 0
+-#define DEBUG_FRAME_HDR 0
++#define DEBUG_OBU_HDR 1
++#define DEBUG_SEQ_HDR 1
++#define DEBUG_FRAME_HDR 1
+ #define DEBUG_MULTI_FRAME_HDR 0
+-#define DEBUG_BLOCK_INFO 0
+-#define DEBUG_B_PIXELS 0
++#define DEBUG_BLOCK_INFO 1
++#define DEBUG_B_PIXELS 1
+ #if DEBUG_BLOCK_INFO
+ #define DB_ONLY(x...) x,
+ #define BLOCK_TO_DEBUG \
+-    (cm->current_frame.frame_number == 0 && \
++    (cm->current_frame.frame_number <= 4 && \
+      mi_row >= 0 && mi_row < 16 && mi_col >= 0 && mi_col < 16)
+ #define DEBUG_BLOCK_printf(fmt...) \
+     if (BLOCK_TO_DEBUG) printf(fmt)

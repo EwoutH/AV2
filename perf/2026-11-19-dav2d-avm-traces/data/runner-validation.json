@@ -1,0 +1,51 @@
+{
+  "load_before": [
+    0.3740234375,
+    0.57177734375,
+    1.42578125
+  ],
+  "sets": {
+    "original6": {
+      "samples": 6,
+      "seconds": [
+        0.5147498738951981,
+        0.5173316649161279,
+        0.5156388371251523,
+        0.5148661229759455,
+        0.5151584199629724
+      ],
+      "median_seconds": 0.5151584199629724
+    },
+    "baseline14": {
+      "samples": 14,
+      "seconds": [
+        1.1658064909279346,
+        1.1682766848243773,
+        1.165931791998446,
+        1.2173215330112725,
+        1.216476425062865
+      ],
+      "median_seconds": 1.1682766848243773
+    },
+    "fixed34": {
+      "samples": 34,
+      "seconds": [
+        2.687915954971686,
+        2.8234317740425467,
+        2.673145584994927,
+        2.7226824758108705,
+        2.7229867610149086
+      ],
+      "median_seconds": 2.7226824758108705
+    }
+  },
+  "checks": [
+    "14 original traces pass",
+    "34 fixed traces pass",
+    "last line without newline passes",
+    "empty list fails",
+    "missing sample fails",
+    "real trace mismatch fails",
+    "decoder failure fails"
+  ]
+}

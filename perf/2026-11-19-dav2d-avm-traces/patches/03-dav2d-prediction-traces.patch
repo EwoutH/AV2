@@ -1,0 +1,47 @@
+diff --git a/src/recon_tmpl.c b/src/recon_tmpl.c
+--- a/src/recon_tmpl.c
++++ b/src/recon_tmpl.c
+@@ -1700,12 +1700,6 @@
+         const int bottom =
+             ((pos_y + (bh4 * v_mul - 1) * f->svc[refidx][1].step) >> 10) + 1;
+ 
+-        if (DEBUG_BLOCK_INFO)
+-            printf("Off %dx%d [%d,%d,%d], size %dx%d [%d,%d]\n",
+-                   left, top, orig_pos_x, f->svc[refidx][0].scale, refidx,
+-                   right-left, bottom-top,
+-                   f->svc[refidx][0].step, f->svc[refidx][1].step);
+-
+         const int w = ((refp->p.p.w + 7) & ~7) >> ss_hor;
+         const int h = ((refp->p.p.h + 7) & ~7) >> ss_ver;
+         if (left < 3 || top < 3 || right + 4 > w || bottom + 4 > h) {
+@@ -1716,7 +1710,6 @@
+                                 refp->p.data[pl], ref_stride);
+             ref = &emu_edge_buf[320 * 3 + 3];
+             ref_stride = 320 * sizeof(pixel);
+-            if (DEBUG_BLOCK_INFO) printf("Emu\n");
+         } else {
+             ref = ((pixel *) refp->p.data[pl]) + PXSTRIDE(ref_stride) * top + left;
+         }
+@@ -2823,6 +2816,12 @@
+         }
+     }
+ 
++    if (b->intra && !b->intrabc && b->pal_sz &&
++        BLOCK_TO_DEBUG && DEBUG_B_PIXELS)
++    {
++        hex_dump(dst, f->cur.p.stride[0], tw, th, "y-pal-pred");
++    }
++
+     if (eob != -1) {
+         const int mask_idx = bx4 >> 4;
+         const int mask = ((1 << t_dim->w) - 1) << (bx4 & 0xf);
+@@ -3543,9 +3542,6 @@
+         }
+         f->dsp->ipred.pal_pred(dst, f->cur.p.stride[0], pal,
+                                pal_idx, bw4 * 4, bh4 * 4);
+-        if (BLOCK_TO_DEBUG && DEBUG_B_PIXELS)
+-            hex_dump(dst, f->cur.p.stride[0], imin(f->bw - t->bx, bw4) * 4,
+-                     imin(f->bh - t->by, bh4) * 4, "y-pal-pred");
+     }
+ 
+     // luma

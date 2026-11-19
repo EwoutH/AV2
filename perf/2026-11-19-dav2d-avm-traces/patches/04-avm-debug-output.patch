@@ -1,0 +1,131 @@
+diff --git a/patches/0006-Align-debug-output-with-the-selected-dav2d-trace.patch b/patches/0006-Align-debug-output-with-the-selected-dav2d-trace.patch
+new file mode 100644
+--- /dev/null
++++ b/patches/0006-Align-debug-output-with-the-selected-dav2d-trace.patch
+@@ -0,0 +1,126 @@
++From: Ewout ter Hoeven <15776622+EwoutH@users.noreply.github.com>
++Date: Thu, 19 Nov 2026 22:00:00 +0100
++Subject: [PATCH] Align debug output with the selected dav2d trace region
++
++Limit TIP dumps to output pictures in the selected region, and inter
++prediction dumps to the first 64x64 chunk. Print suffix metadata headers
++and derived segment IDs, correct the color labels, and use zero for
++absent chroma grain multipliers.
++
++---
++diff --git a/av2/decoder/obu_ci.c b/av2/decoder/obu_ci.c
++--- a/av2/decoder/obu_ci.c
+++++ b/av2/decoder/obu_ci.c
++@@ -178,8 +178,8 @@
++     printf("CI: post-colordesc[id=%d,pri=%d,trc=%d,mtrx=%d,rng=%d]: off=%u\n",
++            ci_temp.color_info.color_description_idc,
++            ci_temp.color_info.color_primaries,
+++           ci_temp.color_info.transfer_characteristics,
++            ci_temp.color_info.matrix_coefficients,
++-           ci_temp.color_info.transfer_characteristics,
++            ci_temp.color_info.full_range_flag, rb->bit_offset);
++ #endif
++   } else {
++diff --git a/av2/common/tip.c b/av2/common/tip.c
++--- a/av2/common/tip.c
+++++ b/av2/common/tip.c
++@@ -962,16 +962,21 @@
++                              tmp_conv_dst, calc_subpel_params_func,
++                              copy_refined_mvs);
++ #if DEBUG_B_PIXELS
++-  const int sbsz = cm->seq_params.mib_size * 4;
++-  const YV12_BUFFER_CONFIG *src = &cm->tip_ref.tip_frame->buf;
++-  const ptrdiff_t stride = src->strides[0];
++-  const int h = mvs_rows * 8, w = mvs_cols * 8;
++-  for (int y = 0; y < h; y += sbsz)
++-    for (int x = 0; x < w; x += sbsz)
++-      for (int yy = y; yy < AVMMIN(h, y + sbsz); yy += 64)
++-        for (int xx = x; xx < AVMMIN(w, x + sbsz); xx += 64)
++-          hex_dump(&src->buffers[0][yy * stride + xx], stride,
++-                   AVMMIN(w - xx, 64), AVMMIN(h - yy, 64),
++-                   "y-pred", !!(xd->bd - 8));
+++  if (cm->features.tip_frame_mode == TIP_FRAME_AS_OUTPUT) {
+++    const int sbsz = cm->seq_params.mib_size * 4;
+++    const YV12_BUFFER_CONFIG *src = &cm->tip_ref.tip_frame->buf;
+++    const ptrdiff_t stride = src->strides[0];
+++    const int h = mvs_rows * 8, w = mvs_cols * 8;
+++    for (int y = 0; y < h; y += sbsz)
+++      for (int x = 0; x < w; x += sbsz)
+++        for (int yy = y; yy < AVMMIN(h, y + sbsz); yy += 64)
+++          for (int xx = x; xx < AVMMIN(w, x + sbsz); xx += 64) {
+++            const int mi_row = yy / MI_SIZE, mi_col = xx / MI_SIZE;
+++            if (BLOCK_TO_DEBUG)
+++              hex_dump(&src->buffers[0][yy * stride + xx], stride,
+++                       AVMMIN(w - xx, 64), AVMMIN(h - yy, 64),
+++                       "y-pred", !!(xd->bd - 8));
+++          }
+++  }
++ #endif
++ }
++diff --git a/av2/decoder/decodeframe.c b/av2/decoder/decodeframe.c
++--- a/av2/decoder/decodeframe.c
+++++ b/av2/decoder/decodeframe.c
++@@ -972,10 +972,8 @@
++                          mi_size_wide[plane_block_size]) * MI_SIZE;
++     const int h = AVMMIN(cm->mi_params.mi_rows - mi_row,
++                          mi_size_high[plane_block_size]) * MI_SIZE;
++-    for (int y = 0; y < h; y += 64)
++-      for (int x = 0; x < w; x += 64)
++-        hex_dump(&pd->dst.buf[y * pd->dst.stride + x], pd->dst.stride,
++-                 AVMMIN(w - x, 64), AVMMIN(h - y, 64), "y-pred", !!(xd->bd - 8));
+++    hex_dump(pd->dst.buf, pd->dst.stride, AVMMIN(w, 64), AVMMIN(h, 64),
+++             "y-pred", !!(xd->bd - 8));
++   }
++ #endif
++ }
++diff --git a/av2/decoder/obu.c b/av2/decoder/obu.c
++--- a/av2/decoder/obu.c
+++++ b/av2/decoder/obu.c
++@@ -3151,6 +3151,10 @@
++       return -1;
++     }
++ 
+++#if DEBUG_OBU_HDR
+++    printf("OBU type=%d size=%ld\n", obu_header.type, payload_size);
+++#endif
+++
++     if (obu_header.type == OBU_PADDING) {
++       decoded_payload_size = read_padding(cm, data, payload_size);
++       obu_info *const curr_obu_info = &obu_list[count_obus_with_frame_unit];
++diff --git a/av2/decoder/decodemv.c b/av2/decoder/decodemv.c
++--- a/av2/decoder/decodemv.c
+++++ b/av2/decoder/decodemv.c
++@@ -912,7 +912,14 @@
++                            avm_reader *r, int skip) {
++   int cdf_num;
++   const int pred = av2_get_spatial_seg_pred(cm, xd, &cdf_num, 0);
++-  if (skip && !cm->features.has_lossless_segment) return pred;
+++  if (skip && !cm->features.has_lossless_segment) {
+++#if DEBUG_BLOCK_INFO
+++    const int mi_row = xd->mi_row, mi_col = xd->mi_col;
+++    DEBUG_BLOCK_printf("%*sPost-segid[%d]: r=%d\n",
+++                       depth, "", pred, r->ec.rng);
+++#endif
+++    return pred;
+++  }
++ 
++   FRAME_CONTEXT *ec_ctx = xd->tile_ctx;
++   struct segmentation *const seg = &cm->seg;
++diff --git a/av2/decoder/obu_fgm.c b/av2/decoder/obu_fgm.c
++--- a/av2/decoder/obu_fgm.c
+++++ b/av2/decoder/obu_fgm.c
++@@ -220,8 +220,12 @@
++   printf("FGM: post-data[id=%d,sh=%d|%d|%d,uvm=%d|%d|%d|%d|%d|%d,overlap=%d,"
++          "clip=%d,mcid=%d,bs=%d]: off=%u\n", idx,
++          fgm->scaling_shift, fgm->ar_coeff_shift, fgm->grain_scale_shift,
++-         fgm->cb_mult - 128, fgm->cb_luma_mult - 128, fgm->cb_offset - 256,
++-         fgm->cr_mult - 128, fgm->cr_luma_mult - 128, fgm->cr_offset - 256,
+++         fgm->fgm_points[1] ? fgm->cb_mult - 128 : 0,
+++         fgm->fgm_points[1] ? fgm->cb_luma_mult - 128 : 0,
+++         fgm->fgm_points[1] ? fgm->cb_offset - 256 : 0,
+++         fgm->fgm_points[2] ? fgm->cr_mult - 128 : 0,
+++         fgm->fgm_points[2] ? fgm->cr_luma_mult - 128 : 0,
+++         fgm->fgm_points[2] ? fgm->cr_offset - 256 : 0,
++          fgm->overlap_flag, fgm->clip_to_restricted_range,
++          fgm->mc_identity, fgm->block_size, rb->bit_offset);
++ #endif

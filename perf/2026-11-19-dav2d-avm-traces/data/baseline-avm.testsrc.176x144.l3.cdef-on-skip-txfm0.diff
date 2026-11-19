@@ -1,0 +1,241 @@
+--- avm
++++ dav2d
+@@ -74,5 +74,2 @@
+ Resetting refbank: remain=4|hits=0|0
+-         decode_cf[y=0,x=0,pl=0,tx=16x4]: r=49888
+-          Post-all_zero[ctx=0|1|0,1]: r=48480
+-          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=48480
+ y-pal-pred
+@@ -82,2 +79,5 @@
+  4a 4a 1e 1e 1e 1e 1e 1e 20 20 20 20 20 20 20 20
++         decode_cf[y=0,x=0,pl=0,tx=16x4]: r=49888
++          Post-all_zero[ctx=0|1|0,1]: r=48480
++          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=48480
+        decode_sb[y=1,x=0,bs=16x4,plane=y]: r=48480
+@@ -91,5 +91,2 @@
+          Post-txpart[ctx=0|0|8,0]: r=41840
+-         decode_cf[y=1,x=0,pl=0,tx=16x4]: r=41840
+-          Post-all_zero[ctx=0|1|0,1]: r=36016
+-          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=36016
+ y-pal-pred
+@@ -99,2 +96,5 @@
+  4a 4a 1e 1e 1e 92 92 1e 29 92 92 2b 2d 92 92 2f
++         decode_cf[y=1,x=0,pl=0,tx=16x4]: r=41840
++          Post-all_zero[ctx=0|1|0,1]: r=36016
++          Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=36016
+       decode_sb[y=0,x=4,bs=16x8,plane=y]: r=36016
+@@ -109,5 +109,2 @@
+ Updating refbank availability: remain=5|hits=0|0
+-        decode_cf[y=0,x=4,pl=0,tx=16x8]: r=46576
+-         Post-all_zero[ctx=0|2|0,1]: r=38912
+-         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=38912
+ y-pal-pred
+@@ -121,2 +118,5 @@
+  20 92 92 20 20 20 20 20 20 20 20 20 20 92 92 30
++        decode_cf[y=0,x=4,pl=0,tx=16x8]: r=46576
++         Post-all_zero[ctx=0|2|0,1]: r=38912
++         Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=38912
+      decode_sb[y=2,x=0,bs=32x8,plane=y]: r=38912
+@@ -134,2 +134,11 @@
+          Post-txpart[ctx=0|0|1,1]: r=47472
++y-pal-pred
++ 51 51 20 20 92 92 29 29
++ 51 51 20 20 92 92 29 29
++ 51 51 20 20 92 92 29 92
++ 51 51 20 20 92 92 29 92
++ 51 51 20 20 92 92 29 29
++ 51 51 20 20 92 92 29 29
++ 51 51 20 20 20 92 92 29
++ 51 51 20 20 20 20 92 92
+          decode_cf[y=2,x=0,pl=0,tx=4x4]: r=47472
+@@ -153,7 +162,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=9]: r=47616
+-y-pal-pred
+- 51 51 20 20
+- 51 51 20 20
+- 51 51 20 20
+- 51 51 20 20
+ dq
+@@ -202,7 +206,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=13]: r=55456
+-y-pal-pred
+- 92 92 29 29
+- 92 92 29 29
+- 92 92 29 92
+- 92 92 29 92
+ dq
+@@ -236,7 +235,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=9]: r=53856
+-y-pal-pred
+- 51 51 20 20
+- 51 51 20 20
+- 51 51 20 20
+- 51 51 20 20
+ dq
+@@ -290,7 +284,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=15]: r=64496
+-y-pal-pred
+- 92 92 29 29
+- 92 92 29 29
+- 20 92 92 29
+- 20 20 92 92
+ dq
+@@ -314,5 +303,2 @@
+          Post-txpart[ctx=0|0|1,0]: r=33472
+-         decode_cf[y=2,x=2,pl=0,tx=8x8]: r=33472
+-          Post-all_zero[ctx=0|1|0,1]: r=38336
+-          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=38336
+ y-pal-pred
+@@ -326,2 +312,5 @@
+  92 92 2b 2b 2d 2d 92 92
++         decode_cf[y=2,x=2,pl=0,tx=8x8]: r=33472
++          Post-all_zero[ctx=0|1|0,1]: r=38336
++          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=38336
+       decode_sb[y=2,x=4,bs=16x8,plane=y]: r=38336
+@@ -335,2 +324,11 @@
+         Post-txpart[ctx=0|0|2,1]: r=32832
++y-pal-pred
++ 30 30 92 92 36 36 20 92 92 20 20 20 92 92 30 30
++ 30 30 92 92 36 36 20 92 92 20 20 20 92 92 30 30
++ 92 30 92 92 36 36 38 38 3a 3a 20 20 92 92 30 92
++ 92 30 92 92 36 36 38 38 3a 3a 20 20 92 92 30 92
++ 30 30 92 92 36 36 38 38 3a 3a 3c 3c 92 92 3f 3f
++ 30 30 92 92 36 36 38 92 92 3a 3c 3c 92 92 3f 3f
++ 30 92 92 36 36 36 38 92 92 3a 3c 3c 3f 92 92 3f
++ 92 92 36 36 36 36 38 38 3a 3a 3c 3c 3f 3f 92 92
+         decode_cf[y=2,x=4,pl=0,tx=8x4]: r=32832
+@@ -379,7 +377,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/dct,eob=25]: r=47488
+-y-pal-pred
+- 30 30 92 92 36 36 20 92
+- 30 30 92 92 36 36 20 92
+- 92 30 92 92 36 36 38 38
+- 92 30 92 92 36 36 38 38
+ dq
+@@ -401,7 +394,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/dct,eob=-1]: r=55680
+-y-pal-pred
+- 92 20 20 20 92 92 30 30
+- 92 20 20 20 92 92 30 30
+- 3a 3a 20 20 92 92 30 92
+- 3a 3a 20 20 92 92 30 92
+         decode_cf[y=3,x=4,pl=0,tx=8x4]: r=55680
+@@ -463,7 +451,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/adst,eob=30]: r=38832
+-y-pal-pred
+- 30 30 92 92 36 36 38 38
+- 30 30 92 92 36 36 38 92
+- 30 92 92 36 36 36 38 92
+- 92 92 36 36 36 36 38 38
+ dq
+@@ -514,7 +497,2 @@
+          Post-y_cf_blk[tx=8x4,txtp=dct/adst,eob=17]: r=41552
+-y-pal-pred
+- 3a 3a 3c 3c 92 92 3f 3f
+- 92 3a 3c 3c 92 92 3f 3f
+- 92 3a 3c 3c 3f 92 92 3f
+- 3a 3a 3c 3c 3f 3f 92 92
+ dq
+@@ -545,5 +523,2 @@
+ Updating refbank availability: remain=6|hits=0|0
+-       decode_cf[y=0,x=8,pl=0,tx=16x16]: r=53008
+-        Post-all_zero[ctx=0|2|0,1]: r=59808
+-        Post-y_cf_blk[tx=16x16,txtp=dct/dct,eob=-1]: r=59808
+ y-pal-pred
+@@ -565,2 +540,5 @@
+  92 92 3d 3d 30 30 92 92 92 92 30 30 30 30 30 30
++       decode_cf[y=0,x=8,pl=0,tx=16x16]: r=53008
++        Post-all_zero[ctx=0|2|0,1]: r=59808
++        Post-y_cf_blk[tx=16x16,txtp=dct/dct,eob=-1]: r=59808
+      decode_sb[y=0,x=12,bs=16x16,plane=y]: r=59808
+@@ -756,5 +734,2 @@
+          Post-txpart[ctx=0|0|8,0]: r=48144
+-         decode_cf[y=0,x=15,pl=0,tx=4x16]: r=48144
+-          Post-all_zero[ctx=0|1|0,1]: r=36560
+-          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=36560
+ y-pal-pred
+@@ -776,2 +751,5 @@
+  40 40 92 92
++         decode_cf[y=0,x=15,pl=0,tx=4x16]: r=48144
++          Post-all_zero[ctx=0|1|0,1]: r=36560
++          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=36560
+    decode_sb[y=4,x=0,bs=64x16,plane=y]: r=36560
+@@ -906,5 +884,2 @@
+          Post-txpart[ctx=0|0|1,0]: r=49632
+-         decode_cf[y=4,x=2,pl=0,tx=8x8]: r=49632
+-          Post-all_zero[ctx=0|1|0,1]: r=42744
+-          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=42744
+ y-pal-pred
+@@ -918,2 +893,5 @@
+  20 20 20 20 20 20 20 20
++         decode_cf[y=4,x=2,pl=0,tx=8x8]: r=49632
++          Post-all_zero[ctx=0|1|0,1]: r=42744
++          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=42744
+       decode_sb[y=6,x=0,bs=16x8,plane=y]: r=42744
+@@ -1041,5 +1019,2 @@
+          Post-txpart[ctx=0|0|1,0]: r=47752
+-         decode_cf[y=6,x=4,pl=0,tx=8x8]: r=47752
+-          Post-all_zero[ctx=0|1|0,1]: r=43984
+-          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=43984
+ y-pal-pred
+@@ -1053,2 +1028,5 @@
+  20 20 20 20 20 20 20 20
++         decode_cf[y=6,x=4,pl=0,tx=8x8]: r=47752
++          Post-all_zero[ctx=0|1|0,1]: r=43984
++          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=43984
+       decode_sb[y=4,x=6,bs=8x16,plane=y]: r=43984
+@@ -1062,2 +1040,19 @@
+         Post-txpart[ctx=0|0|2,0]: r=49744
++y-pal-pred
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 3a 3a 3c 3c 3f 3f 3f 3f
++ 20 20 3c 3c 3f 3f 3f 3f
++ 20 20 3c 3c 3f 3f 3f 3f
++ 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 30 30
++ 20 20 20 20 20 20 30 30
+         decode_cf[y=4,x=6,pl=0,tx=8x16]: r=49744
+@@ -1112,19 +1107,2 @@
+          Post-y_cf_blk[tx=8x16,txtp=dct/flipadst,eob=27]: r=64528
+-y-pal-pred
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 3a 3a 3c 3c 3f 3f 3f 3f
+- 20 20 3c 3c 3f 3f 3f 3f
+- 20 20 3c 3c 3f 3f 3f 3f
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+- 20 20 20 20 20 20 30 30
+ dq
+@@ -1171,5 +1149,2 @@
+ Updating refbank availability: remain=6|hits=0|4
+-         decode_cf[y=4,x=8,pl=0,tx=4x16]: r=33040
+-          Post-all_zero[ctx=0|1|0,1]: r=62304
+-          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=62304
+ y-pal-pred
+@@ -1191,2 +1166,5 @@
+  30 30 30 30
++         decode_cf[y=4,x=8,pl=0,tx=4x16]: r=33040
++          Post-all_zero[ctx=0|1|0,1]: r=62304
++          Post-y_cf_blk[tx=4x16,txtp=dct/dct,eob=-1]: r=62304
+        decode_sb[y=4,x=9,bs=4x16,plane=y]: r=62304
+@@ -1392,5 +1370,2 @@
+          Post-txpart[ctx=0|0|8,0]: r=33304
+-         

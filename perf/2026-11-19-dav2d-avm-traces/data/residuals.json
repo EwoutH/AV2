@@ -1,0 +1,18 @@
+[
+  {
+    "name": "avm.testsrc.176x144.l12.444.fg",
+    "nonpixel_diff": "--- \n\n+++ \n\n@@ -2582,3 +2582,3 @@\n\n HDR: post-refresh_frame_flags[20]: off=19\n-HDR: post-refs[explicit:1,refs:3,2,4,0,1,3,3]: off=38\n+HDR: post-refs[explicit:1,refs:3,2,4,0,1,0,0]: off=38\n HDR: post-framesize[176x144]: off=38\n@@ -2648,3 +2648,3 @@\n\n HDR: post-refresh_frame_flags[40]: off=19\n-HDR: post-refs[explicit:1,refs:2,5,3,4,0,1,2]: off=41\n+HDR: post-refs[explicit:1,refs:2,5,3,4,0,1,0]: off=41\n HDR: post-framesize[176x144]: off=41\n"
+  },
+  {
+    "name": "avm-v15.0.0-bus.352x288.l5.seg1",
+    "nonpixel_diff": "--- \n\n+++ \n\n@@ -116,3 +116,2 @@\n\n    Post-segid[0]: r=53056\n-   Post-segid[0]: r=53056\n    Post-ref[0,-1]: r=53056\n"
+  },
+  {
+    "name": "avm.testsrc.176x144.l8.sframe",
+    "nonpixel_diff": "--- \n\n+++ \n\n@@ -2419,3 +2419,3 @@\n\n HDR: post-ccso[0]: off=89\n-HDR: post-modebits[tx:2,refmode:0,skipmode:0,bawp:1,warp:1,redtxset:0]: off=95\n+HDR: post-modebits[tx:2,refmode:0,skipmode:0,bawp:0,warp:1,redtxset:0]: off=95\n HDR: post-gmv: off=95\n"
+  },
+  {
+    "name": "avm.testsrc.130x74.l4.10bit.sb256",
+    "nonpixel_diff": "\n"
+  }
+]

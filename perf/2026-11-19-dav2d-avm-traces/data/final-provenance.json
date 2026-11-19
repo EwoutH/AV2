@@ -1,0 +1,14 @@
+{
+  "/srv/compression/cache/av2conf/round5/trace/dav2d-build/src/libdav2d.so.1.0.0": "2a5b2b4540e88346dc03eec37457129e1d9bb3cf465cfbc8dcb2b065cab4735e",
+  "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-avm-traces/scratch/dav2d-build/src/libdav2d.so.1.0.0": "319cd90dce2f471e2babfd86617586baa09936dc0ba6696cabf8bd5d0de0ba82",
+  "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-avm-traces/scratch/avm-build/avmdec": "6d1e1ffcce16ee1b7c978d6fd8a8ad1ace5ca30a7da8cce23c8b1c4d63c6422b",
+  "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-avm-traces/scratch/dav2d-build/tools/dav2d": "1d86f2aa54d399a0bc0a8fa58fe50df9c20407f4e490f0d9fde64e5957bf96b5",
+  "source_revisions": {
+    "dav2d": "840e2f084768944bfa6f11d49376da7ead167a46",
+    "avm": "9123f33bfcd363293b21fa9082637a20ebb6881c"
+  },
+  "source_diffs_sha256": {
+    "dav2d": "69a6a8492457e6f10723520002e6e8673dadde8ae65680040b07333472cda971",
+    "avm": "d0a052ed7ba7844b8f1a87e2c9428d79e8204f9625b6121e7b29652459c9e8f7"
+  }
+}

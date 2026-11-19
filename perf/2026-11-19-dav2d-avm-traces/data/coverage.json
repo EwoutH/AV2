@@ -1,0 +1,218 @@
+{
+  "binary_sha256": "821242f12ccbea81780fd81a4dcd2714779469047809629e328d5e39e48ace2f",
+  "guards": 19423,
+  "sets": {
+    "original6": {
+      "streams": 6,
+      "guards_hit": 5171,
+      "added_over_original6": 0
+    },
+    "baseline14": {
+      "streams": 14,
+      "guards_hit": 8653,
+      "added_over_original6": 3482
+    },
+    "all38": {
+      "streams": 38,
+      "guards_hit": 10746,
+      "added_over_original6": 5575
+    },
+    "fixed": {
+      "streams": 34,
+      "guards_hit": 10597,
+      "added_over_original6": 5426
+    }
+  },
+  "samples": [
+    {
+      "filename": "avm/avm.mandel.200x112.l10.refs2-sef.obu",
+      "guards_hit": 4521,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.mandel.200x112.l6.resize9.obu",
+      "guards_hit": 4036,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l1.422.opsets.obu",
+      "guards_hit": 2931,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l12.444.fg.obu",
+      "guards_hit": 4973,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu",
+      "guards_hit": 4582,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu",
+      "guards_hit": 3230,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.352x288.l5.seg1.obu",
+      "guards_hit": 3411,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu",
+      "guards_hit": 2148,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu",
+      "guards_hit": 2082,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.lossless.obu",
+      "guards_hit": 3726,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.obu",
+      "guards_hit": 4425,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu",
+      "guards_hit": 4238,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu",
+      "guards_hit": 3058,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.bus.96x64.l5.qm1-cctx.obu",
+      "guards_hit": 3982,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.bus.128x96.l5.qm1.obu",
+      "guards_hit": 4595,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.bus.176x144.l5.opfl2.obu",
+      "guards_hit": 4628,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.bus.480x144.l2.tilecols2.obu",
+      "guards_hit": 3644,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.bus.64x64.l17.qm1.obu",
+      "guards_hit": 4812,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l3.ref-frame-mvs0.obu",
+      "guards_hit": 3178,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.256x256.l1.lossless-sb128.obu",
+      "guards_hit": 1949,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu",
+      "guards_hit": 3430,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l1.tile-rows1.obu",
+      "guards_hit": 2374,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l8.sframe.obu",
+      "guards_hit": 4184,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l2.fg11.obu",
+      "guards_hit": 3028,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.rot.128x128.l8.opfl-refine0.obu",
+      "guards_hit": 3887,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l2.mfh-resize-kf.obu",
+      "guards_hit": 3383,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l8.422.ii-smooth.obu",
+      "guards_hit": 4077,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm/avm.testsrc.176x144.l4.444.mhccp.obu",
+      "guards_hit": 4278,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.mandel.200x112.l1.12bit.still-fg.obu",
+      "guards_hit": 2575,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.mandel.200x112.l10.12bit.fg13.obu",
+      "guards_hit": 2907,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.130x74.l12.10bit.tile-rows2.obu",
+      "guards_hit": 3975,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.130x74.l2.422.12bit.obu",
+      "guards_hit": 3130,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.130x74.l20.10bit.resize9-fwdkf.obu",
+      "guards_hit": 5109,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.130x74.l20.422.10bit.s1.obu",
+      "guards_hit": 4787,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.130x74.l4.10bit.sb256.obu",
+      "guards_hit": 4078,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.testsrc.176x144.l1.12bit.still-screen.obu",
+      "guards_hit": 2855,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.bus.128x96.l8.10bit.s4.obu",
+      "guards_hit": 4172,
+      "verify_ok": true
+    },
+    {
+      "filename": "avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu",
+      "guards_hit": 3311,
+      "verify_ok": true
+    }
+  ]
+}

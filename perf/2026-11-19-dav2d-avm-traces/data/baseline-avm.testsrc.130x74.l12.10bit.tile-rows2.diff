@@ -1,0 +1,163 @@
+--- avm
++++ dav2d
+@@ -29,3 +29,3 @@
+ CI: post-flags[scan=0,colordesc=1,chrsamplepos=0,aspectratio=0,timinginfo=0]: off=8
+-CI: post-colordesc[id=0,pri=2,trc=2,mtrx=18,rng=0]: off=36
++CI: post-colordesc[id=0,pri=2,trc=18,mtrx=2,rng=0]: off=36
+ CI: post-extension[0,nbits=0]: off=37
+@@ -78,2 +78,7 @@
+ Resetting refbank: remain=4|hits=0|0
++y-pal-pred
++ 13a 13a 13a 13a 13a 13a 13a 13a 144 144 144 144 144 144 144 144 144 144 144 144 144 13a 243 243 243 243 243 243 243 243 243 243
++ 13a 13a 13a 13a 13a 13a 13a 13a 144 144 144 144 144 144 144 144 144 144 144 144 144 13a 243 243 243 243 243 243 243 243 243 243
++ 13a 13a 07c 07c 07c 07c 07c 07c 082 082 082 082 082 082 082 082 082 082 082 082 082 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
++ 13a 13a 07c 07c 07c 07c 07c 07c 082 082 082 082 082 082 082 082 082 082 082 082 082 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
+        decode_cf[y=0,x=0,pl=0,tx=16x4]: r=45136
+@@ -81,7 +86,2 @@
+         Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=41800
+-y-pal-pred
+- 13a 13a 13a 13a 13a 13a 13a 13a 144 144 144 144 144 144 144 144
+- 13a 13a 13a 13a 13a 13a 13a 13a 144 144 144 144 144 144 144 144
+- 13a 13a 07c 07c 07c 07c 07c 07c 082 082 082 082 082 082 082 082
+- 13a 13a 07c 07c 07c 07c 07c 07c 082 082 082 082 082 082 082 082
+        decode_cf[y=0,x=4,pl=0,tx=16x4]: r=41800
+@@ -89,7 +89,2 @@
+         Post-y_cf_blk[tx=16x4,txtp=dct/dct,eob=-1]: r=38872
+-y-pal-pred
+- 144 144 144 144 144 13a 243 243 243 243 243 243 243 243 243 243
+- 144 144 144 144 144 13a 243 243 243 243 243 243 243 243 243 243
+- 082 082 082 082 082 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
+- 082 082 082 082 082 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
+      decode_sb[y=1,x=0,bs=32x4,plane=y]: r=38872
+@@ -103,2 +98,7 @@
+        Post-txpart[ctx=0|0|8,0]: r=56864
++y-pal-pred
++ 13a 13a 07c 07c 07c 07c 07c 07c 09d 09d 0c0 0c0 0c0 0c0 0c0 09d 07c 07c 07c 07c 07c 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
++ 13a 13a 07c 07c 07c 07c 07c 07c 09d 09d 0c0 0c0 0c0 0c0 0c0 0c0 07c 07c 07c 07c 07c 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
++ 13a 13a 07c 07c 07c 07c 243 243 243 243 0c0 0c0 0c0 0c0 243 243 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0c0 0c0 0c0 0c0 0c0 0c0 243 243
++ 13a 13a 07c 07c 07c 243 243 07c 09d 243 243 0c0 0c0 243 243 0c0 0c0 243 243 0ed 0ed 0ed 0ed 0ed 0c0 0c0 0c0 0c0 0c0 243 243 0c0
+        decode_cf[y=1,x=0,pl=0,tx=32x4]: r=56864
+@@ -192,7 +192,2 @@
+         Post-y_cf_blk[tx=32x4,txtp=identity/flipadst,eob=79]: r=36016
+-y-pal-pred
+- 13a 13a 07c 07c 07c 07c 07c 07c 09d 09d 0c0 0c0 0c0 0c0 0c0 09d 07c 07c 07c 07c 07c 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
+- 13a 13a 07c 07c 07c 07c 07c 07c 09d 09d 0c0 0c0 0c0 0c0 0c0 0c0 07c 07c 07c 07c 07c 07c 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0 0c0
+- 13a 13a 07c 07c 07c 07c 243 243 243 243 0c0 0c0 0c0 0c0 243 243 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0c0 0c0 0c0 0c0 0c0 0c0 243 243
+- 13a 13a 07c 07c 07c 243 243 07c 09d 243 243 0c0 0c0 243 243 0c0 0c0 243 243 0ed 0ed 0ed 0ed 0ed 0c0 0c0 0c0 0c0 0c0 243 243 0c0
+ dq
+@@ -245,2 +240,11 @@
+ Updating refbank availability: remain=8|hits=0|0
++y-pal-pred
++ 153 153 09d 09d 243 243 09d 09d 09d 09d 243 243 243 243 0da 0da 0da 0da 243 243 0ed 0ed 0ed 243 243 0da 0da 0da 243 243 0c0 0c0
++ 153 153 09d 09d 243 243 09d 09d 09d 09d 243 243 243 243 0da 0da 0da 0da 243 243 0ed 0ed 0ed 243 243 0ed 0da 0da 243 243 0c0 0c0
++ 153 153 09d 09d 243 243 09d 243 243 09d 243 243 243 243 0da 243 243 0da 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 243 243 0da 243
++ 153 153 09d 09d 243 243 09d 243 243 09d 243 243 243 243 0da 243 243 0da 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 243 243 0da 243
++ 153 153 09d 09d 243 243 09d 09d 0c0 0c0 243 243 243 243 0da 0da 0da 0da 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 243 243 0da 0da
++ 153 153 09d 09d 243 243 09d 09d 0c0 0c0 243 243 243 243 0da 0da 0da 0da 243 243 0ed 0ed 0ed 243 243 0ed 0ed 0ed 243 243 0da 0da
++ 153 153 09d 09d 09d 243 243 09d 0c0 243 243 0c0 0c0 243 243 0da 0da 243 243 0ed 0ed 0ed 0ed 243 243 0ed 0ed 0ed 0ed 243 243 0ed
++ 153 153 09d 09d 09d 09d 243 243 243 243 0c0 0c0 0c0 0c0 243 243 243 243 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0ed 0da 243 243
+       decode_cf[y=2,x=0,pl=0,tx=8x8]: r=50688
+@@ -280,11 +284,2 @@
+        Post-y_cf_blk[tx=8x8,txtp=dct/flipadst,eob=20]: r=33920
+-y-pal-pred
+- 153 153 09d 09d 243 243 09d 09d
+- 153 153 09d 09d 243 243 09d 09d
+- 153 153 09d 09d 243 243 09d 243
+- 153 153 09d 09d 243 243 09d 243
+- 153 153 09d 09d 243 243 09d 09d
+- 153 153 09d 09d 243 243 09d 09d
+- 153 153 09d 09d 09d 243 243 09d
+- 153 153 09d 09d 09d 09d 243 243
+ dq
+@@ -337,11 +332,2 @@
+        Post-y_cf_blk[tx=8x8,txtp=flipadst/adst,eob=17]: r=44704
+-y-pal-pred
+- 09d 09d 243 243 243 243 0da 0da
+- 09d 09d 243 243 243 243 0da 0da
+- 243 09d 243 243 243 243 0da 243
+- 243 09d 243 243 243 243 0da 243
+- 0c0 0c0 243 243 243 243 0da 0da
+- 0c0 0c0 243 243 243 243 0da 0da
+- 0c0 243 243 0c0 0c0 243 243 0da
+- 243 243 0c0 0c0 0c0 0c0 243 243
+ dq
+@@ -382,11 +368,2 @@
+        Post-y_cf_blk[tx=8x8,txtp=adst/dct,eob=9]: r=43504
+-y-pal-pred
+- 0da 0da 243 243 0ed 0ed 0ed 243
+- 0da 0da 243 243 0ed 0ed 0ed 243
+- 243 0da 243 243 0ed 0ed 0ed 0ed
+- 243 0da 243 243 0ed 0ed 0ed 0ed
+- 0da 0da 243 243 0ed 0ed 0ed 0ed
+- 0da 0da 243 243 0ed 0ed 0ed 243
+- 0da 243 243 0ed 0ed 0ed 0ed 243
+- 243 243 0ed 0ed 0ed 0ed 0ed 0ed
+ dq
+@@ -426,11 +403,2 @@
+        Post-y_cf_blk[tx=8x8,txtp=adst/dct,eob=9]: r=33184
+-y-pal-pred
+- 243 0da 0da 0da 243 243 0c0 0c0
+- 243 0ed 0da 0da 243 243 0c0 0c0
+- 0ed 0ed 0ed 0ed 243 243 0da 243
+- 0ed 0ed 0ed 0ed 243 243 0da 243
+- 0ed 0ed 0ed 0ed 243 243 0da 0da
+- 243 0ed 0ed 0ed 243 243 0da 0da
+- 243 0ed 0ed 0ed 0ed 243 243 0ed
+- 0ed 0ed 0ed 0ed 0ed 0da 243 243
+ dq
+@@ -467,11 +435,2 @@
+ Updating refbank availability: remain=10|hits=0|0
+-       decode_cf[y=0,x=8,pl=0,tx=8x16]: r=65344
+-        Post-all_zero[ctx=0|2|0,0]: r=62928
+-        Post-eob_bin_128[ctx=0,1]: r=49152
+-        Post-txtp[flipadst/adst]: r=49536
+-        Post-eob_tok[pos=1,ctx=2|1|-1,freq=lo,plane=y,1]: r=48048
+-        Post-dc_tok[pos=0,ctx=2|1|0|-1,freq=lo,plane=y,2]: r=37504
+-        Post-sign[pos=1,1]: r=37504
+-        Post-dc_sign[pos=0,ctx=0,0]: r=36912
+-        Post-y_cf_blk[tx=8x16,txtp=flipadst/adst,eob=1]: r=36912
+ y-pal-pred
+@@ -493,2 +452,11 @@
+  243 243 0c0 0c0 0c0 0c0 243 243
++       decode_cf[y=0,x=8,pl=0,tx=8x16]: r=65344
++        Post-all_zero[ctx=0|2|0,0]: r=62928
++        Post-eob_bin_128[ctx=0,1]: r=49152
++        Post-txtp[flipadst/adst]: r=49536
++        Post-eob_tok[pos=1,ctx=2|1|-1,freq=lo,plane=y,1]: r=48048
++        Post-dc_tok[pos=0,ctx=2|1|0|-1,freq=lo,plane=y,2]: r=37504
++        Post-sign[pos=1,1]: r=37504
++        Post-dc_sign[pos=0,ctx=0,0]: r=36912
++        Post-y_cf_blk[tx=8x16,txtp=flipadst/adst,eob=1]: r=36912
+ dq
+@@ -600,5 +568,2 @@
+         Post-txpart[ctx=0|0|8,2]: r=43328
+-        decode_cf[y=0,x=11,pl=0,tx=4x8]: r=43328
+-         Post-all_zero[ctx=0|1|1,1]: r=40304
+-         Post-y_cf_blk[tx=4x8,txtp=dct/dct,eob=-1]: r=40304
+ y-pal-pred
+@@ -612,6 +577,2 @@
+  100 100 100 100
+-        decode_cf[y=2,x=11,pl=0,tx=4x8]: r=40304
+-         Post-all_zero[ctx=0|1|1,1]: r=37600
+-         Post-y_cf_blk[tx=4x8,txtp=dct/dct,eob=-1]: r=37600
+-y-pal-pred
+  100 100 100 248
+@@ -624,2 +585,8 @@
+  0e2 0e2 0e2 0e2
++        decode_cf[y=0,x=11,pl=0,tx=4x8]: r=43328
++         Post-all_zero[ctx=0|1|1,1]: r=40304
++         Post-y_cf_blk[tx=4x8,txtp=dct/dct,eob=-1]: r=40304
++        decode_cf[y=2,x=11,pl=0,tx=4x8]: r=40304
++         Post-all_zero[ctx=0|1|1,1]: r=37600
++         Post-y_cf_blk[tx=4x8,txtp=dct/dct,eob=-1]: r=37600
+     decode_sb[y=0,x=12,bs=16x16,plane=y]: r=37600
+@@ -665,2 +632,7 @@
+         Post-txpart[ctx=0|0|8,3]: r=34504
++y-pal-pred
++ 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100
++ 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100 100
++ 100 100 100 100 100 100 248 248 248 248 100 100 100 100 248 248
++ 100 100 100 100 100 248 248 100 100 248 248 100 100 248 248 100
+         decode_cf[y=1,x=12,pl=0,tx=8x4]: r=34504
+@@ -668,7 +640,2 @@
+          

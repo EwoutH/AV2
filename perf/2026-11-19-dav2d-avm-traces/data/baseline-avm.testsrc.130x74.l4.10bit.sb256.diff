@@ -1,0 +1,174 @@
+--- avm
++++ dav2d
+@@ -71,2 +71,11 @@
+          Post-txpart[ctx=0|0|1,1]: r=44152
++y-pal-pred
++ 128 128 128 128 128 128 128 128
++ 128 128 128 128 128 128 128 128
++ 128 128 078 078 078 078 078 078
++ 128 128 078 078 078 078 078 078
++ 128 128 078 078 078 078 078 078
++ 128 128 078 078 078 078 078 078
++ 128 128 078 078 078 078 248 248
++ 128 128 078 078 078 248 248 078
+          decode_cf[y=0,x=0,pl=0,tx=4x4]: r=44152
+@@ -74,7 +83,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=40160
+-y-pal-pred
+- 128 128 128 128
+- 128 128 128 128
+- 128 128 078 078
+- 128 128 078 078
+          decode_cf[y=0,x=1,pl=0,tx=4x4]: r=40160
+@@ -82,7 +86,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=36576
+-y-pal-pred
+- 128 128 128 128
+- 128 128 128 128
+- 078 078 078 078
+- 078 078 078 078
+          decode_cf[y=1,x=0,pl=0,tx=4x4]: r=36576
+@@ -90,7 +89,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=33296
+-y-pal-pred
+- 128 128 078 078
+- 128 128 078 078
+- 128 128 078 078
+- 128 128 078 078
+          decode_cf[y=1,x=1,pl=0,tx=4x4]: r=33296
+@@ -98,7 +92,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=61216
+-y-pal-pred
+- 078 078 078 078
+- 078 078 078 078
+- 078 078 248 248
+- 078 248 248 078
+        decode_sb[y=2,x=0,bs=8x8,plane=y]: r=61216
+@@ -111,2 +100,11 @@
+          Post-txpart[ctx=0|0|1,1]: r=56976
++y-pal-pred
++ 144 144 08c 08c 248 248 0a1 0a1
++ 144 144 08c 08c 248 248 0a1 0a1
++ 144 144 08c 08c 248 248 0a1 248
++ 144 144 08c 08c 248 248 0a1 248
++ 144 144 08c 08c 248 248 0a1 0a1
++ 144 144 08c 08c 248 248 0a1 0a1
++ 144 144 08c 08c 0a1 248 248 0a1
++ 144 144 08c 08c 0a1 0a1 248 248
+          decode_cf[y=2,x=0,pl=0,tx=4x4]: r=56976
+@@ -114,7 +112,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=52496
+-y-pal-pred
+- 144 144 08c 08c
+- 144 144 08c 08c
+- 144 144 08c 08c
+- 144 144 08c 08c
+          decode_cf[y=2,x=1,pl=0,tx=4x4]: r=52496
+@@ -122,7 +115,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=48480
+-y-pal-pred
+- 248 248 0a1 0a1
+- 248 248 0a1 0a1
+- 248 248 0a1 248
+- 248 248 0a1 248
+          decode_cf[y=3,x=0,pl=0,tx=4x4]: r=48480
+@@ -130,7 +118,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=44880
+-y-pal-pred
+- 144 144 08c 08c
+- 144 144 08c 08c
+- 144 144 08c 08c
+- 144 144 08c 08c
+          decode_cf[y=3,x=1,pl=0,tx=4x4]: r=44880
+@@ -138,7 +121,2 @@
+           Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=41736
+-y-pal-pred
+- 248 248 0a1 0a1
+- 248 248 0a1 0a1
+- 0a1 248 248 0a1
+- 0a1 0a1 248 248
+       decode_sb[y=0,x=2,bs=8x16,plane=y]: r=41736
+@@ -151,5 +129,2 @@
+         Post-txpart[ctx=0|0|2,0]: r=48368
+-        decode_cf[y=0,x=2,pl=0,tx=8x16]: r=48368
+-         Post-all_zero[ctx=0|2|0,1]: r=62976
+-         Post-y_cf_blk[tx=8x16,txtp=dct/dct,eob=-1]: r=62976
+ y-pal-pred
+@@ -171,2 +146,5 @@
+  248 248 0bc 0bc 0c8 0c8 248 248
++        decode_cf[y=0,x=2,pl=0,tx=8x16]: r=48368
++         Post-all_zero[ctx=0|2|0,1]: r=62976
++         Post-y_cf_blk[tx=8x16,txtp=dct/dct,eob=-1]: r=62976
+      decode_sb[y=0,x=4,bs=16x16,plane=y]: r=62976
+@@ -179,2 +157,19 @@
+        Post-txpart[ctx=0|0|3,0]: r=45440
++y-pal-pred
++ 144 144 144 144 144 144 248 248 248 248 248 248 248 248 248 248
++ 144 144 144 144 144 144 248 248 248 248 248 248 248 248 248 248
++ 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
++ 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
++ 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
++ 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
++ 248 248 0f2 0f2 0f2 0f2 0fa 0fa 0bc 0bc 0bc 0bc 0bc 0bc 248 248
++ 0d4 248 248 0f2 0f2 0f2 0fa 0fa 0bc 0bc 0bc 0bc 0bc 248 248 0bc
++ 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0bc 0bc
++ 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0bc 0bc
++ 248 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 248
++ 248 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 248
++ 0d4 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 0f2
++ 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0f2 0f2
++ 0d4 248 248 0f2 0f2 0f2 0fa 248 248 0fa 0f2 0f2 0f2 248 248 0f2
++ 248 248 0f2 0f2 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 0f2 0f2 248 248
+        decode_cf[y=0,x=4,pl=0,tx=16x16]: r=45440
+@@ -219,19 +214,2 @@
+         Post-y_cf_blk[tx=16x16,txtp=dct/adst,eob=21]: r=58560
+-y-pal-pred
+- 144 144 144 144 144 144 248 248 248 248 248 248 248 248 248 248
+- 144 144 144 144 144 144 248 248 248 248 248 248 248 248 248 248
+- 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
+- 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
+- 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
+- 078 078 078 078 078 078 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc
+- 248 248 0f2 0f2 0f2 0f2 0fa 0fa 0bc 0bc 0bc 0bc 0bc 0bc 248 248
+- 0d4 248 248 0f2 0f2 0f2 0fa 0fa 0bc 0bc 0bc 0bc 0bc 248 248 0bc
+- 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0bc 0bc
+- 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0bc 0bc
+- 248 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 248
+- 248 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 248
+- 0d4 0d4 248 248 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 248 248 0f2 0f2
+- 0d4 0d4 248 248 0f2 0f2 0fa 248 248 0fa 0f2 0f2 248 248 0f2 0f2
+- 0d4 248 248 0f2 0f2 0f2 0fa 248 248 0fa 0f2 0f2 0f2 248 248 0f2
+- 248 248 0f2 0f2 0f2 0f2 0fa 0fa 0fa 0fa 0f2 0f2 0f2 0f2 248 248
+ dq
+@@ -280,2 +258,11 @@
+        Post-txpart[ctx=0|0|8,0]: r=41712
++y-pal-pred
++ 248 248 248 248 248 248 248 248 248 248 248 248 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348
++ 248 248 248 248 248 248 248 248 248 248 248 248 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348
++ 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
++ 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
++ 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
++ 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
++ 248 248 0bc 0bc 0bc 0bc 248 248 248 248 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 248 248 248 248 0fa 0fa 0fa 0fa 248 248
++ 0bc 248 248 0bc 0bc 248 248 0bc 0bc 248 248 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 248 248 0fa 0fa 248 248 0fa 0fa 248 248 0fa
+        decode_cf[y=0,x=8,pl=0,tx=32x8]: r=41712
+@@ -300,11 +287,2 @@
+         Post-y_cf_blk[tx=32x8,txtp=dct/adst,eob=6]: r=54784
+-y-pal-pred
+- 248 248 248 248 248 248 248 248 248 248 248 248 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348
+- 248 248 248 248 248 248 248 248 248 248 248 248 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348 348
+- 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
+- 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
+- 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
+- 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa
+- 248 248 0bc 0bc 0bc 0bc 248 248 248 248 0bc 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 248 248 248 248 0fa 0fa 0fa 0fa 248 248
+- 0bc 248 248 0bc 0bc 248 248 0bc 0bc 248 248 0bc 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 0fa 248 248 0fa 0fa 248 248 0fa 0fa 248 248 0fa
+ dq
+@@ -359,9 +337,2 @@
+        Post-txpart[ctx=0|0|8,0]: r=58032
+-       decode_cf[y=2,x=8,pl=0,tx=32x8]: r=58032
+-        Post-all_zero[ctx=0|2|0,0]: r=50920
+-        Post-eob_bin_256[ctx=0,0]: r=33792
+-        Post-txtp[dct/dct]: r=33792
+-        Post-eob_tok[pos=0,ctx=2|0|-1,freq=lo,plane=y,2]: r=63744
+-        Post-dc_sign[pos

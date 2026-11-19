@@ -1,0 +1,33 @@
+--- a/trace-samples.txt
++++ b/trace-samples.txt
+@@ -1,3 +1,7 @@
++avm/avm.mandel.200x112.l10.refs2-sef.obu
++avm/avm.mandel.200x112.l6.resize9.obu
++avm/avm.testsrc.176x144.l1.422.opsets.obu
++avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu
+ avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu
+ avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu
+ avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu
+@@ -9,6 +13,22 @@
+ avm/avm.bus.128x96.l5.qm1.obu
+ avm/avm.bus.176x144.l5.opfl2.obu
+ avm/avm.bus.480x144.l2.tilecols2.obu
++avm/avm.bus.64x64.l17.qm1.obu
++avm/avm.testsrc.176x144.l3.ref-frame-mvs0.obu
++avm/avm.testsrc.256x256.l1.lossless-sb128.obu
++avm/avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu
++avm/avm.testsrc.176x144.l1.tile-rows1.obu
++avm/avm.testsrc.176x144.l2.fg11.obu
+ avm/avm.rot.128x128.l8.opfl-refine0.obu
++avm/avm.testsrc.176x144.l2.mfh-resize-kf.obu
++avm/avm.testsrc.176x144.l8.422.ii-smooth.obu
++avm/avm.testsrc.176x144.l4.444.mhccp.obu
++avm-10bit/avm.mandel.200x112.l1.12bit.still-fg.obu
++avm-10bit/avm.mandel.200x112.l10.12bit.fg13.obu
++avm-10bit/avm.testsrc.130x74.l12.10bit.tile-rows2.obu
++avm-10bit/avm.testsrc.130x74.l2.422.12bit.obu
++avm-10bit/avm.testsrc.130x74.l20.10bit.resize9-fwdkf.obu
++avm-10bit/avm.testsrc.130x74.l20.422.10bit.s1.obu
++avm-10bit/avm.testsrc.176x144.l1.12bit.still-screen.obu
+ avm-10bit/avm.bus.128x96.l8.10bit.s4.obu
+ avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu

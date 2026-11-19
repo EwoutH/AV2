@@ -1,0 +1,7 @@
+--- avm
++++ dav2d
+@@ -3212,3 +3212,3 @@
+ HDR: post-ccso[0]: off=89
+-HDR: post-modebits[tx:2,refmode:0,skipmode:0,bawp:1,warp:1,redtxset:0]: off=95
++HDR: post-modebits[tx:2,refmode:0,skipmode:0,bawp:0,warp:1,redtxset:0]: off=95
+ HDR: post-gmv: off=95

@@ -1,0 +1,245 @@
+--- avm
++++ dav2d
+@@ -70,5 +70,2 @@
+ Resetting refbank: remain=4|hits=0|0
+-       decode_cf[y=0,x=0,pl=0,tx=16x8]: r=48496
+-        Post-all_zero[ctx=0|2|0,1]: r=40624
+-        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=40624
+ y-pal-pred
+@@ -82,2 +79,5 @@
+  136 136 07d 07d 07d 248 248 07d 0a4 248 248 0ba 0c8 248 248 0c8
++       decode_cf[y=0,x=0,pl=0,tx=16x8]: r=48496
++        Post-all_zero[ctx=0|2|0,1]: r=40624
++        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=40624
+      decode_sb[y=0,x=4,bs=16x8,plane=y]: r=40624
+@@ -94,2 +94,11 @@
+ Updating refbank availability: remain=5|hits=0|0
++y-pal-pred
++ 144 144 144 144 144 144 248 248
++ 144 144 144 144 144 144 248 248
++ 07d 07d 07d 07d 07d 07d 0ba 0ba
++ 07d 07d 07d 07d 07d 07d 0ba 0ba
++ 07d 07d 07d 07d 07d 07d 0ba 0ba
++ 07d 07d 07d 07d 07d 07d 0ba 0ba
++ 248 248 0e8 0e8 0f6 0f6 0f6 0f6
++ 0c8 248 248 0e8 0f6 0f6 0f6 0f6
+         decode_cf[y=0,x=4,pl=0,tx=8x8]: r=33744
+@@ -148,11 +157,2 @@
+          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=26]: r=51520
+-y-pal-pred
+- 144 144 144 144 144 144 248 248
+- 144 144 144 144 144 144 248 248
+- 07d 07d 07d 07d 07d 07d 0ba 0ba
+- 07d 07d 07d 07d 07d 07d 0ba 0ba
+- 07d 07d 07d 07d 07d 07d 0ba 0ba
+- 07d 07d 07d 07d 07d 07d 0ba 0ba
+- 248 248 0e8 0e8 0f6 0f6 0f6 0f6
+- 0c8 248 248 0e8 0f6 0f6 0f6 0f6
+ dq
+@@ -314,2 +314,11 @@
+ Updating refbank availability: remain=6|hits=0|1
++y-pal-pred
++ 144 144 094 094 248 248 094 094
++ 144 144 094 094 248 248 094 094
++ 144 144 094 094 248 248 094 248
++ 144 144 094 094 248 248 094 248
++ 144 144 094 094 248 248 0a4 0a4
++ 144 144 094 094 248 248 0a4 0a4
++ 144 144 094 094 0a4 248 248 0a4
++ 144 144 094 094 0a4 0a4 248 248
+         decode_cf[y=2,x=0,pl=0,tx=8x8]: r=43080
+@@ -377,11 +386,2 @@
+          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=35]: r=56656
+-y-pal-pred
+- 144 144 094 094 248 248 094 094
+- 144 144 094 094 248 248 094 094
+- 144 144 094 094 248 248 094 248
+- 144 144 094 094 248 248 094 248
+- 144 144 094 094 248 248 0a4 0a4
+- 144 144 094 094 248 248 0a4 0a4
+- 144 144 094 094 0a4 248 248 0a4
+- 144 144 094 094 0a4 0a4 248 248
+ dq
+@@ -414,2 +414,11 @@
+ Updating refbank availability: remain=7|hits=0|1
++y-pal-pred
++ 0a4 0a4 248 248 248 248 0c8 0c8
++ 0a4 0a4 248 248 248 248 0c8 0c8
++ 248 0a4 248 248 248 248 0c8 248
++ 248 0a4 248 248 248 248 0c8 248
++ 0a4 0a4 248 248 248 248 0c8 0c8
++ 0a4 0a4 248 248 248 248 0c8 0c8
++ 0a4 248 248 0c8 0c8 248 248 0c8
++ 248 248 0c8 0c8 0c8 0c8 248 248
+         decode_cf[y=2,x=2,pl=0,tx=8x8]: r=48544
+@@ -494,11 +503,2 @@
+          Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=41]: r=42000
+-y-pal-pred
+- 0a4 0a4 248 248 248 248 0c8 0c8
+- 0a4 0a4 248 248 248 248 0c8 0c8
+- 248 0a4 248 248 248 248 0c8 248
+- 248 0a4 248 248 248 248 0c8 248
+- 0a4 0a4 248 248 248 248 0c8 0c8
+- 0a4 0a4 248 248 248 248 0c8 0c8
+- 0a4 248 248 0c8 0c8 248 248 0c8
+- 248 248 0c8 0c8 0c8 0c8 248 248
+ dq
+@@ -531,2 +531,11 @@
+ Updating refbank availability: remain=9|hits=0|1
++y-pal-pred
++ 0e8 0e8 248 248 0f6 0f6 0f6 248 248 0e8 0e8 0e8 248 248 0c8 0c8
++ 0e8 0e8 248 248 0f6 0f6 0f6 248 248 0e8 0e8 0e8 248 248 0c8 0c8
++ 248 0e8 248 248 0f6 0f6 0f6 0f6 0f6 0f6 0e8 0e8 248 248 0c8 248
++ 248 0e8 248 248 0f6 0f6 0f6 0f6 0f6 0f6 0e8 0e8 248 248 0c8 248
++ 0e8 0e8 248 248 0f6 0f6 0f6 0f6 0f6 0f6 0f6 0e8 248 248 0e8 0e8
++ 0e8 0e8 248 248 0f6 0f6 0f6 248 248 0f6 0e8 0e8 248 248 0e8 0e8
++ 0e8 248 248 0e8 0f6 0f6 0f6 248 248 0f6 0e8 0e8 0e8 248 248 0e8
++ 248 248 0f6 0e8 0f6 0f6 0f6 0f6 0f6 0f6 0e8 0e8 0e8 0e8 248 248
+        decode_cf[y=2,x=4,pl=0,tx=4x8]: r=44160
+@@ -562,11 +571,2 @@
+         Post-y_cf_blk[tx=4x8,txtp=flipadst/adst,eob=13]: r=33200
+-y-pal-pred
+- 0e8 0e8 248 248
+- 0e8 0e8 248 248
+- 248 0e8 248 248
+- 248 0e8 248 248
+- 0e8 0e8 248 248
+- 0e8 0e8 248 248
+- 0e8 248 248 0e8
+- 248 248 0f6 0e8
+ dq
+@@ -598,11 +598,2 @@
+         Post-y_cf_blk[tx=4x8,txtp=dct/dct,eob=2]: r=63616
+-y-pal-pred
+- 0f6 0f6 0f6 248
+- 0f6 0f6 0f6 248
+- 0f6 0f6 0f6 0f6
+- 0f6 0f6 0f6 0f6
+- 0f6 0f6 0f6 0f6
+- 0f6 0f6 0f6 248
+- 0f6 0f6 0f6 248
+- 0f6 0f6 0f6 0f6
+ dq
+@@ -666,11 +657,2 @@
+         Post-y_cf_blk[tx=4x8,txtp=adst/adst,eob=20]: r=34096
+-y-pal-pred
+- 248 0e8 0e8 0e8
+- 248 0e8 0e8 0e8
+- 0f6 0f6 0e8 0e8
+- 0f6 0f6 0e8 0e8
+- 0f6 0f6 0f6 0e8
+- 248 0f6 0e8 0e8
+- 248 0f6 0e8 0e8
+- 0f6 0f6 0e8 0e8
+ dq
+@@ -739,11 +721,2 @@
+         Post-y_cf_blk[tx=4x8,txtp=adst/adst,eob=25]: r=65248
+-y-pal-pred
+- 248 248 0c8 0c8
+- 248 248 0c8 0c8
+- 248 248 0c8 248
+- 248 248 0c8 248
+- 248 248 0e8 0e8
+- 248 248 0e8 0e8
+- 0e8 248 248 0e8
+- 0e8 0e8 248 248
+ dq
+@@ -776,5 +749,2 @@
+ Updating refbank availability: remain=11|hits=0|1
+-       decode_cf[y=0,x=8,pl=0,tx=16x8]: r=57280
+-        Post-all_zero[ctx=0|2|0,1]: r=64432
+-        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=64432
+ y-pal-pred
+@@ -788,2 +758,5 @@
+  0c0 248 248 0c0 0c0 248 248 0c0 0c0 248 248 0c0 100 100 100 100
++       decode_cf[y=0,x=8,pl=0,tx=16x8]: r=57280
++        Post-all_zero[ctx=0|2|0,1]: r=64432
++        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=64432
+      decode_sb[y=0,x=12,bs=16x8,plane=y]: r=64432
+@@ -798,5 +771,2 @@
+ Updating refbank availability: remain=13|hits=0|1
+-       decode_cf[y=0,x=12,pl=0,tx=16x8]: r=48736
+-        Post-all_zero[ctx=0|2|0,1]: r=32768
+-        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=32768
+ y-pal-pred
+@@ -810,2 +780,5 @@
+  100 100 100 100 100 248 248 100 100 248 248 100 100 248 248 100
++       decode_cf[y=0,x=12,pl=0,tx=16x8]: r=48736
++        Post-all_zero[ctx=0|2|0,1]: r=32768
++        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=32768
+     decode_sb[y=2,x=8,bs=32x8,plane=y]: r=32768
+@@ -824,2 +797,11 @@
+ Updating refbank availability: remain=14|hits=0|1
++y-pal-pred
++ 0c0 0c0 248 248 248 248 0c0 0c0
++ 0c0 0c0 248 248 248 248 0c0 0c0
++ 248 0c8 248 248 248 248 0c0 248
++ 248 0c8 248 248 248 248 0c0 248
++ 0c8 0c8 248 248 248 248 0c0 0c0
++ 0c8 0c8 248 248 248 248 0c0 0c0
++ 0c8 248 248 0c8 0c8 248 248 0c0
++ 248 248 0c8 0c8 0c8 0c8 248 248
+         decode_cf[y=2,x=8,pl=0,tx=4x4]: r=34456
+@@ -827,7 +809,2 @@
+          Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=51856
+-y-pal-pred
+- 0c0 0c0 248 248
+- 0c0 0c0 248 248
+- 248 0c8 248 248
+- 248 0c8 248 248
+         decode_cf[y=2,x=9,pl=0,tx=4x4]: r=51856
+@@ -835,7 +812,2 @@
+          Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=49992
+-y-pal-pred
+- 248 248 0c0 0c0
+- 248 248 0c0 0c0
+- 248 248 0c0 248
+- 248 248 0c0 248
+         decode_cf[y=3,x=8,pl=0,tx=4x4]: r=49992
+@@ -862,7 +834,2 @@
+          Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=7]: r=49200
+-y-pal-pred
+- 0c8 0c8 248 248
+- 0c8 0c8 248 248
+- 0c8 248 248 0c8
+- 248 248 0c8 0c8
+ dq
+@@ -885,7 +852,2 @@
+          Post-y_cf_blk[tx=4x4,txtp=dct/dct,eob=-1]: r=33888
+-y-pal-pred
+- 248 248 0c0 0c0
+- 248 248 0c0 0c0
+- 0c8 248 248 0c0
+- 0c8 0c8 248 248
+       decode_sb[y=2,x=10,bs=8x8,plane=y]: r=33888
+@@ -900,5 +862,2 @@
+ Updating refbank availability: remain=15|hits=0|1
+-        decode_cf[y=2,x=10,pl=0,tx=8x8]: r=52232
+-         Post-all_zero[ctx=0|1|0,1]: r=63616
+-         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=63616
+ y-pal-pred
+@@ -912,2 +871,5 @@
+  248 248 0c0 0c0 0d9 0d9 0d9 0d9
++        decode_cf[y=2,x=10,pl=0,tx=8x8]: r=52232
++         Post-all_zero[ctx=0|1|0,1]: r=63616
++         Post-y_cf_blk[tx=8x8,txtp=dct/dct,eob=-1]: r=63616
+      decode_sb[y=2,x=12,bs=16x8,plane=y]: r=63616
+@@ -922,5 +884,2 @@
+ Updating refbank availability: remain=17|hits=0|1
+-       decode_cf[y=2,x=12,pl=0,tx=16x8]: r=37240
+-        Post-all_zero[ctx=0|2|0,1]: r=56112
+-        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=56112
+ y-pal-pred
+@@ -934,2 +893,5 @@
+  0ea 0ea 0ea 0ea 100 100 248 248 248 248 100 100 100 100 248 248
++       decode_cf[y=2,x=12,pl=0,tx=16x8]: r=37240
++        Post-all_zero[ctx=0|2|0,1]: r=56112
++        Post-y_cf_blk[tx=16x8,txtp=dct/dct,eob=-1]: r=56112
+   decode_sb[y=4,x=0,bs=64x16,plane=y]: r=56112
+@@ -950,2 +912,19 @@
+ Updating refbank availability: remain=19|hits=0|1
++y-pal-pred
++ 144 144 080 080 080 080 080 080
++ 144 144 080 080 080 080 080 080
++ 144 144 080 080 080 080 080 080
++ 144 144 080 080 080 08

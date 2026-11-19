@@ -1,0 +1,11 @@
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -466,7 +466,7 @@
+         - |
+           mkdir x86-64
+           cd x86-64
+-          cmake .. -DAVM_TARGET_CPU=x86_64 -DENABLE_TESTS=0 -DCONFIG_AV2_ENCODER=0
++          cmake .. -DAVM_TARGET_CPU=x86_64 -DENABLE_TESTS=0 -DCONFIG_AV2_ENCODER=0 -DCONFIG_TESTONLY_12BIT_SUPPORT=1
+           make -j$(nproc) avmdec
+           cd ../..
+         - |

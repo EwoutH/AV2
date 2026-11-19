@@ -1,0 +1,7 @@
+--- avm
++++ dav2d
+@@ -29,3 +29,3 @@
+ CI: post-flags[scan=0,colordesc=1,chrsamplepos=0,aspectratio=0,timinginfo=0]: off=8
+-CI: post-colordesc[id=0,pri=1,trc=1,mtrx=2,rng=0]: off=36
++CI: post-colordesc[id=0,pri=1,trc=2,mtrx=1,rng=0]: off=36
+ CI: post-extension[0,nbits=0]: off=37

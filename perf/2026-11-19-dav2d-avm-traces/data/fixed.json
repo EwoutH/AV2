@@ -1,0 +1,731 @@
+{
+  "testdata_ref": "a6aa3b48debdd20d2d6405a3fde68fe2a344bbb2",
+  "binaries": {
+    "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-avm-traces/scratch/avm-build/avmdec": "6d1e1ffcce16ee1b7c978d6fd8a8ad1ace5ca30a7da8cce23c8b1c4d63c6422b",
+    "/srv/compression/projects/AV2/perf/2026-11-19-dav2d-avm-traces/scratch/dav2d-build/tools/dav2d": "1d86f2aa54d399a0bc0a8fa58fe50df9c20407f4e490f0d9fde64e5957bf96b5"
+  },
+  "samples": [
+    {
+      "name": "avm.mandel.200x112.l10.refs2-sef",
+      "filename": "avm/avm.mandel.200x112.l10.refs2-sef.obu",
+      "expected_md5": "e069400d48e46a3eeed3c2075b3415e8",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04986824980005622,
+        0.009172717109322548
+      ],
+      "sha256": "174cf8282e6b33ecbf76e193d53c6007239499c42ec84beab9287a116e251a37"
+    },
+    {
+      "name": "avm.mandel.200x112.l6.resize9",
+      "filename": "avm/avm.mandel.200x112.l6.resize9.obu",
+      "expected_md5": "bec966138d20f985c6769a70d5eaa9ca",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04606444598175585,
+        0.00903592212125659
+      ],
+      "sha256": "ae377bdcfe1c8db8e15573dfc4ed8df3e50a2d80e57bcda88ca6d7e3e184713d"
+    },
+    {
+      "name": "avm.testsrc.176x144.l1.422.opsets",
+      "filename": "avm/avm.testsrc.176x144.l1.422.opsets.obu",
+      "expected_md5": "624108d0b56c1b1554974eaf6047a760",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.033582808915525675,
+        0.006452118046581745
+      ],
+      "sha256": "8bbde794bdecdfbc2dd081ee1d234bafc5d5a9a7b74921a62e2e983b1ae57e88"
+    },
+    {
+      "name": "avm.testsrc.176x144.l12.444.fg",
+      "filename": "avm/avm.testsrc.176x144.l12.444.fg.obu",
+      "expected_md5": "4adcbf4a0ed1fcb474e165ab1779cb00",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": false,
+      "seconds": [
+        0.07394083496183157,
+        0.020238735945895314
+      ],
+      "sha256": "cb20dbd79e614292cb6fd880a4a07b7878279a2d20d53152e8337c098670a0d1"
+    },
+    {
+      "name": "avm-v15.0.0-bus.352x288.l10.deltaq1",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l10.deltaq1.obu",
+      "expected_md5": "a51faffac365722f94697051af0d9e00",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.09210213599726558,
+        0.023548359982669353
+      ],
+      "sha256": "01aa3993aa410d529f9c72736f692e0abba9d1f45f7243c2e8eda0989994d85a"
+    },
+    {
+      "name": "avm-v15.0.0-bus.352x288.l1.partial_lossless",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l1.partial_lossless.obu",
+      "expected_md5": "073a204edb3cd90bdf8d15d2bb4c6920",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.043034451082348824,
+        0.008290417958050966
+      ],
+      "sha256": "17bd22d7a1ee7e221281e33d7569564ea8d5b050f61a317e2e621003300ed8f5"
+    },
+    {
+      "name": "avm-v15.0.0-bus.352x288.l5.seg1",
+      "filename": "avm/avm-v15.0.0-bus.352x288.l5.seg1.obu",
+      "expected_md5": "841f3395b0836a92d5454e9bd30a3bb6",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": false,
+      "seconds": [
+        0.05879667098633945,
+        0.010190909029915929
+      ],
+      "sha256": "6794853123bc026d3972ac87ea841bd71b58ef57c601fcc58b4bb41a5e221b64"
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l1.sdp0",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp0.obu",
+      "expected_md5": "15c9e34e1df4630094833207c5fc6a9c",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.037715276004746556,
+        0.00899438001215458
+      ],
+      "sha256": "2b7a969b8d6a7601552a4a20023f1465229be12ae8005d8a5d3708757fb6714d"
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l1.sdp1",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l1.sdp1.obu",
+      "expected_md5": "a5fc9864ff716f298b87c69107230b05",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.040851317811757326,
+        0.00883308588527143
+      ],
+      "sha256": "ec17e09c44c2827eeaa0fa2842a049ad8e877cef78eec55fd08aa2d4b791f687"
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5.lossless",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.lossless.obu",
+      "expected_md5": "1a00c22d0bc0a4f7b9dc33f5abeccd46",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.07691863505169749,
+        0.03687709802761674
+      ],
+      "sha256": "745957fa4046ab69ec06c60a35fdc44e6fd092d3109f318edfaf18a11c758d66"
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.obu",
+      "expected_md5": "c7e65cb31f675f460daf745a42bf9d0e",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04981246590614319,
+        0.014532441971823573
+      ],
+      "sha256": "e1f76370667214c0b8953a060ed0c71ddf383055968326a133badf429ee33a71"
+    },
+    {
+      "name": "avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0",
+      "filename": "avm/avm-v15.0.0-bus.64x64.l5.opfl0-refinemv0.obu",
+      "expected_md5": "ae41842a250d29146e5316a4f77271ed",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.0489876801148057,
+        0.014749283902347088
+      ],
+      "sha256": "17a2259a035969be8eb129588deb1432f92f212b26278284e5dae303e52ce19e"
+    },
+    {
+      "name": "avm-v15.0.0-hm.64x64.l5.filmgrain",
+      "filename": "avm/avm-v15.0.0-hm.64x64.l5.filmgrain.obu",
+      "expected_md5": "e4162fac59c040adfae012baa413c7d1",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04469333798624575,
+        0.00951056694611907
+      ],
+      "sha256": "3346ccfc9f3ac3e437c4f56cc7dc0549bd91f995f94ee6d07772ba3bc2ef2386"
+    },
+    {
+      "name": "avm.bus.96x64.l5.qm1-cctx",
+      "filename": "avm/avm.bus.96x64.l5.qm1-cctx.obu",
+      "expected_md5": "0e8030cc6454eb8b4b2e9b63c59e1b5e",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05793905793689191,
+        0.020067438017576933
+      ],
+      "sha256": "98cb30d350d66c8c4011bebfaf91c42245c37a6fa089e4c9e9359a0a789e51e3"
+    },
+    {
+      "name": "avm.bus.128x96.l5.qm1",
+      "filename": "avm/avm.bus.128x96.l5.qm1.obu",
+      "expected_md5": "d616284ea7e781699c1260474ca4a41a",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.056279252050444484,
+        0.018074472900480032
+      ],
+      "sha256": "8a1311ddbff4c1f4139ce2ef025503dc46066e7df662bcfb17b80f27e4ddff95"
+    },
+    {
+      "name": "avm.bus.176x144.l5.opfl2",
+      "filename": "avm/avm.bus.176x144.l5.opfl2.obu",
+      "expected_md5": "f890a8cc8bdf119690d2dbb4853aeec0",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.053018874023109674,
+        0.012236149050295353
+      ],
+      "sha256": "8b847d4db49e89c21ba4e13f6882ad364402a0b0f483af44efceeaaddf9fa15a"
+    },
+    {
+      "name": "avm.bus.480x144.l2.tilecols2",
+      "filename": "avm/avm.bus.480x144.l2.tilecols2.obu",
+      "expected_md5": "3e09b76415f2f56ba939aa349e02ecfd",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05135616404004395,
+        0.008220057003200054
+      ],
+      "sha256": "9a29a0bfc763ee3d3377138449189605f2addd89608c39e0802e65c091ae76b4"
+    },
+    {
+      "name": "avm.bus.64x64.l17.qm1",
+      "filename": "avm/avm.bus.64x64.l17.qm1.obu",
+      "expected_md5": "f255f758d83f98a39a4c4b0ddd91ee8b",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.049773215083405375,
+        0.012864527991041541
+      ],
+      "sha256": "2e0ec3e67da161dd3295d5dc1640442352a79c478328bbaa23cf388aa14e899e"
+    },
+    {
+      "name": "avm.testsrc.176x144.l3.ref-frame-mvs0",
+      "filename": "avm/avm.testsrc.176x144.l3.ref-frame-mvs0.obu",
+      "expected_md5": "304ce0198b7c2c1a867c9be64eb04858",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.050076458835974336,
+        0.008052477845922112
+      ],
+      "sha256": "2704260ad24892ec56f8cd752ba75b8776a9fac8c33271184f8d6eeb04754ad4"
+    },
+    {
+      "name": "avm.testsrc.256x256.l1.lossless-sb128",
+      "filename": "avm/avm.testsrc.256x256.l1.lossless-sb128.obu",
+      "expected_md5": "e3ad19380957e0364a889e21b9aff97a",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.03543983888812363,
+        0.007207375019788742
+      ],
+      "sha256": "671827028869392f7187b77bce7b120a144146363260a3121deb91083a92430b"
+    },
+    {
+      "name": "avm.testsrc.176x144.l3.cdef-on-skip-txfm0",
+      "filename": "avm/avm.testsrc.176x144.l3.cdef-on-skip-txfm0.obu",
+      "expected_md5": "f004b83f42c3343edbee4e332cc93f0d",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04638500511646271,
+        0.00952767301350832
+      ],
+      "sha256": "ba2b8ba54b4899dead3218feb0449d84247e59cef843347751cd6190d0bd20cb"
+    },
+    {
+      "name": "avm.testsrc.176x144.l1.tile-rows1",
+      "filename": "avm/avm.testsrc.176x144.l1.tile-rows1.obu",
+      "expected_md5": "7cd5b6e6acdc28dd180e3deb8b90879f",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04008660721592605,
+        0.006392000010237098
+      ],
+      "sha256": "95c318fdbd15a0b335efb7ce5b0b59349f8f2658c061d56f77effe553755c9b0"
+    },
+    {
+      "name": "avm.testsrc.176x144.l8.sframe",
+      "filename": "avm/avm.testsrc.176x144.l8.sframe.obu",
+      "expected_md5": "2ce84e4809ed52c3d1b358fc82b98e0a",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": false,
+      "seconds": [
+        0.054146483074873686,
+        0.009917784947901964
+      ],
+      "sha256": "d4c35c11ebda067ccf32b74c306dd2db115d6c12cf15f3d6c51f95525d8d37fe"
+    },
+    {
+      "name": "avm.testsrc.176x144.l2.fg11",
+      "filename": "avm/avm.testsrc.176x144.l2.fg11.obu",
+      "expected_md5": "f7d14f644be36a486507119e647e3240",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.043954052962362766,
+        0.00820337818004191
+      ],
+      "sha256": "1fa57a56429775dc1251dc413f446e2228bf4ac99609b5a14cb42924a3929a9e"
+    },
+    {
+      "name": "avm.rot.128x128.l8.opfl-refine0",
+      "filename": "avm/avm.rot.128x128.l8.opfl-refine0.obu",
+      "expected_md5": "19754c23daeffa4652b473ee14001333",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05669080791994929,
+        0.016958714928478003
+      ],
+      "sha256": "5d6af591fb8cbd654a1fd207053c1ebef8fd8d271b02f874eb36559a7ab1f383"
+    },
+    {
+      "name": "avm.testsrc.176x144.l2.mfh-resize-kf",
+      "filename": "avm/avm.testsrc.176x144.l2.mfh-resize-kf.obu",
+      "expected_md5": "1629b369c40bd56bb1452c93bc4ed588",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05234041693620384,
+        0.012081932974979281
+      ],
+      "sha256": "8914b6adf028e24c3cf06cac646b735b6c4289cec8cde9b1de73e1b713283c86"
+    },
+    {
+      "name": "avm.testsrc.176x144.l8.422.ii-smooth",
+      "filename": "avm/avm.testsrc.176x144.l8.422.ii-smooth.obu",
+      "expected_md5": "ee46e828445a5d6f4469563ecca78dc1",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05846996605396271,
+        0.015317903133109212
+      ],
+      "sha256": "ebf207932e605a3958f90d274f1c396db0756c838bf7e94d96945fdc870bcef2"
+    },
+    {
+      "name": "avm.testsrc.176x144.l4.444.mhccp",
+      "filename": "avm/avm.testsrc.176x144.l4.444.mhccp.obu",
+      "expected_md5": "70406360fd253ea4c65f887dacb9e9c5",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05010405299253762,
+        0.011626019142568111
+      ],
+      "sha256": "20c478a5af508029cde34ffab507715eba9c92c4c2f4450cabbb7cd8c6569533"
+    },
+    {
+      "name": "avm.mandel.200x112.l1.12bit.still-fg",
+      "filename": "avm-10bit/avm.mandel.200x112.l1.12bit.still-fg.obu",
+      "expected_md5": "c45148d81384b0d2bb5d4d62dfc5b124",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04227753705345094,
+        0.009295623982325196
+      ],
+      "sha256": "013f430ea970fedf9219a4597c7953c77169fed794e9cd11aba74a745b37fa34"
+    },
+    {
+      "name": "avm.mandel.200x112.l10.12bit.fg13",
+      "filename": "avm-10bit/avm.mandel.200x112.l10.12bit.fg13.obu",
+      "expected_md5": "6df447ade937dfa5e72fcd32e99874f9",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.051006856840103865,
+        0.010201180120930076
+      ],
+      "sha256": "23d0198bce5a3918183095963346833ea44ce548f171d7896fbd56b231735ac8"
+    },
+    {
+      "name": "avm.testsrc.130x74.l12.10bit.tile-rows2",
+      "filename": "avm-10bit/avm.testsrc.130x74.l12.10bit.tile-rows2.obu",
+      "expected_md5": "bf8b336b83a062fb201db0d31688917d",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.047844970133155584,
+        0.012396135134622455
+      ],
+      "sha256": "48cdb9dbd9ae21287c9ccd947ced092506b7e7468ad6967ac8cab71ea6b74afb"
+    },
+    {
+      "name": "avm.testsrc.130x74.l2.422.12bit",
+      "filename": "avm-10bit/avm.testsrc.130x74.l2.422.12bit.obu",
+      "expected_md5": "8456705b64bc0c67af81296bbcbf9f44",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.04705224488861859,
+        0.006754755042493343
+      ],
+      "sha256": "289b4c9817a34fe1fec41d9c8eff66a20d2844f8a6348e96bb69d90cf88dc963"
+    },
+    {
+      "name": "avm.testsrc.130x74.l20.10bit.resize9-fwdkf",
+      "filename": "avm-10bit/avm.testsrc.130x74.l20.10bit.resize9-fwdkf.obu",
+      "expected_md5": "5bf2b55262801ed11ac59ef582000a4f",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05331058311276138,
+        0.014207249972969294
+      ],
+      "sha256": "d4531d32cdce2fc32b9a95da7e7b5eea6350803aee63c04491dd99228a4bd423"
+    },
+    {
+      "name": "avm.testsrc.130x74.l20.422.10bit.s1",
+      "filename": "avm-10bit/avm.testsrc.130x74.l20.422.10bit.s1.obu",
+      "expected_md5": "c01a0026f6ddfb93cc17725c45006773",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.05934187909588218,
+        0.011689423117786646
+      ],
+      "sha256": "19371060d497b48155826f4948d1d1b2aea54b1ba73572ec7f622a8c8d3731ed"
+    },
+    {
+      "name": "avm.testsrc.130x74.l4.10bit.sb256",
+      "filename": "avm-10bit/avm.testsrc.130x74.l4.10bit.sb256.obu",
+      "expected_md5": "54ae6a363e6c319ca8de091fde1c2d82",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": false,
+      "seconds": [
+        0.04524880601093173,
+        0.011362963123247027
+      ],
+      "sha256": "28b8ae6d39ddd56030dc2eb954ea37df306b6621ae5658a5689447ee586bdee6"
+    },
+    {
+      "name": "avm.testsrc.176x144.l1.12bit.still-screen",
+      "filename": "avm-10bit/avm.testsrc.176x144.l1.12bit.still-screen.obu",
+      "expected_md5": "40f8aae81e16ac9a0426f47d48fa533d",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.035044112941250205,
+        0.00670324987731874
+      ],
+      "sha256": "b35fc8b98e7547f1c7b75a60b30b46380d0cad2b5551b8b2b50c1481caf7e223"
+    },
+    {
+      "name": "avm.bus.128x96.l8.10bit.s4",
+      "filename": "avm-10bit/avm.bus.128x96.l8.10bit.s4.obu",
+      "expected_md5": "7ba299fb8fe54b99c4f16494dd7f86c5",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.07835582201369107,
+        0.0335407939273864
+      ],
+      "sha256": "3e7dbb0c01ec68a8bc20aa285ce3209005ba3e79e173a8a93008035841f96dde"
+    },
+    {
+      "name": "avm.bus.176x144.l2.10bit.qp208",
+      "filename": "avm-10bit/avm.bus.176x144.l2.10bit.qp208.obu",
+      "expected_md5": "d498eb3771a7ab97284c7be929b24879",
+      "md5_ok": [
+        true,
+        true
+      ],
+      "returncodes": [
+        0,
+        0
+      ],
+      "equal": true,
+      "seconds": [
+        0.043449750170111656,
+        0.010478109121322632
+      ],
+      "sha256": "bc40e778ec24e452dc35f66fc449d95f8705ff612390bf1b45e35fac41ad2c78"
+    }
+  ]
+}

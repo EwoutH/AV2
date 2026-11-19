@@ -1,0 +1,88 @@
+diff --git a/src/debug.h b/src/debug.h
+index a3d4285d..1afa26fd 100644
+--- a/src/debug.h
++++ b/src/debug.h
+@@ -28,11 +28,11 @@
+ #ifndef DAV2D_SRC_DEBUG_H
+ #define DAV2D_SRC_DEBUG_H
+ 
+-#define DEBUG_BLOCK_INFO 0
++#define DEBUG_BLOCK_INFO 1
+ #if DEBUG_BLOCK_INFO
+ #define DB_ONLY(...) __VA_ARGS__,
+ #define BLOCK_TO_DEBUG_S(frame_offset, by, bx) \
+-    frame_offset == 0 && by >= 0 && by < 16 && bx >= 0 && bx < 16
++    frame_offset <= 4 && by >= 0 && by < 16 && bx >= 0 && bx < 16
+ #define BLOCK_TO_DEBUG BLOCK_TO_DEBUG_S(f->frame_hdr->frame_offset, t->by, t->bx)
+ #define DEBUG_BLOCK_printf(...) \
+     if (BLOCK_TO_DEBUG) { \
+@@ -43,6 +43,6 @@
+ #define BLOCK_TO_DEBUG 0
+ #define DEBUG_BLOCK_printf(...) do { } while (0)
+ #endif
+-#define DEBUG_B_PIXELS 0
++#define DEBUG_B_PIXELS 1
+ 
+ #endif /* DAV2D_SRC_DEBUG_H */
+diff --git a/src/obu.c b/src/obu.c
+index 2ba22546..6ef4950d 100644
+--- a/src/obu.c
++++ b/src/obu.c
+@@ -209,7 +209,7 @@ static NOINLINE int parse_seq_hdr(Dav2dSequenceHeader *const hdr,
+                                   GetBits *const gb,
+                                   const int strict_std_compliance)
+ {
+-#define DEBUG_SEQ_HDR 0
++#define DEBUG_SEQ_HDR 1
+ 
+ #if DEBUG_SEQ_HDR
+     const unsigned init_bit_pos = dav2d_get_bits_pos(gb);
+@@ -1096,7 +1096,7 @@ static void rescale_matrix(int32_t *const dm, const int32_t *const sm,
+ static int parse_frame_hdr(Dav2dContext *const c, GetBits *const gb,
+                            const enum Dav2dObuType obu_type)
+ {
+-#define DEBUG_FRAME_HDR 0
++#define DEBUG_FRAME_HDR 1
+ 
+ #if DEBUG_FRAME_HDR
+     const uint8_t *const init_ptr = &gb->ptr[-!!(gb->bits_left & 7)];
+@@ -2238,7 +2238,7 @@ error:
+ }
+ 
+ static int parse_fgm_hdr(Dav2dContext *const c, GetBits *const gb) {
+-#define DEBUG_FGM_HDR 0
++#define DEBUG_FGM_HDR 1
+ #if DEBUG_FGM_HDR
+     const uint8_t *const init_ptr = gb->ptr;
+ #endif
+@@ -2352,7 +2352,7 @@ error:
+ static int parse_ci_hdr(Dav2dContext *const c, GetBits *const gb,
+                         const int strict_std_compliance)
+ {
+-#define DEBUG_CI_HDR 0
++#define DEBUG_CI_HDR 1
+ #if DEBUG_CI_HDR
+     const uint8_t *const init_ptr = gb->ptr;
+ #endif
+@@ -2630,7 +2630,7 @@ ptrdiff_t dav2d_parse_obus(Dav2dContext *const c, Dav2dData *const in) {
+         if (!in_temporal_layer || !in_spatial_layer)
+             return gb.ptr_end - gb.ptr_start;
+     }
+-#define DEBUG_OBU_HDR 0
++#define DEBUG_OBU_HDR 1
+     if (DEBUG_OBU_HDR)
+         printf("OBU type=%d size=%td\n",
+                type, gb.ptr_end - gb.ptr);
+diff --git a/src/refmvs.c b/src/refmvs.c
+index 0f2523c0..85e0511f 100644
+--- a/src/refmvs.c
++++ b/src/refmvs.c
+@@ -41,7 +41,7 @@
+ #include "src/mem.h"
+ #include "src/refmvs.h"
+ 
+-#define DEBUG_REFMV 0
++#define DEBUG_REFMV 1
+ 
+ #define INVALID_REF2REF INT8_MIN
+ 
