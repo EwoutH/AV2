@@ -4,7 +4,7 @@
 
 - dav2d main is b130414d (19 Nov 13:35). Since round 4's decoder (28e39df9 + !1018), upstream merged our !1078, !1105, !1110, !1111 and !1117, rbultje's !1102 (MHCCP edges, #101) and a batch of error-handling and robustness commits (allocation failures, palette errors, refmvs buffer realloc/heap overflow, film grain NULL deref, still-picture and skip-segment checks). !1018 was closed, so round 5 decodes with plain main.
 - Still open on our side: !1073 (GER/restricted refs), !1112 (OLK refs), !1126 (event flags), issues #96 (film grain, odd width), #102 (loop filters across tiles), #103 (cropping window + grain), #86 (CfL crash).
-- Reference: AVM av2-enc 800611294e (19 Nov, 12 commits after round 4's 62529b44c), built with `CONFIG_TESTONLY_12BIT_SUPPORT=1`. Second opinion in triage: av2-normative 14f43e4c with 12-bit on (`avmn12`, agreed with av2-enc on all 1755 round-4 12-bit streams).
+- Encoder: AVM av2-enc 800611294e (19 Nov, 12 commits after round 4's 62529b44c). Reference decoder: av2-normative 14f43e4c with `CONFIG_TESTONLY_12BIT_SUPPORT=1` (the normative branch, which dav2d's own CI and dav2d-test-data use). Every stream is also decoded with av2-enc's avmdec; a disagreement is flagged separately (`avm-branches-disagree`) as a possible AVM bug, not a dav2d failure.
 - Known gaps left out, as in round 4: RAS (`--sframe-type=1`), BRU, bridge frames, `--resize-mode 2/3`, multi-xlayer (#93).
 
 ## What round 5 adds
@@ -16,6 +16,14 @@
 5. **Threading**: two threaded decodes per stream with different thread counts (2/3/4/6/8) and frame delays, to catch the nondeterminism seen on v000264/v000642; and a ThreadSanitizer build on 15% of configs with ≥ 3 frames (exit on the first report).
 6. **One 640x360 source** (bluesky) at 5% of 4:2:0 configs, presets ≥ 6, ≤ 6 frames, so 256x256 superblocks and multi-tile layouts get real content.
 7. **Triage** (`triage5.py`): as round 4, plus labels for open issues so they don't flood the buckets (#102, #103 crop + grain, #96 odd width + grain, GER → !1073, fwd-kf → !1112), separate buckets for damaged-stream and TSan failures, and "is it new" checked against the round-4 decoder.
+
+## Two stages instead of one long night
+
+Round 4's failure clusters all showed up within the first ~1000 configs (about an hour); the rest of the night mostly added copies, plus a few rare cases (e.g. the 4:2:2 interintra bug at config 11,123). So round 5 runs a short evening stage first (~2000 configs, ~1.5-2 h), the clusters found there get investigated or labelled, and only then does the overnight stage run, with those clusters filtered out.
+
+## Archive baseline (done 19 Nov)
+
+The 11,900-stream round-4 archive on main b130414d: 553 of the 774 failures are fixed, none of the 11,126 passing streams regressed, 221 still fail. Of those, 174 belong to open items (GER → !1073, #102, #103, fwd-kf → !1112). The other 47: ~27 lossless (mostly 12-bit), 17 odd-width film grain (#96), 4 12-bit, 1 still picture (v005552).
 
 ## Schedule (pc, 4 cores, Nice 19)
 
