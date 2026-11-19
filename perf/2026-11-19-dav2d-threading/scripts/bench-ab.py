@@ -14,6 +14,7 @@ import random
 import threading
 import subprocess
 import time
+from perf_counts import ChildCounters
 
 
 def busy():
@@ -31,7 +32,7 @@ def frequency():
     return vals
 
 
-def run(cmd, repeat, scratch, timeout=180):
+def run(cmd, repeat, scratch, timeout=180, perf=False):
     cpu = 0.0
     rss = 0
     timed_out = threading.Event()
@@ -44,6 +45,7 @@ def run(cmd, repeat, scratch, timeout=180):
 
     sampler = threading.Thread(target=sample, daemon=True)
     sampler.start()
+    counters = ChildCounters() if perf else None
     with open(scratch / 'stdout', 'w+b') as out, open(scratch / 'stderr', 'w+b') as err:
         b0, start = busy(), time.perf_counter()
         rc = 0
@@ -71,6 +73,7 @@ def run(cmd, repeat, scratch, timeout=180):
         stderr = err.read().decode(errors='replace')
     return dict(wall_s=wall, cpu_s=cpu, maxrss_kb=rss, rc=rc,
                 timeout=timed_out.is_set(), stderr=stderr,
+                perf=counters.finish() if counters else None,
                 foreign_cores=max(0, (b1 - b0 - cpu) / wall),
                 frequency_mhz=freq)
 
@@ -92,6 +95,7 @@ def main():
                    help='admission ceiling; actual timed pairs still use max-foreign')
     p.add_argument('--max-wait', type=float, default=3600)
     p.add_argument('--retries', type=int, default=4)
+    p.add_argument('--perf', action='store_true', help='collect child user-space cycles/instructions')
     a = p.parse_args()
     scratch = Path(a.scratch)
     scratch.mkdir(parents=True, exist_ok=True)
@@ -146,9 +150,11 @@ def main():
                 quiet()
                 # A single-thread calibration amortizes process startup on tiny streams.
                 if row[0] not in repeats:
-                    cal = run(argv('baseline', row, 1, 1), 1, scratch)
+                    cal = run(argv('baseline', row, 1, 1), 1, scratch, perf=a.perf)
                     if cal['rc'] or cal['stderr']:
                         raise SystemExit(f'Calibration decode failed: {cal}')
+                    if a.perf and not cal['perf'].get('cycles', {}).get('scaled'):
+                        raise SystemExit(f'PMU counter unavailable: {cal["perf"]}')
                     repeats[row[0]] = max(1, math.ceil(a.min_seconds * 3 / cal['wall_s']))
                     if cal['foreign_cores'] > a.max_foreign:
                         del repeats[row[0]]
@@ -158,7 +164,7 @@ def main():
                 rng.shuffle(names)
                 results = {}
                 for name in names:
-                    results[name] = run(argv(name, row, nt, fd), repeats[row[0]], scratch)
+                    results[name] = run(argv(name, row, nt, fd), repeats[row[0]], scratch, perf=a.perf)
                 accepted = all(r['rc'] == 0 and not r['stderr'] and
                                r['foreign_cores'] <= a.max_foreign
                                for r in results.values())

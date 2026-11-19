@@ -34,5 +34,18 @@
     "logging": true,
     "trim_dsp": "if-release"
   },
-  "testdata_commit": "4f652e3b098c47cf57c3f3d2ebdd5c855ea6f358"
+  "testdata_commit": "4f652e3b098c47cf57c3f3d2ebdd5c855ea6f358",
+  "benchmark_environment": {
+    "governor": "schedutil",
+    "scaling_driver": "intel_cpufreq",
+    "intel_pstate_mode": "passive",
+    "perf_event_paranoid": 2,
+    "clamped_series": "inherited per-task uclamp min=max=1024",
+    "pmu_series": "user-space cycles, instructions and task-clock; disabled parent events, inherit+enable_on_exec; total enabled/running time recorded",
+    "pmu_smoke_test": {
+      "two_worker_decoder_task_clock_s_rounded": 0.2117,
+      "wait4_cpu_s_rounded": 0.2108,
+      "multiplexed": false
+    }
+  }
 }

@@ -22,6 +22,9 @@ common=(
     --max-idle 0.50
     --retries 10
 )
+if [ "${PERF_COUNTS:-0}" = 1 ]; then
+    common+=(--perf)
+fi
 python "$task_root/scripts/bench-ab.py" "${common[@]}" \
     --out "$task_root/data/$series-benchmark.jsonl" --configs 2:1,3:1 --reps 3
 python "$task_root/scripts/bench-ab.py" "${common[@]}" \
